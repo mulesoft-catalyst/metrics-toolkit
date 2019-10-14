@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+	<flow name="aggregator-platform-metrics-flow" doc:id="f52652d1-3952-4ab0-9d4b-20c69530e30a">
+		<flow-ref doc:name="Get Cached Token Flow Reference" doc:id="228d0237-c0cc-402c-a581-d820b474d07c" name="api-call-coreservices-login-cache-flow"
+			target="token" targetValue="payload.access_token" />
+		<flow-ref doc:name="Environments Flow Reference" doc:id="a65ee492-ea7b-4018-9096-08aff5fa21d4" name="api-call-coreservices-environments-flow" />
+		<scatter-gather doc:name="Scatter-Gather" doc:id="f91aa95c-1b72-4596-bb78-c2d26978d2c7">
+			<route>
+				<flow-ref doc:name="CloudHub Apps Metrics Flow Reference" doc:id="b8f7e5c7-f5ed-4ef0-9ae2-eee199b1ebf2" name="collector-cloudhub-apps-metrics-parallel-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="Exchange Assets Flow Reference" doc:id="9983e278-1c7d-4b63-84ac-8c148bdb2711" name="collector-exchange-metrics-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="API Manager Metrics Flow Reference" doc:id="7d3f4740-47e1-4ad5-b87e-1c5869903a28" name="collector-apim-metrics-parallel-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="Coreservices Members Flow Reference" doc:id="0d270a25-f417-43ce-8729-7eec33548360" name="coreservices-members-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="Design Center Projects Flow Reference" doc:id="f0ddec9e-176f-4f39-af14-728444fce2d2" name="collector-design-center-metrics-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="Analitics Enriched Data Flow Reference" doc:id="2908db4d-cc5b-421b-a844-2272898b0b73" name="collector-analytics-metrics-parallel-flow" />
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="Build Final Response" doc:id="220d3abe-7629-48ac-9e4e-5da11a36651f">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+var cloudHubApps = payload[0].payload.payload
+var exchangeAssets = payload[1].payload
+var apiManagerApis = payload[2].payload.payload
+var members = payload[3].payload
+var designCenterProjects = payload[4].payload
+var analyticsQueryResult = payload[5].payload.payload
+
+var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
+	environment: v.environment,
+	apiIds: v.data.response[0]."api_id",
+	clientIds: v.data.response[1]."client_id"
+})
+---
+{
+	coreservicesMetrics: {
+		membersMetrics: sizeOf(members.data  filter ($.enabled == true)),
+		environments: sizeOf(cloudHubApps.environment),
+	},
+	designCenterMetrics: {
+		total: sizeOf(designCenterProjects),
+		apiSpecs: sizeOf(designCenterProjects filter($."type" == "raml")),
+		fragments: sizeOf(designCenterProjects filter($."type" == "raml-fragment")),
+	},
+	exchangeMetrics: {
+		exchangeAssets: {
+			total: sizeOf(exchangeAssets) + sizeOf(exchangeAssets filter($."type" == "rest-api")),
+			apiSpecs: sizeOf(exchangeAssets filter($."type" == "rest-api")),
+			connectors: sizeOf(exchangeAssets filter($."type" == "rest-api")),
+			fragments: sizeOf(exchangeAssets filter($."type" == "raml-fragment")),
+			proxies: sizeOf(exchangeAssets filter($."type" == "http-api")),
+			extensions: sizeOf(exchangeAssets filter($."type" == "extension")),
+			custom: sizeOf(exchangeAssets filter($."type" == "custom"))		
+		}
+	},
+	apiManagerMetrics: {
+		apiEnvironments: apiManagerApis map {
+			environment: $.environment,
+			apis: $.data.total
+		},
+		totals: {
+			nonProdAPIs: sum((apiManagerApis filter($.environment != "Production")).data.total),
+			prodAPIs: sum ((apiManagerApis filter($.environment == "Production")).data.total)
+		}
+	},
+	cloudHubMetrics: {
+		environmentsMetrics: cloudHubApps map {
+			environment: $.environment,
+			applications: sizeOf($.data),
+			vCoresUsed: if(sizeOf($.data) > 0) (sum($.data map {
+				size: $."workers"."type"."weight" * $."workers"."amount"
+			}.size)) else 0
+		},
+		vCoreUsageTotalSandbox: sum (cloudHubApps map (
+			if(sizeOf($.data) > 0 and $.environment != "Production") (sum($.data map 
+				($."workers"."type"."weight" * $."workers"."amount")
+			)) else 0
+		)),
+		vCoreUsageTotalProduction: sum (cloudHubApps map (
+			if(sizeOf($.data) > 0 and $.environment == "Production") (sum($.data map 
+				($."workers"."type"."weight" * $."workers"."amount")
+			)) else 0
+		)),
+		applicationDetailsMetrics: cloudHubApps map {
+			environment: $.environment,
+			applications: $.data map {
+				domain: $.domain,
+				size: $."workers"."type"."weight" * $."workers"."amount",
+				fileName: $.fileName
+			}	
+		}
+	},
+	analyticsMetrics: analyticsEnrichedData,
+	apisRaw: apiManagerApis map {
+		environment: $.environment,
+		data: $.data.assets map {
+			id: $.id,
+			name:$.assetId
+		}
+	},
+	apisMetrics: apiManagerApis map (api, index) -> {
+		environment: api.environment,
+		details: api.data.assets map (asset, index) -> {
+			apiName: asset.assetId,
+			count: ((analyticsEnrichedData filter ($.environment == api.environment))[0].data.response[0]."api_id")[asset.id]
+		}
+		//environment: $.environment,
+		//apis: {
+		//	name: $.data.assets filter ($.id == (analyticsEnrichedData filter($.environment == )))
+		//	count: 
+		//}
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="df24a9d9-709c-44b1-8e83-10f1e2e4707c" message="#[payload]"/>
+	</flow>
+
+
+</mule>

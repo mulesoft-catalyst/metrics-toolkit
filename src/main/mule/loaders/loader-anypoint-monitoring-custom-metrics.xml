@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:custom-metrics="http://www.mulesoft.org/schema/mule/custom-metrics" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schema/mule/custom-metrics/current/mule-custom-metrics.xsd">
+	<flow name="loader-anypoint-monitoring" doc:id="d5126b8c-53ea-4e19-b5b1-fa265ec723b3" >
+		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="aaea05ae-67e7-48e5-be81-e9e72aef83a9" name="aggregator-platform-metrics-flow"/>
+		<foreach doc:name="For Each" doc:id="e573fd58-7c49-4090-8ae0-866b3fa959c5" >
+			<custom-metrics:send doc:name="Send Custom Metric" doc:id="b710f150-b034-4210-8489-ffdcf385ac81" metricName="platform_custom_metric">
+				<custom-metrics:dimensions >
+					<custom-metrics:dimension dimensionName="environments" value="#[payload.dimension]" />
+				</custom-metrics:dimensions>
+				<custom-metrics:facts >
+					<custom-metrics:fact factName="count" value="#[payload.fact]" />
+				</custom-metrics:facts>
+			</custom-metrics:send>
+		</foreach>
+	</flow>
+</mule>
