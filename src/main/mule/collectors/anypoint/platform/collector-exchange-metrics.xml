@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+
+	<flow name="collector-exchange-metrics-flow" doc:id="8f2f8dff-4598-42a9-b813-e7b2874f1a1d">
+		<flow-ref doc:name="Get Exchange Assets Metrics" doc:id="2856ff72-faac-4205-9546-7f5dd627e51d" name="api-call-exchange-assets-flow" />
+
+	</flow>
+
+
+</mule>
