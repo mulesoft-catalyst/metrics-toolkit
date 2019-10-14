@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+
+	<flow name="api-call-coreservices-login-flow" doc:id="c336bb42-e18a-4f7f-9c10-d210024c443c">
+		<logger level="INFO" doc:name="Logger" doc:id="fde73538-32e8-4c37-bc8e-a343e50f0522" message="Calling Coreservices - Login" />
+		<ee:transform doc:name="Build Login Request" doc:id="5eaea0ca-f420-4d6f-8b36-7a7001ab19b8">
+			<ee:message>
+				<ee:set-payload resource="dw/anypoint/coreservices-build-login-request.dwl" />
+			</ee:message>
+		</ee:transform>
+		<http:request method="POST" doc:name="Post Login Request" doc:id="560a71f8-55b6-402b-b0e6-cfd411340797" config-ref="HTTP_Request_configuration"
+			path="${anypoint.platform.apis.coreservices.login.path}" />
+		<logger level="INFO" doc:name="Logger" doc:id="94b6e2e7-72f9-4957-8c55-103ad0fe8765" message='#["Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+
+	<flow name="api-call-coreservices-login-cache-flow" doc:id="48481958-9a25-435b-a50d-32ccc993a661">
+		<ee:cache doc:name="Cache" doc:id="386abad4-1802-4ebd-868d-4cce5adc627a" cachingStrategy-ref="Caching_Strategy">
+			<flow-ref doc:name="Login Flow Reference" doc:id="3f2ec75e-c320-4855-8725-228e401e595c" name="api-call-coreservices-login-flow" />
+		</ee:cache>
+	</flow>
+
+	<flow name="api-call-coreservices-environments-flow" doc:id="cb45e4dc-7fd3-476d-aff3-7c0a30556088">
+		<logger level="INFO" doc:name="Logger" doc:id="c04d063d-9f26-41c8-9f2c-efd64bc5a457" message="Calling Coreservices - Environments" />
+		<http:request method="GET" doc:name="Get Environments Request" doc:id="ea3a4010-08c1-44e9-b9d4-a82201dbb162" config-ref="HTTP_Request_configuration"
+			path="${anypoint.platform.apis.coreservices.environments.path}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.token
+}]]]></http:headers>
+			<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"orgId" : p('anypoint.platform.orgId')
+}]]]></http:uri-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+
+	<flow name="coreservices-members-flow" doc:id="4990df1e-b762-4df7-a800-fd6d77250ffa">
+		<logger level="INFO" doc:name="Logger" doc:id="479f824f-b589-4ee4-a744-8f39495bb2aa" message="Calling Coreservices - Members" />
+		<http:request method="GET" doc:name="Get Members Request" doc:id="1ba81296-2726-4c17-8f73-38ac1ee990ec" config-ref="HTTP_Request_configuration"
+			path="${anypoint.platform.apis.coreservices.members.path}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.token
+}]]]></http:headers>
+			<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"orgId" : p('anypoint.platform.orgId')
+}]]]></http:uri-params>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"limit" : p('anypoint.platform.apis.coreservices.members.limit'),
+	"offset" : p('anypoint.platform.apis.coreservices.members.offset')
+}]]]></http:query-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="6cab5b2d-cbdb-46eb-81b5-e4fd877beb10" message='#["Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+
+
+</mule>
