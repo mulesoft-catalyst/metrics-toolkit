@@ -132,7 +132,7 @@ output application/json
 		</error-handler>
 	</flow>
 	<flow name="get:\platform:metrics-framework-api-config">
-		<flow-ref doc:name="Aggregator Platform Metrics Flow Reference" doc:id="5484cc09-2351-49d6-b728-a0d4b0b0d1b9" name="aggregator-platform-metrics-flow" />
+		<flow-ref doc:name="Loader Flow Reference" doc:id="5484cc09-2351-49d6-b728-a0d4b0b0d1b9" name="loader-router-flow" />
 	</flow>
 	<flow name="get:\business:metrics-framework-api-config">
 		<flow-ref doc:name="Aggregator Platform Benefits Flow Reference" doc:id="ba8a0709-05aa-4b6b-94f6-0abbb254be1d" name="aggregator-platform-benefits-metrics-flow"/>
