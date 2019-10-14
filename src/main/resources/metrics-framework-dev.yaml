@@ -1,0 +1,54 @@
+http:
+  port: "8081"
+ 
+anypoint:
+  platform:
+    host: "anypoint.mulesoft.com"
+    username: "ebay-jenkins-deployer"
+    password: "ebayJenkins*2019"
+    orgId: "7e80c9bd-df1c-4357-b266-fba1f3d4e831"
+    apis:
+      coreservices:
+        login:
+          path: "/accounts/login"
+        environments:
+          path: "/accounts/api/organizations/{orgId}/environments"
+        members:
+          path: "/accounts/api/organizations/{orgId}/members"
+          limit: "200"
+          offset: "0"
+      cloudhub:
+        apps:
+          path: "/cloudhub/api/v2/applications"
+      arm:
+        apps:
+          path: "/hybrid/api/v1/applications"
+      arm:
+        apps:
+          path: "/rtf"
+      apiManager:
+        apis:
+          path: "/apimanager/api/v1/organizations/{orgId}/environments/{envId}/apis"
+      designCenter:
+        projects:
+          path: "/designcenter/api-designer/projects"
+      analytics:
+        events:
+          path: "/analytics/1.0/{orgId}/environments/{envId}/events"
+          duration: "1d"
+          fields: "Browser,City,Client IP,Continent,Country,Hardware Platform,Message ID,OS Family,OS Major Version,OS Minor Version,OS Version,Postal Code,Request Outcome,Request Size,Resource Path,Response Size,Response Time,Status Code,Timezone,User Agent Name,User Agent Version,Verb,Violated Policy Name"
+          format: "json"
+        query:
+          path: "/analytics/1.0/{orgId}/environments/{envId}/query"
+          duration: "30d"
+      exchange:
+        assets:
+          path: "/exchange/api/v1/assets"
+          limit: "1000"
+
+cache:
+  token:
+    maxEntries: "1"
+    ttl: "60" 
+    expirationInterval: "5" 
+   
