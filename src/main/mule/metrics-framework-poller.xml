@@ -9,6 +9,6 @@
 				<fixed-frequency frequency="60" timeUnit="MINUTES"/>
 			</scheduling-strategy>
 		</scheduler>
-		<flow-ref doc:name="Loader Anypoint Monitoring Flow Reference" doc:id="842bf11b-aac0-45a4-81b6-038620241284" name="aggregator-platform-metrics-flow"/>
+		<flow-ref doc:name="Loader Router Flow Reference" doc:id="842bf11b-aac0-45a4-81b6-038620241284" name="loader-router-flow" />
 	</flow>
 </mule>

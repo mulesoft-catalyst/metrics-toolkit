@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="loader-default-flow" doc:id="470c779b-3b66-4ca6-bca4-6aa9bacd665e" >
+		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="079fcea0-d2b2-4fed-bda7-b75c981de108" name="aggregator-platform-metrics-flow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="fb8912f7-6a80-429e-97f2-c66e76d8aa1c" message="#[payload]"/>
+	</flow>
+</mule>

@@ -128,7 +128,6 @@ var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="df24a9d9-709c-44b1-8e83-10f1e2e4707c" message="#[payload]"/>
 	</flow>
 
 
