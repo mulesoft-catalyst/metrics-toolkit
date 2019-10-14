@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+
+	<flow name="collector-apim-metrics-flow" doc:id="5afbd70d-852d-4b7e-94a7-7cb0508051b9">
+		<set-variable value="#[[]]" doc:name="Set Empty Array - Metrics Variable" doc:id="82c13590-520d-4c9a-8cc1-1d37f5446bf5"
+			variableName="apiMetrics" />
+		<foreach doc:name="For Each" doc:id="a6d68eed-346a-4aeb-804b-33205f775640" collection="#[payload.data]">
+			<logger level="DEBUG" doc:name="Logger" doc:id="272bdbc9-a839-4732-9c5f-5703828d8e21" message="#[payload]" />
+			<set-variable value="#[payload.name]" doc:name="Set Environment Name Variable" doc:id="f4e8c290-bd85-4674-aa47-6cf6d9782cae"
+				variableName="environmentName" />
+			<set-variable value="#[payload.id]" doc:name="Set Environment ID Variable" doc:id="144207d0-3cd2-405f-b0c4-0346179fbc92"
+				variableName="environmentId" />
+			<flow-ref doc:name="Get API Manager APIs Flow Reference" doc:id="4db097bf-f8b7-49e6-adae-104781a71d43" name="api-call-api-manager-apis-flow" />
+			<logger level="DEBUG" doc:name="Logger" doc:id="d69ca67a-044f-436a-8765-a5a1642ee785" message="#[payload]" />
+			<set-variable value='#[output application/json --- vars.apiMetrics + { environment: vars.environmentName, data: payload}]'
+				doc:name="Aggregate metrics" doc:id="196d640e-e566-4397-86d0-5d7ef24b33ff" variableName="apiMetrics" />
+		</foreach>
+		<set-payload value="#[vars.apiMetrics]" doc:name="Set Payload = Metrics Array" doc:id="ed6d483a-dccf-4f30-95fb-c8e8b0649672" />
+	</flow>
+
+	<flow name="collector-apim-metrics-parallel-flow" doc:id="c4b43d89-a5f8-4582-8f1a-2296b79d60c6">
+		<parallel-foreach doc:name="Parallel For Each" doc:id="1f93fa99-2026-45b6-bcac-29ddb3799db8" collection="#[payload.data]">
+			<logger level="DEBUG" doc:name="Logger" doc:id="20355e65-1551-4db1-af97-d7b672304c42" message="#[payload]" />
+			<set-variable value="#[payload.name]" doc:name="Set Environment Name Variable" doc:id="9c98fecd-b0b8-46fd-a5a4-c4d81329c521"
+				variableName="environmentName" />
+			<set-variable value="#[payload.id]" doc:name="Set Environment ID Variable" doc:id="89f79ea1-8de9-4516-8984-d4c348df8e53"
+				variableName="environmentId" />
+			<flow-ref doc:name="Get API Manager APIs Flow Reference" doc:id="11e1602e-2ea0-437a-bec5-dd57f011bfb6" name="api-call-api-manager-apis-flow" />
+			<logger level="DEBUG" doc:name="Logger" doc:id="fa4b0ab9-5e90-4305-aaed-c81f6a57d6fe" message="#[payload]" />
+			<set-payload value='#[output application/json --- { environment: vars.environmentName, data: payload}]' doc:name="Aggregate metrics"
+				doc:id="cebe5398-ff5f-4492-96f7-84bafdaf1a33" />
+		</parallel-foreach>
+	</flow>
+
+</mule>
