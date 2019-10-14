@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="loader-router-flow" doc:id="c8e9fdd0-4ec7-495e-bbf2-1ed6234e1996" >
+		<choice doc:name="Choice" doc:id="e673f0db-bf2c-46d2-b5b2-fc70e45befe2" >
+			<when expression="#[p('loader.strategy' == &quot;am&quot;)]">
+				<flow-ref doc:name="loader-anypoint-monitoring" doc:id="20aa80c4-330b-447e-b0cb-077cabc9ca88" name="loader-anypoint-monitoring"/>
+			</when>
+			<otherwise >
+				<flow-ref doc:name="loader-default-flow" doc:id="173ea082-922f-4f69-b9f3-55f9246f0291" name="loader-default-flow"/>
+			</otherwise>
+		</choice>
+	</flow>
+</mule>
