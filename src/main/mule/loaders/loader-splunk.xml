@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="loader-splunk-flow" doc:id="39d7a250-d2a0-4c5d-9610-ebecf0cc63b9" >
+		<logger level="INFO" doc:name="Logger" doc:id="ef302789-57c3-4141-a523-ccafc65dc469" />
+	</flow>
+</mule>
