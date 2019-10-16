@@ -7,9 +7,9 @@ loader:
 anypoint:
   platform:
     host: "anypoint.mulesoft.com"
-    username: "ebay-jenkins-deployer"
-    password: "ebayJenkins*2019"
-    orgId: "7e80c9bd-df1c-4357-b266-fba1f3d4e831"
+    username: "metrics-user"
+    password: "metricsUser*2019"
+    orgId: "f3e8a133-1483-4c40-87e5-231eee53c4ba"
     apis:
       coreservices:
         login:
