@@ -10,8 +10,24 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{
-}]]></ee:set-payload>
+[
+	{
+		name: "",
+		dimensions: [
+			{
+				name: "",
+				value: ""
+			}
+		],
+		facts: [
+			{
+				name: "",
+				value: ""
+			}
+		]
+	}
+	
+]]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>
