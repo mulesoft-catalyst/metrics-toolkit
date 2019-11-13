@@ -7,29 +7,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<flow name="collector-benefits-metrics-flow" doc:id="cf19ce8b-0e8c-482d-9080-226674d2e203" >
 		<ee:transform doc:name="Build Platform Benefits Metrics" doc:id="005e34ed-38c6-4323-b72d-c3a2c2e8c632" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
-
-
-var totalApisReuse = 5
-var totalProxies = 10
-var totalAPIs = 9
-var totalIntegrations = 1
-var totalApps = (totalProxies + totalAPIs + totalIntegrations)
-
-var savingFromDeveloperProductivity= (attributes.queryParams.developAPIHistoricTime/attributes.queryParams.developAPICurrentTime) * 100
-var savingFromAPIReuse = totalApisReuse * attributes.queryParams.developAPIHistoricTime * attributes.queryParams.developerDayRate 
-var savingFromMaintenanceProductivity = (attributes.queryParams.maintainAPIHistoricTime - attributes.queryParams.maintainAPICurrentTime) * totalApps * attributes.queryParams.developerDayRate 
-var savingFromReuseInMaintenance = totalApisReuse * attributes.queryParams.maintainAPIHistoricTime * attributes.queryParams.developerDayRate
-var totalSavings = savingFromAPIReuse + savingFromMaintenanceProductivity + savingFromReuseInMaintenance
----
-{
-	savingFromDeveloperProductivity: savingFromDeveloperProductivity, 
-	savingFromAPIReuse: savingFromAPIReuse, 
-	savingFromMaintenanceProductivity: savingFromMaintenanceProductivity, 
-	savingFromReuseInMaintenance: savingFromReuseInMaintenance, 
-	totalSavings: totalSavings
-}]]></ee:set-payload>
+				<ee:set-payload resource="dw/aggregation/build-platform-benefits-aggregation.dwl" />
 			</ee:message>
 		</ee:transform>
 	</flow>

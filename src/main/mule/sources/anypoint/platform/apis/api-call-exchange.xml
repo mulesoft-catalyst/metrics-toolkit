@@ -18,7 +18,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:query-params><![CDATA[#[output application/java
 ---
 {
-	"organizationId" : p('anypoint.platform.orgId'),
+	"organizationId" : vars.orgId,
 	"limit" : p('anypoint.platform.apis.exchange.assets.limit')
 }]]]></http:query-params>
 		</http:request>

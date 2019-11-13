@@ -37,13 +37,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:uri-params><![CDATA[#[output application/java
 ---
 {
-	"orgId" : p('anypoint.platform.orgId')
+	"orgId" : vars.orgId
 }]]]></http:uri-params>
 		</http:request>
 		<logger level="INFO" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 
-	<flow name="coreservices-members-flow" doc:id="4990df1e-b762-4df7-a800-fd6d77250ffa">
+	<flow name="api-call-coreservices-members-flow" doc:id="4990df1e-b762-4df7-a800-fd6d77250ffa">
 		<logger level="INFO" doc:name="Logger" doc:id="479f824f-b589-4ee4-a744-8f39495bb2aa" message="Calling Coreservices - Members" />
 		<http:request method="GET" doc:name="Get Members Request" doc:id="1ba81296-2726-4c17-8f73-38ac1ee990ec" config-ref="HTTP_Request_configuration"
 			path="${anypoint.platform.apis.coreservices.members.path}">
@@ -55,7 +55,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:uri-params><![CDATA[#[output application/java
 ---
 {
-	"orgId" : p('anypoint.platform.orgId')
+	"orgId" : vars.orgId
 }]]]></http:uri-params>
 			<http:query-params><![CDATA[#[output application/java
 ---
@@ -65,6 +65,24 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 }]]]></http:query-params>
 		</http:request>
 		<logger level="INFO" doc:name="Logger" doc:id="6cab5b2d-cbdb-46eb-81b5-e4fd877beb10" message='#["Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+	
+	<flow name="api-call-coreservices-organizations-flow" doc:id="cef7e93b-b2dc-4ff3-8cf4-582ead99cfcc">
+		<logger level="INFO" doc:name="Logger" doc:id="224fabbf-19d2-4f85-894f-85e95170afe9" message="Calling Coreservices - Hierarchy" />
+		<http:request method="GET" doc:name="Get Hierarchy Request" doc:id="dc7dbe11-676b-4de2-8622-21a22e01f67a" config-ref="HTTP_Request_configuration"
+			path="${anypoint.platform.apis.coreservices.hierarchy.path}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.token
+}]]]></http:headers>
+			<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"orgId" : p('anypoint.platform.orgId')
+}]]]></http:uri-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="30b6eab1-e157-488d-a99e-c530e720923f" message='#["Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 
 
