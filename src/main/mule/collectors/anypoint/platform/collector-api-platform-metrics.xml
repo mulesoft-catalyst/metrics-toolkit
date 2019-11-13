@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	
+	
+	<flow name="collector-api-clients-metrics-flow" doc:id="24761b1b-61a4-42ce-9d89-cd0c8d45ee13">
+		<flow-ref doc:name="API Platform - Clients - Flow Reference" doc:id="1c9cc656-4051-48eb-bbac-9804e6810577" name="api-call-api-platform-clients-flow"/>
+	</flow>
+		
+</mule>
