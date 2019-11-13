@@ -3,36 +3,20 @@
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 
-	<flow name="collector-cloudhub-apps-metrics-flow" doc:id="5afbd70d-852d-4b7e-94a7-7cb0508051b9">
-		<set-variable value="#[[]]" doc:name="Set Empty Array - Metrics Variable" doc:id="82c13590-520d-4c9a-8cc1-1d37f5446bf5"
-			variableName="appMetrics" />
-		<foreach doc:name="For Each" doc:id="a6d68eed-346a-4aeb-804b-33205f775640" collection="#[payload.data]">
-			<logger level="DEBUG" doc:name="Logger" doc:id="272bdbc9-a839-4732-9c5f-5703828d8e21" message="#[payload]" />
-			<set-variable value="#[payload.name]" doc:name="Set Environment Name Variable" doc:id="0460c015-f8f4-4127-9c01-cc6df4c2dccb"
-				variableName="environmentName" />
-			<set-variable value="#[payload.id]" doc:name="Set Environment ID Variable" doc:id="f5d1d993-d7ea-45b1-8282-abd421736697"
-				variableName="environmentId" />
-			<flow-ref doc:name="Get Applications Flow Reference" doc:id="4db097bf-f8b7-49e6-adae-104781a71d43" name="api-call-cloudhub-apps-flow" />
-			<logger level="DEBUG" doc:name="Logger" doc:id="d69ca67a-044f-436a-8765-a5a1642ee785" message="#[payload]" />
-			<set-variable value='#[output application/json --- vars.appMetrics + { environment: vars.environmentName, data: payload}]'
-				doc:name="Aggregate metrics" doc:id="196d640e-e566-4397-86d0-5d7ef24b33ff" variableName="appMetrics" />
-		</foreach>
-		<set-payload value="#[vars.appMetrics]" doc:name="Set Payload = Metrics Array" doc:id="ed6d483a-dccf-4f30-95fb-c8e8b0649672" />
-	</flow>
-
 	<flow name="collector-cloudhub-apps-metrics-parallel-flow" doc:id="741a7055-efa6-4ac6-918d-5ba21279c50a">
-		<parallel-foreach doc:name="Parallel For Each" doc:id="72582473-ef2e-4781-81c6-036713c4a83c" collection="#[payload.data]">
+		<parallel-foreach doc:name="Parallel For Each" doc:id="72582473-ef2e-4781-81c6-036713c4a83c" collection="#[vars.environments]">
 			<logger level="DEBUG" doc:name="Logger" doc:id="35916054-66fa-4c37-b88b-e2e71c1f37c7" message="#[payload]" />
 			<set-variable value="#[payload.name]" doc:name="Set Environment Name Variable" doc:id="bff7ed1c-aa99-486d-be2a-1ac87b6671a6"
 				variableName="environmentName" />
 			<set-variable value="#[payload.id]" doc:name="Set Environment ID Variable" doc:id="b53b7db4-af0c-425f-83b5-0308bb46e7b7"
 				variableName="environmentId" />
+			<set-variable value="#[payload.isProduction]" doc:name="Set Environment ID Variable" doc:id="3ef3e342-a556-421f-96d0-d228e07892cd"
+						variableName="isProduction" />
 			<flow-ref doc:name="Get Applications Flow Reference" doc:id="a4ba39b8-84c2-4ff8-8ae8-714129a297d2" name="api-call-cloudhub-apps-flow" />
 			<logger level="DEBUG" doc:name="Logger" doc:id="3d28ee51-859a-481b-8877-59d6891ced6c" message="#[payload]" />
-			<set-payload value='#[output application/json --- { environment: vars.environmentName, data: payload}]' doc:name="Aggregate metrics"
+			<set-payload value='#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: payload}]' doc:name="Aggregate metrics"
 				doc:id="3e2b5a3e-9cb1-42d3-a529-b612e46027ba" />
 		</parallel-foreach>
-
 	</flow>
 
 </mule>
