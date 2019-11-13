@@ -18,7 +18,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:uri-params><![CDATA[#[output application/java
 ---
 {
-	"orgId" : p('anypoint.platform.orgId'),
+	"orgId" : vars.orgId,
 	"envId" : vars.environmentId
 }]]]></http:uri-params>
 		</http:request>

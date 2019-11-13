@@ -1,0 +1,1728 @@
+<form>
+  <label>Platform Metrics Dashboard</label>
+  <fieldset submitButton="false">
+    <input type="multiselect" token="bgToken" searchWhenChanged="true">
+      <label>Business Group</label>
+      <fieldForLabel>bg</fieldForLabel>
+      <fieldForValue>bg</fieldForValue>
+      <search>
+        <query>index=metrics | stats values(businessGroup) as bg | dedup bg | table bg</query>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+      <delimiter>,</delimiter>
+      <valuePrefix>"</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+    </input>
+    <input type="time" token="timeToken">
+      <label>Time range</label>
+      <default>
+        <earliest>0</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Platform Benefits</title>
+      <single>
+        <title>Savings from Developer Productivity - Current</title>
+        <search>
+          <query>index=platform_benefits | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | stats values(savingFromDeveloperProductivity) as total | stats max(total) as "Savings"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="underLabel">$$</option>
+        <option name="useColors">0</option>
+      </single>
+      <single>
+        <title>Savings from API Reuse - Current</title>
+        <search>
+          <query>index=platform_benefits | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | stats values(savingFromAPIReuse) as total | stats max(total) as "Savings"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="underLabel">$$</option>
+        <option name="useColors">0</option>
+      </single>
+      <single>
+        <title>Savings from Maintenance Productivity - Current</title>
+        <search>
+          <query>index=platform_benefits | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | stats values(savingFromMaintenanceProductivity) as total | stats max(total) as "Savings"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="underLabel">$$</option>
+        <option name="useColors">0</option>
+      </single>
+      <single>
+        <title>Savings from Reuse In Maintenance - Current</title>
+        <search>
+          <query>index=platform_benefits | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | stats values(savingFromReuseInMaintenance) as total | stats max(total) as "Savings"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="underLabel">$$</option>
+        <option name="useColors">0</option>
+      </single>
+      <single>
+        <title>Total Savings - Current</title>
+        <search>
+          <query>index=platform_benefits | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | stats values(totalSavings) as total | stats max(total) as "Savings"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="underLabel">$$</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+  </row>
+  
+  
+  <row>
+    <panel>
+      <title>Platform Benefits - Total Savings - Timeline</title>
+      <chart>
+        <title>Platform Benefits - Total Savings - Timeline</title>
+        <search>
+          <query>index=platform_benefits | timechart values(totalSavings) as "Savings"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Platform Benefits - Total Savings by type - Timeline</title>
+      <chart>
+        <title>Platform Benefits - Total Savings by type - Timeline</title>
+        <search>
+          <query>index=platform_benefits | timechart values(savingFromDeveloperProductivity) as "Developer Productivity", values(savingFromAPIReuse) as "API Reuse", values(savingFromMaintenanceProductivity) as "Maintenance Productivity", values(savingFromReuseInMaintenance) as "Reuse in Maintenance"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  
+  <row>
+    <panel>
+      <title>Coreservices - Business Groups - Current Count</title>
+      <single>
+        <title>Coreservices - Business Groups - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp  | stats dc(businessGroup)  as "Business Groups"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="underLabel">Business Groups</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Coreservices - Business Groups - Timeline</title>
+      <chart>
+        <title>Coreservices - Business Groups - Timeline</title>
+        <search>
+          <query>index=metrics | timechart dc(businessGroup) as "Business Groups"  </query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Coreservices - Users - Current Count</title>
+      <single>
+        <title>Coreservices - Users - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp  | search businessGroup IN ($bgToken$) | stats values(coreServicesMetrics.users.total) as total | stats max(total) as "Users"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.size">medium</option>
+        <option name="underLabel">Users</option>
+        <option name="useColors">0</option>
+      </single>
+      <single>
+        <title>Coreservices - Users Active - Last 60 days - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp  | search businessGroup IN ($bgToken$) | stats values(coreServicesMetrics.users.activeMembersLast60Days) as total | stats max(total) as "Users"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.size">medium</option>
+        <option name="underLabel">Users</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Coreservices - Users by Type</title>
+      <chart>
+        <title>Coreservices - Users by Type</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(coreServicesMetrics.users.activeMembers) as active, values(coreServicesMetrics.users.inactiveMembers) as inactive | stats max(active) as "Active Users", max(inactive) as "Inactive Users" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Coreservices - Users - Timeline</title>
+      <chart>
+        <title>Coreservices - Users - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(coreServicesMetrics.users.activeMembers) as "Active Users", values(coreServicesMetrics.users.inactiveMembers) as "Inactive Users"  </query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Coreservices - Environments - Current Count</title>
+      <single>
+        <title>Coreservices - Environments - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp  | search businessGroup IN ($bgToken$) | stats values(coreServicesMetrics.environments.total) as total | stats max(total) as "Environments"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Environments</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Coreservices - Environments by Type</title>
+      <chart>
+        <title>Coreservices - Environments by Type</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(coreServicesMetrics.environments.sandbox) as sandbox, values(coreServicesMetrics.environments.production) as production | stats max(sandbox) as "Sandbox Environments", max(production) as "Production Environments" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Coreservices - Environments by Type - Timeline</title>
+      <chart>
+        <title>Coreservices - Environments by Type - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(coreServicesMetrics.environments.sandbox) as "Sandbox environments", values(coreServicesMetrics.environments.production) as "Production environments"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Design Center - Assets - Current Count</title>
+      <single>
+        <title>Design Center - Assets - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(designCenterMetrics.total) as total | stats max(total) as "Design Center - Total Assets"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Design Center Projects</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Design Center - Assets by Type - Current</title>
+      <chart>
+        <title>Design Center - Assets by Type - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(designCenterMetrics.apiSpecs) as apiSpecs, values(designCenterMetrics.fragments) as fragments, values(designCenterMetrics.flowDesignerApps) as flowDesignerApps | stats max(apiSpecs) as "API Specs", max(fragments) as "Fragments", max(flowDesignerApps) as "Flow Designer Apps" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Design Center - Assets - Timeline</title>
+      <chart>
+        <title>Design Center - Assets - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(designCenterMetrics.apiSpecs) as "API Specs", values(designCenterMetrics.fragments) as "Fragments", values(designCenterMetrics.flowDesignerApps) as "Flow Designer Apps"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Exchange - Assets - Overall Satisfaction - Current</title>
+      <single>
+        <title>Exchange - Assets - Overall Satisfaction - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(exchangeMetrics.overallSatisfaction) as total | stats max(total) as "Assets Overall Satisfaction"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Satisfaction</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Exchange - Assets - Overall Satisfaction - Timeline</title>
+      <chart>
+        <title>Exchange - Assets - Overall Satisfaction - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(exchangeMetrics.overallSatisfaction) as "Overall Satisfaction"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Exchange - Assets - Current Count</title>
+      <single>
+        <title>Exchange - Assets - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(exchangeMetrics.total) as total | stats max(total) as "Exchange - Total Assets"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Exchange Assets</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Exchange - Assets by Type - Current</title>
+      <chart>
+        <title>Exchange - Assets by Type - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(exchangeMetrics.apiSpecs) as apiSpecs, values(exchangeMetrics.connectors) as connectors, values(exchangeMetrics.fragments) as fragments, values(exchangeMetrics.proxies) as proxies, values(exchangeMetrics.extensions) as extensions, values(exchangeMetrics.custom) as custom | stats max(apiSpecs) as "API Specs", max(connectors) as "Connectors", max(fragments) as "Fragments", max(proxies) as "Proxies", max(extensions) as "Extensions", max(custom) as "Custom" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Exchange - Assets - Timeline</title>
+      <chart>
+        <title>Exchange - Assets - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(exchangeMetrics.apiSpecs) as "API Specs", values(exchangeMetrics.connectors) as "Connectors", values(exchangeMetrics.fragments) as "RAML Fragments", values(exchangeMetrics.proxies) as "API Proxies", values(exchangeMetrics.extensions) as "Extensions", values(exchangeMetrics.custom) as "Custom"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>API Manager - API Clients - Current Count</title>
+      <single>
+        <title>API Manager - API Clients - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.clients) as total | stats max(total) as "API Clients"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">API Clients</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>API Manager - API Clients - Timeline</title>
+      <chart>
+        <title>API Manager - API Clients - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(apiManagerMetrics.clients) as "API Clients"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <title>API Manager - Production - APIs - Current Count</title>
+      <single>
+        <title>API Manager - Production - APIs - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.total) as total | stats max(total) as "API Manager - Total APIs"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">APIs</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>API Manager - Production - APIs by Status - Current</title>
+      <chart>
+        <title>API Manager - Production - APIs by Status - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.active) as active, values(apiManagerMetrics.apis.production.inactive) as inactive | stats max(active) as "Active APIs", max(inactive) as "Inactive APIs" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>API Manager - Production - APIs by Status - Timeline</title>
+      <chart>
+        <title>API Manager - Production - APIs by Status - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(apiManagerMetrics.apis.production.active) as "Active APIs", values(apiManagerMetrics.apis.production.inactive) as "Inactive APIs"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <title>API Manager - Production - API contracts - Current Count</title>
+      <single>
+        <title>API Manager - Production - API contracts - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.contracts) as total | stats max(total) as "API Contracts"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">API Contracts</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>API Manager - Production - APIs with contracts - Current Count</title>
+      <single>
+        <title>API Manager - Production - APIs with more than one contract - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apisWithMoreThanOneConsumer) as total | stats max(total) as "APIs"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">APIs</option>
+        <option name="useColors">0</option>
+      </single>
+      <single>
+        <title>API Manager - Production - APIs with one or more contracts - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apisWithOneOrMoreConsumers) as total | stats max(total) as "APIs"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">APIs</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>API Manager - Production - API contracts - Timeline</title>
+      <chart>
+        <title>API Manager - Production - API contracts - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(apiManagerMetrics.apis.production.contracts) as "API contracts"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <title>API Manager - Production - APIs by Polcies' existence - Current</title>
+      <chart>
+        <title>API Manager - Production - APIs by Polcies' existence - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apisWithPolicies) as withPolicies, values(apiManagerMetrics.apis.production.apisWithoutPolicies) as withoutPolicies | stats max(withPolicies) as "APIs with Policies", max(withoutPolicies) as "APIs without Policies" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>API Manager - Production - APIs by Polcies' existence - Timeline</title>
+      <chart>
+        <title>API Manager - Production - APIs by Polcies' existence - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(apiManagerMetrics.apis.production.apisWithPolicies) as "APIs with Policies", values(apiManagerMetrics.apis.production.apisWithoutPolicies) as "APIs without Policies"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>API Manager - Production - Policies Used - Current</title>
+      <table>
+        <title>API Manager - Production - Policies Used - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$)  | rename apiManagerMetrics.apis.production.policiesUsed{} as "Policies" | table "Policies"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+    <panel>
+      <title>API Manager - Production - APIs by secure Policies - Current</title>
+      <chart>
+        <title>API Manager - Production - APIs by secure Policies - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apisWithSecurity) as withPolicies, values(apiManagerMetrics.apis.production.apisWithoutSecurity) as withoutPolicies | stats max(withPolicies) as "APIs with Secure Policies", max(withoutPolicies) as "APIs without Secure Policies" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>API Manager - Production - APIs by secure Policies - Timeline</title>
+      <chart>
+        <title>API Manager - Production - APIs by secure Policies - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(apiManagerMetrics.apis.production.apisWithSecurity) as "APIs with Secure Policies", values(apiManagerMetrics.apis.production.apisWithoutSecurity) as "APIs without Secure Policies"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  
+  
+  <row>
+    <panel>
+      <title>API Manager - Sandbox - APIs - Current Count</title>
+      <single>
+        <title>API Manager - Sandbox - APIs - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.sandbox.total) as total | stats max(total) as "API Manager - Total APIs"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">APIs</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>API Manager - Sandbox - APIs by Status - Current</title>
+      <chart>
+        <title>API Manager - Sandbox - APIs by Status - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.sandbox.active) as active, values(apiManagerMetrics.apis.sandbox.inactive) as inactive | stats max(active) as "Active APIs", max(inactive) as "Inactive APIs" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>API Manager - Sandbox - APIs by Status - Timeline</title>
+      <chart>
+        <title>API Manager - Sandbox - APIs by Status - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(apiManagerMetrics.apis.sandbox.active) as "Active APIs", values(apiManagerMetrics.apis.sandbox.inactive) as "Inactive APIs"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <title>API Manager - Sandbox - API contracts - Current Count</title>
+      <single>
+        <title>API Manager - Sandbox - API contracts - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.sandbox.contracts) as total | stats max(total) as "API Contracts"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">API Contracts</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>API Manager - Sandbox - APIs with contracts - Current Count</title>
+      <single>
+        <title>API Manager - Sandbox - APIs with more than one contract - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.sandbox.apisWithMoreThanOneConsumer) as total | stats max(total) as "APIs"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">APIs</option>
+        <option name="useColors">0</option>
+      </single>
+      <single>
+        <title>API Manager - Sandbox - APIs with one or more contracts - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.sandbox.apisWithOneOrMoreConsumers) as total | stats max(total) as "APIs"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">APIs</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>API Manager - Sandbox - API contracts - Timeline</title>
+      <chart>
+        <title>API Manager - Sandbox - API contracts - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(apiManagerMetrics.apis.sandbox.contracts) as "API contracts"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <title>API Manager - Sandbox - APIs by Policies' existence - Current</title>
+      <chart>
+        <title>API Manager - Sandbox - APIs by Policies' existence - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.sandbox.apisWithPolicies) as withPolicies, values(apiManagerMetrics.apis.sandbox.apisWithoutPolicies) as withoutPolicies | stats max(withPolicies) as "APIs with Policies", max(withoutPolicies) as "APIs without Policies" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>API Manager - Sandbox - APIs by Policies' existence - Timeline</title>
+      <chart>
+        <title>API Manager - Sandbox - APIs by Policies' existence - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(apiManagerMetrics.apis.sandbox.apisWithPolicies) as "APIs with Policies", values(apiManagerMetrics.apis.sandbox.apisWithoutPolicies) as "APIs without Policies"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>API Manager - Sandbox - Policies Used - Current</title>
+      <table>
+        <title>API Manager - Sandbox - Policies Used - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$)  | rename apiManagerMetrics.apis.sandbox.policiesUsed{} as "Policies" | table "Policies"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+    <panel>
+      <title>API Manager - Sandbox - APIs by secure Policies - Current</title>
+      <chart>
+        <title>API Manager - Sandbox - APIs by secure Policies - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.sandbox.apisWithSecurity) as withPolicies, values(apiManagerMetrics.apis.sandbox.apisWithoutSecurity) as withoutPolicies | stats max(withPolicies) as "APIs with Secure Policies", max(withoutPolicies) as "APIs without Secure Policies" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>API Manager - Sandbox - APIs by secure Policies - Timeline</title>
+      <chart>
+        <title>API Manager - Sandbox - APIs by secure Policies - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(apiManagerMetrics.apis.sandbox.apisWithSecurity) as "APIs with Secure Policies", values(apiManagerMetrics.apis.sandbox.apisWithoutSecurity) as "APIs without Secure Policies"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  
+  <row>
+    <panel>
+      <title>Runtime Manager - CloudHub - VPCs by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - CloudHub - VPCs by Status - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.networking.vpcsAvailable) as available, values(runtimeManagerMetrics.cloudhub.networking.vpcsUsed) as used | stats max(available) as "Available", max(used) as "Used" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+   <panel>
+      <title>Runtime Manager - CloudHub - VPNs by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - CloudHub - VPNs by Status - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.networking.vpnsAvailable) as available, values(runtimeManagerMetrics.cloudhub.networking.vpnsUsed) as used | stats max(available) as "Available", max(used) as "Used" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+  </row>
+  
+  
+  <row>
+    <panel>
+      <title>Runtime Manager - Production - CloudHub - vCores available - Current Count</title>
+      <single>
+        <title>Runtime Manager - Production - CloudHub - vCores available - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.production.vcoresAvailable) as total | stats max(total) as "vCores"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">vCores</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - CloudHub - vCores by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - Production - CloudHub - vCores by Status - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.production.vcoresAvailable) as available, values(runtimeManagerMetrics.cloudhub.applications.production.vcoresUsed) as used | stats max(available) as "Available", max(used) as "Used" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - CloudHub - vCores by Status - Timeline</title>
+      <chart>
+        <title>Runtime Manager - Production - CloudHub - vCores by Status - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(runtimeManagerMetrics.cloudhub.applications.production.vcoresAvailable) as "Available", values(runtimeManagerMetrics.cloudhub.applications.production.vcoresUsed) as "Used"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  
+  <row>
+    <panel>
+      <title>Runtime Manager - Production - CloudHub - Runtime versions used - Current Count</title>
+      <single>
+        <title>Runtime Manager - Production - CloudHub - Runtimes versions used - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.production.runtimesUsedTotal) as total | stats max(total) as "Runtime versions"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Runtime versions</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - CloudHub - Runtime versions - Current</title>
+      <table>
+        <title>Runtime Manager - Production - CloudHub - Runtime versions - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$)  | rename runtimeManagerMetrics.cloudhub.applications.production.runtimesUsed{} as "Runtime versions" | table "Runtime versions"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - CloudHub - Runtime versions used - Timeline</title>
+      <chart>
+        <title>Runtime Manager - Production - CloudHub - Runtime versions used - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(runtimeManagerMetrics.cloudhub.applications.production.runtimesUsedTotal) as "Runtime versions"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  
+  
+  
+  
+  <row>
+    <panel>
+      <title>Runtime Manager - Production - CloudHub - Applications - Current Count</title>
+      <single>
+        <title>Runtime Manager - Production - CloudHub - Applications - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.production.applicationsTotal) as total | stats max(total) as "Applications"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Applications</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - CloudHub - Applications by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - Production - CloudHub - Applications by Status - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.production.applicationsStarted) as started, values(runtimeManagerMetrics.cloudhub.applications.production.applicationsStopped) as stopped | stats max(started) as "Started", max(stopped) as "Stopped" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - CloudHub - Applications by Status - Timeline</title>
+      <chart>
+        <title>Runtime Manager - Production - CloudHub - Applications by Status - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(runtimeManagerMetrics.cloudhub.applications.production.applicationsStarted) as "Started", values(runtimeManagerMetrics.cloudhub.applications.production.applicationsStopped) as "Stopped"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  
+  
+  <row>
+    <panel>
+      <title>Runtime Manager - Sandbox - CloudHub - vCores available - Current Count</title>
+      <single>
+        <title>Runtime Manager - Sandbox - CloudHub - vCores available - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.sandbox.vcoresAvailable) as total | stats max(total) as "vCores"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">vCores</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - CloudHub - vCores by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - Sandbox - CloudHub - vCores by Status - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.sandbox.vcoresAvailable) as available, values(runtimeManagerMetrics.cloudhub.applications.sandbox.vcoresUsed) as used | stats max(available) as "Available", max(used) as "Used" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - CloudHub - vCores by Status - Timeline</title>
+      <chart>
+        <title>Runtime Manager - Sandbox - CloudHub - vCores by Status - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(runtimeManagerMetrics.cloudhub.applications.sandbox.vcoresAvailable) as "Available", values(runtimeManagerMetrics.cloudhub.applications.sandbox.vcoresUsed) as "Used"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <title>Runtime Manager - Sandbox - CloudHub - Runtime versions used - Current Count</title>
+      <single>
+        <title>Runtime Manager - Sandbox - CloudHub - Runtimes versions used - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.sandbox.runtimesUsedTotal) as total | stats max(total) as "Runtime versions"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Runtime versions</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - CloudHub - Runtime versions - Current</title>
+      <table>
+        <title>Runtime Manager - Sandbox - CloudHub - Runtime versions - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$)  | rename runtimeManagerMetrics.cloudhub.applications.sandbox.runtimesUsed{} as "Runtime versions" | table "Runtime versions"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - CloudHub - Runtime versions used - Timeline</title>
+      <chart>
+        <title>Runtime Manager - Sandbox - CloudHub - Runtime versions used - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(runtimeManagerMetrics.cloudhub.applications.sandbox.runtimesUsedTotal) as "Runtime versions"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  
+  
+  <row>
+    <panel>
+      <title>Runtime Manager - Sandbox - CloudHub - Applications - Current Count</title>
+      <single>
+        <title>Runtime Manager - Sandbox - CloudHub - Applications - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.sandbox.applicationsTotal) as total | stats max(total) as "Applications"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Applications</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - CloudHub - Applications by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - Sandbox - CloudHub - Applications by Status - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.sandbox.applicationsStarted) as started, values(runtimeManagerMetrics.cloudhub.applications.sandbox.applicationsStopped) as stopped | stats max(started) as "Started", max(stopped) as "Stopped" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - CloudHub - Applications by Status - Timeline</title>
+      <chart>
+        <title>Runtime Manager - Sandbox - CloudHub - Applications by Status - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(runtimeManagerMetrics.cloudhub.applications.sandbox.applicationsStarted) as "Started", values(runtimeManagerMetrics.cloudhub.applications.sandbox.applicationsStopped) as "Stopped"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <title>Runtime Manager - Production - OnPrem - Servers - Current Count</title>
+      <single>
+        <title>Runtime Manager - Production - OnPrem - Servers - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.production.servers) as total | stats max(total) as "Applications"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Servers</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - OnPrem - Runtime versions - Current Count</title>
+      <table>
+        <title>Runtime Manager - Production - OnPrem - Runtime versions - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$)  | rename runtimeManagerMetrics.hybrid.production.runtimesUsed{} as "Runtime versions" | table "Runtime versions"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - OnPrem - Clusters - Current Count</title>
+      <single>
+        <title>Runtime Manager - Production - OnPrem - Clusters - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.production.clusters) as total | stats max(total) as "Applications"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Clusters</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - OnPrem - Server Groups - Current Count</title>
+      <single>
+        <title>Runtime Manager - Production - OnPrem - Server Groups - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.production.serverGroups) as total | stats max(total) as "Applications"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Server Groups</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <title>Runtime Manager - Production - OnPrem - Applications - Current Count</title>
+      <single>
+        <title>Runtime Manager - Production - OnPrem - Applications - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.production.applicationsTotal) as total | stats max(total) as "Applications"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Applications</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - OnPrem - Applications by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - Production - OnPrem - Applications by Status - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.production.applicationsStarted) as started, values(runtimeManagerMetrics.hybrid.production.applicationsStopped) as stopped | stats max(started) as "Started", max(stopped) as "Stopped" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - OnPrem - Applications by Status - Timeline</title>
+      <chart>
+        <title>Runtime Manager - Production - OnPrem - Applications by Status - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(runtimeManagerMetrics.hybrid.production.applicationsStarted) as "Started", values(runtimeManagerMetrics.hybrid.production.applicationsStopped) as "Stopped"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <title>Runtime Manager - Sandbox - OnPrem - Servers - Current Count</title>
+      <single>
+        <title>Runtime Manager - Sandbox - OnPrem - Servers - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.sandbox.servers) as total | stats max(total) as "Applications"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Servers</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - OnPrem - Runtime versions - Current Count</title>
+      <table>
+        <title>Runtime Manager - Sandbox - OnPrem - Runtime versions - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$)  | rename runtimeManagerMetrics.hybrid.sandbox.runtimesUsed{} as "Runtime versions" | table "Runtime versions"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - OnPrem - Clusters - Current Count</title>
+      <single>
+        <title>Runtime Manager - Sandbox - OnPrem - Clusters - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.sandbox.clusters) as total | stats max(total) as "Applications"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Clusters</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - OnPrem - Server Groups - Current Count</title>
+      <single>
+        <title>Runtime Manager - Sandbox - OnPrem - Server Groups - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.sandbox.serverGroups) as total | stats max(total) as "Applications"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Server Groups</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <title>Runtime Manager - Sandbox - OnPrem - Applications - Current Count</title>
+      <single>
+        <title>Runtime Manager - Sandbox - OnPrem - Applications - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.sandbox.applicationsTotal) as total | stats max(total) as "Applications"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Applications</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - OnPrem - Applications by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - Sandbox - OnPrem - Applications by Status - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.sandbox.applicationsStarted) as started, values(runtimeManagerMetrics.hybrid.sandbox.applicationsStopped) as stopped | stats max(started) as "Started", max(stopped) as "Stopped" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - OnPrem - Applications by Status - Timeline</title>
+      <chart>
+        <title>Runtime Manager - Sandbox - OnPrem - Applications by Status - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(runtimeManagerMetrics.hybrid.sandbox.applicationsStarted) as "Started", values(runtimeManagerMetrics.hybrid.sandbox.applicationsStopped) as "Stopped"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <title>Runtime Manager - Production - RTF - Cores available - Current Count</title>
+      <single>
+        <title>Runtime Manager - Production - RTF - Cores available - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.production.coresAvailable) as total | stats max(total) as "vCores"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">vCores</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - RTF - Cores by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - Production - RTF - Cores by Status - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.production.coresAvailable) as available, values(runtimeManagerMetrics.rtf.production.coresUsed) as used | stats max(available) as "Available", max(used) as "Used" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - RTF - Cores by Status - Timeline</title>
+      <chart>
+        <title>Runtime Manager - Production - RTF - Cores by Status - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(runtimeManagerMetrics.rtf.production.coresAvailable) as "Available", values(runtimeManagerMetrics.rtf.production.coresUsed) as "Used"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+   <row>
+    <panel>
+      <title>Runtime Manager - Production - RTF - Runtime versions used - Current Count</title>
+      <single>
+        <title>Runtime Manager - Production - RTF - Runtimes versions used - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.production.runtimesUsedTotal) as total | stats max(total) as "Runtime versions"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Runtime versions</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - RTF - Runtime versions - Current</title>
+      <table>
+        <title>Runtime Manager - Production - RTF - Runtime versions - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$)  | rename runtimeManagerMetrics.rtf.production.runtimesUsed{} as "Runtime versions" | table "Runtime versions"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - RTF - Runtime versions used - Timeline</title>
+      <chart>
+        <title>Runtime Manager - Production - RTF - Runtime versions used - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(runtimeManagerMetrics.rtf.production.runtimesUsedTotal) as "Runtime versions"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <title>Runtime Manager - Production - RTF - Applications - Current Count</title>
+      <single>
+        <title>Runtime Manager - Production - RTF - Applications - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.production.applicationsTotal) as total | stats max(total) as "Applications"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Applications</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - RTF - Applications by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - Production - RTF - Applications by Status - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.production.applicationsStarted) as started, values(runtimeManagerMetrics.rtf.production.applicationsStopped) as stopped | stats max(started) as "Started", max(stopped) as "Stopped" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Production - RTF - Applications by Status - Timeline</title>
+      <chart>
+        <title>Runtime Manager - Production - RTF - Applications by Status - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(runtimeManagerMetrics.rtf.production.applicationsStarted) as "Started", values(runtimeManagerMetrics.rtf.production.applicationsStopped) as "Stopped"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <title>Runtime Manager - Sandbox - RTF - Cores available - Current Count</title>
+      <single>
+        <title>Runtime Manager - Sandbox - RTF - Cores available - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.sandbox.coresAvailable) as total | stats max(total) as "vCores"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">vCores</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - RTF - Cores by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - Sandbox - RTF - Cores by Status - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.sandbox.coresAvailable) as available, values(runtimeManagerMetrics.rtf.sandbox.coresUsed) as used | stats max(available) as "Available", max(used) as "Used" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - RTF - Cores by Status - Timeline</title>
+      <chart>
+        <title>Runtime Manager - Sandbox - RTF - Cores by Status - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(runtimeManagerMetrics.rtf.sandbox.coresAvailable) as "Available", values(runtimeManagerMetrics.rtf.sandbox.coresUsed) as "Used"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <title>Runtime Manager - Sandbox - RTF - Runtime versions used - Current Count</title>
+      <single>
+        <title>Runtime Manager - Sandbox - RTF - Runtimes versions used - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.sandbox.runtimesUsedTotal) as total | stats max(total) as "Runtime versions"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Runtime versions</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - RTF - Runtime versions - Current</title>
+      <table>
+        <title>Runtime Manager - Sandbox - RTF - Runtime versions - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$)  | rename runtimeManagerMetrics.rtf.sandbox.runtimesUsed{} as "Runtime versions" | table "Runtime versions"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - RTF - Runtime versions used - Timeline</title>
+      <chart>
+        <title>Runtime Manager - Sandbox - RTF - Runtime versions used - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(runtimeManagerMetrics.rtf.sandbox.runtimesUsedTotal) as "Runtime versions"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <title>Runtime Manager - Sandbox - RTF - Applications - Current Count</title>
+      <single>
+        <title>Runtime Manager - Sandbox - RTF - Applications - Current Count</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.sandbox.applicationsTotal) as total | stats max(total) as "Applications"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Applications</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - RTF - Applications by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - Sandbox - RTF - Applications by Status - Current</title>
+        <search>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.sandbox.applicationsStarted) as started, values(runtimeManagerMetrics.rtf.sandbox.applicationsStopped) as stopped | stats max(started) as "Started", max(stopped) as "Stopped" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Runtime Manager - Sandbox - RTF - Applications by Status - Timeline</title>
+      <chart>
+        <title>Runtime Manager - Sandbox - RTF - Applications by Status - Timeline</title>
+        <search>
+          <query>index=metrics | search businessGroup IN ($bgToken$) | timechart values(runtimeManagerMetrics.rtf.sandbox.applicationsStarted) as "Started", values(runtimeManagerMetrics.rtf.sandbox.applicationsStopped) as "Stopped"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+</form>
