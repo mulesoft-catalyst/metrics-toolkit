@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+
+	<flow name="loader-splunk-hec-aggregated-flow" doc:id="cda7a6ae-8e5e-46b3-9819-790ab5f26a50">
+		<ee:transform doc:name="Build Aggregated Data Array" doc:id="067ab09f-b64c-47ae-a402-ae249b2b9dfe">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable resource="dw/loader/loader-splunk-hec-platform-example.dwl" variableName="event" />
+			</ee:variables>
+		</ee:transform>
+		<set-variable value="#[p('splunk.index.metrics')]" doc:name="Set Variable" doc:id="2dfd74a3-7f2e-4c98-8861-008b37d670d5"
+			variableName="index" />
+		<flow-ref doc:name="splunk-hec-loader-flow" doc:id="92bb6bce-22b6-45f7-93f4-f99b5369e5c6" name="splunk-hec-loader-flow" />
+	</flow>
+	
+	<flow name="loader-splunk-hec-benefits-flow" doc:id="c3f14714-c8fd-4d24-80c3-a5068f2a1ad6" >
+		<ee:transform doc:name="Build Platform Benefits Array" doc:id="b1ccf5ca-f083-4db1-b24d-8287500d57ef" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dw/loader/loader-splunk-hec-benefits-example.dwl" variableName="event" />
+			</ee:variables>
+		</ee:transform>
+		<set-variable value="#[p('splunk.index.benefits')]" doc:name="Set Variable" doc:id="97235a41-e137-4d17-b072-8503e8d1c825" variableName="index" />
+				<flow-ref doc:name="splunk-hec-loader-flow" doc:id="c071c1a6-d902-4f4a-86e9-e53a472ae7ad" name="splunk-hec-loader-flow" />
+	</flow>
+
+	<flow name="splunk-hec-raw-loader-flow" doc:id="2c2efcb6-ef84-4204-865a-1277d1e09c1b">
+		<scatter-gather doc:name="Scatter-Gather" doc:id="71618ff2-dcf5-47d8-b57f-7cb45d48e063">
+			<route>
+				<ee:transform doc:name="Build Applications Event-Array" doc:id="3cfa2c89-ec4f-4b40-8194-629a505d51f7">
+					<ee:message>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable resource="dw/loader/loader-splunk-hec-apps-event-example.dwl" variableName="event" />
+					</ee:variables>
+				</ee:transform>
+				<set-variable value="#[p('splunk.index.applications')]" doc:name="Set Variable" doc:id="ac2885e2-0ba8-439a-a55d-9cb03dfdd65a"
+					variableName="index" />
+				<flow-ref doc:name="splunk-hec-loader-flow" doc:id="77ac06b6-4e7c-4a30-815c-0ada60f71b11" name="splunk-hec-loader-flow" />
+			</route>
+			<route>
+				<ee:transform doc:name="Build APIs Event-Array" doc:id="018fc870-9bdd-4c62-a51f-6120c851d3c7">
+					<ee:message>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable resource="dw/loader/loader-splunk-hec-apis-event-example.dwl" variableName="event" />
+					</ee:variables>
+				</ee:transform>
+				<set-variable value="#[p('splunk.index.apis')]" doc:name="Set Variable" doc:id="f645c7b8-6273-452a-9d49-892d3e5ee6eb"
+					variableName="index" />
+				<flow-ref doc:name="splunk-hec-loader-flow" doc:id="7494220f-633b-4d3b-b82e-a146cc7f8d13" name="splunk-hec-loader-flow" />
+			</route>
+			<route>
+				<ee:transform doc:name="Build Assets Event-Array" doc:id="0762ba51-5ecf-4dc4-8c41-8bb0a7b44d80">
+					<ee:message>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable resource="dw/loader/loader-splunk-hec-assets-event-example.dwl" variableName="event" />
+					</ee:variables>
+				</ee:transform>
+				<set-variable value="#[p('splunk.index.assets')]" doc:name="Set Variable" doc:id="8e8ee2fa-0a36-4a59-9dc0-003ee5b8606c"
+					variableName="index" />
+				<flow-ref doc:name="splunk-hec-loader-flow" doc:id="46fa54a4-487f-4342-af2f-d256de5376e0" name="splunk-hec-loader-flow" />
+			</route>
+		</scatter-gather>
+	</flow>
+
+	<flow name="splunk-hec-pure-event-example-flow" doc:id="e9cd53a7-692a-4182-b945-9ebdf0ea2e84">
+		<ee:transform doc:name="Example event with dimensions and facts" doc:id="642857eb-b6a6-49af-82b8-a011e2380d7c">
+			<ee:message>
+				<ee:set-payload resource="dw/loader/loader-splunk-hec-pure-event-example.dwl" />
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

@@ -5,13 +5,28 @@
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-
-	<flow name="aggregator-platform-metrics-flow" doc:id="f52652d1-3952-4ab0-9d4b-20c69530e30a">
-		<flow-ref doc:name="Get Cached Token Flow Reference" doc:id="228d0237-c0cc-402c-a581-d820b474d07c" name="api-call-coreservices-login-cache-flow"
-			target="token" targetValue="payload.access_token" />
-		<flow-ref doc:name="Environments Flow Reference" doc:id="a65ee492-ea7b-4018-9096-08aff5fa21d4" name="api-call-coreservices-environments-flow" />
+ 
+ 	<flow name="aggregator-platform-metrics-master-flow" doc:id="b44a5537-b4b2-48d6-be10-5966f49ef8dc" >
+		<flow-ref doc:name="Get Cached Token Flow Reference" doc:id="675f99f2-d682-4162-9702-5da306885ba1" name="api-call-coreservices-login-cache-flow" target="token" targetValue="payload.access_token" />
+		<flow-ref doc:name="api-call-coreservices-organizations-flow" doc:id="1f5906b9-2afa-4fc3-98e3-b11f8320e06f" name="api-call-coreservices-organizations-flow"/>
+		<ee:transform doc:name="Build Organizations including master org" doc:id="75e24a85-7cf4-4d19-9d58-d2b677f89993" >
+			<ee:message >
+				<ee:set-payload resource="dw/aggregation/build-orgs-aggregation.dwl" />
+			</ee:message>
+		</ee:transform>
+		<parallel-foreach doc:name="For Each" doc:id="59a2752c-19ce-4e8c-b3cf-512c04000a55" collection="#[payload]">
+			<set-variable value="#[payload.id]" doc:name="Set Variable" doc:id="ebf69e75-918d-46fc-a42a-8513e64da3ca" variableName="orgId"/>
+			<set-variable value="#[payload.name]" doc:name="Set Variable" doc:id="82a35793-7064-442c-bac3-4b3702fe0b02" variableName="orgName"/>
+			<logger level="INFO" doc:name="Logger" doc:id="19862db5-f751-47a1-b5f3-ffd75708938e" message="#[vars.orgId]"/>
+			<flow-ref doc:name="Aggregator Organization Flow Reference" doc:id="97a715ab-2afc-47ee-9969-65d0c170cb4f" name="aggregator-platform-metrics-org-flow"/>
+		</parallel-foreach>
+		<set-payload value="#[output application/json --- payload.payload]" doc:name="Set Payload" doc:id="4de1289b-f761-496c-b966-670bce6484ac" />
+	</flow>
+	
+	<flow name="aggregator-platform-metrics-org-flow" doc:id="f52652d1-3952-4ab0-9d4b-20c69530e30a">
+		<flow-ref doc:name="Environments Flow Reference" doc:id="a65ee492-ea7b-4018-9096-08aff5fa21d4" name="api-call-coreservices-environments-flow" target="environments" targetValue="#[payload.data]"/>
 		<scatter-gather doc:name="Scatter-Gather" doc:id="f91aa95c-1b72-4596-bb78-c2d26978d2c7">
-			<route>
+			<route> 
 				<flow-ref doc:name="CloudHub Apps Metrics Flow Reference" doc:id="b8f7e5c7-f5ed-4ef0-9ae2-eee199b1ebf2" name="collector-cloudhub-apps-metrics-parallel-flow" />
 			</route>
 			<route>
@@ -21,114 +36,42 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<flow-ref doc:name="API Manager Metrics Flow Reference" doc:id="7d3f4740-47e1-4ad5-b87e-1c5869903a28" name="collector-apim-metrics-parallel-flow" />
 			</route>
 			<route>
-				<flow-ref doc:name="Coreservices Members Flow Reference" doc:id="0d270a25-f417-43ce-8729-7eec33548360" name="coreservices-members-flow" />
+				<flow-ref doc:name="Coreservices Members Flow Reference" doc:id="0d270a25-f417-43ce-8729-7eec33548360" name="api-call-coreservices-members-flow" />
 			</route>
 			<route>
 				<flow-ref doc:name="Design Center Projects Flow Reference" doc:id="f0ddec9e-176f-4f39-af14-728444fce2d2" name="collector-design-center-metrics-flow" />
 			</route>
 			<route>
-				<flow-ref doc:name="Analitics Enriched Data Flow Reference" doc:id="2908db4d-cc5b-421b-a844-2272898b0b73" name="collector-analytics-metrics-parallel-flow" />
+				<flow-ref doc:name="API Clients Flow Reference" doc:id="dfcd3053-bd9e-4c9c-9ae6-384874401176" name="collector-api-clients-metrics-flow" />
 			</route>
+<!-- 			<route> -->
+<!-- 				<flow-ref doc:name="Analitics Enriched Data Flow Reference" doc:id="2908db4d-cc5b-421b-a844-2272898b0b73" name="collector-analytics-metrics-parallel-flow" /> -->
+<!-- 			</route> -->
 		</scatter-gather>
-		<ee:transform doc:name="Build Final Response" doc:id="220d3abe-7629-48ac-9e4e-5da11a36651f">
-			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
-output application/json
-var cloudHubApps = payload[0].payload.payload
-var exchangeAssets = payload[1].payload
-var apiManagerApis = payload[2].payload.payload
-var members = payload[3].payload
-var designCenterProjects = payload[4].payload
-var analyticsQueryResult = payload[5].payload.payload
+		<flow-ref doc:name="aggregator-platform-metrics-agg-flow" doc:id="0a13cf31-03eb-4e5c-ab4a-ef78374efdc8" name="aggregator-platform-metrics-agg-flow"/>
+	</flow>
 
-var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
-	environment: v.environment,
-	apiIds: v.data.response[0]."api_id",
-	clientIds: v.data.response[1]."client_id"
-})
----
-{
-	coreservicesMetrics: {
-		membersMetrics: sizeOf(members.data  filter ($.enabled == true)),
-		environments: sizeOf(cloudHubApps.environment),
-	},
-	designCenterMetrics: {
-		total: sizeOf(designCenterProjects),
-		apiSpecs: sizeOf(designCenterProjects filter($."type" == "raml")),
-		fragments: sizeOf(designCenterProjects filter($."type" == "raml-fragment")),
-	},
-	exchangeMetrics: {
-		exchangeAssets: {
-			total: sizeOf(exchangeAssets) + sizeOf(exchangeAssets filter($."type" == "rest-api")),
-			apiSpecs: sizeOf(exchangeAssets filter($."type" == "rest-api")),
-			connectors: sizeOf(exchangeAssets filter($."type" == "rest-api")),
-			fragments: sizeOf(exchangeAssets filter($."type" == "raml-fragment")),
-			proxies: sizeOf(exchangeAssets filter($."type" == "http-api")),
-			extensions: sizeOf(exchangeAssets filter($."type" == "extension")),
-			custom: sizeOf(exchangeAssets filter($."type" == "custom"))		
-		}
-	},
-	apiManagerMetrics: {
-		apiEnvironments: apiManagerApis map {
-			environment: $.environment,
-			apis: $.data.total
-		},
-		totals: {
-			nonProdAPIs: sum((apiManagerApis filter($.environment != "Production")).data.total),
-			prodAPIs: sum ((apiManagerApis filter($.environment == "Production")).data.total)
-		}
-	},
-	cloudHubMetrics: {
-		environmentsMetrics: cloudHubApps map {
-			environment: $.environment,
-			applications: sizeOf($.data),
-			vCoresUsed: if(sizeOf($.data) > 0) (sum($.data map {
-				size: $."workers"."type"."weight" * $."workers"."amount"
-			}.size)) else 0
-		},
-		vCoreUsageTotalSandbox: sum (cloudHubApps map (
-			if(sizeOf($.data) > 0 and $.environment != "Production") (sum($.data map 
-				($."workers"."type"."weight" * $."workers"."amount")
-			)) else 0
-		)),
-		vCoreUsageTotalProduction: sum (cloudHubApps map (
-			if(sizeOf($.data) > 0 and $.environment == "Production") (sum($.data map 
-				($."workers"."type"."weight" * $."workers"."amount")
-			)) else 0
-		)),
-		applicationDetailsMetrics: cloudHubApps map {
-			environment: $.environment,
-			applications: $.data map {
-				domain: $.domain,
-				size: $."workers"."type"."weight" * $."workers"."amount",
-				fileName: $.fileName
-			}	
-		}
-	},
-	analyticsMetrics: analyticsEnrichedData,
-	apisRaw: apiManagerApis map {
-		environment: $.environment,
-		data: $.data.assets map {
-			id: $.id,
-			name:$.assetId
-		}
-	},
-	apisMetrics: apiManagerApis map (api, index) -> {
-		environment: api.environment,
-		details: api.data.assets map (asset, index) -> {
-			apiName: asset.assetId,
-			count: ((analyticsEnrichedData filter ($.environment == api.environment))[0].data.response[0]."api_id")[asset.id]
-		}
-		//environment: $.environment,
-		//apis: {
-		//	name: $.data.assets filter ($.id == (analyticsEnrichedData filter($.environment == )))
-		//	count: 
-		//}
-	}
-}]]></ee:set-payload>
+	<flow name="aggregator-platform-metrics-agg-flow" doc:id="4e5bc04d-27e2-4a5c-ac58-f05b92485524">
+		<ee:transform doc:name="Build Final Response" doc:id="4bc29360-eff6-4d2c-9640-5d0386a98051">
+			<ee:message>
+				<ee:set-payload resource="dw/aggregation/build-platform-metrics-aggregation.dwl" />
 			</ee:message>
 		</ee:transform>
 	</flow>
-
+	<flow name="aggregator-platform-metrics-agg-bak-flow" doc:id="498007b9-5b72-435b-b7fd-b06149c1b6f4" >
+		<ee:transform doc:name="Build Final Response" doc:id="00a2db68-ed97-4861-99b5-94d7181b9d67">
+			<ee:message>
+				<ee:set-payload resource="dw/aggregation/backup.dwl" />
+			</ee:message>
+		</ee:transform>
+	</flow>
+	
+	<flow name="aggregator-platform-metrics-agg-events-flow" doc:id="f7bd343d-41e0-41cc-acd8-b04d5bce447c" >
+		<ee:transform doc:name="Transform Message" doc:id="c39a026b-feb6-4d4b-ba8b-61839a33551f" >
+			<ee:message >
+				<ee:set-payload resource="dw/aggregation/pure-events-example.dwl" />
+			</ee:message>
+		</ee:transform>
+	</flow>
 
 </mule>
