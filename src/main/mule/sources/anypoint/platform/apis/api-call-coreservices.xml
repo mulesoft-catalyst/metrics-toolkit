@@ -16,6 +16,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</ee:transform>
 		<http:request method="POST" doc:name="Post Login Request" doc:id="560a71f8-55b6-402b-b0e6-cfd411340797" config-ref="HTTP_Request_configuration"
 			path="${anypoint.platform.apis.coreservices.login.path}" />
+			
 		<logger level="INFO" doc:name="Logger" doc:id="94b6e2e7-72f9-4957-8c55-103ad0fe8765" message='#["Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 
@@ -79,11 +80,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:uri-params><![CDATA[#[output application/java
 ---
 {
-	"orgId" : p('anypoint.platform.orgId')
+	"orgId" : vars.masterOrgId
 }]]]></http:uri-params>
 		</http:request>
 		<logger level="INFO" doc:name="Logger" doc:id="30b6eab1-e157-488d-a99e-c530e720923f" message='#["Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
-
-
 </mule>

@@ -1,15 +1,37 @@
 #%RAML 1.0
-title: metrics-framework-api
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/f724e6da-ec13-4c76-b7c7-eeaf154323e3/api/ # baseUri: https://localhost:8081/api/
+title: Metrics Framework API
+description: Metrics Framework API to obtain and generate operational and business metrics
+version: v1
+protocols: 
+  - HTTPS
 
-baseUri: http://localhost:8081
-
-/platform:
+/platform-metrics:
   get:
+    headers:
+      X-ANYPNT-USERNAME: string
+      X-ANYPNT-PASSWORD: string
+      X-ANYPNT-ORG-ID: string
     responses:
       200:
         body:
           application/json:
-/business:
+  /load:
+    post:
+      headers:
+        X-ANYPNT-USERNAME: string
+        X-ANYPNT-PASSWORD: string
+        X-ANYPNT-ORG-ID: string 
+      body:
+        application/json:
+          
+      responses:
+        201:
+          body:
+            application/json:
+              
+    
+/business-metrics:
   get:
     queryParameters:
       developAPIHistoricTime:
@@ -27,12 +49,18 @@ baseUri: http://localhost:8081
       developerDayRate:
         description: "Average Developer's day rate "
         type: number
-    body:
-      application/json:
     responses:
       200:
         body:
           application/json:
+  /load:
+    post:
+      body:
+        application/json:
+      responses:
+        201:
+          body:
+            application/json:  
             
 
 

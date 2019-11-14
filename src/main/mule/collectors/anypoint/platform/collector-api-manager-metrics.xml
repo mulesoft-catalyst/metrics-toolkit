@@ -5,13 +5,7 @@
 
 	<flow name="collector-apim-metrics-parallel-flow" doc:id="c4b43d89-a5f8-4582-8f1a-2296b79d60c6">
 		<parallel-foreach doc:name="Parallel For Each" doc:id="1f93fa99-2026-45b6-bcac-29ddb3799db8" collection="#[vars.environments]">
-			<logger level="DEBUG" doc:name="Logger" doc:id="20355e65-1551-4db1-af97-d7b672304c42" message="#[payload]" />
-			<set-variable value="#[payload.name]" doc:name="Set Environment Name Variable" doc:id="9c98fecd-b0b8-46fd-a5a4-c4d81329c521"
-				variableName="environmentName" />
-			<set-variable value="#[payload.id]" doc:name="Set Environment ID Variable" doc:id="89f79ea1-8de9-4516-8984-d4c348df8e53"
-				variableName="environmentId" />
-			<set-variable value="#[payload.isProduction]" doc:name="Set Environment ID Variable" doc:id="1b4f88b7-d03a-4fff-8e60-8bcf3f0864c1"
-				variableName="isProduction" />
+			<flow-ref doc:name="Set Environment Variables" doc:id="4c6292da-bf95-463f-9380-ded270f160cf" name="collector-commons-set-environment-variables-flow" />
 			<flow-ref doc:name="Get API Manager APIs Flow Reference" doc:id="11e1602e-2ea0-437a-bec5-dd57f011bfb6" name="api-call-api-manager-apis-flow" />
 			<logger level="DEBUG" doc:name="Logger" doc:id="fa4b0ab9-5e90-4305-aaed-c81f6a57d6fe" message="#[payload]" />
 			<set-payload value='#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: payload}]'
@@ -21,13 +15,7 @@
 
 	<flow name="collector-apim-automated-policies-metrics-flow" doc:id="a7fee72f-2baa-43e5-b22f-09e958189a8c">
 		<parallel-foreach doc:name="Parallel For Each" doc:id="1f4069f5-81b1-45e7-ab0d-c00d1a83fe54" collection="#[vars.environments]">
-			<logger level="DEBUG" doc:name="Logger" doc:id="6dd46c50-0c1f-445c-98f9-62e4d1a67596" message="#[payload]" />
-			<set-variable value="#[payload.name]" doc:name="Set Environment Name Variable" doc:id="d7ee1482-344d-4f68-9a72-ea8b936d8c5a"
-				variableName="environmentName" />
-			<set-variable value="#[payload.id]" doc:name="Set Environment ID Variable" doc:id="f20881b8-3c31-472b-9e64-e02a88aae9ac"
-				variableName="environmentId" />
-			<set-variable value="#[payload.isProduction]" doc:name="Set Environment ID Variable" doc:id="1cbba7e7-a86f-4a42-b366-d355242810dc"
-				variableName="isProduction" />
+			<flow-ref doc:name="Set Environment Variables" doc:id="06adcc21-5466-4620-a638-1c48d2f021e5" name="collector-commons-set-environment-variables-flow" />
 			<flow-ref doc:name="Get API Manager Automated Policies Flow Reference" doc:id="ee1fa5f9-d176-4584-ac48-d5949fc2e4cd" name="api-call-api-manager-automated-policies-flow" />
 			<set-payload value='#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: payload}]'
 					doc:name="Aggregate metrics" doc:id="d738737d-4a5c-4144-8034-27124bb042cc" />
