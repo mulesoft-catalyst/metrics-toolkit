@@ -7,7 +7,8 @@ var apiManagerApis = payload[2].payload.payload
 var members = payload[3].payload
 var designCenterProjects = payload[4].payload
 var apiClients = payload[5].payload.applications
-var analyticsQueryResult = payload[6].payload.payload
+var apiAutomatedPolicies = payload[6].payload.payload
+var analyticsQueryResult = payload[7].payload.payload
 
 var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
 	environment: v.environment,
@@ -15,11 +16,14 @@ var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
 	clientIds: v.data.response[1]."client_id"
 })
 
-var prodApis=(apiManagerApis filter($.isProduction)).data
+fun getProdData(arr) = (arr filter($.isProduction)).data
+fun getSandboxData(arr) = (arr filter(not $.isProduction)).data
+
+var prodApis=getProdData(apiManagerApis)
 var prodApisAssets=prodApis.assets
 var prodApiInstances=flatten(flatten(prodApisAssets).apis default [])
 
-var sandboxApis=(apiManagerApis filter(not $.isProduction)).data
+var sandboxApis=getSandboxData(apiManagerApis)
 var sandboxApisAssets=sandboxApis.assets
 var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 ---
@@ -73,8 +77,10 @@ var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 				apisWithMoreThanOneConsumer: sizeOf(prodApiInstances.activeContractsCount filter ($ > 1) default []),
 				apisWithOneOrMoreConsumers: sizeOf(prodApiInstances.activeContractsCount filter ($ > 0) default []),
 				contracts: sum(prodApiInstances.activeContractsCount default []),
-				policiesUsed: ["NA"],
-				policiesUsedTotal: "NA",
+				policiesUsed: flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId, // + Normal policies
+				policiesUsedTotal: sizeOf(flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default []), // + Normal policies
+				automatedPoliciesUsed: flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId,
+				automatedPoliciesUsedTotal: sizeOf(flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default []),
 				transactions: "NA" //last x days on the period collected
 			
 			},
@@ -92,8 +98,10 @@ var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 				apisWithoutContracts: sizeOf(sandboxApiInstances.activeContractsCount filter ($ == 0) default []),
 				apisWithMoreThanOneConsumer: sizeOf(sandboxApiInstances.activeContractsCount filter ($ > 1) default []),
 				apisWithOneOrMoreConsumers: sizeOf(sandboxApiInstances.activeContractsCount filter ($ > 0) default []),
-				policiesUsed: ["NA"],
-				policiesUsedTotal: "NA",
+				policiesUsed: flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId, // + Normal policies
+				policiesUsedTotal: sizeOf(flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default []), // + Normal policies
+				automatedPoliciesUsed: flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId,
+				automatedPoliciesUsedTotal: sizeOf(flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default []),
 				contracts: sum(sandboxApiInstances.activeContractsCount default []),
 				transactions: "NA" //last x days on the period collected
 			}	

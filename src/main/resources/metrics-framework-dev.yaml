@@ -7,9 +7,9 @@ loader:
 anypoint:
   platform:
     host: "anypoint.mulesoft.com"
-    username: "xx"
-    password: "xx"
-    orgId: "xx"
+    username: "dcisneros-ebay"
+    password: "davoEbay*2019"
+    orgId: "5034b37f-0e73-4dc2-bd24-c2119b5aefe8"
     apis:
       coreservices:
         login:
@@ -34,6 +34,8 @@ anypoint:
       apiManager:
         apis:
           path: "/apimanager/api/v1/organizations/{orgId}/environments/{envId}/apis"
+        automatedPolicies:
+          path: "/apimanager/api/v1/organizations/{orgId}/automated-policies"
       apiPlatform:
         clients:
           path: "/apiplatform/repository/v2/organizations/{orgId}/applications"
@@ -67,7 +69,7 @@ cache:
 splunk:
   host: "splunk-metrics.env.services.mulesoft.com"
   port: "8088"
-  token: "xx"
+  token: "4a05c7ec-6398-4e85-891a-1e993c0b1523"
   source: "test-source"
   source.type: "_json"
   index:
