@@ -81,10 +81,10 @@ var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
 				apisWithMoreThanOneConsumer: sizeOf(prodApiInstances.activeContractsCount filter ($ > 1) default []),
 				apisWithOneOrMoreConsumers: sizeOf(prodApiInstances.activeContractsCount filter ($ > 0) default []),
 				contracts: sum(prodApiInstances.activeContractsCount default []),
-				policiesUsed: flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default [], // + Normal policies
-				policiesUsedTotal: sizeOf(flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default []), // + Normal policies
-				automatedPoliciesUsed: flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default [],
-				automatedPoliciesUsedTotal: sizeOf(flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default []),
+				policiesUsed: flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default [], // + Normal policies
+				policiesUsedTotal: sizeOf(flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies distinctBy ($) default []).assetId default []), // + Normal policies
+				automatedPoliciesUsed: flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default [],
+				automatedPoliciesUsedTotal: sizeOf(flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default []),
 				transactions: "NA" //last x days on the period collected
 			
 			},
@@ -102,10 +102,10 @@ var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
 				apisWithoutContracts: sizeOf(sandboxApiInstances.activeContractsCount filter ($ == 0) default []),
 				apisWithMoreThanOneConsumer: sizeOf(sandboxApiInstances.activeContractsCount filter ($ > 1) default []),
 				apisWithOneOrMoreConsumers: sizeOf(sandboxApiInstances.activeContractsCount filter ($ > 0) default []),
-				policiesUsed: flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default [], // + Normal policies
-				policiesUsedTotal: sizeOf(flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default []), // + Normal policies
-				automatedPoliciesUsed: flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default [],
-				automatedPoliciesUsedTotal: sizeOf(flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default []),
+				policiesUsed: flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default [], // + Normal policies
+				policiesUsedTotal: sizeOf(flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default []), // + Normal policies
+				automatedPoliciesUsed: flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default [],
+				automatedPoliciesUsedTotal: sizeOf(flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default []),
 				contracts: sum(sandboxApiInstances.activeContractsCount default []),
 				transactions: "NA" //last x days on the period collected
 			}	
@@ -129,7 +129,7 @@ var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
 					applicationsTotal: sizeOf(flatten((cloudHubApps filter ($.isProduction)).data default []) default []),
 					applicationsStarted: sizeOf(flatten((cloudHubApps filter ($.isProduction)).data default []) filter ($.status == "STARTED") default []),
 					applicationsStopped: sizeOf(flatten((cloudHubApps filter ($.isProduction)).data default []) filter ($.status != "STARTED") default []),
-					runtimesUsed: flatten((cloudHubApps filter ($.isProduction)).data default []).muleVersion.version distinctBy ($),
+					runtimesUsed: flatten((cloudHubApps filter ($.isProduction)).data default []).muleVersion.version distinctBy ($) default[],
 					runtimesUsedTotal: sizeOf(flatten((cloudHubApps filter ($.isProduction)).data default []).muleVersion.version distinctBy ($) default [])
 				},
 				sandbox:{
@@ -139,7 +139,7 @@ var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
 					applicationsTotal: sizeOf(flatten((cloudHubApps filter (not $.isProduction)).data default []) default []),
 					applicationsStarted: sizeOf(flatten((cloudHubApps filter (not $.isProduction)).data default []) filter ($.status == "STARTED") default []),
 					applicationsStopped: sizeOf(flatten((cloudHubApps filter (not $.isProduction)).data default []) filter ($.status != "STARTED") default []),
-					runtimesUsed: flatten((cloudHubApps filter (not $.isProduction)).data default []).muleVersion.version distinctBy ($),
+					runtimesUsed: flatten((cloudHubApps filter (not $.isProduction)).data default []).muleVersion.version distinctBy ($) default[],
 					runtimesUsedTotal: sizeOf(flatten((cloudHubApps filter (not $.isProduction)).data default []).muleVersion.version distinctBy ($) default [])
 				}
 			}

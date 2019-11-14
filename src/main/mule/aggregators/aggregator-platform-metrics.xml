@@ -7,7 +7,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
  
  	<flow name="aggregator-platform-metrics-master-flow" doc:id="b44a5537-b4b2-48d6-be10-5966f49ef8dc" >
-		<flow-ref doc:name="Get Cached Token Flow Reference" doc:id="675f99f2-d682-4162-9702-5da306885ba1" name="api-call-coreservices-login-cache-flow" target="token" targetValue="payload.access_token" />
+		<flow-ref doc:name="Get Token Flow Reference" doc:id="675f99f2-d682-4162-9702-5da306885ba1" name="api-call-coreservices-login-cache-flow" target="token" targetValue="payload.access_token" />
 		<flow-ref doc:name="api-call-coreservices-organizations-flow" doc:id="1f5906b9-2afa-4fc3-98e3-b11f8320e06f" name="api-call-coreservices-organizations-flow"/>
 		<ee:transform doc:name="Build Organizations including master org" doc:id="75e24a85-7cf4-4d19-9d58-d2b677f89993" >
 			<ee:message >
@@ -69,7 +69,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 <!-- 			</route> -->
 		</scatter-gather>
 <logger level="DEBUG" doc:name="Logger" doc:id="8204398b-feb6-4503-8f5a-4cd04fcbe051" message="#[%dw 2.0
-output application/json --- payload[0].payload.payload]"/>
+output application/json --- payload[6].payload.payload]"/>
 		<ee:transform doc:name="Build Final Response" doc:id="aa83f239-119d-46f3-9538-bd06b4c84ef1">
 			<ee:message>
 				<ee:set-payload resource="dw/aggregation/build-platform-metrics-aggregation.dwl" />
