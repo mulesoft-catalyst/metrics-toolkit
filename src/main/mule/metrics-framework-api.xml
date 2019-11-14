@@ -153,7 +153,7 @@ output application/json
 		<flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="e514bd7d-bdbc-4492-844c-b9d4549155f9" name="metrics-framework-common-set-auth-vars-from-headers"/>
 		<flow-ref doc:name="Loader Flow Reference" doc:id="9b9b2d75-6d61-40ce-bc19-518cbb135eb8" name="loader-router-flow" />
 	</flow>
-	<flow name="get:\business-metrics\load:metrics-framework-api-config">
+	<flow name="get:\business-metrics:metrics-framework-api-config">
 		<flow-ref doc:name="Aggregator Platform Benefits Flow Reference" doc:id="ab111296-7f07-480b-b76c-c05de17ae188" name="aggregator-platform-benefits-metrics-flow"/>
 	</flow>
 	<flow name="post:\business-metrics\load:metrics-framework-api-config">
