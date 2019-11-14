@@ -6,14 +6,8 @@
 	<flow name="collector-analytics-metrics-parallel-flow" doc:id="c4b43d89-a5f8-4582-8f1a-2296b79d60c6">
 		<parallel-foreach doc:name="Parallel For Each" doc:id="180873d9-c7ee-474f-8a35-20b9e4ab73f5" collection="#[vars.environments]">
 			<choice doc:name="Choice" doc:id="2883976c-2a6e-46df-afb8-4fcec69d3996">
-				<when expression='#[payload.name != "Design"]'>
-					<logger level="DEBUG" doc:name="Logger" doc:id="351d291d-78c2-49df-85c9-b4c70f0fd53a" message="#[payload]" />
-					<set-variable value="#[payload.name]" doc:name="Set Environment Name Variable" doc:id="a6488c44-f168-45b1-9aac-b16da471dbda"
-						variableName="environmentName" />
-					<set-variable value="#[payload.id]" doc:name="Set Environment ID Variable" doc:id="e45b4748-2890-41e5-b13c-7f3e932736af"
-						variableName="environmentId" />
-					<set-variable value="#[payload.isProduction]" doc:name="Set Environment ID Variable" doc:id="42a077ae-8e21-46b7-babe-3f0999c7ba82"
-						variableName="isProduction" />
+				<when expression='#[payload.name != "Design"]'>					
+					<flow-ref doc:name="Set Environment Variables" doc:id="9b5d2beb-c13d-4bcb-a1c0-3df2da688ae7" name="collector-commons-set-environment-variables-flow" />
 					<flow-ref doc:name="Get Analytics Events Flow Reference" doc:id="5321ee36-8efe-4fec-98d2-377237f0f6ac" name="api-call-analytics-query-flow" />
 					<logger level="DEBUG" doc:name="Logger" doc:id="751dc74b-ffea-480c-a22a-26809cd2dedd" message="#[payload]" />
 					<set-payload value="#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: payload}]" doc:name="Aggregate metrics"
