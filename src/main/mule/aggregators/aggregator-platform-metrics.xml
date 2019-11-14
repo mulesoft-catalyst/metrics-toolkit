@@ -44,10 +44,15 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<route>
 				<flow-ref doc:name="API Clients Flow Reference" doc:id="dfcd3053-bd9e-4c9c-9ae6-384874401176" name="collector-api-clients-metrics-flow" />
 			</route>
+			<route>
+				<flow-ref doc:name="Automated Policies Flow Reference" doc:id="7a5be530-6b17-4f93-a594-41d8a99328fa" name="collector-apim-automated-policies-metrics-flow" />
+			</route>
 <!-- 			<route> -->
 <!-- 				<flow-ref doc:name="Analitics Enriched Data Flow Reference" doc:id="2908db4d-cc5b-421b-a844-2272898b0b73" name="collector-analytics-metrics-parallel-flow" /> -->
 <!-- 			</route> -->
 		</scatter-gather>
+		<logger level="INFO" doc:name="Logger" doc:id="b1fad307-3349-4a6b-9338-dfb3a03ebc00" message="#[%dw 2.0
+output application/json --- payload[6].payload.payload]"/>
 		<flow-ref doc:name="aggregator-platform-metrics-agg-flow" doc:id="0a13cf31-03eb-4e5c-ab4a-ef78374efdc8" name="aggregator-platform-metrics-agg-flow"/>
 	</flow>
 
