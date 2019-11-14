@@ -8,13 +8,11 @@ var members = payload[3].payload
 var designCenterProjects = payload[4].payload
 var apiClients = payload[5].payload.applications
 var apiAutomatedPolicies = payload[6].payload.payload
-var analyticsQueryResult = payload[7].payload.payload
-
-var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
-	environment: v.environment,
-	apiIds: v.data.response[0]."api_id",
-	clientIds: v.data.response[1]."client_id"
-})
+var armApps = payload[7].payload.payload
+var armServers = payload[8].payload.payload
+var armClusters = payload[9].payload.payload
+var armServerGroups = payload[10].payload.payload
+var analyticsQueryResult = payload[11].payload.payload
 
 fun getProdData(arr) = (arr filter($.isProduction)).data
 fun getSandboxData(arr) = (arr filter(not $.isProduction)).data
@@ -26,6 +24,12 @@ var prodApiInstances=flatten(flatten(prodApisAssets).apis default [])
 var sandboxApis=getSandboxData(apiManagerApis)
 var sandboxApisAssets=sandboxApis.assets
 var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
+
+var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
+	environment: v.environment,
+	apiIds: v.data.response[0]."api_id",
+	clientIds: v.data.response[1]."client_id"
+})
 ---
 {
 	businessGroup: vars.orgName,
@@ -77,9 +81,9 @@ var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 				apisWithMoreThanOneConsumer: sizeOf(prodApiInstances.activeContractsCount filter ($ > 1) default []),
 				apisWithOneOrMoreConsumers: sizeOf(prodApiInstances.activeContractsCount filter ($ > 0) default []),
 				contracts: sum(prodApiInstances.activeContractsCount default []),
-				policiesUsed: flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId, // + Normal policies
+				policiesUsed: flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default [], // + Normal policies
 				policiesUsedTotal: sizeOf(flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default []), // + Normal policies
-				automatedPoliciesUsed: flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId,
+				automatedPoliciesUsed: flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default [],
 				automatedPoliciesUsedTotal: sizeOf(flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default []),
 				transactions: "NA" //last x days on the period collected
 			
@@ -98,9 +102,9 @@ var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 				apisWithoutContracts: sizeOf(sandboxApiInstances.activeContractsCount filter ($ == 0) default []),
 				apisWithMoreThanOneConsumer: sizeOf(sandboxApiInstances.activeContractsCount filter ($ > 1) default []),
 				apisWithOneOrMoreConsumers: sizeOf(sandboxApiInstances.activeContractsCount filter ($ > 0) default []),
-				policiesUsed: flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId, // + Normal policies
+				policiesUsed: flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default [], // + Normal policies
 				policiesUsedTotal: sizeOf(flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default []), // + Normal policies
-				automatedPoliciesUsed: flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId,
+				automatedPoliciesUsed: flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default [],
 				automatedPoliciesUsedTotal: sizeOf(flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId default []),
 				contracts: sum(sandboxApiInstances.activeContractsCount default []),
 				transactions: "NA" //last x days on the period collected
@@ -119,33 +123,24 @@ var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 			},
 			applications:{
 				production: {
-					vcoresTotal: "NA",
-					vcoresAvailable: "NA",
-					vcoresUsed: 
-						sum (cloudHubApps map (
-							if(sizeOf($.data) > 0 and $.environment == "Production") (sum($.data map 
-								($."workers"."type"."weight" * $."workers"."amount")
-							)) else 0
-					)),
-					applicationsTotal: "NA",
-					applicationsStarted: "NA",
-					applicationsStopped: "NA",
-					runtimesUsed: ["NA"],
-					runtimesUsedTotal: "NA"
+					vcoresTotal: vars.entitlements.vCoresProduction.assigned,
+					vcoresAvailable: (vars.entitlements.vCoresProduction.assigned as Number) - sum(flatten((cloudHubApps filter ($.isProduction)).data default []) map ($.workers."type".weight * $.workers.amount)),
+					vcoresUsed: sum(flatten((cloudHubApps filter ($.isProduction)).data default []) map ($.workers."type".weight * $.workers.amount)),
+					applicationsTotal: sizeOf(flatten((cloudHubApps filter ($.isProduction)).data default []) default []),
+					applicationsStarted: sizeOf(flatten((cloudHubApps filter ($.isProduction)).data default []) filter ($.status == "STARTED") default []),
+					applicationsStopped: sizeOf(flatten((cloudHubApps filter ($.isProduction)).data default []) filter ($.status != "STARTED") default []),
+					runtimesUsed: flatten((cloudHubApps filter ($.isProduction)).data default []).muleVersion.version distinctBy ($),
+					runtimesUsedTotal: sizeOf(flatten((cloudHubApps filter ($.isProduction)).data default []).muleVersion.version distinctBy ($) default [])
 				},
 				sandbox:{
-					vcoresTotal: "NA",
-					vcoresAvailable: "NA",
-					vcoresUsed: sum (cloudHubApps map (
-							if(sizeOf($.data) > 0 and $.environment != "Production") (sum($.data map 
-								($."workers"."type"."weight" * $."workers"."amount")
-							)) else 0
-					)),
-					applicationsTotal: "NA",
-					applicationsStarted: "NA",
-					applicationsStopped: "NA",
-					runtimesUsed: ["NA"],
-					runtimesUsedTotal: "NA"
+					vcoresTotal: vars.entitlements.vCoresSandbox.assigned,
+					vcoresAvailable: (vars.entitlements.vCoresSandbox.assigned as Number) - sum(flatten((cloudHubApps filter (not $.isProduction)).data default []) map ($.workers."type".weight * $.workers.amount)),
+					vcoresUsed: sum(flatten((cloudHubApps filter (not $.isProduction)).data default []) map ($.workers."type".weight * $.workers.amount)),
+					applicationsTotal: sizeOf(flatten((cloudHubApps filter (not $.isProduction)).data default []) default []),
+					applicationsStarted: sizeOf(flatten((cloudHubApps filter (not $.isProduction)).data default []) filter ($.status == "STARTED") default []),
+					applicationsStopped: sizeOf(flatten((cloudHubApps filter (not $.isProduction)).data default []) filter ($.status != "STARTED") default []),
+					runtimesUsed: flatten((cloudHubApps filter (not $.isProduction)).data default []).muleVersion.version distinctBy ($),
+					runtimesUsedTotal: sizeOf(flatten((cloudHubApps filter (not $.isProduction)).data default []).muleVersion.version distinctBy ($) default [])
 				}
 			}
 		},
@@ -158,9 +153,9 @@ var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 				memoryTotal: "NA",
 				memoryAvailable: "NA", //Gigs
 				memoryUsed: "NA", //Gigs
-				applicationsTotal: "NA",
-				applicationsStarted: "NA",
-				applicationsStopped: "NA",
+				applicationsTotal: sizeOf(flatten((armApps filter($.isProduction)).data.items default []) filter($.target.provider == 'MC') default []),
+				applicationsStarted: sizeOf(flatten((armApps filter($.isProduction)).data.items default []) filter($.target.provider == 'MC') default [] filter ($.application.status == 'RUNNING') default []),
+				applicationsStopped: sizeOf(flatten((armApps filter($.isProduction)).data.items default []) filter($.target.provider == 'MC') default [] filter ($.application.status != 'RUNNING') default []),
 				runtimesUsed: ["NA"],
 				runtimesUsedTotal: "NA"
 			},
@@ -172,33 +167,33 @@ var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 				memoryTotal: "NA",
 				memoryAvailable: "NA", //Gigs
 				memoryUsed: "NA", //Gigs
-				applicationsTotal: "NA",
-				applicationsStarted: "NA",
-				applicationsStopped: "NA",
+				applicationsTotal: sizeOf(flatten((armApps filter(not $.isProduction)).data.items default []) filter($.target.provider == 'MC') default []),
+				applicationsStarted: sizeOf(flatten((armApps filter(not $.isProduction)).data.items default []) filter($.target.provider == 'MC') default [] filter ($.application.status == 'RUNNING') default []),
+				applicationsStopped: sizeOf(flatten((armApps filter(not $.isProduction)).data.items default []) filter($.target.provider == 'MC') default [] filter ($.applcation.status != 'RUNNING') default []),
 				runtimesUsed: ["NA"],
 				runtimesUsedTotal: "NA"
 			}
 		},
 		hybrid: {
 			production: {
-				servers: "NA",
-				clusters: "NA",
-				serverGroups: "NA",
-				applicationsTotal: "NA",
-				applicationsStarted: "NA",
-				applicationsStopped: "NA",
-				runtimesUsed: ["NA"],
-				runtimesUsedTotal: "NA"
+				servers: sizeOf(flatten((armServers filter($.isProduction)).data.data default []) default []),
+				clusters: sizeOf(flatten((armClusters filter($.isProduction)).data.data default []) default []),
+				serverGroups: sizeOf(flatten((armServerGroups filter($.isProduction)).data.data default []) default []),
+				applicationsTotal: sizeOf(flatten((armApps filter($.isProduction)).data.items default []) filter($.target.provider == 'RR') default []),
+				applicationsStarted: sizeOf(flatten((armApps filter($.isProduction)).data.items default []) filter($.target.provider == 'RR') default [] filter ($.status == 'STARTED') default []),
+				applicationsStopped: sizeOf(flatten((armApps filter($.isProduction)).data.items default []) filter($.target.provider == 'RR') default [] filter ($.status != 'STARTED') default []),
+				runtimesUsed: flatten((armServers filter($.isProduction)).data.data default []).muleVersion distinctBy $ default [],
+				runtimesUsedTotal: sizeOf(flatten((armServers filter($.isProduction)).data.data default []).muleVersion distinctBy $ default [])
 			},
 			sandbox:{
-				servers: "NA",
-				clusters: "NA",
-				serverGroups: "NA",
-				applicationsTotal: "NA",
-				applicationsStarted: "NA",
-				applicationsStopped: "NA",
-				runtimesUsed: ["NA"],
-				runtimesUsedTotal: "NA"
+				servers: sizeOf(flatten((armServers filter(not $.isProduction)).data.data default []) default []),
+				clusters: sizeOf(flatten((armClusters filter(not $.isProduction)).data.data default []) default []),
+				serverGroups: sizeOf(flatten((armServerGroups filter(not $.isProduction)).data.data default []) default []),
+				applicationsTotal: sizeOf(flatten((armApps filter(not $.isProduction)).data.items default []) filter($.target.provider == 'RR') default []),
+				applicationsStarted: sizeOf(flatten((armApps filter(not $.isProduction)).data.items default []) filter($.target.provider == 'RR') default [] filter ($.status == 'STARTED') default []),
+				applicationsStopped: sizeOf(flatten((armApps filter(not $.isProduction)).data.items default []) filter($.target.provider == 'RR') default [] filter ($.status != 'STARTED') default []),
+				runtimesUsed: flatten((armServers filter(not $.isProduction)).data.data default []).muleVersion distinctBy $ default [],
+				runtimesUsedTotal: sizeOf(flatten((armServers filter(not $.isProduction)).data.data default []).muleVersion distinctBy $ default [])
 			}
 		}
 		

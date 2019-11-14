@@ -1,5 +1,5 @@
 http:
-  port: "8081"
+  port: "8083"
   
 loader:
   strategy: "logger"
@@ -10,6 +10,7 @@ anypoint:
     username: "xx"
     password: "xx"
     orgId: "5034b37f-0e73-4dc2-bd24-c2119b5aefe8"
+    //orgId: "f3e8a133-1483-4c40-87e5-231eee53c4ba"
     apis:
       coreservices:
         login:
@@ -28,9 +29,17 @@ anypoint:
       arm:
         apps:
           path: "/hybrid/api/v1/applications"
-      arm:
+        servers:
+          path: "/hybrid/api/v1/servers"
+        clusters:
+          path: "/hybrid/api/v1/clusters"
+        serverGroups:
+          path: "/hybrid/api/v1/serverGroups"
+        deployments:
+          path: "/hybrid/api/v2/organizations/{orgId}/environments/{envId}/deployments/"
+      rtf:
         apps:
-          path: "/rtf"
+          path: "/hybrid/api/v1/applications"
       apiManager:
         apis:
           path: "/apimanager/api/v1/organizations/{orgId}/environments/{envId}/apis"
