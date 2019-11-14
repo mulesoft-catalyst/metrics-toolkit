@@ -17,6 +17,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<parallel-foreach doc:name="For Each" doc:id="59a2752c-19ce-4e8c-b3cf-512c04000a55" collection="#[payload]">
 			<set-variable value="#[payload.id]" doc:name="Set Variable" doc:id="ebf69e75-918d-46fc-a42a-8513e64da3ca" variableName="orgId"/>
 			<set-variable value="#[payload.name]" doc:name="Set Variable" doc:id="82a35793-7064-442c-bac3-4b3702fe0b02" variableName="orgName"/>
+			<set-variable value="#[payload.entitlements]" doc:name="Set Variable" doc:id="2f51d4bf-b223-46bc-95a9-af732fbf215d" variableName="entitlements"/>
 			<logger level="INFO" doc:name="Logger" doc:id="19862db5-f751-47a1-b5f3-ffd75708938e" message="#[vars.orgId]"/>
 			<flow-ref doc:name="Aggregator Organization Flow Reference" doc:id="97a715ab-2afc-47ee-9969-65d0c170cb4f" name="aggregator-platform-metrics-org-flow"/>
 		</parallel-foreach>
@@ -48,33 +49,30 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<flow-ref doc:name="Automated Policies Flow Reference" doc:id="7a5be530-6b17-4f93-a594-41d8a99328fa" name="collector-apim-automated-policies-metrics-flow" />
 			</route>
 <!-- 			<route> -->
+<!-- 				<flow-ref doc:name="ARM Apps Metrics Flow Reference" doc:id="7ddc6de7-9eeb-413d-a4ed-afedc902d043" name="collector-arm-apps-metrics-parallel-flow" /> -->
+<!-- 			</route> -->
+			<route>
+				<flow-ref doc:name="ARM Deployments Metrics Flow Reference" doc:id="292a2a61-0427-4720-a18e-fa66289e51a0" name="collector-arm-deployments-metrics-parallel-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="ARM Server Metrics Flow Reference" doc:id="a4ef9ce0-3b33-4b43-b525-69bdd5f89c46" name="collector-arm-servers-metrics-parallel-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="ARM Cluster Metrics Flow Reference" doc:id="7db8de19-9064-4042-ab8d-b45247c58bab" name="collector-arm-clusters-metrics-parallel-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="ARM ServerGroups Metrics Flow Reference" doc:id="0f1c1af4-6d34-44dd-8322-e1ba876a3e88" name="collector-arm-server-groups-metrics-parallel-flow" />
+			</route>
+			
+<!-- 			<route> -->
 <!-- 				<flow-ref doc:name="Analitics Enriched Data Flow Reference" doc:id="2908db4d-cc5b-421b-a844-2272898b0b73" name="collector-analytics-metrics-parallel-flow" /> -->
 <!-- 			</route> -->
 		</scatter-gather>
-		<logger level="INFO" doc:name="Logger" doc:id="b1fad307-3349-4a6b-9338-dfb3a03ebc00" message="#[%dw 2.0
-output application/json --- payload[6].payload.payload]"/>
-		<flow-ref doc:name="aggregator-platform-metrics-agg-flow" doc:id="0a13cf31-03eb-4e5c-ab4a-ef78374efdc8" name="aggregator-platform-metrics-agg-flow"/>
-	</flow>
-
-	<flow name="aggregator-platform-metrics-agg-flow" doc:id="4e5bc04d-27e2-4a5c-ac58-f05b92485524">
-		<ee:transform doc:name="Build Final Response" doc:id="4bc29360-eff6-4d2c-9640-5d0386a98051">
+<logger level="DEBUG" doc:name="Logger" doc:id="8204398b-feb6-4503-8f5a-4cd04fcbe051" message="#[%dw 2.0
+output application/json --- payload[0].payload.payload]"/>
+		<ee:transform doc:name="Build Final Response" doc:id="aa83f239-119d-46f3-9538-bd06b4c84ef1">
 			<ee:message>
 				<ee:set-payload resource="dw/aggregation/build-platform-metrics-aggregation.dwl" />
-			</ee:message>
-		</ee:transform>
-	</flow>
-	<flow name="aggregator-platform-metrics-agg-bak-flow" doc:id="498007b9-5b72-435b-b7fd-b06149c1b6f4" >
-		<ee:transform doc:name="Build Final Response" doc:id="00a2db68-ed97-4861-99b5-94d7181b9d67">
-			<ee:message>
-				<ee:set-payload resource="dw/aggregation/backup.dwl" />
-			</ee:message>
-		</ee:transform>
-	</flow>
-	
-	<flow name="aggregator-platform-metrics-agg-events-flow" doc:id="f7bd343d-41e0-41cc-acd8-b04d5bce447c" >
-		<ee:transform doc:name="Transform Message" doc:id="c39a026b-feb6-4d4b-ba8b-61839a33551f" >
-			<ee:message >
-				<ee:set-payload resource="dw/aggregation/pure-events-example.dwl" />
 			</ee:message>
 		</ee:transform>
 	</flow>
