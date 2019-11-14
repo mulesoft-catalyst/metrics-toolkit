@@ -2,6 +2,6 @@
 output application/json
 ---
 {
-	username: p('anypoint.platform.username'),
-	password: p('anypoint.platform.password')
+	username: vars.username,
+	password: vars.password
 }

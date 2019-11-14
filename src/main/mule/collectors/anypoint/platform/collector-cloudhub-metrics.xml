@@ -5,13 +5,7 @@
 
 	<flow name="collector-cloudhub-apps-metrics-parallel-flow" doc:id="741a7055-efa6-4ac6-918d-5ba21279c50a">
 		<parallel-foreach doc:name="Parallel For Each" doc:id="72582473-ef2e-4781-81c6-036713c4a83c" collection="#[vars.environments]">
-			<logger level="DEBUG" doc:name="Logger" doc:id="35916054-66fa-4c37-b88b-e2e71c1f37c7" message="#[payload]" />
-			<set-variable value="#[payload.name]" doc:name="Set Environment Name Variable" doc:id="bff7ed1c-aa99-486d-be2a-1ac87b6671a6"
-				variableName="environmentName" />
-			<set-variable value="#[payload.id]" doc:name="Set Environment ID Variable" doc:id="b53b7db4-af0c-425f-83b5-0308bb46e7b7"
-				variableName="environmentId" />
-			<set-variable value="#[payload.isProduction]" doc:name="Set Environment ID Variable" doc:id="3ef3e342-a556-421f-96d0-d228e07892cd"
-						variableName="isProduction" />
+			<flow-ref doc:name="Set Environment Variables" doc:id="7712dcb3-2bdb-4e68-ada8-46a83076f5be" name="collector-commons-set-environment-variables-flow" />
 			<flow-ref doc:name="Get Applications Flow Reference" doc:id="a4ba39b8-84c2-4ff8-8ae8-714129a297d2" name="api-call-cloudhub-apps-flow" />
 			<logger level="DEBUG" doc:name="Logger" doc:id="3d28ee51-859a-481b-8877-59d6891ced6c" message="#[payload]" />
 			<set-payload value='#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: payload}]' doc:name="Aggregate metrics"
