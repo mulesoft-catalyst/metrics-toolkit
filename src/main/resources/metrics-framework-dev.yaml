@@ -7,8 +7,8 @@ loader:
 anypoint:
   platform:
     host: "anypoint.mulesoft.com"
-    username: "dcisneros-ebay"
-    password: "davoEbay*2019"
+    username: "xx"
+    password: "xx"
     orgId: "5034b37f-0e73-4dc2-bd24-c2119b5aefe8"
     apis:
       coreservices:
