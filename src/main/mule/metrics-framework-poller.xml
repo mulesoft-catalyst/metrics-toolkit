@@ -4,11 +4,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 	<flow name="metrics-framework-poller-flow" doc:id="e1266183-c6b3-477b-9ded-da55dd9032fa" >
-		<scheduler doc:name="Scheduler" doc:id="bb3cd2a8-90a1-4492-a52d-322485a0f93c" >
-			<scheduling-strategy >
-				<fixed-frequency frequency="60" timeUnit="MINUTES"/>
-			</scheduling-strategy>
-		</scheduler>
+<!-- 		<scheduler doc:name="Scheduler" doc:id="bb3cd2a8-90a1-4492-a52d-322485a0f93c" > -->
+<!-- 			<scheduling-strategy > -->
+<!-- 				<fixed-frequency frequency="60" timeUnit="MINUTES"/> -->
+<!-- 			</scheduling-strategy> -->
+<!-- 		</scheduler> -->
 		<flow-ref doc:name="Set Auth Vars from Properties Flow Reference" doc:id="fe3a2c56-7824-4cf5-b65f-8e9d45ae857b" name="metrics-framework-common-set-auth-vars-from-properties"/>
 		<flow-ref doc:name="Loader Router Flow Reference" doc:id="842bf11b-aac0-45a4-81b6-038620241284" name="loader-router-flow" />
 	</flow>
