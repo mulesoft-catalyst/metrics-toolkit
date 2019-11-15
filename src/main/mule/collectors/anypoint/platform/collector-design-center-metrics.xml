@@ -5,6 +5,11 @@
 
 	<flow name="collector-design-center-metrics-flow" doc:id="dd28b780-3781-430d-8d1b-8350d27f9eee">
 		<flow-ref doc:name="Get Design Center Projects Flow Reference" doc:id="9b8fe8ae-4f9a-4b84-90dd-3d522e269cc9" name="api-call-design-center-projects-flow" />
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="039a82dd-2722-4328-abee-97254a85391f" >
+				<logger level="WARN" doc:name="Logger" doc:id="bf103e97-cea0-42f9-a02a-0fc72aafe0e4" message="'Not able to get Design Center metrics for BG:' #[vars.orgId]"/>
+			</on-error-continue>
+		</error-handler>
 	</flow>
 
 </mule>

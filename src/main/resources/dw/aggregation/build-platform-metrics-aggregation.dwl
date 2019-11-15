@@ -35,39 +35,39 @@ var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
 	businessGroup: vars.orgName,
 	coreServicesMetrics: {
 		users: {
-			total: sizeOf(members.data),
-			activeMembers: sizeOf(members.data  filter ($.enabled == true)),
-			inactiveMembers: sizeOf(members.data  filter ($.enabled == false)),
-			activeMembersLast60Days: sizeOf(members.data filter ($.lastLogin  >= (now() - |P60D|))),
-			activeMembersLast30Days: sizeOf(members.data filter ($.lastLogin  >= (now() - |P30D|)))
+			total: sizeOf(members.data default []),
+			activeMembers: sizeOf(members.data  filter ($.enabled == true) default []),
+			inactiveMembers: sizeOf(members.data  filter ($.enabled == false) default []),
+			activeMembersLast60Days: sizeOf(members.data filter ($.lastLogin  >= (now() - |P60D|)) default []),
+			activeMembersLast30Days: sizeOf(members.data filter ($.lastLogin  >= (now() - |P30D|)) default []) 
 		},
 		environments: {
-			total:  sizeOf(environments),
-			production: sizeOf(environments  filter ($.isProduction)),
-			sandbox: sizeOf(environments  filter (not $.isProduction)),
+			total:  sizeOf(environments default []),
+			production: sizeOf(environments  filter ($.isProduction) default []),
+			sandbox: sizeOf(environments  filter (not $.isProduction) default []),
 		}
 	},
 	designCenterMetrics: {
-		total: sizeOf(designCenterProjects),
-		apiSpecs: sizeOf(designCenterProjects filter($."type" == "raml")),
-		fragments: sizeOf(designCenterProjects filter($."type" == "raml-fragment")),
+		total: sizeOf(designCenterProjects default []),
+		apiSpecs: sizeOf(designCenterProjects filter($."type" == "raml") default []),
+		fragments: sizeOf(designCenterProjects filter($."type" == "raml-fragment") default []),
 		flowDesignerApps: "NA"
 	},
 	exchangeMetrics: {
-		total: sizeOf(exchangeAssets) + sizeOf(exchangeAssets filter($."type" == "rest-api")),
-		apiSpecs: sizeOf(exchangeAssets filter($."type" == "rest-api")),
-		connectors: sizeOf(exchangeAssets filter($."type" == "rest-api")),
-		fragments: sizeOf(exchangeAssets filter($."type" == "raml-fragment")),
-		proxies: sizeOf(exchangeAssets filter($."type" == "http-api")),
-		extensions: sizeOf(exchangeAssets filter($."type" == "extension")),
-		custom: sizeOf(exchangeAssets filter($."type" == "custom"))	,
+		total: sizeOf(exchangeAssets default []) + sizeOf(exchangeAssets filter($."type" == "rest-api") default []),
+		apiSpecs: sizeOf(exchangeAssets filter($."type" == "rest-api") default []),
+		connectors: sizeOf(exchangeAssets filter($."type" == "rest-api") default []),
+		fragments: sizeOf(exchangeAssets filter($."type" == "raml-fragment") default []),
+		proxies: sizeOf(exchangeAssets filter($."type" == "http-api") default []),
+		extensions: sizeOf(exchangeAssets filter($."type" == "extension") default []),
+		custom: sizeOf(exchangeAssets filter($."type" == "custom") default [])	,
 		overallSatisfaction: "NA"			
 	},
 	apiManagerMetrics: {
-		clients: sizeOf(apiClients),
+		clients: sizeOf(apiClients default []),
 		apis: {
 			production: {
-				total: sum(prodApis.total),
+				total: sum(prodApis.total default []),
 				active: if (not isEmpty(prodApiInstances.lastActiveDate)) sizeOf(prodApiInstances.lastActiveDate filter ($!=null and ($ >= now() -|P1D|)) default []) else 0,
 				inactive: if (not isEmpty(prodApiInstances.lastActiveDate)) sizeOf(prodApiInstances.lastActiveDate filter ($==null or ($ < now() -|P1D|)) default []) else 0,
 				apiInstances: sum(flatten(prodApis.assets).totalApis default []), 
@@ -89,7 +89,7 @@ var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
 			
 			},
 			sandbox: {
-				total: sum(sandboxApis.total),
+				total: sum(sandboxApis.total default []),
 				active: if (not isEmpty(sandboxApiInstances.lastActiveDate)) sizeOf(sandboxApiInstances.lastActiveDate filter ($!=null and ($ >= now() -|P1D|)) default []) else 0,
 				inactive: if (not isEmpty(sandboxApiInstances.lastActiveDate)) sizeOf(sandboxApiInstances.lastActiveDate filter ($==null or ($ < now() -|P1D|)) default []) else 0,
 				apiInstances: sum(flatten(sandboxApis.assets).totalApis default []), 
