@@ -7,6 +7,11 @@
 	
 	<flow name="collector-api-clients-metrics-flow" doc:id="24761b1b-61a4-42ce-9d89-cd0c8d45ee13">
 		<flow-ref doc:name="API Platform - Clients - Flow Reference" doc:id="1c9cc656-4051-48eb-bbac-9804e6810577" name="api-call-api-platform-clients-flow"/>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="cd7e3eb2-c8c9-4fad-8610-f4d97e572377" >
+				<logger level="WARN" doc:name="Logger" doc:id="a7d4a135-4206-44eb-97b6-55e2c91114fa" message="'Not able to get API Platform metrics for BG:' #[vars.orgId]"/>
+			</on-error-continue>
+		</error-handler>
 	</flow>
 		
 </mule>
