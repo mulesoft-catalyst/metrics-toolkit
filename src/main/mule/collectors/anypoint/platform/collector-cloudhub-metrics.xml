@@ -11,6 +11,11 @@
 			<set-payload value='#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: payload}]' doc:name="Aggregate metrics"
 				doc:id="3e2b5a3e-9cb1-42d3-a529-b612e46027ba" />
 		</parallel-foreach>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="64c3004d-9411-44de-9afc-f0d4401fd20e" >
+				<logger level="WARN" doc:name="Logger" doc:id="44afba07-0825-415b-b2f4-cf72c0a2ca96" message="'Not able to get CloudHub apps metrics for BG:' #[vars.orgId]"/>
+			</on-error-continue>
+		</error-handler>
 	</flow>
 
 </mule>
