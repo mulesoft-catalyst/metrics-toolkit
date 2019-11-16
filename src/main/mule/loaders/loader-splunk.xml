@@ -16,7 +16,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 <!-- 				<fixed-frequency frequency="30000" /> -->
 <!-- 			</scheduling-strategy> -->
 <!-- 		</scheduler> -->
-		<flow-ref doc:name="loader-splunk-hec-aggregated-flow" doc:id="f974aa81-6fff-4afc-8e74-7837e8a3b1af" name="loader-splunk-hec-aggregated-flow"/>
+		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="2a2d9ce7-a83a-4ebb-bfdf-cace7354c9a4" name="aggregator-platform-metrics-master-flow"/>
 		<logger level="INFO" doc:name="Logger" doc:id="bc500a4d-66b9-457f-93df-f44c1066e18e" />
 	</flow>
 	

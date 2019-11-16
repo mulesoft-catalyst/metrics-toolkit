@@ -32,6 +32,7 @@ var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
 })
 ---
 {
+	date: vars.date,
 	businessGroup: vars.orgName,
 	coreServicesMetrics: {
 		users: {
