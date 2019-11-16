@@ -9,7 +9,7 @@
 				variableName="environmentName" />
 			<set-variable value="#[payload.id]" doc:name="Set Environment ID Variable" doc:id="b0820a43-805f-4861-b884-23a1e847db12"
 				variableName="environmentId" />
-			<set-variable value="#[payload.isProduction]" doc:name="Set Environment ID Variable" doc:id="c0079793-1cd5-4afd-93b0-54f83701ff3e"
+			<set-variable value="#[payload.isProduction]" doc:name="Set Environment Type Variable" doc:id="c0079793-1cd5-4afd-93b0-54f83701ff3e"
 						variableName="isProduction" />
 	</flow>
 </mule>

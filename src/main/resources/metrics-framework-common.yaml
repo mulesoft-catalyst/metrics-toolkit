@@ -26,10 +26,10 @@ anypoint:
         serverGroups:
           path: "/hybrid/api/v1/serverGroups"
         deployments:
-          path: "/hybrid/api/v2/organizations/{orgId}/environments/{envId}/deployments/"
+          path: "/hybrid/api/v2/organizations/{orgId}/environments/{envId}/deployments"
       rtf:
-        apps:
-          path: "/hybrid/api/v1/applications"
+        fabrics:
+          path: "/runtimefabric/api/organizations/{orgId}/fabrics"
       apiManager:
         apis:
           path: "/apimanager/api/v1/organizations/{orgId}/environments/{envId}/apis"
