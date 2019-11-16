@@ -7,6 +7,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
  
  	<flow name="aggregator-platform-metrics-master-flow" doc:id="b44a5537-b4b2-48d6-be10-5966f49ef8dc" >
+		<set-variable value="#[now()]" doc:name="Set Variable" doc:id="19b78a0f-a914-48fc-a18c-e3df9ad7fd57" variableName="date"/>
 		<flow-ref doc:name="Get Token Flow Reference" doc:id="675f99f2-d682-4162-9702-5da306885ba1" name="api-call-coreservices-login-flow" target="token" targetValue="payload.access_token" />
 		<flow-ref doc:name="api-call-coreservices-organizations-flow" doc:id="1f5906b9-2afa-4fc3-98e3-b11f8320e06f" name="api-call-coreservices-organizations-flow"/>
 		<ee:transform doc:name="Build Organizations including master org" doc:id="75e24a85-7cf4-4d19-9d58-d2b677f89993" >
@@ -26,7 +27,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	
 	<flow name="aggregator-platform-metrics-org-flow" doc:id="f52652d1-3952-4ab0-9d4b-20c69530e30a">
 		<flow-ref doc:name="Environments Flow Reference" doc:id="a65ee492-ea7b-4018-9096-08aff5fa21d4" name="api-call-coreservices-environments-flow" target="environments" targetValue="#[payload.data]"/>
-		<scatter-gather doc:name="Scatter-Gather" doc:id="f91aa95c-1b72-4596-bb78-c2d26978d2c7">
+		<scatter-gather doc:name="Scatter-Gather" doc:id="f91aa95c-1b72-4596-bb78-c2d26978d2c7" maxConcurrency="20">
 			<route> 
 				<flow-ref doc:name="CloudHub Apps Metrics Flow Reference" doc:id="b8f7e5c7-f5ed-4ef0-9ae2-eee199b1ebf2" name="collector-cloudhub-apps-metrics-parallel-flow" />
 			</route>
@@ -61,20 +62,37 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<flow-ref doc:name="ARM Cluster Metrics Flow Reference" doc:id="7db8de19-9064-4042-ab8d-b45247c58bab" name="collector-arm-clusters-metrics-parallel-flow" />
 			</route>
 			<route>
-				<flow-ref doc:name="ARM ServerGroups Metrics Flow Reference" doc:id="0f1c1af4-6d34-44dd-8322-e1ba876a3e88" name="collector-arm-server-groups-metrics-parallel-flow" />
+				<flow-ref doc:name="Sub Flow Reference" doc:id="27879996-a1c7-4ab0-9b2d-8c4f60d1e6a3" name="aggregator-platform-metrics-arm-flow" />
 			</route>
+<!-- 			<route> -->
+<!-- 				<flow-ref doc:name="ARM ServerGroups Metrics Flow Reference" doc:id="0f1c1af4-6d34-44dd-8322-e1ba876a3e88" name="collector-arm-server-groups-metrics-parallel-flow" /> -->
+<!-- 			</route> -->
+<!-- 			<route> -->
+<!-- 				<flow-ref doc:name="RTF Fabrics Metrics Flow Reference" doc:id="94d73f4c-03b6-48d1-b7e2-dbd3521c2315" name="collector-rtf-fabrics-metrics-flow" /> -->
+<!-- 			</route> -->
 			
 <!-- 			<route> -->
 <!-- 				<flow-ref doc:name="Analitics Enriched Data Flow Reference" doc:id="2908db4d-cc5b-421b-a844-2272898b0b73" name="collector-analytics-metrics-parallel-flow" /> -->
 <!-- 			</route> -->
 		</scatter-gather>
 <logger level="DEBUG" doc:name="Logger" doc:id="8204398b-feb6-4503-8f5a-4cd04fcbe051" message="#[%dw 2.0
-output application/json --- payload[6].payload.payload]"/>
+output application/json --- payload[10].payload[1].payload]"/>
 		<ee:transform doc:name="Build Final Response" doc:id="aa83f239-119d-46f3-9538-bd06b4c84ef1">
 			<ee:message>
 				<ee:set-payload resource="dw/aggregation/build-platform-metrics-aggregation.dwl" />
 			</ee:message>
 		</ee:transform>
+	</flow>
+	
+	<flow name="aggregator-platform-metrics-arm-flow" doc:id="2eed9166-ad29-43c6-b1a3-5a971150a931">
+			<scatter-gather doc:name="Scatter-Gather" doc:id="1e8dbc13-cf0f-411f-ba21-640d93869819" maxConcurrency="20">
+				<route>
+					<flow-ref doc:name="ARM ServerGroups Metrics Flow Reference" doc:id="e6703e89-e973-4a9c-8844-51d1535cc1f7" name="collector-arm-server-groups-metrics-parallel-flow" />
+				</route>
+				<route>
+					<flow-ref doc:name="RTF Fabrics Metrics Flow Reference" doc:id="9e7b839c-9213-4966-bf09-555e16d8926c" name="collector-rtf-fabrics-metrics-flow" />
+				</route>
+			</scatter-gather>
 	</flow>
 
 </mule>

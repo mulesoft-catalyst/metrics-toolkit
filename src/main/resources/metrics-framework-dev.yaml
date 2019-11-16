@@ -22,4 +22,6 @@ splunk:
     assets: "metrics_assets"
     metrics: "metrics"
     benefits: "platform_benefits"
-   
+
+tableau:
+  path: "/test-tableau.json"   
