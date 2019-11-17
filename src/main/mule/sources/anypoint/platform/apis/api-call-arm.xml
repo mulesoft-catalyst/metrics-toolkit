@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+	<flow name="api-call-arm-apps-flow" doc:id="cb45e4dc-7fd3-476d-aff3-7c0a30556088">
+		<logger level="INFO" doc:name="Logger" doc:id="c04d063d-9f26-41c8-9f2c-efd64bc5a457" message="Calling ARM - Applications" />
+		<http:request method="GET" doc:name="Get Applications Request" doc:id="ea3a4010-08c1-44e9-b9d4-a82201dbb162" config-ref="HTTP_Request_configuration"
+			path="${anypoint.platform.apis.arm.apps.path}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"X-ANYPNT-ORG-ID" : vars.orgId,
+	"X-ANYPNT-ENV-ID" : vars.environmentId,
+	"Authorization" : "Bearer " ++ vars.token
+}]]]></http:headers>
+		
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+	
+	<flow name="api-call-arm-servers-flow" doc:id="e921ec15-1975-4b80-bdf5-931b43fac2ad">
+		<logger level="INFO" doc:name="Logger" doc:id="cc1fc929-6c79-4223-a438-4836c31f8085" message="Calling ARM - Servers" />
+		<http:request method="GET" doc:name="Get Servers Request" doc:id="60985a04-a0ea-43cc-abcd-8303adc4c6fb" config-ref="HTTP_Request_configuration"
+			path="${anypoint.platform.apis.arm.servers.path}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"X-ANYPNT-ORG-ID" : vars.orgId,
+	"X-ANYPNT-ENV-ID" : vars.environmentId,
+	"Authorization" : "Bearer " ++ vars.token
+}]]]></http:headers>
+		
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="c36021d5-e271-4f6a-b632-155686cf6879" message='#["Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+	
+	<flow name="api-call-arm-clusters-flow" doc:id="66bfc671-aca1-4e10-be6c-a3f464d49837">
+		<logger level="INFO" doc:name="Logger" doc:id="ba09927a-2a22-43bf-9cfe-398242d038dc" message="Calling ARM - Clusters" />
+		<http:request method="GET" doc:name="Get Clusters Request" doc:id="d51b23bd-8fcf-4f17-93ae-22e7c3e4c441" config-ref="HTTP_Request_configuration"
+			path="${anypoint.platform.apis.arm.clusters.path}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"X-ANYPNT-ORG-ID" : vars.orgId,
+	"X-ANYPNT-ENV-ID" : vars.environmentId,
+	"Authorization" : "Bearer " ++ vars.token
+}]]]></http:headers>
+		
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="ea7a2bbf-98ff-47d3-8263-68f0cf9bca32" message='#["Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+	
+	<flow name="api-call-arm-server-groups-flow" doc:id="354e2270-07c6-4480-b8a8-162d6b16ecce">
+		<logger level="INFO" doc:name="Logger" doc:id="2413dc2d-77ac-49da-a7dd-78cd5de884df" message="Calling ARM - Server Groups" />
+		<http:request method="GET" doc:name="Get Clusters Request" doc:id="22c6d035-1a8a-48c3-a18f-5f736e52e6f1" config-ref="HTTP_Request_configuration"
+			path="${anypoint.platform.apis.arm.serverGroups.path}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"X-ANYPNT-ORG-ID" : vars.orgId,
+	"X-ANYPNT-ENV-ID" : vars.environmentId,
+	"Authorization" : "Bearer " ++ vars.token
+}]]]></http:headers>
+		
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="9478a679-9d7f-4510-ba1f-c6fad635314c" message='#["Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+	
+	<flow name="api-call-arm-deployments-flow" doc:id="173d21da-464d-4088-a594-f382fdce7b6c">
+		<logger level="INFO" doc:name="Logger" doc:id="e9932fde-bcd1-47ba-8906-6bd2f0781b72" message="Calling ARM - Deployments" />
+		<http:request method="GET" doc:name="Get Deployments Request" doc:id="e0c901fa-eb82-4eb9-b0f3-a7f8bb98f670" config-ref="HTTP_Request_configuration"
+			path="${anypoint.platform.apis.arm.deployments.path}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.token
+}]]]></http:headers>
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"orgId" : vars.orgId,
+	"envId" : vars.environmentId
+}]]]></http:uri-params>
+		
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="23ab0941-f417-425d-a07c-8bd1c41a30b8" message='#["Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+</mule>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	
+	<http:request-config name="HTTP_Splunk_Request_configuration" doc:name="HTTP Request configuration" doc:id="8c04fe97-3fc0-496a-b707-0d6ce98e8248">
+		<http:request-connection host="${splunk.host}" port="${splunk.port}" />
+	</http:request-config>
+	
+	<flow name="loader-splunk-hec-main-flow" doc:id="ef10b993-2925-4b83-8b9b-83092f1e3c97">
+<!-- 		<scheduler doc:name="Scheduler" doc:id="297fdfd5-21aa-4c66-9641-7138cee026b6"> -->
+<!-- 			<scheduling-strategy> -->
+<!-- 				<fixed-frequency frequency="30000" /> -->
+<!-- 			</scheduling-strategy> -->
+<!-- 		</scheduler> -->
+		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="2a2d9ce7-a83a-4ebb-bfdf-cace7354c9a4" name="aggregator-platform-metrics-master-flow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="bc500a4d-66b9-457f-93df-f44c1066e18e" />
+	</flow>
+	
+	<flow name="splunk-hec-loader-flow" doc:id="8f05b352-bfee-4162-997b-08b922501590" >
+		<ee:transform doc:name="Build Splunk HEC Request" doc:id="8884d8cc-4705-4fcf-b6b1-b9fd837536ba">
+			<ee:message>
+				<ee:set-payload resource="dw/loader/loader-splunk-hec-request.dwl" />
+			</ee:message>
+		</ee:transform>
+		<http:request method="POST" doc:name="Request" doc:id="0a32071e-0d90-4748-bb18-8fc97d6c5213" config-ref="HTTP_Splunk_Request_configuration" path="/services/collector/event">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Splunk " ++ p('splunk.token')
+}]]]></http:headers>
+			
+		</http:request>
+	</flow>
+
+</mule>
