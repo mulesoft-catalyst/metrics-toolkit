@@ -8,11 +8,12 @@ var members = payload[3].payload
 var designCenterProjects = payload[4].payload
 var apiClients = payload[5].payload.applications
 var apiAutomatedPolicies = payload[6].payload.payload
-var armApps = payload[7].payload.payload
-var armServers = payload[8].payload.payload
-var armClusters = payload[9].payload.payload
-var armServerGroups = payload[10].payload.payload
-var analyticsQueryResult = payload[11].payload.payload
+var armApps = payload[7].payload[0].payload.payload
+var armServers = payload[7].payload[1].payload.payload
+var armClusters = payload[7].payload[2].payload.payload
+var armServerGroups = payload[7].payload[3].payload.payload
+var rtf = payload[8].payload
+var analyticsQueryResult = payload[9].payload.payload
 
 fun getProdData(arr) = (arr filter($.isProduction)).data
 fun getSandboxData(arr) = (arr filter(not $.isProduction)).data
