@@ -27,6 +27,8 @@ anypoint:
           path: "/hybrid/api/v1/serverGroups"
         deployments:
           path: "/hybrid/api/v2/organizations/{orgId}/environments/{envId}/deployments"
+        deployment:
+          path: "/hybrid/api/v2/organizations/{orgId}/environments/{envId}/deployments/{deploymentId}"
       rtf:
         fabrics:
           path: "/runtimefabric/api/organizations/{orgId}/fabrics"
