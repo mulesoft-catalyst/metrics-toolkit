@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
-	<flow name="collector-snow-metrics-flow" doc:id="8b9fc4b9-19f0-4312-8cbc-6fe60866c939" >
-		<logger level="INFO" doc:name="Logger" doc:id="8e8a7e00-3586-43d0-a339-a8733086d869" />
-	</flow>
-</mule>
