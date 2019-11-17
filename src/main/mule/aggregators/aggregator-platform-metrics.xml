@@ -59,8 +59,8 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 <!-- 				<flow-ref doc:name="Analitics Enriched Data Flow Reference" doc:id="2908db4d-cc5b-421b-a844-2272898b0b73" name="collector-analytics-metrics-parallel-flow" /> -->
 <!-- 			</route> -->
 		</scatter-gather>
-<logger level="DEBUG" doc:name="Logger" doc:id="8204398b-feb6-4503-8f5a-4cd04fcbe051" message="#[%dw 2.0
-output application/json --- payload[10].payload[1].payload]"/>
+<logger level="INFO" doc:name="Logger" doc:id="8204398b-feb6-4503-8f5a-4cd04fcbe051" message="#[%dw 2.0
+output application/json --- payload[7].payload[0].payload.payload]"/>
 		<ee:transform doc:name="Build Final Response" doc:id="aa83f239-119d-46f3-9538-bd06b4c84ef1">
 			<ee:message>
 				<ee:set-payload resource="dw/aggregation/build-platform-metrics-aggregation.dwl" />

@@ -68,7 +68,17 @@
 			<flow-ref doc:name="Set Environment Variables" doc:id="ddeea74c-fc6e-4390-9241-118033af1a5b" name="collector-commons-set-environment-variables-flow" />
 			<flow-ref doc:name="Get Deployments Flow Reference" doc:id="4181e205-c386-451f-b4ac-14e805da720c" name="api-call-arm-deployments-flow" />
 			<logger level="DEBUG" doc:name="Logger" doc:id="b82ce36a-ac00-4a89-b392-447c9c8e9fe0" message="#[payload]" />
-			<set-payload value='#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: payload}]' doc:name="Aggregate metrics"
+			<set-variable value="#[payload]" doc:name="Set Deployments Data" doc:id="421bcbda-5d6a-4fee-a780-e34455d7ffdf"
+				variableName="deployments" />
+			
+			<parallel-foreach doc:name="Parallel For Each" doc:id="ea4324cf-f654-4f3f-a9c2-ff8df1f32a40" collection="#[vars.deployments.items]">
+				<set-variable value="#[payload.id]" doc:name="Set Environment Name Variable" doc:id="55262446-76e9-481b-a5f2-0e90533a115a"
+					variableName="deploymentId" />
+				<flow-ref doc:name="Get Deployment Details Flow Reference" doc:id="d0682c9a-db2f-41d8-81bb-0821c0bb541c" name="api-call-arm-deployment-flow" />
+				<logger level="DEBUG" doc:name="Logger" doc:id="420ef16d-2faa-4453-b5d9-75bf80c09c49" message="#[payload]" />
+			</parallel-foreach>
+		
+			<set-payload value='#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: vars.deployments, details: payload.payload}]' doc:name="Aggregate metrics"
 				doc:id="3d0e0efb-be96-4f41-941e-937c863c7661" />
 		</parallel-foreach>
 		<error-handler >

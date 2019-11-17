@@ -18,6 +18,9 @@ var analyticsQueryResult = payload[9].payload.payload
 fun getProdData(arr) = (arr filter($.isProduction)).data
 fun getSandboxData(arr) = (arr filter(not $.isProduction)).data
 
+fun getProdDetails(arr) = (arr filter($.isProduction)).details
+fun getSandboxDetails(arr) = (arr filter(not $.isProduction)).details
+
 var prodApis=getProdData(apiManagerApis)
 var prodApisAssets=prodApis.assets
 var prodApiInstances=flatten(flatten(prodApisAssets).apis default [])
@@ -63,7 +66,7 @@ var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
 		proxies: sizeOf(exchangeAssets filter($."type" == "http-api") default []),
 		extensions: sizeOf(exchangeAssets filter($."type" == "extension") default []),
 		custom: sizeOf(exchangeAssets filter($."type" == "custom") default [])	,
-		overallSatisfaction: sum(exchangeAssets.rating)/sizeOf(exchangeAssets)		
+		overallSatisfaction: if (sizeOf(exchangeAssets) > 0) (sum(exchangeAssets.rating default [])/sizeOf(exchangeAssets)) else 0		
 	},
 	apiManagerMetrics: {
 		clients: sizeOf(apiClients default []),
@@ -116,10 +119,10 @@ var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
 	runtimeManagerMetrics: {
 		cloudhub: {
 			networking: {
-				vpcsTotal: "NA",
+				vpcsTotal: vars.entitlements.vpcs.assigned,
 				vpcsAvailable: "NA",
 				vpcsUsed: "NA",
-				vpnsTotal: "NA",
+				vpnsTotal: vars.entitlements.vpns.assigned,
 				vpnsAvailable: "NA",
 				vpnsUsed: "NA"
 			},
@@ -148,33 +151,40 @@ var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
 			}
 		},
 		rtf: {
-			production: {
-				fabrics: "NA",
-				coresTotal: "NA",
-				coresAvailable: "NA", //cores
-				coresUsed: "NA", //cores
-				memoryTotal: "NA",
-				memoryAvailable: "NA", //Gigs
-				memoryUsed: "NA", //Gigs
-				applicationsTotal: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == 'MC') default []),
-				applicationsStarted: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.application.status == 'RUNNING') default []),
-				applicationsStopped: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.application.status != 'RUNNING') default []),
-				runtimesUsed: ["NA"],
-				runtimesUsedTotal: "NA"
+			capacity: {
+				fabrics: sizeOf(rtf),
+    				workers: sizeOf((flatten(rtf.nodes) filter($.role == "worker") default []) default []),
+    				controllers: sizeOf((flatten(rtf.nodes) filter($.role == "controller") default []) default []),
+    				coresTotal: sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.cpuMillis default [])/1000,
+   				memoryTotal: sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.memoryMi default [])/1000,
+    				coresPerFabric: if (sizeOf(rtf) > 0) (sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.cpuMillis default [])/(sizeOf(rtf) * 1000)) else 0,
+    				memoryPerFabric: if (sizeOf(rtf) > 0) (sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.memoryMi default [])/(sizeOf(rtf) * 1000)) else 0
 			},
-			sandbox:{
-				fabrics: "NA",
-				coresTotal: "NA",
-				coresAvailable: "NA", //cores
-				coresUsed: "NA", //cores
-				memoryTotal: "NA",
-				memoryAvailable: "NA", //Gigs
-				memoryUsed: "NA", //Gigs
-				applicationsTotal: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default []),
-				applicationsStarted: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.application.status == 'RUNNING') default []),
-				applicationsStopped: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.applcation.status != 'RUNNING') default []),
-				runtimesUsed: ["NA"],
-				runtimesUsedTotal: "NA"
+			applications: {
+				production: {
+					//coresAvailable: "NA", // Not able to calculate because a fabric can be associated with multiple environments of any type
+					coresUsed: sum((flatten(getProdDetails(armApps) default []).target.deploymentSettings.resources.cpu.limit  map (($ replace  "m" with "") as Number)) default [])/1000, //cores
+					//memoryAvailable: "NA", // Not able to calculate because a fabric can be associated with multiple environments of any type
+					memoryUsed: sum((flatten(getProdDetails(armApps) default []).target.deploymentSettings.resources.memory.limit  map (($ replace  "Mi" with "") as Number)) default [])/1000, //Gigs
+					applicationsTotal: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == 'MC') default []),
+					applicationsStarted: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.application.status == 'RUNNING') default []),
+					applicationsStopped: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.application.status != 'RUNNING') default []),
+					runtimesUsed: flatten(getProdDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [],
+					runtimesUsedTotal: sizeOf(flatten(getProdDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [])
+
+					
+				},
+				sandbox:{
+					//coresAvailable: "NA", //cores // Not able to calculate because a fabric can be associated with multiple environments of any type
+					coresUsed: sum((flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.resources.cpu.limit  map (($ replace  "m" with "") as Number)) default [])/1000, //cores
+					//memoryAvailable: "NA", //Gigs // Not able to calculate because a fabric can be associated with multiple environments of any type
+					memoryUsed: sum((flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.resources.memory.limit  map (($ replace  "Mi" with "") as Number)) default [])/1000, //Gigs
+					applicationsTotal: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default []),
+					applicationsStarted: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.application.status == 'RUNNING') default []),
+					applicationsStopped: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.applcation.status != 'RUNNING') default []),
+					runtimesUsed: flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [],
+					runtimesUsedTotal: sizeOf(flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [])
+				}	
 			}
 		},
 		hybrid: {
