@@ -34,6 +34,8 @@ var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
 	apiIds: v.data.response[0]."api_id",
 	clientIds: v.data.response[1]."client_id"
 })
+
+var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","authentication"]
 ---
 {
 	date: vars.date,
@@ -77,17 +79,17 @@ var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
 				inactive: if (not isEmpty(prodApiInstances.lastActiveDate)) sizeOf(prodApiInstances.lastActiveDate filter ($==null or ($ < now() -|P1D|)) default []) else 0,
 				apiInstances: sum(flatten(prodApis.assets).totalApis default []), 
 				apiVersions: sizeOf(prodApiInstances.productVersion distinctBy $ default []),
-				apisWithPolicies: "NA",
-				apisWithoutPolicies: "NA",
-				apisWithSecurity: "NA",
-				apisWithoutSecurity:"NA", 
+				apisWithPolicies: sizeOf(flatten(getProdDetails(apiManagerApis) default []) [?sizeOf($.policies default []) > 0] default []),
+				apisWithoutPolicies: sizeOf(flatten(getProdDetails(apiManagerApis) default []) [?sizeOf($.policies default []) == 0] default []),
+				apisWithSecurity: sizeOf((flatten((flatten(getProdDetails(apiManagerApis)) default [] map ((v,k) -> if(sizeOf(v.policies) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?$==true])))[?$ == true] default []),
+				apisWithoutSecurity: sizeOf(flatten(getProdDetails(apiManagerApis) default [])) - sizeOf((flatten((flatten(getProdDetails(apiManagerApis)) default [] map ((v,k) -> if(sizeOf(v.policies) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?$==true])))[?$ == true] default []), 
 				apisWithContracts: sizeOf(prodApiInstances.activeContractsCount filter ($ > 0) default []),
 				apisWithoutContracts: sizeOf(prodApiInstances.activeContractsCount filter ($ == 0) default []),
 				apisWithMoreThanOneConsumer: sizeOf(prodApiInstances.activeContractsCount filter ($ > 1) default []),
 				apisWithOneOrMoreConsumers: sizeOf(prodApiInstances.activeContractsCount filter ($ > 0) default []),
 				contracts: sum(prodApiInstances.activeContractsCount default []),
-				policiesUsed: flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default [], // + Normal policies
-				policiesUsedTotal: sizeOf(flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies distinctBy ($) default []).assetId default []), // + Normal policies
+				policiesUsed: flatten(flatten(getProdDetails(apiManagerApis) default []).policies default []).template.assetId  distinctBy $,
+				policiesUsedTotal: sizeOf(flatten(flatten(getProdDetails(apiManagerApis) default []).policies default []).template.assetId  distinctBy $ default []),
 				automatedPoliciesUsed: flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default [],
 				automatedPoliciesUsedTotal: sizeOf(flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default []),
 				transactions: "NA" //last x days on the period collected
@@ -99,16 +101,16 @@ var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
 				inactive: if (not isEmpty(sandboxApiInstances.lastActiveDate)) sizeOf(sandboxApiInstances.lastActiveDate filter ($==null or ($ < now() -|P1D|)) default []) else 0,
 				apiInstances: sum(flatten(sandboxApis.assets).totalApis default []), 
 				apiVersions: sizeOf(sandboxApiInstances.productVersion distinctBy $ default []),
-				apisWithPolicies: "NA",
-				apisWithoutPolicies: "NA",
-				apisWithSecurity: "NA",
-				apisWithoutSecurity:"NA", 
+				apisWithPolicies: sizeOf(flatten(getSandboxDetails(apiManagerApis) default []) [?sizeOf($.policies default []) > 0] default []),
+				apisWithoutPolicies: sizeOf(flatten(getSandboxDetails(apiManagerApis) default []) [?sizeOf($.policies default []) == 0] default []),
+				apisWithSecurity: sizeOf((flatten((flatten(getSandboxDetails(apiManagerApis)) default [] map ((v,k) -> if(sizeOf(v.policies) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?$==true])))[?$ == true] default []),
+				apisWithoutSecurity: sizeOf(flatten(getSandboxDetails(apiManagerApis) default [])) - sizeOf((flatten((flatten(getSandboxDetails(apiManagerApis)) default [] map ((v,k) -> if(sizeOf(v.policies) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?$==true])))[?$ == true] default []), 
 				apisWithContracts: sizeOf(sandboxApiInstances.activeContractsCount filter ($ > 0) default []),
 				apisWithoutContracts: sizeOf(sandboxApiInstances.activeContractsCount filter ($ == 0) default []),
 				apisWithMoreThanOneConsumer: sizeOf(sandboxApiInstances.activeContractsCount filter ($ > 1) default []),
 				apisWithOneOrMoreConsumers: sizeOf(sandboxApiInstances.activeContractsCount filter ($ > 0) default []),
-				policiesUsed: flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default [], // + Normal policies
-				policiesUsedTotal: sizeOf(flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default []), // + Normal policies
+				policiesUsed: flatten(flatten(getSandboxDetails(apiManagerApis) default []).policies default []).template.assetId  distinctBy $,
+				policiesUsedTotal: sizeOf(flatten(flatten(getSandboxDetails(apiManagerApis) default []).policies default []).template.assetId  distinctBy $ default []),
 				automatedPoliciesUsed: flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default [],
 				automatedPoliciesUsedTotal: sizeOf(flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default []),
 				contracts: sum(sandboxApiInstances.activeContractsCount default []),

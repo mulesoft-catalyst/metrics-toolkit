@@ -3,12 +3,26 @@
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 
-	<flow name="collector-apim-metrics-parallel-flow" doc:id="c4b43d89-a5f8-4582-8f1a-2296b79d60c6">
+	<flow name="collector-apim-parallel-flow" doc:id="c4b43d89-a5f8-4582-8f1a-2296b79d60c6">
 		<parallel-foreach doc:name="Parallel For Each" doc:id="1f93fa99-2026-45b6-bcac-29ddb3799db8" collection="#[vars.environments]">
 			<flow-ref doc:name="Set Environment Variables" doc:id="4c6292da-bf95-463f-9380-ded270f160cf" name="collector-commons-set-environment-variables-flow" />
 			<flow-ref doc:name="Get API Manager APIs Flow Reference" doc:id="11e1602e-2ea0-437a-bec5-dd57f011bfb6" name="api-call-api-manager-apis-flow" />
 			<logger level="DEBUG" doc:name="Logger" doc:id="fa4b0ab9-5e90-4305-aaed-c81f6a57d6fe" message="#[payload]" />
-			<set-payload value='#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: payload}]'
+			<set-variable value="#[payload]" doc:name="Set APIs Data Variable" doc:id="fc174afe-615e-469b-8b88-881088f5c733"
+				variableName="apisData" />
+			
+			<parallel-foreach doc:name="Parallel For Each" doc:id="804be950-fcba-4067-967e-60205104c17e" collection="#[flatten(vars.apisData.assets.apis) default []]">
+				<set-variable value="#[payload.id]" doc:name="Set API Instance ID Variable" doc:id="1fdca65b-601e-418c-a5c6-ca317a1537da"
+					variableName="apiId" />
+				<set-variable value="#[payload.assetId]" doc:name="Set API Instance ID Variable" doc:id="4e0d363f-17fb-4c70-8d18-c46618ef6354"
+					variableName="assetId" />
+				<flow-ref doc:name="Get Policies Flow Reference" doc:id="67e4b5f9-c79b-4b8d-bc6b-fdc0e2430bc1" name="api-call-api-manager-api-policies-flow" />
+				<set-payload value='#[output application/json --- { id: vars.apiId, artifactId: vars.assetId, policies: payload.policies}]'
+				doc:name="Aggregate metrics" doc:id="a1da36e3-6baa-4a3e-a3c9-60af2dfffd63" />
+			
+			</parallel-foreach> 
+			
+			<set-payload value='#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: vars.apisData, details: payload.payload default []}]'
 				doc:name="Aggregate metrics" doc:id="cebe5398-ff5f-4492-96f7-84bafdaf1a33" />
 		</parallel-foreach>
 		<error-handler >
