@@ -49,28 +49,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<route>
 				<flow-ref doc:name="Automated Policies Flow Reference" doc:id="7a5be530-6b17-4f93-a594-41d8a99328fa" name="collector-apim-automated-policies-metrics-flow" />
 			</route>
-<!-- 			<route> -->
-<!-- 				<flow-ref doc:name="ARM Apps Metrics Flow Reference" doc:id="7ddc6de7-9eeb-413d-a4ed-afedc902d043" name="collector-arm-apps-metrics-parallel-flow" /> -->
-<!-- 			</route> -->
 			<route>
-				<flow-ref doc:name="ARM Deployments Metrics Flow Reference" doc:id="292a2a61-0427-4720-a18e-fa66289e51a0" name="collector-arm-deployments-metrics-parallel-flow" />
+				<flow-ref doc:name="ARM Metrics Flow Reference" doc:id="27879996-a1c7-4ab0-9b2d-8c4f60d1e6a3" name="aggregator-platform-metrics-arm-flow" />
 			</route>
 			<route>
-				<flow-ref doc:name="ARM Server Metrics Flow Reference" doc:id="a4ef9ce0-3b33-4b43-b525-69bdd5f89c46" name="collector-arm-servers-metrics-parallel-flow" />
+				<flow-ref doc:name="RTF Fabrics Metrics Flow Reference" doc:id="51eaeb21-1453-4654-baa2-a721f989c244" name="collector-rtf-fabrics-metrics-flow" />
 			</route>
-			<route>
-				<flow-ref doc:name="ARM Cluster Metrics Flow Reference" doc:id="7db8de19-9064-4042-ab8d-b45247c58bab" name="collector-arm-clusters-metrics-parallel-flow" />
-			</route>
-			<route>
-				<flow-ref doc:name="Sub Flow Reference" doc:id="27879996-a1c7-4ab0-9b2d-8c4f60d1e6a3" name="aggregator-platform-metrics-arm-flow" />
-			</route>
-<!-- 			<route> -->
-<!-- 				<flow-ref doc:name="ARM ServerGroups Metrics Flow Reference" doc:id="0f1c1af4-6d34-44dd-8322-e1ba876a3e88" name="collector-arm-server-groups-metrics-parallel-flow" /> -->
-<!-- 			</route> -->
-<!-- 			<route> -->
-<!-- 				<flow-ref doc:name="RTF Fabrics Metrics Flow Reference" doc:id="94d73f4c-03b6-48d1-b7e2-dbd3521c2315" name="collector-rtf-fabrics-metrics-flow" /> -->
-<!-- 			</route> -->
-			
 <!-- 			<route> -->
 <!-- 				<flow-ref doc:name="Analitics Enriched Data Flow Reference" doc:id="2908db4d-cc5b-421b-a844-2272898b0b73" name="collector-analytics-metrics-parallel-flow" /> -->
 <!-- 			</route> -->
@@ -87,11 +71,20 @@ output application/json --- payload[10].payload[1].payload]"/>
 	<flow name="aggregator-platform-metrics-arm-flow" doc:id="2eed9166-ad29-43c6-b1a3-5a971150a931">
 			<scatter-gather doc:name="Scatter-Gather" doc:id="1e8dbc13-cf0f-411f-ba21-640d93869819" maxConcurrency="20">
 				<route>
-					<flow-ref doc:name="ARM ServerGroups Metrics Flow Reference" doc:id="e6703e89-e973-4a9c-8844-51d1535cc1f7" name="collector-arm-server-groups-metrics-parallel-flow" />
+					<flow-ref doc:name="ARM Deployments Metrics Flow Reference" doc:id="38163abb-40d5-4417-a624-2dbc399d1a9b" name="collector-arm-deployments-metrics-parallel-flow" />
 				</route>
 				<route>
-					<flow-ref doc:name="RTF Fabrics Metrics Flow Reference" doc:id="9e7b839c-9213-4966-bf09-555e16d8926c" name="collector-rtf-fabrics-metrics-flow" />
+					<flow-ref doc:name="ARM Server Metrics Flow Reference" doc:id="213800fb-e2b6-4fdd-b3b3-1370219f543b" name="collector-arm-servers-metrics-parallel-flow" />
 				</route>
+				<route>
+					<flow-ref doc:name="ARM Cluster Metrics Flow Reference" doc:id="f12ce243-799c-4ef0-97b2-fe19a71f3311" name="collector-arm-clusters-metrics-parallel-flow" />
+				</route>
+				<route>
+					<flow-ref doc:name="ARM ServerGroups Metrics Flow Reference" doc:id="e6703e89-e973-4a9c-8844-51d1535cc1f7" name="collector-arm-server-groups-metrics-parallel-flow" />
+				</route>
+				<!-- 			<route> -->
+<!-- 				<flow-ref doc:name="ARM Apps Metrics Flow Reference" doc:id="6d3b83ef-acde-4833-88ae-67eaec181aa7" name="collector-arm-apps-metrics-parallel-flow" /> -->
+<!-- 			</route> -->
 			</scatter-gather>
 	</flow>
 
