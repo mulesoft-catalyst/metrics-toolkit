@@ -89,4 +89,25 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</http:request>
 		<logger level="INFO" doc:name="Logger" doc:id="23ab0941-f417-425d-a07c-8bd1c41a30b8" message='#["Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
+	
+	<flow name="api-call-arm-deployment-flow" doc:id="8cc0a05d-1b91-4ee7-b849-2fdb1d45fe5a">
+		<logger level="INFO" doc:name="Logger" doc:id="52d3aa31-c787-41d8-8940-ba58039bd080" message="Calling ARM - Deployment - Details" />
+		<http:request method="GET" doc:name="Get Deployments Request" doc:id="dc71690b-0e4e-4da6-a1cf-05648d2ef389" config-ref="HTTP_Request_configuration"
+			path="${anypoint.platform.apis.arm.deployment.path}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.token
+}]]]></http:headers>
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"orgId" : vars.orgId,
+	"envId" : vars.environmentId,
+	"deploymentId" : vars.deploymentId
+}]]]></http:uri-params>
+		
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="8d40d2de-92c8-46f0-9efb-a2c2a4564965" message='#["Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
 </mule>
