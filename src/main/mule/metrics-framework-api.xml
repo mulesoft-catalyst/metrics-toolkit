@@ -19,99 +19,78 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<error-handler>
 			<on-error-propagate type="APIKIT:BAD_REQUEST">
 				<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="f0eda6c8-1ae6-4505-9698-2d34fb4de78a">
 					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Bad request"}]]></ee:set-payload>
+						<ee:set-payload resource="dw/apikit/error-bad-request.dwl" />
 					</ee:message>
 					<ee:variables>
-						<ee:set-variable variableName="httpStatus">400</ee:set-variable>
+						<ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
 			</on-error-propagate>
 			<on-error-propagate type="APIKIT:NOT_FOUND">
 				<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="3d87f3ef-5463-4d37-b9d0-9354c3a34db2">
 					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Resource not found"}]]></ee:set-payload>
+						<ee:set-payload resource="dw/apikit/error-not-found.dwl" />
 					</ee:message>
 					<ee:variables>
-						<ee:set-variable variableName="httpStatus">404</ee:set-variable>
+						<ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
 			</on-error-propagate>
 			<on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
 				<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="87499c00-9f96-41de-8d43-921028a70206">
 					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Method not allowed"}]]></ee:set-payload>
+						<ee:set-payload resource="dw/apikit/error-method-not-allowed.dwl" />
 					</ee:message>
 					<ee:variables>
-						<ee:set-variable variableName="httpStatus">405</ee:set-variable>
+						<ee:set-variable variableName="httpStatus"><![CDATA[405]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
 			</on-error-propagate>
 			<on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
 				<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="959fdafd-68dc-4b72-8c5e-91b8487f1420">
 					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Not acceptable"}]]></ee:set-payload>
+						<ee:set-payload resource="dw/apikit/error-not-acceptable.dwl" />
 					</ee:message>
 					<ee:variables>
-						<ee:set-variable variableName="httpStatus">406</ee:set-variable>
+						<ee:set-variable variableName="httpStatus"><![CDATA[406]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
 			</on-error-propagate>
 			<on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
 				<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="4cb1db2c-c917-46ef-8119-ada337afad74">
 					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Unsupported media type"}]]></ee:set-payload>
+						<ee:set-payload resource="dw/apikit/error-unsupported-media-type.dwl" />
 					</ee:message>
 					<ee:variables>
-						<ee:set-variable variableName="httpStatus">415</ee:set-variable>
+						<ee:set-variable variableName="httpStatus"><![CDATA[415]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
 			</on-error-propagate>
 			<on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
 				<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="1b8ae772-08c4-4ece-84fb-3e6018ec7c5e">
 					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Not Implemented"}]]></ee:set-payload>
+						<ee:set-payload resource="dw/apikit/error-not-implemented.dwl" />
 					</ee:message>
 					<ee:variables>
-						<ee:set-variable variableName="httpStatus">501</ee:set-variable>
+						<ee:set-variable variableName="httpStatus"><![CDATA[501]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
 			</on-error-propagate>
 			<on-error-propagate type="ANY">
 				<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="aeca5166-a6d3-4c3f-b812-1e2783434aee">
 					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Internal Server error"}]]></ee:set-payload>
+						<ee:set-payload resource="dw/apikit/error-any.dwl" />
 					</ee:message>
 					<ee:variables>
-						<ee:set-variable variableName="httpStatus">500</ee:set-variable>
+						<ee:set-variable variableName="httpStatus"><![CDATA[500]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
 			</on-error-propagate>
@@ -131,15 +110,12 @@ output application/json
 		<error-handler>
 			<on-error-propagate type="APIKIT:NOT_FOUND">
 				<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="89f359e1-73a5-466a-81ec-75564830dc65">
 					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{message: "Resource not found"}]]></ee:set-payload>
+						<ee:set-payload resource="dw/apikit/error-not-found.dwl" />
 					</ee:message>
 					<ee:variables>
-						<ee:set-variable variableName="httpStatus">404</ee:set-variable>
+						<ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
 			</on-error-propagate>
