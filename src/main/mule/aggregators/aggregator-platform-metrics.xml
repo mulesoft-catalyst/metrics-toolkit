@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+ 
+ 	<flow name="aggregator-platform-metrics-master-flow" doc:id="b44a5537-b4b2-48d6-be10-5966f49ef8dc" >
+		<set-variable value="#[now()]" doc:name="Set Variable" doc:id="19b78a0f-a914-48fc-a18c-e3df9ad7fd57" variableName="date"/>
+		<flow-ref doc:name="Get Token Flow Reference" doc:id="675f99f2-d682-4162-9702-5da306885ba1" name="api-call-coreservices-login-flow" target="token" targetValue="payload.access_token" />
+		<flow-ref doc:name="api-call-coreservices-organizations-flow" doc:id="1f5906b9-2afa-4fc3-98e3-b11f8320e06f" name="api-call-coreservices-organizations-flow"/>
+		<ee:transform doc:name="Build Organizations including master org" doc:id="75e24a85-7cf4-4d19-9d58-d2b677f89993" >
+			<ee:message >
+				<ee:set-payload resource="dw/aggregation/build-orgs-aggregation.dwl" />
+			</ee:message>
+		</ee:transform>
+		<parallel-foreach doc:name="For Each" doc:id="59a2752c-19ce-4e8c-b3cf-512c04000a55" collection="#[payload]">
+			<set-variable value="#[payload.id]" doc:name="Set Variable" doc:id="ebf69e75-918d-46fc-a42a-8513e64da3ca" variableName="orgId"/>
+			<set-variable value="#[payload.name]" doc:name="Set Variable" doc:id="82a35793-7064-442c-bac3-4b3702fe0b02" variableName="orgName"/>
+			<set-variable value="#[payload.entitlements]" doc:name="Set Variable" doc:id="2f51d4bf-b223-46bc-95a9-af732fbf215d" variableName="entitlements"/>
+			<logger level="INFO" doc:name="Logger" doc:id="19862db5-f751-47a1-b5f3-ffd75708938e" message="#[vars.orgId]"/>
+			<flow-ref doc:name="Aggregator Organization Flow Reference" doc:id="97a715ab-2afc-47ee-9969-65d0c170cb4f" name="aggregator-platform-metrics-org-flow"/>
+		</parallel-foreach>
+		<set-payload value="#[output application/json --- payload.payload]" doc:name="Set Payload" doc:id="4de1289b-f761-496c-b966-670bce6484ac" />
+	</flow>
+	
+	<flow name="aggregator-platform-metrics-org-flow" doc:id="f52652d1-3952-4ab0-9d4b-20c69530e30a">
+		<flow-ref doc:name="Environments Flow Reference" doc:id="a65ee492-ea7b-4018-9096-08aff5fa21d4" name="api-call-coreservices-environments-flow" target="environments" targetValue="#[payload.data]"/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="f91aa95c-1b72-4596-bb78-c2d26978d2c7" maxConcurrency="20">
+			<route> 
+				<flow-ref doc:name="CloudHub Apps Metrics Flow Reference" doc:id="b8f7e5c7-f5ed-4ef0-9ae2-eee199b1ebf2" name="collector-cloudhub-apps-metrics-parallel-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="Exchange Assets Flow Reference" doc:id="9983e278-1c7d-4b63-84ac-8c148bdb2711" name="collector-exchange-metrics-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="API Manager Metrics Flow Reference" doc:id="7d3f4740-47e1-4ad5-b87e-1c5869903a28" name="collector-apim-metrics-parallel-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="Coreservices Members Flow Reference" doc:id="0d270a25-f417-43ce-8729-7eec33548360" name="api-call-coreservices-members-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="Design Center Projects Flow Reference" doc:id="f0ddec9e-176f-4f39-af14-728444fce2d2" name="collector-design-center-metrics-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="API Clients Flow Reference" doc:id="dfcd3053-bd9e-4c9c-9ae6-384874401176" name="collector-api-clients-metrics-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="Automated Policies Flow Reference" doc:id="7a5be530-6b17-4f93-a594-41d8a99328fa" name="collector-apim-automated-policies-metrics-flow" />
+			</route>
+<!-- 			<route> -->
+<!-- 				<flow-ref doc:name="ARM Apps Metrics Flow Reference" doc:id="7ddc6de7-9eeb-413d-a4ed-afedc902d043" name="collector-arm-apps-metrics-parallel-flow" /> -->
+<!-- 			</route> -->
+			<route>
+				<flow-ref doc:name="ARM Deployments Metrics Flow Reference" doc:id="292a2a61-0427-4720-a18e-fa66289e51a0" name="collector-arm-deployments-metrics-parallel-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="ARM Server Metrics Flow Reference" doc:id="a4ef9ce0-3b33-4b43-b525-69bdd5f89c46" name="collector-arm-servers-metrics-parallel-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="ARM Cluster Metrics Flow Reference" doc:id="7db8de19-9064-4042-ab8d-b45247c58bab" name="collector-arm-clusters-metrics-parallel-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="Sub Flow Reference" doc:id="27879996-a1c7-4ab0-9b2d-8c4f60d1e6a3" name="aggregator-platform-metrics-arm-flow" />
+			</route>
+<!-- 			<route> -->
+<!-- 				<flow-ref doc:name="ARM ServerGroups Metrics Flow Reference" doc:id="0f1c1af4-6d34-44dd-8322-e1ba876a3e88" name="collector-arm-server-groups-metrics-parallel-flow" /> -->
+<!-- 			</route> -->
+<!-- 			<route> -->
+<!-- 				<flow-ref doc:name="RTF Fabrics Metrics Flow Reference" doc:id="94d73f4c-03b6-48d1-b7e2-dbd3521c2315" name="collector-rtf-fabrics-metrics-flow" /> -->
+<!-- 			</route> -->
+			
+<!-- 			<route> -->
+<!-- 				<flow-ref doc:name="Analitics Enriched Data Flow Reference" doc:id="2908db4d-cc5b-421b-a844-2272898b0b73" name="collector-analytics-metrics-parallel-flow" /> -->
+<!-- 			</route> -->
+		</scatter-gather>
+<logger level="DEBUG" doc:name="Logger" doc:id="8204398b-feb6-4503-8f5a-4cd04fcbe051" message="#[%dw 2.0
+output application/json --- payload[10].payload[1].payload]"/>
+		<ee:transform doc:name="Build Final Response" doc:id="aa83f239-119d-46f3-9538-bd06b4c84ef1">
+			<ee:message>
+				<ee:set-payload resource="dw/aggregation/build-platform-metrics-aggregation.dwl" />
+			</ee:message>
+		</ee:transform>
+	</flow>
+	
+	<flow name="aggregator-platform-metrics-arm-flow" doc:id="2eed9166-ad29-43c6-b1a3-5a971150a931">
+			<scatter-gather doc:name="Scatter-Gather" doc:id="1e8dbc13-cf0f-411f-ba21-640d93869819" maxConcurrency="20">
+				<route>
+					<flow-ref doc:name="ARM ServerGroups Metrics Flow Reference" doc:id="e6703e89-e973-4a9c-8844-51d1535cc1f7" name="collector-arm-server-groups-metrics-parallel-flow" />
+				</route>
+				<route>
+					<flow-ref doc:name="RTF Fabrics Metrics Flow Reference" doc:id="9e7b839c-9213-4966-bf09-555e16d8926c" name="collector-rtf-fabrics-metrics-flow" />
+				</route>
+			</scatter-gather>
+	</flow>
+
+</mule>

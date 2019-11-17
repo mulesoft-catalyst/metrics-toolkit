@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+
+	<flow name="collector-cloudhub-apps-metrics-parallel-flow" doc:id="741a7055-efa6-4ac6-918d-5ba21279c50a">
+		<parallel-foreach doc:name="Parallel For Each" doc:id="72582473-ef2e-4781-81c6-036713c4a83c" collection="#[vars.environments]">
+			<flow-ref doc:name="Set Environment Variables" doc:id="7712dcb3-2bdb-4e68-ada8-46a83076f5be" name="collector-commons-set-environment-variables-flow" />
+			<flow-ref doc:name="Get Applications Flow Reference" doc:id="a4ba39b8-84c2-4ff8-8ae8-714129a297d2" name="api-call-cloudhub-apps-flow" />
+			<logger level="DEBUG" doc:name="Logger" doc:id="3d28ee51-859a-481b-8877-59d6891ced6c" message="#[payload]" />
+			<set-payload value='#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: payload}]' doc:name="Aggregate metrics"
+				doc:id="3e2b5a3e-9cb1-42d3-a529-b612e46027ba" />
+		</parallel-foreach>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="64c3004d-9411-44de-9afc-f0d4401fd20e" >
+				<logger level="WARN" doc:name="Logger" doc:id="44afba07-0825-415b-b2f4-cf72c0a2ca96" message="'Not able to get CloudHub apps metrics for BG:' #[vars.orgId]"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+
+</mule>
