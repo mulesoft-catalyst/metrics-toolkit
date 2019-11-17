@@ -47,7 +47,7 @@ How to link business needs, measurements and data sources?
 
 5. **Visualization**: Third party systems for showing charts and dashboards based on metrics-events (e.g Microstrategy, Tableau, Splunk dashboards, ELK, custom dashboards, BI software, etc)
 
-### Approach - API-Led Connectivity
+### Approach
 
 ![Scenario 1](/img/approach.png)
 
