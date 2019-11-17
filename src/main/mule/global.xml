@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+
+	<global-property doc:name="Global Property" doc:id="ab5d4af3-0331-41b9-a5ef-91864e47e91b" name="mule.env" value="dev" />
+
+	<configuration-properties doc:name="Configuration properties" doc:id="fcfd00fc-8325-4f2a-9ca5-6eb2280718bf" file="metrics-framework-${mule.env}.yaml" />
+	<configuration-properties doc:name="Configuration properties" doc:id="4b81de29-9f45-420b-9aa3-8e58ea6246de" file="metrics-framework-common.yaml" />
+
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8aa3a125-9db8-44a3-9e4c-6919b226caa1">
+		<http:listener-connection host="0.0.0.0" port="${http.port}" />
+	</http:listener-config>
+
+	<ee:object-store-caching-strategy name="Caching_Strategy" doc:name="Caching Strategy" doc:id="9f9cc3cf-9072-40cb-ba12-99e7fb35090c">
+		<os:private-object-store alias="cache-os" maxEntries="${cache.token.maxEntries}" entryTtl="${cache.token.ttl}"
+			expirationInterval="${cache.token.expirationInterval}" entryTtlUnit="MINUTES" />
+	</ee:object-store-caching-strategy>
+
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="fb8155e1-f458-44fb-a798-492732af56b0" enableCookies="false">
+		<http:request-connection host="${anypoint.platform.host}" port="443" protocol="HTTPS" />
+	</http:request-config>
+</mule>

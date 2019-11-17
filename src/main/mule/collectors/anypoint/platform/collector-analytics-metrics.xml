@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+
+	<flow name="collector-analytics-metrics-parallel-flow" doc:id="c4b43d89-a5f8-4582-8f1a-2296b79d60c6">
+		<parallel-foreach doc:name="Parallel For Each" doc:id="180873d9-c7ee-474f-8a35-20b9e4ab73f5" collection="#[vars.environments]">
+			<choice doc:name="Choice" doc:id="2883976c-2a6e-46df-afb8-4fcec69d3996">
+				<when expression='#[payload.name != "Design"]'>					
+					<flow-ref doc:name="Set Environment Variables" doc:id="9b5d2beb-c13d-4bcb-a1c0-3df2da688ae7" name="collector-commons-set-environment-variables-flow" />
+					<flow-ref doc:name="Get Analytics Events Flow Reference" doc:id="5321ee36-8efe-4fec-98d2-377237f0f6ac" name="api-call-analytics-query-flow" />
+					<logger level="DEBUG" doc:name="Logger" doc:id="751dc74b-ffea-480c-a22a-26809cd2dedd" message="#[payload]" />
+					<set-payload value="#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: payload}]" doc:name="Aggregate metrics"
+						doc:id="f5dd4287-9163-4204-84c0-7e9ef98ae88e" />
+				</when>
+				<otherwise>
+					<logger level="DEBUG" doc:name="Logger" doc:id="961f8429-8fc8-4d78-9eb0-558319cc0745" />
+				</otherwise>
+			</choice>
+		</parallel-foreach>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="aa418448-a7c0-425e-a47c-7f7b8b2d4563" >
+				<logger level="WARN" doc:name="Logger" doc:id="ab73d101-23f6-4507-b191-df414ab68b5b" message="'Not able to get Analytics for BG:' #[vars.orgId]"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+
+</mule>
