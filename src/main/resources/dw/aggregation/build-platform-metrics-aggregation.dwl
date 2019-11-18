@@ -29,12 +29,6 @@ var sandboxApis=getSandboxData(apiManagerApis)
 var sandboxApisAssets=sandboxApis.assets
 var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 
-var analyticsEnrichedData = analyticsQueryResult map ((v,k) -> {
-	environment: v.environment,
-	apiIds: v.data.response[0]."api_id",
-	clientIds: v.data.response[1]."client_id"
-})
-
 var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","authentication"]
 ---
 {
@@ -92,7 +86,7 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 				policiesUsedTotal: sizeOf(flatten(flatten(getProdDetails(apiManagerApis) default []).policies default []).template.assetId  distinctBy $ default []),
 				automatedPoliciesUsed: flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default [],
 				automatedPoliciesUsedTotal: sizeOf(flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default []),
-				transactions: "NA" //last x days on the period collected
+				transactions: sum(flatten(flatten(getProdData(analyticsQueryResult).response default [])."api_id" default [])..count default []) //last x days on the period collected
 			
 			},
 			sandbox: {
@@ -114,7 +108,7 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 				automatedPoliciesUsed: flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default [],
 				automatedPoliciesUsedTotal: sizeOf(flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default []),
 				contracts: sum(sandboxApiInstances.activeContractsCount default []),
-				transactions: "NA" //last x days on the period collected
+				transactions: sum(flatten(flatten(getSandboxData(analyticsQueryResult).response default [])."api_id" default [])..count default []) //last x days on the period collected
 			}	
 		}	
 	},
