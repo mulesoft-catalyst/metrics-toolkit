@@ -33,6 +33,10 @@ protocols:
     
 /business-metrics:
   get:
+    headers:
+      X-ANYPNT-USERNAME: string
+      X-ANYPNT-PASSWORD: string
+      X-ANYPNT-ORG-ID: string
     queryParameters:
       developAPIHistoricTime:
         description: "Historic average time to develop an API (days)"
@@ -55,6 +59,10 @@ protocols:
           application/json:
   /load:
     post:
+      headers:
+        X-ANYPNT-USERNAME: string
+        X-ANYPNT-PASSWORD: string
+        X-ANYPNT-ORG-ID: string
       body:
         application/json:
       responses:

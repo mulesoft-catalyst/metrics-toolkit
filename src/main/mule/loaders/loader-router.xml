@@ -20,4 +20,21 @@
 			</otherwise>
 		</choice>
 	</flow>
+	<flow name="loader-benefits-router-flow" doc:id="e16783da-e945-4467-9b84-3dab05c3b953" >
+		<logger level="INFO" doc:name="Logger" doc:id="9be0e416-ab29-4086-94fa-141f4d722ce5" message="Strategy: #[p('loader.strategy')]"/>
+		<choice doc:name="Choice" doc:id="7a991914-5a01-45f8-8760-d710de43ab10" >
+			<when expression="#[p('loader.strategy') == 'am']">
+				<flow-ref doc:name="loader-anypoint-monitoring" doc:id="172d89b4-f5ae-4f5c-8209-ae9e70b46671" name="loader-benefits-anypoint-monitoring"/>
+			</when>
+			<when expression="#[p('loader.strategy') == 'splunk']">
+				<flow-ref doc:name="loader-splunk-main-flow" doc:id="41866117-d58b-43d0-ab0b-46992be58400" name="loader-benefits-splunk-hec-main-flow"/>
+			</when>
+			<when expression="#[p('loader.strategy') == 'tableau']">
+				<flow-ref doc:name="loader-tableau-main-flow" doc:id="843f4611-bd19-4888-a910-87b88638083a" name="loader-benefits-tableau-main-flow"/>
+			</when>
+			<otherwise >
+				<flow-ref doc:name="loader-default-flow" doc:id="52ba5200-2a44-4e16-83a1-76125f24fef9" name="loader-default-flow"/>
+			</otherwise>
+		</choice>
+	</flow>
 </mule>

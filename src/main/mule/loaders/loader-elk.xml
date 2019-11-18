@@ -11,5 +11,9 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<logger level="INFO" doc:name="Logger" doc:id="bc500a4d-66b9-457f-93df-f44c1066e18e" />
 	</flow>
 	
+	<flow name="loader-benefits-elk-main-flow" doc:id="994a4062-ea71-4212-8017-bb1afeff4ade">
+		<logger level="INFO" doc:name="Logger" doc:id="0905d645-c1aa-4e8c-9886-f5cf530ff8a8" />
+	</flow>
+	
 
 </mule>
