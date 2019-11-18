@@ -7,26 +7,26 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 	
 	<http:request-config name="HTTP_Splunk_Request_configuration" doc:name="HTTP Request configuration" doc:id="8c04fe97-3fc0-496a-b707-0d6ce98e8248">
-		<http:request-connection host="${splunk.host}" port="${splunk.port}" />
+		<http:request-connection host="#[vars.loaderDetails.splunk.host]" port="#[vars.loaderDetails.splunk.port]" />
 	</http:request-config>
 	
 	<flow name="loader-splunk-hec-main-flow" doc:id="ef10b993-2925-4b83-8b9b-83092f1e3c97">
-<!-- 		<scheduler doc:name="Scheduler" doc:id="297fdfd5-21aa-4c66-9641-7138cee026b6"> -->
-<!-- 			<scheduling-strategy> -->
-<!-- 				<fixed-frequency frequency="30000" /> -->
-<!-- 			</scheduling-strategy> -->
-<!-- 		</scheduler> -->
 		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="2a2d9ce7-a83a-4ebb-bfdf-cace7354c9a4" name="aggregator-platform-metrics-master-flow"/>
 		<logger level="INFO" doc:name="Logger" doc:id="bc500a4d-66b9-457f-93df-f44c1066e18e" message="#[payload]"/>
-		
-		<flow-ref doc:name="Set Variables Flow Reference" doc:id="919f82b8-76dd-4bc5-9016-7e3ca66dcff8" name="loader-splunk-hec-common-vars-flow"/>
+		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="91053473-3110-4f48-8441-75c33be16f66"
+			variableName="event" />
+		<set-variable value="#[vars.loaderDetails.splunk.platformMetricsIndex]" doc:name="Set Index Variable" doc:id="241d25e2-51d7-4809-8ce8-ac7295f38648"
+			variableName="index" />
 		<flow-ref doc:name="Splunk HEC Flow Reference" doc:id="c315c6f3-2a75-487a-b587-7621034ef7ad" name="splunk-hec-loader-flow"/>
 	</flow>
 	
 	<flow name="loader-benefits-splunk-hec-main-flow" doc:id="ed5c9f13-fdf4-4b8b-87f0-c3dd48b522e7">
 		<flow-ref doc:name="Aggregate Platform Benefits Flow Reference" doc:id="83d65c5b-f5e6-40e1-b7df-f3a9df1d5f67" name="aggregator-platform-benefits-master-flow"/>
 		<logger level="INFO" doc:name="Logger" doc:id="66bb2880-91ad-48f6-9105-3e5e25f5de7b" message="#[payload]"/>
-		<flow-ref doc:name="Set Variables Flow Reference" doc:id="97fa96ec-49f1-431b-a3ad-15c854996545" name="loader-splunk-hec-common-vars-flow"/>
+		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="d3bbb792-1f32-4e72-a1fd-711e061bae8f"
+			variableName="event" />
+		<set-variable value="#[vars.loaderDetails.splunk.platformBenefitsIndex]" doc:name="Set Index Variable" doc:id="1eb05e64-23ae-45fd-8e0e-6bf9e8153fc1"
+			variableName="index" />
 		<flow-ref doc:name="Splunk HEC Flow Reference" doc:id="625cfc31-388f-4b74-8ab7-ec759ab9966b" name="splunk-hec-loader-flow"/>
 	</flow>
 	
@@ -40,17 +40,9 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"Authorization" : "Splunk " ++ p('splunk.token')
+	"Authorization" : "Splunk " ++ vars.loaderDetails.splunk.token
 }]]]></http:headers>
 			
 		</http:request>
 	</flow>
-	
-	<flow name="loader-splunk-hec-common-vars-flow" doc:id="da2e5f5c-2945-4c4a-a019-8cfab2ad181c">
-		<set-variable value="#[vars.loaderDetails.splunk]" doc:name="Set Loader Details Variable" doc:id="07dee1cb-131c-48b3-b054-64efd785b4fa"
-			variableName="loaderDetails" />
-		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="d2581fe6-14fb-45a6-984e-9c05b2fe53a8"
-			variableName="event" />
-	</flow>
-
 </mule>

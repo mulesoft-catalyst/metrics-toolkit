@@ -127,23 +127,18 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</flow>
 	<flow name="post:\platform-metrics\load:metrics-framework-api-config">
 		<flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="e514bd7d-bdbc-4492-844c-b9d4549155f9" name="metrics-framework-common-set-auth-vars-from-headers"/>
-		<set-variable value="#[payload.loaderDetails]" doc:name="Set Loader Details Variable" doc:id="6f4132f8-4a1e-4bbb-9ded-cce59038c259" variableName="loaderDetails"/>
+		<flow-ref doc:name="Set Loader Details From Payload Flow Reference" doc:id="e6cdbaa6-d042-4dda-ad53-a9bcb88ee768" name="metrics-framework-common-set-loader-vars-from-payload"/>
 		<flow-ref doc:name="Loader Flow Reference" doc:id="9b9b2d75-6d61-40ce-bc19-518cbb135eb8" name="loader-router-flow" />
 	</flow>
 	<flow name="get:\business-metrics:metrics-framework-api-config">
 		<flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="fd377e58-59aa-44cf-ad08-86aab248ef23" name="metrics-framework-common-set-auth-vars-from-headers"/>
-		<ee:transform doc:name="Build Platform Benefits Payload From Query Parameters" doc:id="26994252-5135-4c88-aabe-f68e71756a22" >
-			<ee:message >
-			</ee:message>
-			<ee:variables >
-				<ee:set-variable resource="dw/aggregation/build-platform-benefits-from-query-params.dwl" variableName="benefitsInputs" />
-			</ee:variables>
-		</ee:transform>
+		<flow-ref doc:name="Set Benefits Vars From Query Params Flow Reference" doc:id="4f874701-0491-483f-879e-7fcf9bac5243" name="metrics-framework-common-set-benefits-vars-from-query-params"/>
 		<flow-ref doc:name="Aggregator Platform Benefits Flow Reference" doc:id="ab111296-7f07-480b-b76c-c05de17ae188" name="aggregator-platform-benefits-master-flow"/>
 	</flow>
 	<flow name="post:\business-metrics\load:metrics-framework-api-config">
 		<flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="666ad8cc-9088-4d24-8839-f665a9f9deaa" name="metrics-framework-common-set-auth-vars-from-headers"/>
-		<set-variable value="#[payload.loaderDetails]" doc:name="Set Loader Details Variable" doc:id="f7cf691d-4843-4a57-be32-e5bc64fd7a75" variableName="loaderDetails"/>
+		<flow-ref doc:name="Set Loader Details From Payload Flow Reference" doc:id="ad58af15-9a99-49c8-bee5-24d3eb73ee04" name="metrics-framework-common-set-loader-vars-from-payload"/>
+		<flow-ref doc:name="Set Benefits Vars From Payload Flow Reference" doc:id="c3fa4f76-0f14-40cb-9738-1c7011851bfa" name="metrics-framework-common-set-benefits-vars-from-payload"/>
 		<flow-ref doc:name="Loader Benfits Flow Reference" doc:id="1117cb81-c116-4ad6-b566-36e4f2d5d30e" name="loader-benefits-router-flow" />
     </flow>
 </mule>
