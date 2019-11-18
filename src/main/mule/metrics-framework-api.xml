@@ -127,6 +127,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</flow>
 	<flow name="post:\platform-metrics\load:metrics-framework-api-config">
 		<flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="e514bd7d-bdbc-4492-844c-b9d4549155f9" name="metrics-framework-common-set-auth-vars-from-headers"/>
+		<set-variable value="#[payload.loaderDetails]" doc:name="Set Loader Details Variable" doc:id="6f4132f8-4a1e-4bbb-9ded-cce59038c259" variableName="loaderDetails"/>
 		<flow-ref doc:name="Loader Flow Reference" doc:id="9b9b2d75-6d61-40ce-bc19-518cbb135eb8" name="loader-router-flow" />
 	</flow>
 	<flow name="get:\business-metrics:metrics-framework-api-config">
@@ -142,6 +143,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</flow>
 	<flow name="post:\business-metrics\load:metrics-framework-api-config">
 		<flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="666ad8cc-9088-4d24-8839-f665a9f9deaa" name="metrics-framework-common-set-auth-vars-from-headers"/>
+		<set-variable value="#[payload.loaderDetails]" doc:name="Set Loader Details Variable" doc:id="f7cf691d-4843-4a57-be32-e5bc64fd7a75" variableName="loaderDetails"/>
 		<flow-ref doc:name="Loader Benfits Flow Reference" doc:id="1117cb81-c116-4ad6-b566-36e4f2d5d30e" name="loader-benefits-router-flow" />
     </flow>
 </mule>
