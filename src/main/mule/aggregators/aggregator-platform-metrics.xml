@@ -82,9 +82,6 @@ output application/json --- payload[9].payload.payload]"/>
 				<route>
 					<flow-ref doc:name="ARM ServerGroups Metrics Flow Reference" doc:id="e6703e89-e973-4a9c-8844-51d1535cc1f7" name="collector-arm-server-groups-metrics-parallel-flow" />
 				</route>
-				<!-- 			<route> -->
-<!-- 				<flow-ref doc:name="ARM Apps Metrics Flow Reference" doc:id="6d3b83ef-acde-4833-88ae-67eaec181aa7" name="collector-arm-apps-metrics-parallel-flow" /> -->
-<!-- 			</route> -->
 			</scatter-gather>
 	</flow>
 
