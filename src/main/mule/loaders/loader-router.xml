@@ -4,15 +4,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 	<flow name="loader-router-flow" doc:id="c8e9fdd0-4ec7-495e-bbf2-1ed6234e1996" >
-		<logger level="INFO" doc:name="Logger" doc:id="d7315fbe-d0d5-4755-93ac-a093b2d6b8d2" message="Strategy: #[p('loader.strategy')]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="d7315fbe-d0d5-4755-93ac-a093b2d6b8d2" message="Strategy: #[vars.loaderDeetails.strategy]"/>
 		<choice doc:name="Choice" doc:id="e673f0db-bf2c-46d2-b5b2-fc70e45befe2" >
-			<when expression="#[p('loader.strategy') == 'am']">
+			<when expression="#[vars.loaderDetails.strategy == 'am']">
 				<flow-ref doc:name="loader-anypoint-monitoring" doc:id="20aa80c4-330b-447e-b0cb-077cabc9ca88" name="loader-anypoint-monitoring"/>
 			</when>
-			<when expression="#[p('loader.strategy') == 'splunk']">
+			<when expression="#[vars.loaderDetails.strategy == 'splunk']">
 				<flow-ref doc:name="loader-splunk-main-flow" doc:id="ede45949-b5f9-4004-a98a-47a288d426b1" name="loader-splunk-hec-main-flow"/>
 			</when>
-			<when expression="#[p('loader.strategy') == 'tableau']">
+			<when expression="#[vars.loaderDetails.strategy == 'tableau']">
 				<flow-ref doc:name="loader-tableau-main-flow" doc:id="de20ba38-08f0-4b89-b2a0-219402a2846c" name="loader-tableau-main-flow"/>
 			</when>
 			<otherwise >
@@ -21,15 +21,15 @@
 		</choice>
 	</flow>
 	<flow name="loader-benefits-router-flow" doc:id="e16783da-e945-4467-9b84-3dab05c3b953" >
-		<logger level="INFO" doc:name="Logger" doc:id="9be0e416-ab29-4086-94fa-141f4d722ce5" message="Strategy: #[p('loader.strategy')]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="9be0e416-ab29-4086-94fa-141f4d722ce5" message="Strategy: #[vars.loaderDeetails.strategy]"/>
 		<choice doc:name="Choice" doc:id="7a991914-5a01-45f8-8760-d710de43ab10" >
-			<when expression="#[p('loader.strategy') == 'am']">
+			<when expression="#[vars.loaderDetails.strategy == 'am']">
 				<flow-ref doc:name="loader-anypoint-monitoring" doc:id="172d89b4-f5ae-4f5c-8209-ae9e70b46671" name="loader-benefits-anypoint-monitoring"/>
 			</when>
-			<when expression="#[p('loader.strategy') == 'splunk']">
+			<when expression="#[vars.loaderDetails.strategy == 'splunk']">
 				<flow-ref doc:name="loader-splunk-main-flow" doc:id="41866117-d58b-43d0-ab0b-46992be58400" name="loader-benefits-splunk-hec-main-flow"/>
 			</when>
-			<when expression="#[p('loader.strategy') == 'tableau']">
+			<when expression="#[vars.loaderDeetails.strategy == 'tableau']">
 				<flow-ref doc:name="loader-tableau-main-flow" doc:id="843f4611-bd19-4888-a910-87b88638083a" name="loader-benefits-tableau-main-flow"/>
 			</when>
 			<otherwise >

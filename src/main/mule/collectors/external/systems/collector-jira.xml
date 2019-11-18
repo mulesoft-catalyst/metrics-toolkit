@@ -4,6 +4,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 	<flow name="collector-jira-metrics-flow" doc:id="bf8d2beb-3d64-47a6-84db-b21edc049855" >
-		<logger level="INFO" doc:name="Logger" doc:id="67512d45-1a0a-4159-824f-339ba1047f2c" />
+		<logger level="INFO" doc:name="Logger" doc:id="67512d45-1a0a-4159-824f-339ba1047f2c" message="Collector Not Implemented"/>
 	</flow>
 </mule>
