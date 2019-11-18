@@ -10,6 +10,7 @@
 <!-- 			</scheduling-strategy> -->
 <!-- 		</scheduler> -->
 		<flow-ref doc:name="Set Auth Vars from Properties Flow Reference" doc:id="fe3a2c56-7824-4cf5-b65f-8e9d45ae857b" name="metrics-framework-common-set-auth-vars-from-properties"/>
+		<flow-ref doc:name="Set Loader Details From Properties Flow Reference" doc:id="648cd66c-3fd0-4a41-92af-427be248dced" name="metrics-framework-common-set-loader-vars-from-properties"/>
 		<flow-ref doc:name="Loader Router Flow Reference" doc:id="842bf11b-aac0-45a4-81b6-038620241284" name="loader-router-flow" />
 	</flow>
 </mule>
