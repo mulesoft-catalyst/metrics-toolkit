@@ -1,23 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
 	<flow name="metrics-framework-common-set-auth-vars-from-headers" doc:id="03e16ef6-6fec-48ef-8401-aacdcb0c682b">
-		<set-variable value='#[attributes.headers."X-ANYPNT-ORG-ID"]' doc:name="Set Variable" doc:id="759131f5-05d4-4428-95ce-b7b9fe76da0d"
+		<set-variable value='#[attributes.headers."X-ANYPNT-ORG-ID"]' doc:name="Set Master Org Id Variable" doc:id="759131f5-05d4-4428-95ce-b7b9fe76da0d"
 			variableName="masterOrgId" />
-		<set-variable value='#[attributes.headers."X-ANYPNT-USERNAME"]' doc:name="Set Variable" doc:id="ffbebe02-8320-41e8-a5dc-ea6a645e0d11"
+		<set-variable value='#[attributes.headers."X-ANYPNT-USERNAME"]' doc:name="Set Username Variable" doc:id="ffbebe02-8320-41e8-a5dc-ea6a645e0d11"
 			variableName="username" />
-		<set-variable value='#[attributes.headers."X-ANYPNT-PASSWORD"]' doc:name="Set Variable" doc:id="44ded1cf-5af3-4631-867a-410963d238c8"
+		<set-variable value='#[attributes.headers."X-ANYPNT-PASSWORD"]' doc:name="Set Password Variable" doc:id="44ded1cf-5af3-4631-867a-410963d238c8"
 			variableName="password" />
 	</flow>
 	
 	<flow name="metrics-framework-common-set-auth-vars-from-properties" doc:id="bcd8192b-7a75-45a5-963e-6c98065b3e71">
-		<set-variable value="#[p('auth.orgId')]" doc:name="Set Variable" doc:id="8b0fe279-f6c8-4478-a0b7-63e2c617dae4"
+		<set-variable value="#[p('auth.orgId')]" doc:name="Set Master Org Id Variable" doc:id="8b0fe279-f6c8-4478-a0b7-63e2c617dae4"
 			variableName="masterOrgId" />
-		<set-variable value="#[p('auth.username')]" doc:name="Set Variable" doc:id="25a83be2-4394-4791-9bca-11caf8376406"
+		<set-variable value="#[p('auth.username')]" doc:name="Set Username Variable" doc:id="25a83be2-4394-4791-9bca-11caf8376406"
 			variableName="username" />
-		<set-variable value="#[p('auth.password')]" doc:name="Set Variable" doc:id="23e750a5-512e-46bd-8c37-4f8d1eddd533"
+		<set-variable value="#[p('auth.password')]" doc:name="Set Password Variable" doc:id="23e750a5-512e-46bd-8c37-4f8d1eddd533"
 			variableName="password" />
+	</flow>
+	
+	<flow name="metrics-framework-common-set-loader-vars-from-payload" doc:id="d2719e2e-0afa-40bb-9231-9eb185d0bef9">
+		<set-variable value="#[payload.loaderDetails]" doc:name="Set Loader Details Variable" doc:id="27c806c4-3221-4fd1-a7eb-0524bc28ac6c" variableName="loaderDetails"/>
+	</flow>
+	
+	<flow name="metrics-framework-common-set-loader-vars-from-properties" doc:id="f9b2105a-4045-4eb6-bd9f-a4e958b0c880">
+		<ee:transform doc:name="Build Loader Details From Properties" doc:id="d42d7572-4224-4eb6-aa6a-8466f253ea9c" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dw/loader/build-loader-details-from-properties.dwl" variableName="loaderDetails" />
+			</ee:variables>
+		</ee:transform>
+	</flow>
+	
+	<flow name="metrics-framework-common-set-benefits-vars-from-query-params" doc:id="30dc254e-8a81-4bbc-93bc-2202cad169b5">
+		<ee:transform doc:name="Build Platform Benefits Payload From Query Parameters" doc:id="2895089b-ad5e-428f-a201-26e81e699b41" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dw/aggregation/build-platform-benefits-from-query-params.dwl" variableName="benefitsInputs" />
+			</ee:variables>
+		</ee:transform>
+	</flow>
+	<flow name="metrics-framework-common-set-benefits-vars-from-payload" doc:id="e4f12f6d-95ba-49e3-9b51-e1a5767ba2f7">
+		<set-variable value="#[payload.event]" doc:name="Set Variable" doc:id="cacf88ee-124a-41fb-962c-16fce4957db5" variableName="benefitsInputs"/>
 	</flow>
 </mule>

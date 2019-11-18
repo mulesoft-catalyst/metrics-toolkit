@@ -3,8 +3,8 @@ output application/json
 ---
 {
 	//time: now().milliseconds,
-	source: vars.loaderDetails.source,
-	sourcetype: vars.loaderDetails.sourceType,
-	index: vars.loaderDetails.index,
+	source: vars.loaderDetails.splunk.source,
+	sourcetype: vars.loaderDetails.splunk.sourceType,
+	index: vars.index,
 	event: vars.event
 }
