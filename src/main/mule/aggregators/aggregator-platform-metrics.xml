@@ -48,19 +48,19 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</route>
 			<route>
 				<flow-ref doc:name="Automated Policies Flow Reference" doc:id="7a5be530-6b17-4f93-a594-41d8a99328fa" name="collector-apim-automated-policies-metrics-flow" />
-			</route>
+			</route> 
 			<route>
 				<flow-ref doc:name="ARM Metrics Flow Reference" doc:id="27879996-a1c7-4ab0-9b2d-8c4f60d1e6a3" name="aggregator-platform-metrics-arm-flow" />
 			</route>
 			<route>
 				<flow-ref doc:name="RTF Fabrics Metrics Flow Reference" doc:id="51eaeb21-1453-4654-baa2-a721f989c244" name="collector-rtf-fabrics-metrics-flow" />
 			</route>
-<!-- 			<route> -->
-<!-- 				<flow-ref doc:name="Analitics Enriched Data Flow Reference" doc:id="2908db4d-cc5b-421b-a844-2272898b0b73" name="collector-analytics-metrics-parallel-flow" /> -->
-<!-- 			</route> -->
+			<route>
+				<flow-ref doc:name="Analytics Enriched Data Flow Reference" doc:id="2908db4d-cc5b-421b-a844-2272898b0b73" name="collector-analytics-metrics-parallel-flow" />
+			</route>
 		</scatter-gather>
 		<logger level="DEBUG" doc:name="Logger" doc:id="93babf32-d504-496b-85a1-accfb5a1779a" message="#[%dw 2.0
-output application/json --- payload[2].payload.payload]"/>
+output application/json --- payload[9].payload.payload]"/>
 		<ee:transform doc:name="Build Final Response" doc:id="aa83f239-119d-46f3-9538-bd06b4c84ef1">
 			<ee:message>
 				<ee:set-payload resource="dw/aggregation/build-platform-metrics-aggregation.dwl" />
