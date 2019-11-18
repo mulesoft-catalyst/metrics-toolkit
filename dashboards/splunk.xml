@@ -6,14 +6,12 @@
       <fieldForLabel>bg</fieldForLabel>
       <fieldForValue>bg</fieldForValue>
       <search>
-        <query>index=$platformMetricsIndex$ | stats values(businessGroup) as bg | dedup bg | table bg</query>
+        <query>index=$platformMetricsIndex$ | stats values(businessGroup) as bg by businessGroup</query>
       </search>
       <choice value="*">All</choice>
       <default>*</default>
       <initialValue>*</initialValue>
       <delimiter>,</delimiter>
-      <valuePrefix>"</valuePrefix>
-      <valueSuffix>"</valueSuffix>
     </input>
     <input type="time" token="timeToken">
       <label>Time range</label>
@@ -37,7 +35,7 @@
       <single>
         <title>Developer Productivity - Current</title>
         <search>
-          <query>index=$platformBenefitsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | stats values(developerProductivity) as total | stats max(total) as "Productivity"</query>
+          <query>index=$platformBenefitsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(developerProductivity) as total | stats max(total) as "Productivity"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -51,7 +49,7 @@
       <single>
         <title>Savings from API Reuse - Current</title>
         <search>
-          <query>index=$platformBenefitsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | stats values(savingFromAPIReuse) as total | stats max(total) as "Savings"</query>
+          <query>index=$platformBenefitsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(savingFromAPIReuse) as total | stats max(total) as "Savings"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -65,7 +63,7 @@
       <single>
         <title>Savings from Maintenance Productivity - Current</title>
         <search>
-          <query>index=$platformBenefitsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | stats values(savingFromMaintenanceProductivity) as total | stats max(total) as "Savings"</query>
+          <query>index=$platformBenefitsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(savingFromMaintenanceProductivity) as total | stats max(total) as "Savings"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -79,7 +77,7 @@
       <single>
         <title>Savings from Reuse In Maintenance - Current</title>
         <search>
-          <query>index=$platformBenefitsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | stats values(savingFromReuseInMaintenance) as total | stats max(total) as "Savings"</query>
+          <query>index=$platformBenefitsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(savingFromReuseInMaintenance) as total | stats max(total) as "Savings"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -93,7 +91,7 @@
       <single>
         <title>Total Savings - Current</title>
         <search>
-          <query>index=$platformBenefitsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | stats values(totalSavings) as total | stats max(total) as "Savings"</query>
+          <query>index=$platformBenefitsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(totalSavings) as total | stats max(total) as "Savings"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -112,7 +110,7 @@
       <chart>
         <title>Platform Benefits - Total Savings - Timeline</title>
         <search>
-          <query>index=$platformBenefitsIndex$ | chart values(totalSavings) as "Savings" by _time, businessGroup</query>
+          <query>index=$platformBenefitsIndex$ | search businessGroup IN ($bgToken$) | chart values(totalSavings) as "Savings" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -129,7 +127,7 @@
       <chart>
         <title>Platform Benefits - Total Savings by type - Timeline</title>
         <search>
-          <query>index=$platformBenefitsIndex$ | chart values(savingFromAPIReuse) as "API Reuse", values(savingFromMaintenanceProductivity) as "Maintenance Productivity", values(savingFromReuseInMaintenance) as "Reuse in Maintenance" by _time, businessGroup</query>
+          <query>index=$platformBenefitsIndex$ | search businessGroup IN ($bgToken$) | chart values(savingFromAPIReuse) as "API Reuse", values(savingFromMaintenanceProductivity) as "Maintenance Productivity", values(savingFromReuseInMaintenance) as "Reuse in Maintenance" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
