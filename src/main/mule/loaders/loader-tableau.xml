@@ -23,7 +23,14 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 		<flow-ref doc:name="Write File" doc:id="f287638f-0244-422f-a654-e3e56943c24c" name="loader-tableau-write-file-flow"/>
 	</flow>
 	<flow name="loader-tableau-write-file-flow" doc:id="148b7ba0-0210-4da9-8318-5fc04a3a8f50" >
-		<file:write doc:name="Write" doc:id="307c8daa-8a03-4f65-8c22-50002c55e5dd" config-ref="File_Config" path="/Users/dcisneros/Documents/test-tableau.json" />
+		<file:write doc:name="Write" doc:id="307c8daa-8a03-4f65-8c22-50002c55e5dd" config-ref="File_Config" path="#[vars.loaderDetails.path]" />
+	</flow>
+	
+	<flow name="loader-tableau-common-vars-flow" doc:id="e9b543a7-725a-4a01-b38d-03387ee9f214">
+		<set-variable value="#[vars.loaderDetails.tableau]" doc:name="Set Loader Details Variable" doc:id="319ec7d8-a1c1-48a2-aaa0-03697efde624"
+			variableName="loaderDetails" />
+		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="6140a5cc-419d-42d6-8196-9414b227579a"
+			variableName="event" />
 	</flow>
 	
 
