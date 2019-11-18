@@ -130,9 +130,18 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<flow-ref doc:name="Loader Flow Reference" doc:id="9b9b2d75-6d61-40ce-bc19-518cbb135eb8" name="loader-router-flow" />
 	</flow>
 	<flow name="get:\business-metrics:metrics-framework-api-config">
-		<flow-ref doc:name="Aggregator Platform Benefits Flow Reference" doc:id="ab111296-7f07-480b-b76c-c05de17ae188" name="aggregator-platform-benefits-metrics-flow"/>
+		<flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="fd377e58-59aa-44cf-ad08-86aab248ef23" name="metrics-framework-common-set-auth-vars-from-headers"/>
+		<ee:transform doc:name="Build Platform Benefits Payload From Query Parameters" doc:id="26994252-5135-4c88-aabe-f68e71756a22" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dw/aggregation/build-platform-benefits-from-query-params.dwl" variableName="benefitsInputs" />
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Aggregator Platform Benefits Flow Reference" doc:id="ab111296-7f07-480b-b76c-c05de17ae188" name="aggregator-platform-benefits-master-flow"/>
 	</flow>
 	<flow name="post:\business-metrics\load:metrics-framework-api-config">
-		<flow-ref doc:name="Aggregator Platform Benefits Flow Reference" doc:id="ba8a0709-05aa-4b6b-94f6-0abbb254be1d" name="aggregator-platform-benefits-metrics-flow"/>
+		<flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="666ad8cc-9088-4d24-8839-f665a9f9deaa" name="metrics-framework-common-set-auth-vars-from-headers"/>
+		<flow-ref doc:name="Loader Benfits Flow Reference" doc:id="1117cb81-c116-4ad6-b566-36e4f2d5d30e" name="loader-benefits-router-flow" />
     </flow>
 </mule>

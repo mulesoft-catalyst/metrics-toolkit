@@ -1,8 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
-	<flow name="aggregator-platform-benefits-metrics-flow" doc:id="0812a1c6-6f4b-4c77-86df-dd045c76ef8d" >
-		<flow-ref doc:name="Platform Benefits Collector Flow Reference" doc:id="4add08cb-e437-4cb3-b017-81f1dffbafc3" name="collector-benefits-metrics-flow"/>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	
+	
+	<flow name="aggregator-platform-benefits-master-flow" doc:id="29336dcf-814b-4c3f-9ba3-e66e3e299175" >
+		<set-variable value="#[now()]" doc:name="Set Variable" doc:id="ed676637-37db-4851-bf7f-d97bffabfe55" variableName="date"/>
+		<flow-ref doc:name="Get Token Flow Reference" doc:id="9fe90312-b4d2-4e3a-8700-fd4d298a5910" name="api-call-coreservices-login-flow" target="token" targetValue="payload.access_token" />
+		<flow-ref doc:name="api-call-coreservices-organizations-flow" doc:id="752346db-0103-4300-a2ed-501eedefb929" name="api-call-coreservices-organizations-flow"/>
+		<ee:transform doc:name="Build Organizations including master org" doc:id="cbf304f7-f7f7-405f-a6d3-ed379445ae10" >
+			<ee:message >
+				<ee:set-payload resource="dw/aggregation/build-orgs-aggregation.dwl" />
+			</ee:message>
+		</ee:transform>
+		<parallel-foreach doc:name="For Each" doc:id="74741b65-658f-4ecf-aef3-c7496d4dd8b8" collection="#[payload]">
+			<set-variable value="#[payload.id]" doc:name="Set Variable" doc:id="9f91da4a-7cf8-4e43-9c56-b486f26bd27a" variableName="orgId"/>
+			<set-variable value="#[payload.name]" doc:name="Set Variable" doc:id="ae0ce0d7-c3f6-42a1-bdf9-55fd3e1f9cdf" variableName="orgName"/>
+			<set-variable value="#[payload.entitlements]" doc:name="Set Variable" doc:id="4c86adf3-ec9f-45e8-abfd-1ab3a73aaed8" variableName="entitlements"/>
+			<logger level="INFO" doc:name="Logger" doc:id="31ade8d7-8521-40f9-88b0-dc255137eb11" message="#[vars.orgId]"/>
+			<flow-ref doc:name="Aggregator Organization Flow Reference" doc:id="4cd5ec21-4afc-434a-98e6-fa28813e3fef" name="aggregator-platform-benefits-org-flow"/>
+		</parallel-foreach>
+		<set-payload value="#[output application/json --- payload.payload]" doc:name="Set Payload" doc:id="56d35c45-48a4-463b-96e6-53a8b99854d4" />
 	</flow>
+	
+	<flow name="aggregator-platform-benefits-org-flow" doc:id="06638b71-7dd3-45fd-977f-ef8d30389ed9">
+		<flow-ref doc:name="Environments Flow Reference" doc:id="8444200c-c7d1-4799-a92a-9703f4d57c4b" name="api-call-coreservices-environments-flow" target="environments" targetValue="#[payload.data[?$.isProduction]]"/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="2420f3ad-19cd-4b89-8544-6050201c594e">		
+			<route>
+				<flow-ref doc:name="API Manager Metrics Flow Reference" doc:id="7b8f5363-8182-4c1e-a079-41c9d73009d0" name="collector-apim-parallel-flow" />
+			</route>
+			<route> 
+				<flow-ref doc:name="CloudHub Apps Metrics Flow Reference" doc:id="f81d3cec-c241-481c-b5cd-850753cd22ac" name="collector-cloudhub-apps-metrics-parallel-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="ARM Deployments Metrics Flow Reference" doc:id="ecd9dba1-0ed2-4cb5-b6f9-5ee9aaf350ee" name="collector-arm-deployments-metrics-parallel-flow" />
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="Build Final Response" doc:id="4eb35831-0fb4-4717-bc09-7134bfb93823">
+			<ee:message>
+				<ee:set-payload resource="dw/aggregation/build-platform-benefits-metrics-aggregation.dwl" />
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Build Platform Benefits Metrics" doc:id="7ac5405a-c37d-46f7-86fc-611fb55555c1">
+			<ee:message>
+				<ee:set-payload resource="dw/aggregation/build-platform-benefits-aggregation.dwl" />
+			</ee:message>
+		</ee:transform>
+	</flow>
+
 </mule>
