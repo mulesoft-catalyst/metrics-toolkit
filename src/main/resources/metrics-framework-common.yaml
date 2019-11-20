@@ -11,7 +11,7 @@ anypoint:
           path: "/accounts/api/organizations/{orgId}/environments"
         members:
           path: "/accounts/api/organizations/{orgId}/members"
-          limit: "200"
+          limit: "1000"
           offset: "0"
       cloudhub:
         apps:
@@ -42,7 +42,7 @@ anypoint:
       apiPlatform:
         clients:
           path: "/apiplatform/repository/v2/organizations/{orgId}/applications"
-          limit: "200"
+          limit: "1000"
           offset: "0"
           targetAdminSite: "true"
       designCenter:

@@ -4,13 +4,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 	<flow name="metrics-framework-poller-flow" doc:id="e1266183-c6b3-477b-9ded-da55dd9032fa" >
-<!-- 		<scheduler doc:name="Scheduler" doc:id="bb3cd2a8-90a1-4492-a52d-322485a0f93c" > -->
-<!-- 			<scheduling-strategy > -->
-<!-- 				<fixed-frequency frequency="60" timeUnit="MINUTES"/> -->
-<!-- 			</scheduling-strategy> -->
-<!-- 		</scheduler> -->
-		<flow-ref doc:name="Set Auth Vars from Properties Flow Reference" doc:id="fe3a2c56-7824-4cf5-b65f-8e9d45ae857b" name="metrics-framework-common-set-auth-vars-from-properties"/>
-		<flow-ref doc:name="Set Loader Details From Properties Flow Reference" doc:id="648cd66c-3fd0-4a41-92af-427be248dced" name="metrics-framework-common-set-loader-vars-from-properties"/>
-		<flow-ref doc:name="Loader Router Flow Reference" doc:id="842bf11b-aac0-45a4-81b6-038620241284" name="loader-router-flow" />
+		<scheduler doc:name="Scheduler" doc:id="bb3cd2a8-90a1-4492-a52d-322485a0f93c" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="${poller.frequency}" timeUnit="MINUTES"/>
+			</scheduling-strategy>
+		</scheduler>
+		<choice doc:name="Choice" doc:id="e5805079-479d-4523-b8f3-3b6a4a3c8246" >
+			<when expression="#[p('poller.enabled') == &quot;true&quot;]">
+				<flow-ref doc:name="Set Auth Vars from Properties Flow Reference" doc:id="fe3a2c56-7824-4cf5-b65f-8e9d45ae857b" name="metrics-framework-common-set-auth-vars-from-properties" />
+				<flow-ref doc:name="Set Loader Details From Properties Flow Reference" doc:id="648cd66c-3fd0-4a41-92af-427be248dced" name="metrics-framework-common-set-loader-vars-from-properties" />
+				<flow-ref doc:name="Loader Router Flow Reference" doc:id="842bf11b-aac0-45a4-81b6-038620241284" name="loader-router-flow" />
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Logger" doc:id="1ec91447-d56a-41b5-ba44-5fd9c47553ee" message="Poller disabled"/>
+			</otherwise>
+		</choice>
 	</flow>
 </mule>
