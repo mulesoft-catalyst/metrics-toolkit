@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:custom-metrics="http://www.mulesoft.org/schema/mule/custom-metrics" xmlns="http://www.mulesoft.org/schema/mule/core"
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:custom-metrics="http://www.mulesoft.org/schema/mule/custom-metrics" xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schema/mule/custom-metrics/current/mule-custom-metrics.xsd">
 	<flow name="loader-anypoint-monitoring" doc:id="d5126b8c-53ea-4e19-b5b1-fa265ec723b3">
 		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="aaea05ae-67e7-48e5-be81-e9e72aef83a9" name="aggregator-platform-metrics-org-flow" />
@@ -76,6 +78,11 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				</route>
 			</scatter-gather>
 		</foreach>
+		<ee:transform doc:name="Build Loader Response" doc:id="9791d993-1c3f-47cd-b910-1288c59a907b" >
+			<ee:message >
+				<ee:set-payload resource="dw/loader/loader-success-response.dwl" />
+			</ee:message>
+		</ee:transform>
 	</flow>
 	
 	<flow name="loader-benefits-anypoint-monitoring" doc:id="bd45d8ea-15a6-4073-92cb-5c60085593f4" >
@@ -95,5 +102,10 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				</custom-metrics:facts>
 			</custom-metrics:send>
 		</foreach>
+		<ee:transform doc:name="Build Loader Response" doc:id="432b8c96-eac9-4412-a341-1d9e4092fb14" >
+			<ee:message >
+				<ee:set-payload resource="dw/loader/loader-success-response.dwl" />
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
