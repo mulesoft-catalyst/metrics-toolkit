@@ -206,5 +206,6 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 			}
 		}
 		
-	}	
+	},
+	errors: vars.errors	
 }

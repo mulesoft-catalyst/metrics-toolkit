@@ -9,6 +9,7 @@ var strategy = p('loader.strategy')
   		case "splunk" -> splunk: {
   			host: p('splunk.host'),
 			port: p('splunk.port'),
+			protocol: p('splunk.protocol'),
 			token: p('splunk.token'),
 			platformMetricsIndex: p('splunk.index.metrics'),
 			platformBenefitsIndex: p('splunk.index.benefits'),
