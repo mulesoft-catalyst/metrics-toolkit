@@ -117,10 +117,10 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 		cloudhub: {
 			networking: {
 				vpcsTotal: vars.entitlements.vpcs.assigned,
-				vpcsAvailable: vars.entitlements.vpcs.assigned - usage.vpcsConsumed,
+				vpcsAvailable: (vars.entitlements.vpcs.assigned default 0) - (usage.vpcsConsumed default 0),
 				vpcsUsed: usage.vpcsConsumed,
 				vpnsTotal: vars.entitlements.vpns.assigned,
-				vpnsAvailable: vars.entitlements.vpns.assigned - usage.vpnsConsumed,
+				vpnsAvailable: (vars.entitlements.vpns.assigned default 0) - (usage.vpnsConsumed default 0),
 				vpnsUsed: usage.vpnsConsumed
 			},
 			
