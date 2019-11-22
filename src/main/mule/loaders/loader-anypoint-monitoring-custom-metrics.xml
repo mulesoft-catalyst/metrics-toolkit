@@ -8,6 +8,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schema/mule/custom-metrics/current/mule-custom-metrics.xsd">
 	<flow name="loader-anypoint-monitoring" doc:id="d5126b8c-53ea-4e19-b5b1-fa265ec723b3">
 		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="aaea05ae-67e7-48e5-be81-e9e72aef83a9" name="aggregator-platform-metrics-org-flow" />
+		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="fee805ac-b90a-4c23-8d04-4ddd7af66226" variableName="event" />
 		<foreach doc:name="For Each" doc:id="60d7a3e8-3ff7-417f-b833-43065adfa98f">
 			<scatter-gather doc:name="Scatter-Gather" doc:id="6fcbf66f-23ad-4545-b3a2-3c033d10472f">
 				<route >
@@ -87,7 +88,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 	
 	<flow name="loader-benefits-anypoint-monitoring" doc:id="bd45d8ea-15a6-4073-92cb-5c60085593f4" >
 		<flow-ref doc:name="Aggregate Benefits Flow Reference" doc:id="1f6d32c2-e134-42a0-b0d0-362c1a3d0018" name="aggregator-platform-benefits-master-flow"/>
-
+		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="ab878389-64b0-45bf-994a-86ecd153dbc3" variableName="event" />
 		<foreach doc:name="For Each" doc:id="9ef07e6e-3eb4-42f4-8983-5c7024afbe3d" >
 			<custom-metrics:send doc:name="Send Custom Metric" doc:id="ac232fbb-c478-4fdb-8aa0-a4d5dc323956" metricName="platform_beneefits_custom_metric">
 				<custom-metrics:dimensions>
