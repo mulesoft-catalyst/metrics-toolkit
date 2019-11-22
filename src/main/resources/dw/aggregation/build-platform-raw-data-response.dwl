@@ -38,5 +38,6 @@ var analyticsQueryResult = payload[9].payload.payload
 		armServers: armServers,
 		armClusters: armClusters,
 		armServerGroups: armServerGroups
-	}	
+	},
+	errors: vars.errors		
 }

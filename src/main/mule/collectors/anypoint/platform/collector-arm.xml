@@ -14,6 +14,7 @@
 		<error-handler >
 			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="36a2ced6-8ce3-41a1-bc61-ba59d735f7b7" >
 				<logger level="WARN" doc:name="Logger" doc:id="98882288-eb8b-4e94-b0a8-8eb239d30ab2" message="'Not able to get ARM apps metrics for BG:' #[vars.orgId]"/>
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable" doc:id="1691ec03-f8b9-4f94-99d2-4cf6b6074e6c" variableName="errors"/>
 			</on-error-continue>
 		</error-handler>
 	</flow>
@@ -29,6 +30,7 @@
 		<error-handler >
 			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="e14f6f4a-ef40-49de-9042-e66fc1eca6eb" >
 				<logger level="WARN" doc:name="Logger" doc:id="b0258a4e-12b5-4a38-952e-1d2a0cd2371f" message="'Not able to get ARM server metrics for BG:' #[vars.orgId]"/>
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable" doc:id="10525aa7-352a-4b9c-8a16-50ea02aa9bb0" variableName="errors"/>
 			</on-error-continue>
 		</error-handler>
 	</flow>
@@ -44,6 +46,7 @@
 		<error-handler >
 			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="757a52a7-18d0-41aa-9926-4a46dea0d1c4" >
 				<logger level="WARN" doc:name="Logger" doc:id="47a8910d-d1ee-4ccc-af6e-bf455cdedc6b" message="'Not able to get ARM cluster metrics for BG:' #[vars.orgId]"/>
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable" doc:id="9ee101af-fe65-443a-82b1-2d37d7989b7c" variableName="errors"/>
 			</on-error-continue>
 		</error-handler>
 	</flow>
@@ -59,6 +62,7 @@
 		<error-handler >
 			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="ddd2fafd-d39f-4786-9aa5-de130627d438" >
 				<logger level="WARN" doc:name="Logger" doc:id="b5a77f4c-3ef3-4497-88a1-b833d68c8221" message="'Not able to get ARM server groups metrics for BG:' #[vars.orgId]"/>
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable" doc:id="0b5142eb-14f6-4994-8bba-b84649fe16bb" variableName="errors"/>
 			</on-error-continue>
 		</error-handler>
 	</flow>
@@ -84,6 +88,7 @@
 		<error-handler >
 			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="b84f8007-6c30-404b-946a-d29171f68c1c" >
 				<logger level="WARN" doc:name="Logger" doc:id="67fb02bf-1f97-40d5-b6a9-0b4e42e9ffd2" message="'Not able to get ARM deployment metrics for BG:' #[vars.orgId]"/>
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable" doc:id="508e4a67-7f6b-4230-8099-1a020837bbb4" variableName="errors"/>
 			</on-error-continue>
 		</error-handler>
 	</flow>

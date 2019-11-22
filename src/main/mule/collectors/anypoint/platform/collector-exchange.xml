@@ -8,6 +8,7 @@
 		<error-handler >
 			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="068f4019-e894-4f47-942d-89f9a2aed140" >
 				<logger level="WARN" doc:name="Logger" doc:id="f0bbd9fc-4442-4342-b622-dbada09790a3" message="'Not able to get Exchange metrics for BG:' #[vars.orgId]"/>
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable" doc:id="8d6b70e8-8fe9-468f-bea6-9ada3cb1d778" variableName="errors"/>
 			</on-error-continue>
 		</error-handler>
 	</flow>
