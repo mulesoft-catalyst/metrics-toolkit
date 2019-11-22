@@ -1,12 +1,14 @@
 %dw 2.0
 output application/json
----
-(payload.subOrganizations map {  //recursive of subOrganizations ".." descendants selector not working
-	id: $.id,
-	name: $.name,
-	entitlements: $.entitlements 
-}) + { //masterOrg
-	id: payload.id,
-	name: payload.name,
-	entitlements: payload.entitlements
+
+var reducedOrg = (org) -> {
+    id: org.id,
+    name: org.name,
+    entitlements: org.entitlements
 }
+
+var getOrgAndSubOrgs = (payload) -> (
+    [reducedOrg(payload)] ++ flatten(payload.subOrganizations map getOrgAndSubOrgs($))
+)
+---
+getOrgAndSubOrgs(payload)
