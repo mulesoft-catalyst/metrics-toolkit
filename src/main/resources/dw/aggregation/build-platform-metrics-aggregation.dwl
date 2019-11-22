@@ -4,7 +4,8 @@ var environments = vars.environments
 var cloudHubApps = payload[0].payload.payload
 var exchangeAssets = payload[1].payload
 var apiManagerApis = payload[2].payload.payload
-var members = payload[3].payload
+var members = payload[3].payload[0].payload
+var usage = payload[3].payload[1].payload
 var designCenterProjects = payload[4].payload
 var apiClients = payload[5].payload.applications
 var apiAutomatedPolicies = payload[6].payload.payload
@@ -116,11 +117,11 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 		cloudhub: {
 			networking: {
 				vpcsTotal: vars.entitlements.vpcs.assigned,
-				vpcsAvailable: "NA",
-				vpcsUsed: "NA",
+				vpcsAvailable: vars.entitlements.vpcs.assigned - usage.vpcsConsumed,
+				vpcsUsed: usage.vpcsConsumed,
 				vpnsTotal: vars.entitlements.vpns.assigned,
-				vpnsAvailable: "NA",
-				vpnsUsed: "NA"
+				vpnsAvailable: vars.entitlements.vpns.assigned - usage.vpnsConsumed,
+				vpnsUsed: usage.vpnsConsumed
 			},
 			
 			applications:{
