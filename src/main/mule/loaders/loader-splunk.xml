@@ -62,5 +62,10 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		</http:request>
 			</otherwise>
 		</choice>
+		<ee:transform doc:name="Build Loader Response" doc:id="633990eb-d912-463d-8303-379e7e0f9da1" >
+			<ee:message >
+				<ee:set-payload resource="dw/loader/loader-success-response.dwl" />
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
