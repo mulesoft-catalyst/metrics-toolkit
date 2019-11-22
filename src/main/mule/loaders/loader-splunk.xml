@@ -18,7 +18,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 
 	<flow name="loader-splunk-hec-main-flow" doc:id="ef10b993-2925-4b83-8b9b-83092f1e3c97">
 		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="2a2d9ce7-a83a-4ebb-bfdf-cace7354c9a4" name="aggregator-platform-metrics-master-flow" />
-		<logger level="INFO" doc:name="Logger" doc:id="bc500a4d-66b9-457f-93df-f44c1066e18e" message="#[payload]" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="bc500a4d-66b9-457f-93df-f44c1066e18e" message="#[payload]" />
 		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="91053473-3110-4f48-8441-75c33be16f66" variableName="event" />
 		<set-variable value="#[vars.loaderDetails.splunk.platformMetricsIndex]" doc:name="Set Index Variable" doc:id="241d25e2-51d7-4809-8ce8-ac7295f38648"
 			variableName="index" />
@@ -27,7 +27,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 
 	<flow name="loader-benefits-splunk-hec-main-flow" doc:id="ed5c9f13-fdf4-4b8b-87f0-c3dd48b522e7">
 		<flow-ref doc:name="Aggregate Platform Benefits Flow Reference" doc:id="83d65c5b-f5e6-40e1-b7df-f3a9df1d5f67" name="aggregator-platform-benefits-master-flow" />
-		<logger level="INFO" doc:name="Logger" doc:id="66bb2880-91ad-48f6-9105-3e5e25f5de7b" message="#[payload]" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="66bb2880-91ad-48f6-9105-3e5e25f5de7b" message="#[payload]" />
 		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="d3bbb792-1f32-4e72-a1fd-711e061bae8f" variableName="event" />
 		<set-variable value="#[vars.loaderDetails.splunk.platformBenefitsIndex]" doc:name="Set Index Variable" doc:id="1eb05e64-23ae-45fd-8e0e-6bf9e8153fc1"
 			variableName="index" />
