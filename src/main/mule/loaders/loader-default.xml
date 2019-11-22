@@ -7,6 +7,7 @@
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 	<flow name="loader-default-flow" doc:id="470c779b-3b66-4ca6-bca4-6aa9bacd665e" >
 		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="079fcea0-d2b2-4fed-bda7-b75c981de108" name="aggregator-platform-metrics-master-flow"/>
+		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="930f6bcc-0467-4047-8160-d30381b3ddc3" variableName="event" />
 		<logger level="INFO" doc:name="Logger" doc:id="fb8912f7-6a80-429e-97f2-c66e76d8aa1c" message="#[payload]"/>
 		<ee:transform doc:name="Build Loader Response" doc:id="7b0a367a-f137-405d-a515-0c6bf3299241" >
 			<ee:message >
