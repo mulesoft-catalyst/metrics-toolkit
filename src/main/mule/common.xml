@@ -32,7 +32,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<ee:message >
 			</ee:message>
 			<ee:variables >
-				<ee:set-variable resource="dw/loader/build-loader-details-from-properties.dwl" variableName="loaderDetails" />
+				<ee:set-variable resource="dw/loader/loader-splunk-hec-details-from-properties.dwl" variableName="loaderDetails" />
 			</ee:variables>
 		</ee:transform>
 		<set-variable value="#[vars.loaderDetails.rawData]" doc:name="Set Raw Data flag" doc:id="b9eb9e5c-059d-4567-b3d1-9200f60d3dda" variableName="rawData"/>
