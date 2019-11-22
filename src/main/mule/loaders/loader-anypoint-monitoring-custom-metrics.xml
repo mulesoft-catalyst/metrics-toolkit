@@ -4,17 +4,77 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schema/mule/custom-metrics/current/mule-custom-metrics.xsd">
-	<flow name="loader-anypoint-monitoring" doc:id="d5126b8c-53ea-4e19-b5b1-fa265ec723b3" >
-		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="aaea05ae-67e7-48e5-be81-e9e72aef83a9" name="aggregator-platform-metrics-org-flow"/>
-		<foreach doc:name="For Each" doc:id="60d7a3e8-3ff7-417f-b833-43065adfa98f" >
-			<custom-metrics:send doc:name="Send Custom Metric" doc:id="b710f150-b034-4210-8489-ffdcf385ac81" metricName="platform_custom_metric">
-				<custom-metrics:dimensions>
-					<custom-metrics:dimension dimensionName="environments" value="#[payload.dimension]" />
-				</custom-metrics:dimensions>
-				<custom-metrics:facts>
-					<custom-metrics:fact factName="count" value="#[payload.fact]" />
-				</custom-metrics:facts>
-			</custom-metrics:send>
+	<flow name="loader-anypoint-monitoring" doc:id="d5126b8c-53ea-4e19-b5b1-fa265ec723b3">
+		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="aaea05ae-67e7-48e5-be81-e9e72aef83a9" name="aggregator-platform-metrics-org-flow" />
+		<foreach doc:name="For Each" doc:id="60d7a3e8-3ff7-417f-b833-43065adfa98f">
+			<scatter-gather doc:name="Scatter-Gather" doc:id="6fcbf66f-23ad-4545-b3a2-3c033d10472f">
+				<route >
+					<custom-metrics:send doc:name="Send Custom Metric" doc:id="b710f150-b034-4210-8489-ffdcf385ac81" metricName="platform_general_custom_metric">
+						<custom-metrics:dimensions>
+							<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroup]" />
+						</custom-metrics:dimensions>
+						<custom-metrics:facts>
+							<custom-metrics:fact factName="users_total" value="#[payload.coreServicesMetrics.users.total]" />
+							<custom-metrics:fact factName="users_active" value="#[payload.coreServicesMetrics.users.activeMembers]" />
+							<custom-metrics:fact factName="users_inactive" value="#[payload.coreServicesMetrics.users.inactiveMembers]" />
+							<custom-metrics:fact factName="users_active_60_days" value="#[payload.coreServicesMetrics.users.activeMembersLast60Days]" />
+							<custom-metrics:fact factName="users_active_30_days" value="#[payload.coreServicesMetrics.users.activeMembersLast30Days]" />
+							<custom-metrics:fact factName="environments_total" value="#[payload.coreServicesMetrics.environments.total]" />
+							<custom-metrics:fact factName="desing_center_projects_total" value="#[payload.designCenterMetrics.total]" />
+							<custom-metrics:fact factName="desing_center_projects_api_specs" value="#[payload.designCenterMetrics.apiSpecs]" />
+							<custom-metrics:fact factName="desing_center_projects_fragments" value="#[payload.designCenterMetrics.fragments]" />
+							<custom-metrics:fact factName="desing_center_projects_flow_designer_apps" value="#[payload.designCenterMetrics.flowDesignerApps]" />
+							<custom-metrics:fact factName="exchange_assets_total" value="#[payload.exchangeMetrics.total]" />
+							<custom-metrics:fact factName="exchange_assets_api_specs" value="#[payload.exchangeMetrics.apiSpecs]" />
+							<custom-metrics:fact factName="exchange_assets_connectors" value="#[payload.exchangeMetrics.connectors]" />
+							<custom-metrics:fact factName="exchange_assets_fragments" value="#[payload.exchangeMetrics.fragments]" />
+							<custom-metrics:fact factName="exchange_assets_proxies" value="#[payload.exchangeMetrics.proxies]" />
+							<custom-metrics:fact factName="exchange_assets_extensions" value="#[payload.exchangeMetrics.extensions]" />
+							<custom-metrics:fact factName="exchange_assets_custom" value="#[payload.exchangeMetrics.custom]" />
+							<custom-metrics:fact factName="exchange_assets_satisfaction" value="#[payload.exchangeMetrics.overallSatisfaction]" />
+							<custom-metrics:fact factName="api_clients" value="#[payload.apiManagerMetrics.clients]" />
+						</custom-metrics:facts>
+					</custom-metrics:send>
+				</route>
+				<route >
+					<custom-metrics:send doc:name="Send Custom Metric" doc:id="cef0e8f7-1f9b-46c2-9683-74493ae16e15" metricName="platform_sandbox_custom_metric">
+						<custom-metrics:dimensions>
+							<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroup]" />
+							<custom-metrics:dimension dimensionName="environmentType" value="sandbox" />
+						</custom-metrics:dimensions>
+						<custom-metrics:facts>
+							<custom-metrics:fact factName="apim_api_specs_total" value="#[payload.apiManagerMetrics.apis.sandbox.total]" />
+							<custom-metrics:fact factName="apim_api_instances_total" value="#[payload.apiManagerMetrics.apis.sandbox.apiInstances]" />
+							<custom-metrics:fact factName="apim_api_instances_active" value="#[payload.apiManagerMetrics.apis.sandbox.active]" />
+							<custom-metrics:fact factName="apim_api_instances_inactive" value="#[payload.apiManagerMetrics.apis.sandbox.inactive]" />
+							<custom-metrics:fact factName="apim_api_instances_versions" value="#[payload.apiManagerMetrics.apis.sandbox.apiVersions]" />
+							<custom-metrics:fact factName="apim_api_instances_with_policies" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithPolicies]" />
+							<custom-metrics:fact factName="apim_api_instances_without_policies" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithoutPolicies]" />
+							<custom-metrics:fact factName="apim_api_instances_with_security" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithSecurity]" />
+							<custom-metrics:fact factName="apim_api_instances_without_security" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithoutSecurity]" />
+							<custom-metrics:fact factName="apim_api_instances_with_contracts" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithContracts]" />
+							<custom-metrics:fact factName="apim_api_instances_without_contracts" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithoutContracts]" />
+							<custom-metrics:fact factName="apim_api_instances_with_more_than_one_consumer" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithMoreThanOneConsumer]" />
+							<custom-metrics:fact factName="apim_api_instances_with_one_or_more_consumers" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithOneOrMoreConsumer]" />
+							<custom-metrics:fact factName="apim_policies_used_total" value="#[payload.apiManagerMetrics.apis.sandbox.policiesUsedTotal]" />
+							<custom-metrics:fact factName="apim_automated_policies_used_total" value="#[payload.apiManagerMetrics.apis.sandbox.automatedPoliciesUsedTotal]" />
+							<custom-metrics:fact factName="apim_contracts_total" value="#[payload.apiManagerMetrics.apis.sandbox.contracts]" />
+							<custom-metrics:fact factName="apim_transactions" value="#[payload.apiManagerMetrics.apis.sandbox.transactions]" />
+						</custom-metrics:facts>
+					</custom-metrics:send>
+				</route>
+				<route >
+					<custom-metrics:send doc:name="Send Custom Metric" doc:id="5211d1fa-362d-4131-8cfd-ba2e68e7f063" metricName="platform_production_custom_metric">
+						<custom-metrics:dimensions>
+							<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroup]" />
+							<custom-metrics:dimension dimensionName="environmentType" value="production" />
+						</custom-metrics:dimensions>
+						<custom-metrics:facts>
+							<custom-metrics:fact factName="users_total" value="#[payload.coreServicesMetrics.users.total]" />
+						</custom-metrics:facts>
+					</custom-metrics:send>
+				</route>
+			</scatter-gather>
 		</foreach>
 	</flow>
 	
@@ -22,12 +82,16 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 		<flow-ref doc:name="Aggregate Benefits Flow Reference" doc:id="1f6d32c2-e134-42a0-b0d0-362c1a3d0018" name="aggregator-platform-benefits-master-flow"/>
 
 		<foreach doc:name="For Each" doc:id="9ef07e6e-3eb4-42f4-8983-5c7024afbe3d" >
-			<custom-metrics:send doc:name="Send Custom Metric" doc:id="ac232fbb-c478-4fdb-8aa0-a4d5dc323956" metricName="platform_custom_metric">
+			<custom-metrics:send doc:name="Send Custom Metric" doc:id="ac232fbb-c478-4fdb-8aa0-a4d5dc323956" metricName="platform_beneefits_custom_metric">
 				<custom-metrics:dimensions>
-					<custom-metrics:dimension dimensionName="environments" value="#[payload.dimension]" />
+					<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroup]" />
 				</custom-metrics:dimensions>
 				<custom-metrics:facts>
-					<custom-metrics:fact factName="count" value="#[payload.fact]" />
+					<custom-metrics:fact factName="developerProductivity" value="#[payload.developerProductivity]" />
+					<custom-metrics:fact factName="savingFromAPIReuse" value="#[payload.savingFromAPIReuse]" />
+					<custom-metrics:fact factName="savingFromMaintenanceProductivity" value="#[payload.savingFromMaintenanceProductivity]" />
+					<custom-metrics:fact factName="savingFromReuseInMaintenance" value="#[payload.savingFromReuseInMaintenance]" />
+					<custom-metrics:fact factName="totalSavings" value="#[payload.totalSavings]" />
 				</custom-metrics:facts>
 			</custom-metrics:send>
 		</foreach>

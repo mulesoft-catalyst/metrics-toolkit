@@ -142,9 +142,9 @@
   </row>
   <row>
     <panel>
-      <title>Accesss Management - Business Groups - Current Count</title>
+      <title>Access Management - Business Groups - Current Count</title>
       <single>
-        <title>Accesss Management - Business Groups - Current Count</title>
+        <title>Access Management - Business Groups - Current Count</title>
         <search>
           <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp  | stats dc(businessGroup)  as "Business Groups"</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -159,9 +159,9 @@
       </single>
     </panel>
     <panel>
-      <title>Accesss Management - Business Groups - Timeline</title>
+      <title>Access Management - Business Groups - Timeline</title>
       <chart>
-        <title>Accesss Management - Business Groups - Timeline</title>
+        <title>Access Management - Business Groups - Timeline</title>
         <search>
           <query>index=$platformMetricsIndex$ | chart dc(businessGroup) as "Business Groups" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -178,9 +178,9 @@
   </row>
   <row>
     <panel>
-      <title>Accesss Management - Users - Current Count</title>
+      <title>Access Management - Users - Current Count</title>
       <single>
-        <title>Accesss Management - Users - Current Count</title>
+        <title>Access Management - Users - Current Count</title>
         <search>
           <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp  | search businessGroup IN ($bgToken$) | stats values(coreServicesMetrics.users.total) as total | stats max(total) as "Users"</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -195,7 +195,7 @@
         <option name="useColors">0</option>
       </single>
       <single>
-        <title>Accesss Management - Users Active - Last 60 days - Current Count</title>
+        <title>Access Management - Users Active - Last 60 days - Current Count</title>
         <search>
           <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp  | search businessGroup IN ($bgToken$) | stats values(coreServicesMetrics.users.activeMembersLast60Days) as total | stats max(total) as "Users"</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -211,9 +211,9 @@
       </single>
     </panel>
     <panel>
-      <title>Accesss Management - Users by Type</title>
+      <title>Access Management - Users by Type</title>
       <chart>
-        <title>Accesss Management - Users by Type</title>
+        <title>Access Management - Users by Type</title>
         <search>
           <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(coreServicesMetrics.users.activeMembers) as active, values(coreServicesMetrics.users.inactiveMembers) as inactive | stats max(active) as "Active Users", max(inactive) as "Inactive Users" | transpose</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -226,9 +226,9 @@
       </chart>
     </panel>
     <panel>
-      <title>Accesss Management - Users - Timeline</title>
+      <title>Access Management - Users - Timeline</title>
       <chart>
-        <title>Accesss Management - Users - Timeline</title>
+        <title>Access Management - Users - Timeline</title>
         <search>
           <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(coreServicesMetrics.users.activeMembers) as "Active Users", values(coreServicesMetrics.users.inactiveMembers) as "Inactive Users" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -245,9 +245,9 @@
   </row>
   <row>
     <panel>
-      <title>Accesss Management - Environments - Current Count</title>
+      <title>Access Management - Environments - Current Count</title>
       <single>
-        <title>Accesss Management - Environments - Current Count</title>
+        <title>Access Management - Environments - Current Count</title>
         <search>
           <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp  | search businessGroup IN ($bgToken$) | stats values(coreServicesMetrics.environments.total) as total | stats max(total) as "Environments"</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -261,9 +261,9 @@
       </single>
     </panel>
     <panel>
-      <title>Accesss Management - Environments by Type</title>
+      <title>Access Management - Environments by Type</title>
       <chart>
-        <title>Accesss Management - Environments by Type</title>
+        <title>Access Management - Environments by Type</title>
         <search>
           <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(coreServicesMetrics.environments.sandbox) as sandbox, values(coreServicesMetrics.environments.production) as production | stats max(sandbox) as "Sandbox Environments", max(production) as "Production Environments" | transpose</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -276,9 +276,9 @@
       </chart>
     </panel>
     <panel>
-      <title>Accesss Management - Environments by Type - Timeline</title>
+      <title>Access Management - Environments by Type - Timeline</title>
       <chart>
-        <title>Accesss Management - Environments by Type - Timeline</title>
+        <title>Access Management - Environments by Type - Timeline</title>
         <search>
           <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(coreServicesMetrics.environments.sandbox) as "Sandbox environments", values(coreServicesMetrics.environments.production) as "Production environments" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -428,6 +428,46 @@
       </chart>
     </panel>
   </row>
+  
+  <row>
+    <panel>
+      <title>API Analytics - Transactions/Requests - Last 30 days</title>
+      <single>
+        <title>API Analytics - Transactions/Requests - Last 30 days</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.transactions) as total | stats max(total) as "API Requests"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">API Requests</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>API Analytics - Transactions/Requests - Last 30 days - Timeline</title>
+      <chart>
+        <title>API Analytics - Transactions/Requests - Last 30 days - Timeline</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) apiManagerMetrics.apis.production.transactions > 0 | chart values(apiManagerMetrics.apis.production.transactions) as "API Requests" by _time, businessGroup</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">minmax</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  
+  
+  
   <row>
     <panel>
       <title>API Manager - API Clients - Current Count</title>

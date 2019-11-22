@@ -61,11 +61,22 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</scatter-gather>
 		<logger level="DEBUG" doc:name="Logger" doc:id="93babf32-d504-496b-85a1-accfb5a1779a" message="#[%dw 2.0
 output application/json --- payload[9].payload.payload]"/>
-		<ee:transform doc:name="Build Final Response" doc:id="aa83f239-119d-46f3-9538-bd06b4c84ef1">
+		<choice doc:name="Choice" doc:id="a97772ac-5115-4717-ab5e-333822e3841b" >
+			<when expression="#[vars.rawData]">
+				<ee:transform doc:name="Build Raw Data Response" doc:id="c571107e-cd3c-4e87-83fe-c9d44cf35596">
+			<ee:message>
+						<ee:set-payload resource="dw/aggregation/build-platform-raw-data-response.dwl" />
+			</ee:message>
+		</ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Build Metrics Aggregated Response" doc:id="aa83f239-119d-46f3-9538-bd06b4c84ef1">
 			<ee:message>
 				<ee:set-payload resource="dw/aggregation/build-platform-metrics-aggregation.dwl" />
 			</ee:message>
 		</ee:transform>
+			</otherwise>
+		</choice>
 	</flow>
 	
 	<flow name="aggregator-platform-metrics-arm-flow" doc:id="2eed9166-ad29-43c6-b1a3-5a971150a931">
