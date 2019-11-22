@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	
+
+	<flow name="collector-members-metrics-flow" doc:id="bc68b4f3-3bf9-4297-b023-fa4099b4b313">
+		<flow-ref doc:name="Coreservices Members Flow Reference" doc:id="b92c8143-308d-46a2-93e7-39700c94b279" name="api-call-coreservices-members-flow" />
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="db140186-ddfa-45ef-99ef-899e59b51873" >
+				<logger level="WARN" doc:name="Logger" doc:id="25151dad-6299-47ca-b3c0-345dc76ab5ce" message="'Not able to get Coreservices - members metrics for BG:' #[vars.orgId]"/>
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable" doc:id="bb25a993-d6ea-44d0-a230-83dc72a2b5b4" variableName="errors"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>	
+	
+	<flow name="collector-usage-metrics-flow" doc:id="3cb28f1b-fd73-4b9c-a52d-95bbd4ffd008">
+		<flow-ref doc:name="Coreservices Usage Flow Reference" doc:id="92b8a7af-57b4-4e26-8f1f-fbed473bfa32" name="api-call-coreservices-usage-flow" />
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="1649fd45-6652-421e-bff9-3fa009c7f3b4" >
+				<logger level="WARN" doc:name="Logger" doc:id="b67d05f9-7ddd-4945-9202-09b33473376b" message="'Not able to get Coreservices - usage metrics for BG:' #[vars.orgId]"/>
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable" doc:id="c1c9d06c-c0ad-4bda-a0ff-caa774aa7dc7" variableName="errors"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>	
+	
+</mule>

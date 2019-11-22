@@ -1,6 +1,6 @@
 anypoint:
   platform:
-    host: "anypoint.mulesoft.com"
+    host: "anypoint.mulesoft.com" #Change to eu1.anypoint.mulesoft.com  if using the EU Control Plane
     apis:
       coreservices:
         login:
@@ -9,6 +9,8 @@ anypoint:
           path: "/accounts/api/organizations/{orgId}/hierarchy"
         environments:
           path: "/accounts/api/organizations/{orgId}/environments"
+        usage:
+          path: "/accounts/api/cs/organizations/{orgId}/usage"
         members:
           path: "/accounts/api/organizations/{orgId}/members"
           limit: "1000"
@@ -42,7 +44,7 @@ anypoint:
       apiPlatform:
         clients:
           path: "/apiplatform/repository/v2/organizations/{orgId}/applications"
-          limit: "1000"
+          limit: "250"
           offset: "0"
           targetAdminSite: "true"
       designCenter:
@@ -57,6 +59,7 @@ anypoint:
         query:
           path: "/analytics/1.0/{orgId}/environments/{envId}/query"
           duration: "30d"
+          timeout: "8000"
       exchange:
         assets:
           path: "/exchange/api/v1/assets"

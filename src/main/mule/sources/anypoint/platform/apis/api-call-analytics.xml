@@ -36,28 +36,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<logger level="INFO" doc:name="Logger" doc:id="aeda6f47-6889-471c-9163-296ed1791eab" message="Calling Analytics - Query" />
 		<ee:transform doc:name="Build Analytics Enriched Data Request" doc:id="62a96daa-7d08-4d34-8127-04165454dd3a">
 			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-    "type": "enriched-http-event",
-    "duration": p('anypoint.platform.apis.analytics.query.duration'),
-    "aggregators": [
-        {
-            "dimension": "api_id",
-            "order": "descending"
-        },
-        {
-            "dimension": "client_id",
-            "order": "descending"
-        }
-    ],
-	"include_policy_violation": true
-}]]></ee:set-payload>
+				<ee:set-payload resource="dw/anypoint/analytics-query-request.dwl" />
 			</ee:message>
 		</ee:transform>
 		<http:request method="POST" doc:name="Get Analytics Enriched Data Request" doc:id="2021c5c3-4242-4cc9-8a29-bad19ce7af3d"
-			config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.analytics.query.path}">
+			config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.analytics.query.path}" responseTimeout="${anypoint.platform.apis.analytics.query.timeout}">
 			<http:headers><![CDATA[#[output application/java
 ---
 {
