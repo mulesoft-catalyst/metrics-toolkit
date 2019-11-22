@@ -28,6 +28,7 @@
 		<error-handler >
 			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="0a380e09-7a5b-43dc-b309-6b66079c68e0" >
 				<logger level="WARN" doc:name="Logger" doc:id="8bed5e53-5e18-4f52-ad1b-6a10a8a029eb" message="'Not able to get API Manager metrics for BG:' #[vars.orgId]"/>
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable" doc:id="8f0effb1-4277-408b-9f88-b92939c79e4c" variableName="errors"/>
 			</on-error-continue>
 		</error-handler>
 	</flow>
@@ -42,6 +43,7 @@
 		<error-handler >
 			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="81121f24-5d44-4efe-8264-4ca8f49302ee" >
 				<logger level="WARN" doc:name="Logger" doc:id="1b8a1082-5198-475a-add0-11ee5e8ed44d" message="'Not able to get Automated Polcies metrics for BG:' #[vars.orgId]"/>
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable" doc:id="be760db9-d502-4eb7-afa0-a0dc20009784" variableName="errors"/>
 			</on-error-continue>
 		</error-handler>
 	</flow>

@@ -14,6 +14,7 @@
 		<error-handler >
 			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="64c3004d-9411-44de-9afc-f0d4401fd20e" >
 				<logger level="WARN" doc:name="Logger" doc:id="44afba07-0825-415b-b2f4-cf72c0a2ca96" message="'Not able to get CloudHub apps metrics for BG:' #[vars.orgId]"/>
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable" doc:id="76420c59-6359-4a52-8886-f18886bae2c2" variableName="errors"/>
 			</on-error-continue>
 		</error-handler>
 	</flow>
