@@ -12,6 +12,11 @@ protocols:
       X-ANYPNT-USERNAME: string
       X-ANYPNT-PASSWORD: string
       X-ANYPNT-ORG-ID: string
+    queryParameters:
+      raw:
+        description: "Provide raw data"
+        type: boolean
+        default: false
     responses:
       200:
         body:

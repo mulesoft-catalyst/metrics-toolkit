@@ -24,6 +24,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	
 	<flow name="metrics-framework-common-set-loader-vars-from-payload" doc:id="d2719e2e-0afa-40bb-9231-9eb185d0bef9">
 		<set-variable value="#[payload.loaderDetails]" doc:name="Set Loader Details Variable" doc:id="27c806c4-3221-4fd1-a7eb-0524bc28ac6c" variableName="loaderDetails"/>
+		<set-variable value="#[vars.loaderDetails.rawData]" doc:name="Set Raw Data flag" doc:id="16ab06f0-5497-4242-a1c2-1a4194b39a8a" variableName="rawData"/>
 	</flow>
 	
 	<flow name="metrics-framework-common-set-loader-vars-from-properties" doc:id="f9b2105a-4045-4eb6-bd9f-a4e958b0c880">
@@ -34,6 +35,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-variable resource="dw/loader/build-loader-details-from-properties.dwl" variableName="loaderDetails" />
 			</ee:variables>
 		</ee:transform>
+		<set-variable value="#[vars.loaderDetails.rawData]" doc:name="Set Raw Data flag" doc:id="b9eb9e5c-059d-4567-b3d1-9200f60d3dda" variableName="rawData"/>
 	</flow>
 	
 	<flow name="metrics-framework-common-set-benefits-vars-from-query-params" doc:id="30dc254e-8a81-4bbc-93bc-2202cad169b5">
