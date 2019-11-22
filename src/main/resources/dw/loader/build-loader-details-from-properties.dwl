@@ -4,6 +4,7 @@ var strategy = p('loader.strategy')
 ---
 {
 	strategy: strategy,
+	rawData: p('aggregation.raw'),
 	(strategy match {
   		case "splunk" -> splunk: {
   			host: p('splunk.host'),

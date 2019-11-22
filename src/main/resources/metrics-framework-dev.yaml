@@ -5,6 +5,9 @@ poller:
   enabled: "false"
   frequency: "1" #minutes
   
+aggregation:
+  raw: "false"
+  
 loader:
   strategy: "logger"
 
