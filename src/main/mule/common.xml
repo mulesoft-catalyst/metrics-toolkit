@@ -7,10 +7,24 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<flow name="metrics-framework-common-set-auth-vars-from-headers" doc:id="03e16ef6-6fec-48ef-8401-aacdcb0c682b">
 		<set-variable value='#[attributes.headers."X-ANYPNT-ORG-ID"]' doc:name="Set Master Org Id Variable" doc:id="759131f5-05d4-4428-95ce-b7b9fe76da0d"
 			variableName="masterOrgId" />
-		<set-variable value='#[attributes.headers."X-ANYPNT-USERNAME"]' doc:name="Set Username Variable" doc:id="ffbebe02-8320-41e8-a5dc-ea6a645e0d11"
-			variableName="username" />
-		<set-variable value='#[attributes.headers."X-ANYPNT-PASSWORD"]' doc:name="Set Password Variable" doc:id="44ded1cf-5af3-4631-867a-410963d238c8"
-			variableName="password" />
+		<choice doc:name="Choice" doc:id="6f11cbbe-3971-478b-9c6c-188890c59880" >
+			<when expression="#[sizeOf(attributes.headers.Authorization) &gt; 0]">
+				<set-variable value='#[%dw 2.0
+import * from dw::core::Binaries
+output application/java
+---
+(fromBase64((attributes.headers.Authorization default "") replace "Basic " with "") as String splitBy ":")[0]]' doc:name="Set Username Variable from Basic Auth" doc:id="9008b539-d718-4448-8cc7-07ea0cecdca5" variableName="username" />
+				<set-variable value='#[%dw 2.0
+import * from dw::core::Binaries
+output application/java
+---
+(fromBase64((attributes.headers.Authorization default "") replace "Basic " with "") as String splitBy ":")[1]]' doc:name="Set Password Variable from Basic Auth" doc:id="baab28c4-b866-4974-aff8-90f24be652c0" variableName="password" />
+			</when>
+			<otherwise >
+				<set-variable value='#[attributes.headers."X-ANYPNT-USERNAME"]' doc:name="Set Username Variable" doc:id="ffbebe02-8320-41e8-a5dc-ea6a645e0d11" variableName="username" />
+				<set-variable value='#[attributes.headers."X-ANYPNT-PASSWORD"]' doc:name="Set Password Variable" doc:id="44ded1cf-5af3-4631-867a-410963d238c8" variableName="password" />
+			</otherwise>
+		</choice>
 	</flow>
 	
 	<flow name="metrics-framework-common-set-auth-vars-from-properties" doc:id="bcd8192b-7a75-45a5-963e-6c98065b3e71">
