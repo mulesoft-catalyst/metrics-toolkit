@@ -5,12 +5,30 @@ description: Metrics Framework API to obtain and generate operational and busine
 version: v1
 protocols: 
   - HTTPS
-
+  
+securedBy: [basic-auth, headers-auth]
+securitySchemes:
+  basic-auth:
+    description: This API supports Basic Authentication. This mechanism is mandatory if the password contains special characters.
+    type: Basic Authentication
+  headers-auth:
+    description: This API supports Authentication based on custom headers.
+    displayName: Headers Authentication
+    type: x-custom
+    describedBy:
+      headers:
+        X-ANYPNT-USERNAME:
+          description: |
+            Receives the username used when login to Anypoint Platform.
+          type: string
+        X-ANYPNT-PASSWORD:
+          description: |
+            Receives a text/plain password used when login to Anypoint Platform. 
+          type: string
+       
 /platform-metrics:
   get:
     headers:
-      X-ANYPNT-USERNAME: string
-      X-ANYPNT-PASSWORD: string
       X-ANYPNT-ORG-ID: string
     queryParameters:
       raw:
@@ -24,8 +42,6 @@ protocols:
   /load:
     post:
       headers:
-        X-ANYPNT-USERNAME: string
-        X-ANYPNT-PASSWORD: string
         X-ANYPNT-ORG-ID: string 
       body:
         application/json:
@@ -39,8 +55,6 @@ protocols:
 /business-metrics:
   get:
     headers:
-      X-ANYPNT-USERNAME: string
-      X-ANYPNT-PASSWORD: string
       X-ANYPNT-ORG-ID: string
     queryParameters:
       developAPIHistoricTime:
@@ -65,8 +79,6 @@ protocols:
   /load:
     post:
       headers:
-        X-ANYPNT-USERNAME: string
-        X-ANYPNT-PASSWORD: string
         X-ANYPNT-ORG-ID: string
       body:
         application/json:
