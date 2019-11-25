@@ -19,6 +19,7 @@ var analyticsQueryResult = payload[9].payload.payload
 {
 	date: vars.date,
 	businessGroup: vars.orgName,
+	businessGroupId: vars.orgId,
 	coreServicesData: {
 		entitlements: vars.entitlements,
 		users: members.data,
