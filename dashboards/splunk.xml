@@ -12,6 +12,8 @@
       <default>*</default>
       <initialValue>*</initialValue>
       <delimiter>,</delimiter>
+      <valuePrefix>"</valuePrefix>
+      <valueSuffix>"</valueSuffix>
     </input>
     <input type="time" token="timeToken">
       <label>Time range</label>
@@ -428,7 +430,6 @@
       </chart>
     </panel>
   </row>
-  
   <row>
     <panel>
       <title>API Analytics - Transactions/Requests - Last 30 days</title>
@@ -451,7 +452,7 @@
       <chart>
         <title>API Analytics - Transactions/Requests - Last 30 days - Timeline</title>
         <search>
-          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) apiManagerMetrics.apis.production.transactions > 0 | chart values(apiManagerMetrics.apis.production.transactions) as "API Requests" by _time, businessGroup</query>
+          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) apiManagerMetrics.apis.production.transactions &gt; 0 | chart values(apiManagerMetrics.apis.production.transactions) as "API Requests" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -464,10 +465,6 @@
       </chart>
     </panel>
   </row>
-  
-  
-  
-  
   <row>
     <panel>
       <title>API Manager - API Clients - Current Count</title>
