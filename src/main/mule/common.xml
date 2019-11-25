@@ -3,12 +3,12 @@
 <mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-
+ 
 	<flow name="metrics-framework-common-set-auth-vars-from-headers" doc:id="03e16ef6-6fec-48ef-8401-aacdcb0c682b">
 		<set-variable value='#[attributes.headers."X-ANYPNT-ORG-ID"]' doc:name="Set Master Org Id Variable" doc:id="759131f5-05d4-4428-95ce-b7b9fe76da0d"
 			variableName="masterOrgId" />
 		<choice doc:name="Choice" doc:id="6f11cbbe-3971-478b-9c6c-188890c59880" >
-			<when expression="#[sizeOf(attributes.headers.Authorization) &gt; 0]">
+			<when expression="#[attributes.headers.Authorization != null and (sizeOf(attributes.headers.Authorization) &gt; 0)]">
 				<set-variable value='#[%dw 2.0
 import * from dw::core::Binaries
 output application/java

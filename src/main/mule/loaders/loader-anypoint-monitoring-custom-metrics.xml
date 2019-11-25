@@ -22,6 +22,8 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 							<custom-metrics:fact factName="users_inactive" value="#[payload.coreServicesMetrics.users.inactiveMembers]" />
 							<custom-metrics:fact factName="users_active_60_days" value="#[payload.coreServicesMetrics.users.activeMembersLast60Days]" />
 							<custom-metrics:fact factName="users_active_30_days" value="#[payload.coreServicesMetrics.users.activeMembersLast30Days]" />
+							<custom-metrics:fact factName="environments_sandbox_total" value="#[payload.coreServicesMetrics.environments.production]" />
+							<custom-metrics:fact factName="environments_production_total" value="#[payload.coreServicesMetrics.environments.sandbox]" />
 							<custom-metrics:fact factName="environments_total" value="#[payload.coreServicesMetrics.environments.total]" />
 							<custom-metrics:fact factName="desing_center_projects_total" value="#[payload.designCenterMetrics.total]" />
 							<custom-metrics:fact factName="desing_center_projects_api_specs" value="#[payload.designCenterMetrics.apiSpecs]" />
@@ -36,6 +38,23 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 							<custom-metrics:fact factName="exchange_assets_custom" value="#[payload.exchangeMetrics.custom]" />
 							<custom-metrics:fact factName="exchange_assets_satisfaction" value="#[payload.exchangeMetrics.overallSatisfaction]" />
 							<custom-metrics:fact factName="api_clients" value="#[payload.apiManagerMetrics.clients]" />
+							
+							<custom-metrics:fact factName="ch_networking_vpcs_total" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpcsTotal]" />
+							<custom-metrics:fact factName="ch_networking_vpcs_available" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpcsAvailable]" />
+							<custom-metrics:fact factName="ch_networking_vpcs_used" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpcsUsed]" />
+							
+							<custom-metrics:fact factName="ch_networking_vpns_total" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpnsTotal]" />
+							<custom-metrics:fact factName="ch_networking_vpns_available" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpnsAvailable]" />
+							<custom-metrics:fact factName="ch_networking_vpns_used" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpnsUsed]" />
+							
+							<custom-metrics:fact factName="rtf_capacity_fabrics" value="#[payload.runtimeManagerMetrics.rtf.capacity.fabrics]" />
+							<custom-metrics:fact factName="rtf_capacity_workers" value="#[payload.runtimeManagerMetrics.rtf.capacity.workers]" />
+							<custom-metrics:fact factName="rtf_capacity_controllers" value="#[payload.runtimeManagerMetrics.rtf.capacity.controllers]" />
+							<custom-metrics:fact factName="rtf_capacity_coresTotal" value="#[payload.runtimeManagerMetrics.rtf.capacity.coresTotal]" />
+							<custom-metrics:fact factName="rtf_capacity_coresPerFabric" value="#[payload.runtimeManagerMetrics.rtf.capacity.coresPerFabric]" />
+							<custom-metrics:fact factName="rtf_capacity_memoryPerFabric" value="#[payload.runtimeManagerMetrics.rtf.capacity.memoryPerFabric]" />
+							
+							
 						</custom-metrics:facts>
 					</custom-metrics:send>
 				</route>
@@ -63,6 +82,14 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 							<custom-metrics:fact factName="apim_automated_policies_used_total" value="#[payload.apiManagerMetrics.apis.sandbox.automatedPoliciesUsedTotal]" />
 							<custom-metrics:fact factName="apim_contracts_total" value="#[payload.apiManagerMetrics.apis.sandbox.contracts]" />
 							<custom-metrics:fact factName="apim_transactions" value="#[payload.apiManagerMetrics.apis.sandbox.transactions]" />
+							
+							<custom-metrics:fact factName="ch_vcores_total" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.vcoresTotal]" />
+							<custom-metrics:fact factName="ch_vcores_available" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.vcoresAvailable]" />
+							<custom-metrics:fact factName="ch_vcores_used" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.vcoresUsed]" />
+							<custom-metrics:fact factName="ch_applications_total" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.applicationsTotal]" />
+							<custom-metrics:fact factName="ch_applications_started" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.applicationsStarted]" />
+							<custom-metrics:fact factName="ch_applications_stopped" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.applicationsStopped]" />
+							<custom-metrics:fact factName="ch_runtimes_total" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.runtimesUsedTotal]" />
 						</custom-metrics:facts>
 					</custom-metrics:send>
 				</route>
