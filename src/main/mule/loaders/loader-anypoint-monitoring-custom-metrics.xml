@@ -12,157 +12,15 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 		<foreach doc:name="For Each" doc:id="60d7a3e8-3ff7-417f-b833-43065adfa98f">
 			<scatter-gather doc:name="Scatter-Gather" doc:id="6fcbf66f-23ad-4545-b3a2-3c033d10472f">
 				<route >
-					<custom-metrics:send doc:name="Send Custom Metric - General Metrics" doc:id="b710f150-b034-4210-8489-ffdcf385ac81" metricName="platform_general_custom_metric">
-						<custom-metrics:dimensions>
-							<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroup]" />
-						</custom-metrics:dimensions>
-						<custom-metrics:facts>
-							<custom-metrics:fact factName="users_total" value="#[payload.coreServicesMetrics.users.total]" />
-							<custom-metrics:fact factName="users_active" value="#[payload.coreServicesMetrics.users.activeMembers]" />
-							<custom-metrics:fact factName="users_inactive" value="#[payload.coreServicesMetrics.users.inactiveMembers]" />
-							<custom-metrics:fact factName="users_active_60_days" value="#[payload.coreServicesMetrics.users.activeMembersLast60Days]" />
-							<custom-metrics:fact factName="users_active_30_days" value="#[payload.coreServicesMetrics.users.activeMembersLast30Days]" />
-							<custom-metrics:fact factName="environments_sandbox_total" value="#[payload.coreServicesMetrics.environments.production]" />
-							<custom-metrics:fact factName="environments_production_total" value="#[payload.coreServicesMetrics.environments.sandbox]" />
-							<custom-metrics:fact factName="environments_total" value="#[payload.coreServicesMetrics.environments.total]" />
-							<custom-metrics:fact factName="desing_center_projects_total" value="#[payload.designCenterMetrics.total]" />
-							<custom-metrics:fact factName="desing_center_projects_api_specs" value="#[payload.designCenterMetrics.apiSpecs]" />
-							<custom-metrics:fact factName="desing_center_projects_fragments" value="#[payload.designCenterMetrics.fragments]" />
-							<custom-metrics:fact factName="desing_center_projects_flow_designer_apps" value="#[payload.designCenterMetrics.flowDesignerApps]" />
-							<custom-metrics:fact factName="exchange_assets_total" value="#[payload.exchangeMetrics.total]" />
-							<custom-metrics:fact factName="exchange_assets_api_specs" value="#[payload.exchangeMetrics.apiSpecs]" />
-							<custom-metrics:fact factName="exchange_assets_connectors" value="#[payload.exchangeMetrics.connectors]" />
-							<custom-metrics:fact factName="exchange_assets_fragments" value="#[payload.exchangeMetrics.fragments]" />
-							<custom-metrics:fact factName="exchange_assets_proxies" value="#[payload.exchangeMetrics.proxies]" />
-							<custom-metrics:fact factName="exchange_assets_extensions" value="#[payload.exchangeMetrics.extensions]" />
-							<custom-metrics:fact factName="exchange_assets_custom" value="#[payload.exchangeMetrics.custom]" />
-							<custom-metrics:fact factName="exchange_assets_satisfaction" value="#[payload.exchangeMetrics.overallSatisfaction]" />
-							<custom-metrics:fact factName="api_clients" value="#[payload.apiManagerMetrics.clients]" />
-							
-							<custom-metrics:fact factName="ch_networking_vpcs_total" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpcsTotal]" />
-							<custom-metrics:fact factName="ch_networking_vpcs_available" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpcsAvailable]" />
-							<custom-metrics:fact factName="ch_networking_vpcs_used" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpcsUsed]" />
-							
-							<custom-metrics:fact factName="ch_networking_vpns_total" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpnsTotal]" />
-							<custom-metrics:fact factName="ch_networking_vpns_available" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpnsAvailable]" />
-							<custom-metrics:fact factName="ch_networking_vpns_used" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpnsUsed]" />
-							
-							<custom-metrics:fact factName="rtf_capacity_fabrics" value="#[payload.runtimeManagerMetrics.rtf.capacity.fabrics]" />
-							<custom-metrics:fact factName="rtf_capacity_workers" value="#[payload.runtimeManagerMetrics.rtf.capacity.workers]" />
-							<custom-metrics:fact factName="rtf_capacity_controllers" value="#[payload.runtimeManagerMetrics.rtf.capacity.controllers]" />
-							<custom-metrics:fact factName="rtf_capacity_coresTotal" value="#[payload.runtimeManagerMetrics.rtf.capacity.coresTotal]" />
-							<custom-metrics:fact factName="rtf_capacity_memoryTotal" value="#[payload.runtimeManagerMetrics.rtf.capacity.memoryTotal]" />
-							<custom-metrics:fact factName="rtf_capacity_coresPerFabric" value="#[payload.runtimeManagerMetrics.rtf.capacity.coresPerFabric]" />
-							<custom-metrics:fact factName="rtf_capacity_memoryPerFabric" value="#[payload.runtimeManagerMetrics.rtf.capacity.memoryPerFabric]" />
-							
-							
-						</custom-metrics:facts>
-					</custom-metrics:send>
+					<flow-ref doc:name="General Custom Metrics Flow Reference" doc:id="f42721cc-d586-4872-b98c-e17387d4f62e" name="loader-anypoint-monitoring-general-custom-metrics-flow"/>
 				</route>
 				<route >
-					<custom-metrics:send doc:name="Send Custom Metric - Sandbox Metrics" doc:id="cef0e8f7-1f9b-46c2-9683-74493ae16e15" metricName="platform_sandbox_custom_metric">
-						<custom-metrics:dimensions>
-							<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroup]" />
-							<custom-metrics:dimension dimensionName="environmentType" value="sandbox" />
-						</custom-metrics:dimensions>
-						<custom-metrics:facts>
-							<custom-metrics:fact factName="apim_api_specs_total" value="#[payload.apiManagerMetrics.apis.sandbox.total]" />
-							<custom-metrics:fact factName="apim_api_instances_total" value="#[payload.apiManagerMetrics.apis.sandbox.apiInstances]" />
-							<custom-metrics:fact factName="apim_api_instances_active" value="#[payload.apiManagerMetrics.apis.sandbox.active]" />
-							<custom-metrics:fact factName="apim_api_instances_inactive" value="#[payload.apiManagerMetrics.apis.sandbox.inactive]" />
-							<custom-metrics:fact factName="apim_api_instances_versions" value="#[payload.apiManagerMetrics.apis.sandbox.apiVersions]" />
-							<custom-metrics:fact factName="apim_api_instances_with_policies" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithPolicies]" />
-							<custom-metrics:fact factName="apim_api_instances_without_policies" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithoutPolicies]" />
-							<custom-metrics:fact factName="apim_api_instances_with_security" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithSecurity]" />
-							<custom-metrics:fact factName="apim_api_instances_without_security" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithoutSecurity]" />
-							<custom-metrics:fact factName="apim_api_instances_with_contracts" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithContracts]" />
-							<custom-metrics:fact factName="apim_api_instances_without_contracts" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithoutContracts]" />
-							<custom-metrics:fact factName="apim_api_instances_with_more_than_one_consumer" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithMoreThanOneConsumer]" />
-							<custom-metrics:fact factName="apim_api_instances_with_one_or_more_consumers" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithOneOrMoreConsumer]" />
-							<custom-metrics:fact factName="apim_policies_used_total" value="#[payload.apiManagerMetrics.apis.sandbox.policiesUsedTotal]" />
-							<custom-metrics:fact factName="apim_automated_policies_used_total" value="#[payload.apiManagerMetrics.apis.sandbox.automatedPoliciesUsedTotal]" />
-							<custom-metrics:fact factName="apim_contracts_total" value="#[payload.apiManagerMetrics.apis.sandbox.contracts]" />
-							<custom-metrics:fact factName="apim_transactions" value="#[payload.apiManagerMetrics.apis.sandbox.transactions]" />
-							
-							<custom-metrics:fact factName="ch_vcores_total" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.vcoresTotal]" />
-							<custom-metrics:fact factName="ch_vcores_available" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.vcoresAvailable]" />
-							<custom-metrics:fact factName="ch_vcores_used" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.vcoresUsed]" />
-							<custom-metrics:fact factName="ch_applications_total" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.applicationsTotal]" />
-							<custom-metrics:fact factName="ch_applications_started" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.applicationsStarted]" />
-							<custom-metrics:fact factName="ch_applications_stopped" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.applicationsStopped]" />
-							<custom-metrics:fact factName="ch_runtimes_total" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.runtimesUsedTotal]" />
-							
-							<custom-metrics:fact factName="rtf_cores_used" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.coresUsed]" />
-							<custom-metrics:fact factName="rtf_memory_used" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.memoryUsed]" />
-							
-							<custom-metrics:fact factName="rtf_applications_total" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.applicationsTotal]" />
-							<custom-metrics:fact factName="rtf_applications_started" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.applicationsStarted]" />
-							<custom-metrics:fact factName="rtf_applications_stopped" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.applicationsStopped]" />
-							<custom-metrics:fact factName="rtf_runtimes_total" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.runtimesUsedTotal]" />
-							
-							<custom-metrics:fact factName="hybrid_servers_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.sandbox.servers]" />
-							<custom-metrics:fact factName="hybrid_clusters_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.sandbox.clusters]" />
-							<custom-metrics:fact factName="hybrid_server_groups_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.sandbox.serverGroups]" />
-							
-							<custom-metrics:fact factName="hybrid_applications_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.sandbox.applicationsTotal]" />
-							<custom-metrics:fact factName="hybrid_applications_started" value="#[payload.runtimeManagerMetrics.hybrid.applications.sandbox.applicationsStarted]" />
-							<custom-metrics:fact factName="hybrid_applications_stopped" value="#[payload.runtimeManagerMetrics.hybrid.applications.sandbox.applicationsStopped]" />
-							<custom-metrics:fact factName="hybrid_runtimes_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.sandbox.runtimesUsedTotal]" />
-						</custom-metrics:facts>
-					</custom-metrics:send>
+					<flow-ref doc:name="Sandbox Custom Metrics Flow Reference" doc:id="c0c850c4-9616-4299-8635-7996e4e79507" name="loader-anypoint-monitoring-sandbox-custom-metrics-flow"/>
 				</route>
 				<route >
-					<custom-metrics:send doc:name="Send Custom Metric - Production Metrics" doc:id="2a14b5f4-495d-4e15-908d-d55307bacde0" metricName="platform_production_custom_metric">
-						<custom-metrics:dimensions>
-							<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroup]" />
-							<custom-metrics:dimension dimensionName="environmentType" value="production" />
-						</custom-metrics:dimensions>
-						<custom-metrics:facts>
-							<custom-metrics:fact factName="apim_api_specs_total" value="#[payload.apiManagerMetrics.apis.production.total]" />
-							<custom-metrics:fact factName="apim_api_instances_total" value="#[payload.apiManagerMetrics.apis.production.apiInstances]" />
-							<custom-metrics:fact factName="apim_api_instances_active" value="#[payload.apiManagerMetrics.apis.production.active]" />
-							<custom-metrics:fact factName="apim_api_instances_inactive" value="#[payload.apiManagerMetrics.apis.production.inactive]" />
-							<custom-metrics:fact factName="apim_api_instances_versions" value="#[payload.apiManagerMetrics.apis.production.apiVersions]" />
-							<custom-metrics:fact factName="apim_api_instances_with_policies" value="#[payload.apiManagerMetrics.apis.production.apisWithPolicies]" />
-							<custom-metrics:fact factName="apim_api_instances_without_policies" value="#[payload.apiManagerMetrics.apis.production.apisWithoutPolicies]" />
-							<custom-metrics:fact factName="apim_api_instances_with_security" value="#[payload.apiManagerMetrics.apis.production.apisWithSecurity]" />
-							<custom-metrics:fact factName="apim_api_instances_without_security" value="#[payload.apiManagerMetrics.apis.production.apisWithoutSecurity]" />
-							<custom-metrics:fact factName="apim_api_instances_with_contracts" value="#[payload.apiManagerMetrics.apis.production.apisWithContracts]" />
-							<custom-metrics:fact factName="apim_api_instances_without_contracts" value="#[payload.apiManagerMetrics.apis.production.apisWithoutContracts]" />
-							<custom-metrics:fact factName="apim_api_instances_with_more_than_one_consumer" value="#[payload.apiManagerMetrics.apis.production.apisWithMoreThanOneConsumer]" />
-							<custom-metrics:fact factName="apim_api_instances_with_one_or_more_consumers" value="#[payload.apiManagerMetrics.apis.production.apisWithOneOrMoreConsumer]" />
-							<custom-metrics:fact factName="apim_policies_used_total" value="#[payload.apiManagerMetrics.apis.production.policiesUsedTotal]" />
-							<custom-metrics:fact factName="apim_automated_policies_used_total" value="#[payload.apiManagerMetrics.apis.production.automatedPoliciesUsedTotal]" />
-							<custom-metrics:fact factName="apim_contracts_total" value="#[payload.apiManagerMetrics.apis.production.contracts]" />
-							<custom-metrics:fact factName="apim_transactions" value="#[payload.apiManagerMetrics.apis.production.transactions]" />
-							
-							<custom-metrics:fact factName="ch_vcores_total" value="#[payload.runtimeManagerMetrics.cloudhub.applications.production.vcoresTotal]" />
-							<custom-metrics:fact factName="ch_vcores_available" value="#[payload.runtimeManagerMetrics.cloudhub.applications.production.vcoresAvailable]" />
-							<custom-metrics:fact factName="ch_vcores_used" value="#[payload.runtimeManagerMetrics.cloudhub.applications.production.vcoresUsed]" />
-							<custom-metrics:fact factName="ch_applications_total" value="#[payload.runtimeManagerMetrics.cloudhub.applications.production.applicationsTotal]" />
-							<custom-metrics:fact factName="ch_applications_started" value="#[payload.runtimeManagerMetrics.cloudhub.applications.production.applicationsStarted]" />
-							<custom-metrics:fact factName="ch_applications_stopped" value="#[payload.runtimeManagerMetrics.cloudhub.applications.production.applicationsStopped]" />
-							<custom-metrics:fact factName="ch_runtimes_total" value="#[payload.runtimeManagerMetrics.cloudhub.applications.production.runtimesUsedTotal]" />
-							
-							<custom-metrics:fact factName="rtf_cores_used" value="#[payload.runtimeManagerMetrics.rtf.applications.production.coresUsed]" />
-							<custom-metrics:fact factName="rtf_memory_used" value="#[payload.runtimeManagerMetrics.rtf.applications.production.memoryUsed]" />
-							
-							<custom-metrics:fact factName="rtf_applications_total" value="#[payload.runtimeManagerMetrics.rtf.applications.production.applicationsTotal]" />
-							<custom-metrics:fact factName="rtf_applications_started" value="#[payload.runtimeManagerMetrics.rtf.applications.production.applicationsStarted]" />
-							<custom-metrics:fact factName="rtf_applications_stopped" value="#[payload.runtimeManagerMetrics.rtf.applications.production.applicationsStopped]" />
-							<custom-metrics:fact factName="rtf_runtimes_total" value="#[payload.runtimeManagerMetrics.rtf.applications.production.runtimesUsedTotal]" />
-							
-							<custom-metrics:fact factName="hybrid_servers_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.production.servers]" />
-							<custom-metrics:fact factName="hybrid_clusters_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.production.clusters]" />
-							<custom-metrics:fact factName="hybrid_server_groups_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.production.serverGroups]" />
-							
-							<custom-metrics:fact factName="hybrid_applications_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.production.applicationsTotal]" />
-							<custom-metrics:fact factName="hybrid_applications_started" value="#[payload.runtimeManagerMetrics.hybrid.applications.production.applicationsStarted]" />
-							<custom-metrics:fact factName="hybrid_applications_stopped" value="#[payload.runtimeManagerMetrics.hybrid.applications.production.applicationsStopped]" />
-							<custom-metrics:fact factName="hybrid_runtimes_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.production.runtimesUsedTotal]" />
-						</custom-metrics:facts>
-					</custom-metrics:send>
+					<flow-ref doc:name="Production Custom Metrics Flow Reference" doc:id="517e7958-55c0-4fed-9112-6ab280fbbe1c" name="loader-anypoint-monitoring-production-custom-metrics-flow"/>
 				</route>
+
 			</scatter-gather>
 		</foreach>
 		<ee:transform doc:name="Build Loader Response" doc:id="9791d993-1c3f-47cd-b910-1288c59a907b" >
@@ -171,6 +29,304 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 			</ee:message>
 		</ee:transform>
 	</flow>
+	
+	<flow name="loader-anypoint-monitoring-general-custom-metrics-flow" doc:id="f60f1b52-5b7e-4203-8808-29765f142171" >
+		<scatter-gather doc:name="Scatter-Gather" doc:id="587e3ddb-a512-4117-a414-41ef17bb277e" >
+			<route >
+				<custom-metrics:send doc:name="Send Custom Metric - Coreservices Metrics" doc:id="713e7428-37ea-4201-ab6f-8a9419664e4d" metricName="platform_coreservices_custom_metric">
+					<custom-metrics:dimensions>
+						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
+					</custom-metrics:dimensions>
+					<custom-metrics:facts>
+						<custom-metrics:fact factName="users_total" value="#[payload.coreServicesMetrics.users.total]" />
+						<custom-metrics:fact factName="users_active" value="#[payload.coreServicesMetrics.users.activeMembers]" />
+						<custom-metrics:fact factName="users_inactive" value="#[payload.coreServicesMetrics.users.inactiveMembers]" />
+						<custom-metrics:fact factName="users_active_60_days" value="#[payload.coreServicesMetrics.users.activeMembersLast60Days]" />
+						<custom-metrics:fact factName="users_active_30_days" value="#[payload.coreServicesMetrics.users.activeMembersLast30Days]" />
+						
+						<custom-metrics:fact factName="environments_sandbox_total" value="#[payload.coreServicesMetrics.environments.production]" />
+						<custom-metrics:fact factName="environments_production_total" value="#[payload.coreServicesMetrics.environments.sandbox]" />
+						<custom-metrics:fact factName="environments_total" value="#[payload.coreServicesMetrics.environments.total]" />
+					</custom-metrics:facts>
+				</custom-metrics:send>
+			</route>
+			<route >
+				<custom-metrics:send doc:name="Send Custom Metric - Design Center Metrics" doc:id="ee0038a8-27db-4df6-b015-7fb8e439d7b5" metricName="platform_dc_custom_metric">
+					<custom-metrics:dimensions>
+						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
+					</custom-metrics:dimensions>
+					<custom-metrics:facts>
+						<custom-metrics:fact factName="desing_center_projects_total" value="#[payload.designCenterMetrics.total]" />
+						<custom-metrics:fact factName="desing_center_projects_api_specs" value="#[payload.designCenterMetrics.apiSpecs]" />
+						<custom-metrics:fact factName="desing_center_projects_fragments" value="#[payload.designCenterMetrics.fragments]" />
+						<custom-metrics:fact factName="desing_center_projects_flow_designer_apps" value="#[payload.designCenterMetrics.flowDesignerApps]" />
+					</custom-metrics:facts>
+				</custom-metrics:send>
+			</route>
+			
+			<route >
+				<custom-metrics:send doc:name="Send Custom Metric - Exchange Metrics" doc:id="13233fa9-3bf8-4b52-a3fe-df1509bba298" metricName="platform_exchange_custom_metric">
+					<custom-metrics:dimensions>
+						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
+					</custom-metrics:dimensions>
+					<custom-metrics:facts>
+						<custom-metrics:fact factName="exchange_assets_total" value="#[payload.exchangeMetrics.total]" />
+						<custom-metrics:fact factName="exchange_assets_api_specs" value="#[payload.exchangeMetrics.apiSpecs]" />
+						<custom-metrics:fact factName="exchange_assets_connectors" value="#[payload.exchangeMetrics.connectors]" />
+						<custom-metrics:fact factName="exchange_assets_fragments" value="#[payload.exchangeMetrics.fragments]" />
+						<custom-metrics:fact factName="exchange_assets_proxies" value="#[payload.exchangeMetrics.proxies]" />
+						<custom-metrics:fact factName="exchange_assets_extensions" value="#[payload.exchangeMetrics.extensions]" />
+						<custom-metrics:fact factName="exchange_assets_custom" value="#[payload.exchangeMetrics.custom]" />
+						<custom-metrics:fact factName="exchange_assets_satisfaction" value="#[payload.exchangeMetrics.overallSatisfaction]" />
+						
+						<custom-metrics:fact factName="api_clients" value="#[payload.apiManagerMetrics.clients]" />
+
+					</custom-metrics:facts>
+				</custom-metrics:send>
+			</route>
+			
+			<route >
+				<custom-metrics:send doc:name="Send Custom Metric - CloudHub Networking Metrics" doc:id="fb0bd356-26a8-461e-baf9-e4cc21b6ef63" metricName="platform_ch_custom_metric">
+					<custom-metrics:dimensions>
+						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
+					</custom-metrics:dimensions>
+					<custom-metrics:facts>							
+						<custom-metrics:fact factName="ch_networking_vpcs_total" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpcsTotal]" />
+						<custom-metrics:fact factName="ch_networking_vpcs_available" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpcsAvailable]" />
+						<custom-metrics:fact factName="ch_networking_vpcs_used" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpcsUsed]" />
+						
+						<custom-metrics:fact factName="ch_networking_vpns_total" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpnsTotal]" />
+						<custom-metrics:fact factName="ch_networking_vpns_available" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpnsAvailable]" />
+						<custom-metrics:fact factName="ch_networking_vpns_used" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpnsUsed]" />							
+					</custom-metrics:facts>
+				</custom-metrics:send>
+			</route>
+			
+			<route >
+				<custom-metrics:send doc:name="Send Custom Metric - RTF - Metrics" doc:id="d0f6dda2-f491-4619-9e9d-9be4d81df675" metricName="platform_rtf_custom_metric">
+					<custom-metrics:dimensions>
+						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
+					</custom-metrics:dimensions>
+					<custom-metrics:facts>
+						<custom-metrics:fact factName="rtf_capacity_fabrics" value="#[payload.runtimeManagerMetrics.rtf.capacity.fabrics]" />
+						<custom-metrics:fact factName="rtf_capacity_workers" value="#[payload.runtimeManagerMetrics.rtf.capacity.workers]" />
+						<custom-metrics:fact factName="rtf_capacity_controllers" value="#[payload.runtimeManagerMetrics.rtf.capacity.controllers]" />
+						<custom-metrics:fact factName="rtf_capacity_coresTotal" value="#[payload.runtimeManagerMetrics.rtf.capacity.coresTotal]" />
+						<custom-metrics:fact factName="rtf_capacity_memoryTotal" value="#[payload.runtimeManagerMetrics.rtf.capacity.memoryTotal]" />
+						<custom-metrics:fact factName="rtf_capacity_coresPerFabric" value="#[payload.runtimeManagerMetrics.rtf.capacity.coresPerFabric]" />
+						<custom-metrics:fact factName="rtf_capacity_memoryPerFabric" value="#[payload.runtimeManagerMetrics.rtf.capacity.memoryPerFabric]" />	
+					</custom-metrics:facts>
+				</custom-metrics:send>
+			</route>
+		</scatter-gather>
+	</flow>
+	
+	<flow name="loader-anypoint-monitoring-sandbox-custom-metrics-flow" doc:id="966aaee9-a299-4a7e-9836-c1c594372ef2" >
+		<scatter-gather doc:name="Scatter-Gather" doc:id="504a97c3-f1ef-4292-a6d1-dba1e0115d71" >
+			<route >
+				<custom-metrics:send doc:name="Send Custom Metric - Sandbox - API Manager Metrics" doc:id="ced9bbfb-8105-4883-a8e8-86893a0867c5" metricName="platform_sandbox_apim_custom_metric">
+					<custom-metrics:dimensions>
+						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
+						<custom-metrics:dimension dimensionName="environmentType" value="sandbox" />
+					</custom-metrics:dimensions>
+					<custom-metrics:facts>
+						<custom-metrics:fact factName="apim_api_specs_total" value="#[payload.apiManagerMetrics.apis.sandbox.total]" />
+						<custom-metrics:fact factName="apim_api_instances_total" value="#[payload.apiManagerMetrics.apis.sandbox.apiInstances]" />
+						<custom-metrics:fact factName="apim_api_instances_active" value="#[payload.apiManagerMetrics.apis.sandbox.active]" />
+						<custom-metrics:fact factName="apim_api_instances_inactive" value="#[payload.apiManagerMetrics.apis.sandbox.inactive]" />
+						<custom-metrics:fact factName="apim_api_instances_versions" value="#[payload.apiManagerMetrics.apis.sandbox.apiVersions]" />
+						<custom-metrics:fact factName="apim_contracts_total" value="#[payload.apiManagerMetrics.apis.sandbox.contracts]" />
+						<custom-metrics:fact factName="apim_api_instances_with_contracts" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithContracts]" />
+						<custom-metrics:fact factName="apim_api_instances_without_contracts" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithoutContracts]" />
+						<custom-metrics:fact factName="apim_api_instances_with_more_than_one_consumer" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithMoreThanOneConsumer]" />
+						<custom-metrics:fact factName="apim_api_instances_with_one_or_more_consumers" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithOneOrMoreConsumer]" />	
+					</custom-metrics:facts>
+				</custom-metrics:send>
+			</route>
+			<route >
+				<custom-metrics:send doc:name="Send Custom Metric - Sandbox - API Manager - Policies and Transactions Metrics" doc:id="01377b1b-ca7b-4392-9d42-cc12ef845e8e" metricName="platform_sandbox_apim_polcies_custom_metric">
+					<custom-metrics:dimensions>
+						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
+						<custom-metrics:dimension dimensionName="environmentType" value="sandbox" />
+					</custom-metrics:dimensions>
+					<custom-metrics:facts>
+						<custom-metrics:fact factName="apim_api_instances_with_policies" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithPolicies]" />
+						<custom-metrics:fact factName="apim_api_instances_without_policies" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithoutPolicies]" />
+						<custom-metrics:fact factName="apim_api_instances_with_security" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithSecurity]" />
+						<custom-metrics:fact factName="apim_api_instances_without_security" value="#[payload.apiManagerMetrics.apis.sandbox.apisWithoutSecurity]" />
+						<custom-metrics:fact factName="apim_policies_used_total" value="#[payload.apiManagerMetrics.apis.sandbox.policiesUsedTotal]" />
+						<custom-metrics:fact factName="apim_automated_policies_used_total" value="#[payload.apiManagerMetrics.apis.sandbox.automatedPoliciesUsedTotal]" />
+						
+						<custom-metrics:fact factName="apim_transactions" value="#[payload.apiManagerMetrics.apis.sandbox.transactions]" />
+						
+					</custom-metrics:facts>
+				</custom-metrics:send>
+			</route>
+			<route >
+				<custom-metrics:send doc:name="Send Custom Metric - Sandbox - CloudHub - Metrics" doc:id="a018c550-168e-4d47-8272-24de541c5602" metricName="platform_sandbox_ch_custom_metric">
+					<custom-metrics:dimensions>
+						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
+						<custom-metrics:dimension dimensionName="environmentType" value="sandbox" />
+					</custom-metrics:dimensions>
+					<custom-metrics:facts>
+						
+						<custom-metrics:fact factName="ch_vcores_total" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.vcoresTotal]" />
+						<custom-metrics:fact factName="ch_vcores_available" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.vcoresAvailable]" />
+						<custom-metrics:fact factName="ch_vcores_used" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.vcoresUsed]" />
+						<custom-metrics:fact factName="ch_applications_total" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.applicationsTotal]" />
+						<custom-metrics:fact factName="ch_applications_started" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.applicationsStarted]" />
+						<custom-metrics:fact factName="ch_applications_stopped" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.applicationsStopped]" />
+						<custom-metrics:fact factName="ch_runtimes_total" value="#[payload.runtimeManagerMetrics.cloudhub.applications.sandbox.runtimesUsedTotal]" />
+				
+					</custom-metrics:facts>
+				</custom-metrics:send>
+			</route>
+			
+			<route >
+				<custom-metrics:send doc:name="Send Custom Metric - Sandbox - RTF - Metrics" doc:id="45e45381-aabd-49d2-9385-c079a1bd9c96" metricName="platform_sandbox_rtf_custom_metric">
+					<custom-metrics:dimensions>
+						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
+						<custom-metrics:dimension dimensionName="environmentType" value="sandbox" />
+					</custom-metrics:dimensions>
+					<custom-metrics:facts>
+		
+						<custom-metrics:fact factName="rtf_cores_used" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.coresUsed]" />
+						<custom-metrics:fact factName="rtf_memory_used" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.memoryUsed]" />
+						
+						<custom-metrics:fact factName="rtf_applications_total" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.applicationsTotal]" />
+						<custom-metrics:fact factName="rtf_applications_started" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.applicationsStarted]" />
+						<custom-metrics:fact factName="rtf_applications_stopped" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.applicationsStopped]" />
+						<custom-metrics:fact factName="rtf_runtimes_total" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.runtimesUsedTotal]" />
+						
+					</custom-metrics:facts>
+				</custom-metrics:send>
+			</route>
+			
+			<route >
+				<custom-metrics:send doc:name="Send Custom Metric - Sandbox - Hybrid - Metrics" doc:id="8e33801a-a069-4d86-9407-f75f9e8ef530" metricName="platform_sandbox_hybrid_custom_metric">
+					<custom-metrics:dimensions>
+						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
+						<custom-metrics:dimension dimensionName="environmentType" value="sandbox" />
+					</custom-metrics:dimensions>
+					<custom-metrics:facts>
+						
+						<custom-metrics:fact factName="hybrid_servers_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.sandbox.servers]" />
+						<custom-metrics:fact factName="hybrid_clusters_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.sandbox.clusters]" />
+						<custom-metrics:fact factName="hybrid_server_groups_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.sandbox.serverGroups]" />
+		
+						<custom-metrics:fact factName="hybrid_applications_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.sandbox.applicationsTotal]" />
+						<custom-metrics:fact factName="hybrid_applications_started" value="#[payload.runtimeManagerMetrics.hybrid.applications.sandbox.applicationsStarted]" />
+						<custom-metrics:fact factName="hybrid_applications_stopped" value="#[payload.runtimeManagerMetrics.hybrid.applications.sandbox.applicationsStopped]" />
+						<custom-metrics:fact factName="hybrid_runtimes_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.sandbox.runtimesUsedTotal]" />
+					</custom-metrics:facts>
+				</custom-metrics:send>
+			</route>
+		</scatter-gather>
+	</flow>
+	
+	<flow name="loader-anypoint-monitoring-production-custom-metrics-flow" doc:id="0a4c3f70-80d3-4ba2-bb0d-4c994ee3c9ee" >
+		<scatter-gather doc:name="Scatter-Gather" doc:id="abeb78d4-2012-475b-8a5f-90049324373b" >
+			<route >
+				<custom-metrics:send doc:name="Send Custom Metric - Sandbox - API Manager Metrics" doc:id="4c948a60-c273-4f1b-9ef6-6471e2a76655" metricName="platform_sandbox_apim_custom_metric">
+					<custom-metrics:dimensions>
+						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
+						<custom-metrics:dimension dimensionName="environmentType" value="production" />
+					</custom-metrics:dimensions>
+					<custom-metrics:facts>
+						<custom-metrics:fact factName="apim_api_specs_total" value="#[payload.apiManagerMetrics.apis.production.total]" />
+						<custom-metrics:fact factName="apim_api_instances_total" value="#[payload.apiManagerMetrics.apis.production.apiInstances]" />
+						<custom-metrics:fact factName="apim_api_instances_active" value="#[payload.apiManagerMetrics.apis.production.active]" />
+						<custom-metrics:fact factName="apim_api_instances_inactive" value="#[payload.apiManagerMetrics.apis.production.inactive]" />
+						<custom-metrics:fact factName="apim_api_instances_versions" value="#[payload.apiManagerMetrics.apis.production.apiVersions]" />
+						<custom-metrics:fact factName="apim_contracts_total" value="#[payload.apiManagerMetrics.apis.production.contracts]" />
+						<custom-metrics:fact factName="apim_api_instances_with_contracts" value="#[payload.apiManagerMetrics.apis.production.apisWithContracts]" />
+						<custom-metrics:fact factName="apim_api_instances_without_contracts" value="#[payload.apiManagerMetrics.apis.production.apisWithoutContracts]" />
+						<custom-metrics:fact factName="apim_api_instances_with_more_than_one_consumer" value="#[payload.apiManagerMetrics.apis.production.apisWithMoreThanOneConsumer]" />
+						<custom-metrics:fact factName="apim_api_instances_with_one_or_more_consumers" value="#[payload.apiManagerMetrics.apis.production.apisWithOneOrMoreConsumer]" />	
+					</custom-metrics:facts>
+				</custom-metrics:send>
+			</route>
+			<route >
+				<custom-metrics:send doc:name="Send Custom Metric - production - API Manager - Policies and Transactions Metrics" doc:id="592a3965-acf6-4a54-b47f-af8337fbb908" metricName="platform_production_apim_polcies_custom_metric">
+					<custom-metrics:dimensions>
+						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
+						<custom-metrics:dimension dimensionName="environmentType" value="production" />
+					</custom-metrics:dimensions>
+					<custom-metrics:facts>
+						<custom-metrics:fact factName="apim_api_instances_with_policies" value="#[payload.apiManagerMetrics.apis.production.apisWithPolicies]" />
+						<custom-metrics:fact factName="apim_api_instances_without_policies" value="#[payload.apiManagerMetrics.apis.production.apisWithoutPolicies]" />
+						<custom-metrics:fact factName="apim_api_instances_with_security" value="#[payload.apiManagerMetrics.apis.production.apisWithSecurity]" />
+						<custom-metrics:fact factName="apim_api_instances_without_security" value="#[payload.apiManagerMetrics.apis.production.apisWithoutSecurity]" />
+						<custom-metrics:fact factName="apim_policies_used_total" value="#[payload.apiManagerMetrics.apis.production.policiesUsedTotal]" />
+						<custom-metrics:fact factName="apim_automated_policies_used_total" value="#[payload.apiManagerMetrics.apis.production.automatedPoliciesUsedTotal]" />
+						
+						<custom-metrics:fact factName="apim_transactions" value="#[payload.apiManagerMetrics.apis.production.transactions]" />
+						
+					</custom-metrics:facts>
+				</custom-metrics:send>
+			</route>
+			<route >
+				<custom-metrics:send doc:name="Send Custom Metric - production - CloudHub - Metrics" doc:id="08781adb-d546-4f73-af3e-f61143da389d" metricName="platform_production_ch_custom_metric">
+					<custom-metrics:dimensions>
+						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
+						<custom-metrics:dimension dimensionName="environmentType" value="production" />
+					</custom-metrics:dimensions>
+					<custom-metrics:facts>
+						
+						<custom-metrics:fact factName="ch_vcores_total" value="#[payload.runtimeManagerMetrics.cloudhub.applications.production.vcoresTotal]" />
+						<custom-metrics:fact factName="ch_vcores_available" value="#[payload.runtimeManagerMetrics.cloudhub.applications.production.vcoresAvailable]" />
+						<custom-metrics:fact factName="ch_vcores_used" value="#[payload.runtimeManagerMetrics.cloudhub.applications.production.vcoresUsed]" />
+						<custom-metrics:fact factName="ch_applications_total" value="#[payload.runtimeManagerMetrics.cloudhub.applications.production.applicationsTotal]" />
+						<custom-metrics:fact factName="ch_applications_started" value="#[payload.runtimeManagerMetrics.cloudhub.applications.production.applicationsStarted]" />
+						<custom-metrics:fact factName="ch_applications_stopped" value="#[payload.runtimeManagerMetrics.cloudhub.applications.production.applicationsStopped]" />
+						<custom-metrics:fact factName="ch_runtimes_total" value="#[payload.runtimeManagerMetrics.cloudhub.applications.production.runtimesUsedTotal]" />
+				
+					</custom-metrics:facts>
+				</custom-metrics:send>
+			</route>
+			
+			<route >
+				<custom-metrics:send doc:name="Send Custom Metric - production - RTF - Metrics" doc:id="c4eecddc-5595-4ce5-b3ce-1fa20459b925" metricName="platform_production_rtf_custom_metric">
+					<custom-metrics:dimensions>
+						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
+						<custom-metrics:dimension dimensionName="environmentType" value="production" />
+					</custom-metrics:dimensions>
+					<custom-metrics:facts>
+		
+						<custom-metrics:fact factName="rtf_cores_used" value="#[payload.runtimeManagerMetrics.rtf.applications.production.coresUsed]" />
+						<custom-metrics:fact factName="rtf_memory_used" value="#[payload.runtimeManagerMetrics.rtf.applications.production.memoryUsed]" />
+						
+						<custom-metrics:fact factName="rtf_applications_total" value="#[payload.runtimeManagerMetrics.rtf.applications.production.applicationsTotal]" />
+						<custom-metrics:fact factName="rtf_applications_started" value="#[payload.runtimeManagerMetrics.rtf.applications.production.applicationsStarted]" />
+						<custom-metrics:fact factName="rtf_applications_stopped" value="#[payload.runtimeManagerMetrics.rtf.applications.production.applicationsStopped]" />
+						<custom-metrics:fact factName="rtf_runtimes_total" value="#[payload.runtimeManagerMetrics.rtf.applications.production.runtimesUsedTotal]" />
+						
+					</custom-metrics:facts>
+				</custom-metrics:send>
+			</route>
+			
+			<route >
+				<custom-metrics:send doc:name="Send Custom Metric - production - Hybrid - Metrics" doc:id="54400a2b-49f1-47b4-afe1-33f255524b52" metricName="platform_production_hybrid_custom_metric">
+					<custom-metrics:dimensions>
+						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
+						<custom-metrics:dimension dimensionName="environmentType" value="production" />
+					</custom-metrics:dimensions>
+					<custom-metrics:facts>
+						
+						<custom-metrics:fact factName="hybrid_servers_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.production.servers]" />
+						<custom-metrics:fact factName="hybrid_clusters_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.production.clusters]" />
+						<custom-metrics:fact factName="hybrid_server_groups_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.production.serverGroups]" />
+		
+						<custom-metrics:fact factName="hybrid_applications_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.production.applicationsTotal]" />
+						<custom-metrics:fact factName="hybrid_applications_started" value="#[payload.runtimeManagerMetrics.hybrid.applications.production.applicationsStarted]" />
+						<custom-metrics:fact factName="hybrid_applications_stopped" value="#[payload.runtimeManagerMetrics.hybrid.applications.production.applicationsStopped]" />
+						<custom-metrics:fact factName="hybrid_runtimes_total" value="#[payload.runtimeManagerMetrics.hybrid.applications.production.runtimesUsedTotal]" />
+					</custom-metrics:facts>
+				</custom-metrics:send>
+			</route>
+		</scatter-gather>
+	</flow>
+	
 	
 	<flow name="loader-benefits-anypoint-monitoring" doc:id="bd45d8ea-15a6-4073-92cb-5c60085593f4" >
 		<flow-ref doc:name="Aggregate Benefits Flow Reference" doc:id="1f6d32c2-e134-42a0-b0d0-362c1a3d0018" name="aggregator-platform-benefits-master-flow"/>

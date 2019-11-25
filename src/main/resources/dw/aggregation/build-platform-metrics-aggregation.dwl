@@ -35,6 +35,7 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 {
 	date: vars.date,
 	businessGroup: vars.orgName,
+	businessGroupId: vars.orgId,
 	coreServicesMetrics: {
 		users: {
 			total: sizeOf(members.data default []),
