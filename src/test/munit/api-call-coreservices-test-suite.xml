@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="api-call-coreservices-test-suite.xml" />
+	<munit:test name="api-call-coreservices-login-flow-test" doc:id="4129ef87-ee7a-4c0f-9fa5-c499da27b000" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when Post Login Request" doc:id="2a118f5d-04b2-4cb8-9ef7-2424fa2debf5" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Post Login Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-coreservices/post-login-request.json')]" mediaType="application/json" />
+					<munit-tools:attributes value='#[{
+ "statusCode": 200
+ }]' />
+				</munit-tools:then-return>
+
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<set-variable value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-coreservices/post-login-request.json')]" doc:name="set expected result" doc:id="1ac6f926-b3c8-4870-b209-90f38c730f27" variableName="expected" mimeType="application/json" />
+			<flow-ref doc:name="Flow-ref to api-call-coreservices-login-flow" doc:id="e6ebafc7-95ec-4490-b3be-2fb4ff6a2dfe" name="api-call-coreservices-login-flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="3add8e16-55ee-4a09-b642-53f3631ae371" expression="#[payload]" is="#[MunitTools::equalTo(vars.expected)]" message="The response payload is not the expected"/>
+		</munit:validation>
+	</munit:test>
+
+</mule>

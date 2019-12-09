@@ -79,8 +79,8 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:query-params><![CDATA[#[output application/java
 ---
 {
-	"limit" : p('anypoint.platform.apis.coreservices.members.limit'),
-	"offset" : p('anypoint.platform.apis.coreservices.members.offset')
+	"offset" : p('anypoint.platform.apis.coreservices.members.offset'),
+	"limit" : p('anypoint.platform.apis.coreservices.members.limit')
 }]]]></http:query-params>
 		</http:request>
 		<logger level="INFO" doc:name="Logger" doc:id="6cab5b2d-cbdb-46eb-81b5-e4fd877beb10" message='#["Response Status Code:" ++ attributes.statusCode]' />

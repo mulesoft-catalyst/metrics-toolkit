@@ -13,9 +13,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"X-ANYPNT-ORG-ID" : vars.orgId,
 	"X-ANYPNT-ENV-ID" : vars.environmentId,
-	"Authorization" : "Bearer " ++ vars.token
+	"Authorization" : "Bearer " ++ vars.token,
+	"X-ANYPNT-ORG-ID" : vars.orgId
 }]]]></http:headers>
 		
 		</http:request>
@@ -29,9 +29,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"X-ANYPNT-ORG-ID" : vars.orgId,
 	"X-ANYPNT-ENV-ID" : vars.environmentId,
-	"Authorization" : "Bearer " ++ vars.token
+	"Authorization" : "Bearer " ++ vars.token,
+	"X-ANYPNT-ORG-ID" : vars.orgId
 }]]]></http:headers>
 		
 		</http:request>
@@ -45,9 +45,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"X-ANYPNT-ORG-ID" : vars.orgId,
 	"X-ANYPNT-ENV-ID" : vars.environmentId,
-	"Authorization" : "Bearer " ++ vars.token
+	"Authorization" : "Bearer " ++ vars.token,
+	"X-ANYPNT-ORG-ID" : vars.orgId
 }]]]></http:headers>
 		
 		</http:request>
@@ -61,9 +61,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"X-ANYPNT-ORG-ID" : vars.orgId,
 	"X-ANYPNT-ENV-ID" : vars.environmentId,
-	"Authorization" : "Bearer " ++ vars.token
+	"Authorization" : "Bearer " ++ vars.token,
+	"X-ANYPNT-ORG-ID" : vars.orgId
 }]]]></http:headers>
 		
 		</http:request>
@@ -103,8 +103,8 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 ---
 {
 	"orgId" : vars.orgId,
-	"envId" : vars.environmentId,
-	"deploymentId" : vars.deploymentId
+	"deploymentId" : vars.deploymentId,
+	"envId" : vars.environmentId
 }]]]></http:uri-params>
 		
 		</http:request>
