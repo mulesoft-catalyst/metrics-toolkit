@@ -1,0 +1,19 @@
+{
+  "data": [
+    {
+      "id": "be67d1dc-ecc8-41b3-8a6c-b947fddec498",
+      "username": "mthemule",
+      "firstName": "Max",
+      "lastName": "Themule",
+      "email": "Max.Themule@mulesoft.com",
+      "organizationId": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+      "enabled": true,
+      "idprovider_id": "https://sts.windows.net/ce6ec000-1cfa-49c2-a24f-7db63c8a9a52/:example-company-with-sso.anypoint.mulesoft.com",
+      "createdAt": "2019-07-15T13:06:23.780Z",
+      "updatedAt": "2019-12-04T15:36:15.126Z",
+      "lastLogin": "2019-12-04T15:36:00.000Z",
+      "type": "host"
+    }
+  ],
+  "total": 1
+}

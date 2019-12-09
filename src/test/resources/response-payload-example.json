@@ -1,0 +1,205 @@
+[
+  {
+    "date": "2019-12-09T18:22:47.711-03:00",
+    "businessGroup": "Fantasy Company",
+    "coreServicesMetrics": {
+      "users": {
+        "total": 77,
+        "activeMembers": 76,
+        "inactiveMembers": 1,
+        "activeMembersLast60Days": 54,
+        "activeMembersLast30Days": 50
+      },
+      "environments": {
+        "total": 5,
+        "production": 1,
+        "sandbox": 4
+      }
+    },
+    "designCenterMetrics": {
+      "total": 170,
+      "apiSpecs": 143,
+      "fragments": 25,
+      "flowDesignerApps": 2
+    },
+    "exchangeMetrics": {
+      "total": 318,
+      "apiSpecs": 139,
+      "connectors": 139,
+      "fragments": 24,
+      "proxies": 0,
+      "extensions": 3,
+      "custom": 7,
+      "overallSatisfaction": 0.027932960893854747
+    },
+    "apiManagerMetrics": {
+      "clients": 250,
+      "apis": {
+        "production": {
+          "total": 31,
+          "active": 15,
+          "inactive": 17,
+          "apiInstances": 32,
+          "apiVersions": 2,
+          "apisWithPolicies": 28,
+          "apisWithoutPolicies": 4,
+          "apisWithSecurity": 27,
+          "apisWithoutSecurity": 5,
+          "apisWithContracts": 25,
+          "apisWithoutContracts": 7,
+          "apisWithMoreThanOneConsumer": 6,
+          "apisWithOneOrMoreConsumers": 25,
+          "contracts": 51,
+          "policiesUsed": [
+            "client-id-enforcement",
+            "http-basic-authentication"
+          ],
+          "policiesUsedTotal": 2,
+          "automatedPoliciesUsed": [
+            
+          ],
+          "automatedPoliciesUsedTotal": 0,
+          "transactions": 37066
+        },
+        "sandbox": {
+          "total": 256,
+          "active": 188,
+          "inactive": 37,
+          "apiInstances": 225,
+          "apiVersions": 3,
+          "apisWithPolicies": 176,
+          "apisWithoutPolicies": 49,
+          "apisWithSecurity": 168,
+          "apisWithoutSecurity": 57,
+          "apisWithContracts": 208,
+          "apisWithoutContracts": 17,
+          "apisWithMoreThanOneConsumer": 43,
+          "apisWithOneOrMoreConsumers": 208,
+          "policiesUsed": [
+            "http-caching",
+            "client-id-enforcement",
+            "http-basic-authentication"
+          ],
+          "policiesUsedTotal": 5,
+          "automatedPoliciesUsed": [
+            
+          ],
+          "automatedPoliciesUsedTotal": 0,
+          "contracts": 325,
+          "transactions": 1840843
+        }
+      }
+    },
+    "runtimeManagerMetrics": {
+      "cloudhub": {
+        "networking": {
+          "vpcsTotal": 4,
+          "vpcsAvailable": 0,
+          "vpcsUsed": 4,
+          "vpnsTotal": 6,
+          "vpnsAvailable": 6,
+          "vpnsUsed": 0
+        },
+        "applications": {
+          "production": {
+            "vcoresTotal": 13,
+            "vcoresAvailable": 12.6,
+            "vcoresUsed": 0.4,
+            "applicationsTotal": 4,
+            "applicationsStarted": 4,
+            "applicationsStopped": 0,
+            "runtimesUsed": [
+              "4.1.5"
+            ],
+            "runtimesUsedTotal": 1
+          },
+          "sandbox": {
+            "vcoresTotal": 47,
+            "vcoresAvailable": 15.9,
+            "vcoresUsed": 31.1,
+            "applicationsTotal": 298,
+            "applicationsStarted": 293,
+            "applicationsStopped": 5,
+            "runtimesUsed": [
+              "4.1.5",
+              "4.2.1",
+              "4.2.0",
+              "4.2.2"
+            ],
+            "runtimesUsedTotal": 4
+          }
+        }
+      },
+      "rtf": {
+        "capacity": {
+          "fabrics": 8,
+          "workers": 24,
+          "controllers": 24,
+          "coresTotal": 133.2,
+          "memoryTotal": 755.808,
+          "coresPerFabric": 16.65,
+          "memoryPerFabric": 94.476
+        },
+        "applications": {
+          "production": {
+            "coresUsed": 0.16,
+            "memoryUsed": 1.4,
+            "applicationsTotal": 9,
+            "applicationsStarted": 9,
+            "applicationsStopped": 0,
+            "runtimesUsed": [
+              "4.2.0:v1.2.36",
+              "4.2.1:v1.2.19"
+            ],
+            "runtimesUsedTotal": 2
+          },
+          "sandbox": {
+            "coresUsed": 7.08,
+            "memoryUsed": 59.3,
+            "applicationsTotal": 106,
+            "applicationsStarted": 104,
+            "applicationsStopped": 106,
+            "runtimesUsed": [
+              "4.2.0:v1.2.36",
+              "4.2.0:v1.2.28",
+              "4.2.1:v1.2.19"
+            ],
+            "runtimesUsedTotal": 3
+          }
+        }
+      },
+      "hybrid": {
+        "production": {
+          "servers": 5,
+          "clusters": 2,
+          "serverGroups": 0,
+          "applicationsTotal": 12,
+          "applicationsStarted": 12,
+          "applicationsStopped": 0,
+          "runtimesUsed": [
+            "4.2.0",
+            "4.1.4",
+            "4.1.5"
+          ],
+          "runtimesUsedTotal": 3
+        },
+        "sandbox": {
+          "servers": 5,
+          "clusters": 1,
+          "serverGroups": 0,
+          "applicationsTotal": 6,
+          "applicationsStarted": 5,
+          "applicationsStopped": 1,
+          "runtimesUsed": [
+            "4.2.0",
+            "4.1.4"
+          ],
+          "runtimesUsedTotal": 2
+        }
+      }
+    },
+    "errors": [
+      
+    ]
+  }
+]
