@@ -1,0 +1,155 @@
+{
+  "name": "Fantasy Company",
+  "id": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+  "createdAt": "2018-03-28T02:24:40.620Z",
+  "updatedAt": "2018-08-20T22:31:40.820Z",
+  "ownerId": "3a4dd0d1fc0938e282ba33101964754a",
+  "clientId": "6c8f764cb40f4b7699077b1a41f88c96",
+  "idprovider_id": "https://sts.windows.net/ce6ec000-1cfa-49c2-a24f-7db63c8a9a52/:example-company-with-sso.anypoint.mulesoft.com",
+  "isFederated": true,
+  "parentOrganizationIds": [],
+  "tenantOrganizationIds": [],
+  "domain": "example-company-with-sso",
+  "isMaster": true,
+  "ownerName": "Max Themule",
+  "sessionTimeout": 60,
+  "subscription": {
+    "category": "Customer",
+    "type": "Titanium",
+    "expiration": "2020-09-18T03:24:40.617Z"
+  },
+  "entitlements": {
+    "createEnvironments": true,
+    "globalDeployment": true,
+    "createSubOrgs": true,
+    "hybrid": {
+      "enabled": true
+    },
+    "hybridInsight": true,
+    "hybridAutoDiscoverProperties": true,
+    "vCoresProduction": {
+      "assigned": 13,
+      "reassigned": 0
+    },
+    "vCoresSandbox": {
+      "assigned": 47,
+      "reassigned": 0
+    },
+    "vCoresDesign": {
+      "assigned": 85,
+      "reassigned": 0
+    },
+    "staticIps": {
+      "assigned": 26,
+      "reassigned": 0
+    },
+    "vpcs": {
+      "assigned": 4,
+      "reassigned": 0
+    },
+    "vpns": {
+      "assigned": 6,
+      "reassigned": 0
+    },
+    "workerLoggingOverride": {
+      "enabled": false
+    },
+    "mqMessages": {
+      "base": 50000000,
+      "addOn": 0
+    },
+    "mqRequests": {
+      "base": 500000000,
+      "addOn": 0
+    },
+    "objectStoreRequestUnits": {
+      "base": 100000000,
+      "addOn": 0
+    },
+    "objectStoreKeys": {
+      "base": 100000000,
+      "addOn": 0
+    },
+    "mqAdvancedFeatures": {
+      "enabled": true
+    },
+    "gateways": {
+      "assigned": 2147483647
+    },
+    "designCenter": {
+      "api": true,
+      "mozart": true
+    },
+    "partnersProduction": {
+      "assigned": 0
+    },
+    "partnersSandbox": {
+      "assigned": 0
+    },
+    "tradingPartnersProduction": {
+      "assigned": 0
+    },
+    "tradingPartnersSandbox": {
+      "assigned": 0
+    },
+    "loadBalancer": {
+      "assigned": 4,
+      "reassigned": 0
+    },
+    "externalIdentity": true,
+    "autoscaling": false,
+    "armAlerts": true,
+    "apis": {
+      "enabled": true
+    },
+    "apiMonitoring": {
+      "schedules": 5
+    },
+    "apiCommunityManager": {
+      "enabled": false
+    },
+    "monitoringCenter": {
+      "productSKU": 5
+    },
+    "crowd": {
+      "environments": true,
+      "hideFormerApiPlatform": true,
+      "hideApiManagerDesigner": true
+    },
+    "cam": {
+      "enabled": false
+    },
+    "exchange2": {
+      "enabled": false
+    },
+    "crowdSelfServiceMigration": {
+      "enabled": false
+    },
+    "kpiDashboard": {
+      "enabled": false
+    },
+    "pcf": false,
+    "appViz": false,
+    "runtimeFabric": true,
+    "anypointSecurityTokenization": {
+      "enabled": false
+    },
+    "anypointSecurityEdgePolicies": {
+      "enabled": false
+    },
+    "runtimeFabricCloud": {
+      "enabled": false
+    },
+    "serviceMesh": {
+      "enabled": false
+    },
+    "messaging": {
+      "assigned": 1
+    },
+    "workerClouds": {
+      "assigned": 1,
+      "reassigned": 0
+    }
+  },
+  "subOrganizations": []
+}

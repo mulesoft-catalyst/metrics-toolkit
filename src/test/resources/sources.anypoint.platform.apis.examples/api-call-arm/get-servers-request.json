@@ -1,0 +1,172 @@
+{
+   "data":[
+      {
+         "id":1742057,
+         "timeCreated":1567219510621,
+         "timeUpdated":1575919340804,
+         "name":"mule-server",
+         "type":"SERVER",
+         "serverType":"GATEWAY",
+         "muleVersion":"4.2.0",
+         "gatewayVersion":"4.2.0",
+         "agentVersion":"2.3.0",
+         "licenseExpirationDate":1588291200000,
+         "certificateExpirationDate":1630377910000,
+         "status":"RUNNING",
+         "addresses":[
+            {
+               "ip":"172.31.33.12",
+               "networkInterface":"ens192"
+            }
+         ],
+         "runtimeInformation":{
+            "jvmInformation":{
+               "runtime":{
+                  "name":"OpenJDK Runtime Environment",
+                  "version":"1.8.0_222-b10"
+               },
+               "specification":{
+                  "vendor":"Oracle Corporation",
+                  "name":"Java Platform API Specification",
+                  "version":"1.8"
+               }
+            },
+            "osInformation":{
+               "name":"Linux",
+               "version":"3.10.0-957.27.2.el7.x86_64",
+               "architecture":"amd64"
+            },
+            "muleLicenseExpirationDate":1588291200000
+         }
+      },
+      {
+         "id":783183,
+         "timeCreated":1542655310075,
+         "timeUpdated":1575921511852,
+         "name":"mule-server-2",
+         "type":"SERVER",
+         "serverType":"GATEWAY",
+         "muleVersion":"4.1.4",
+         "gatewayVersion":"4.1.4",
+         "agentVersion":"2.4.2",
+         "licenseExpirationDate":1588291200000,
+         "certificateExpirationDate":1605813710000,
+         "status":"RUNNING",
+         "addresses":[
+            {
+               "ip":"172.31.25.177",
+               "networkInterface":"eth0"
+            }
+         ],
+         "clusterId":783186,
+         "clusterName":"cluster-mule",
+         "currentClusteringIp":"172.31.25.177",
+         "currentClusteringPort":5701,
+         "runtimeInformation":{
+            "jvmInformation":{
+               "runtime":{
+                  "name":"Java(TM) SE Runtime Environment",
+                  "version":"1.8.0_192-b12"
+               },
+               "specification":{
+                  "vendor":"Oracle Corporation",
+                  "name":"Java Platform API Specification",
+                  "version":"1.8"
+               }
+            },
+            "osInformation":{
+               "name":"Windows Server 2016",
+               "version":"10.0",
+               "architecture":"amd64"
+            },
+            "muleLicenseExpirationDate":1588291200000
+         }
+      },
+      {
+         "id":1189483,
+         "timeCreated":1555003294916,
+         "timeUpdated":1575918933600,
+         "name":"mule-server-3",
+         "type":"SERVER",
+         "serverType":"GATEWAY",
+         "muleVersion":"4.1.5",
+         "gatewayVersion":"4.1.5",
+         "agentVersion":"2.1.9",
+         "licenseExpirationDate":1588291200000,
+         "certificateExpirationDate":1618161694000,
+         "status":"RUNNING",
+         "addresses":[
+            {
+               "ip":"172.31.25.70",
+               "networkInterface":"ens192"
+            }
+         ],
+         "clusterId":1189504,
+         "clusterName":"cluster-mule",
+         "currentClusteringIp":"172.31.25.70",
+         "currentClusteringPort":5701,
+         "runtimeInformation":{
+            "jvmInformation":{
+               "runtime":{
+                  "name":"OpenJDK Runtime Environment",
+                  "version":"1.8.0_212-b04"
+               },
+               "specification":{
+                  "vendor":"Oracle Corporation",
+                  "name":"Java Platform API Specification",
+                  "version":"1.8"
+               }
+            },
+            "osInformation":{
+               "name":"Linux",
+               "version":"3.10.0-957.12.1.el7.x86_64",
+               "architecture":"amd64"
+            },
+            "muleLicenseExpirationDate":1588291200000
+         }
+      },
+      {
+         "id":783185,
+         "timeCreated":1542655332524,
+         "timeUpdated":1575918270498,
+         "name":"mule-server-4",
+         "type":"SERVER",
+         "serverType":"GATEWAY",
+         "muleVersion":"4.1.4",
+         "gatewayVersion":"4.1.4",
+         "agentVersion":"2.4.2",
+         "licenseExpirationDate":1588291200000,
+         "certificateExpirationDate":1605813732000,
+         "status":"RUNNING",
+         "addresses":[
+            {
+               "ip":"172.31.25.179",
+               "networkInterface":"eth0"
+            }
+         ],
+         "clusterId":783186,
+         "clusterName":"cluster-mule",
+         "currentClusteringIp":"172.31.25.179",
+         "currentClusteringPort":5701,
+         "runtimeInformation":{
+            "jvmInformation":{
+               "runtime":{
+                  "name":"Java(TM) SE Runtime Environment",
+                  "version":"1.8.0_192-b12"
+               },
+               "specification":{
+                  "vendor":"Oracle Corporation",
+                  "name":"Java Platform API Specification",
+                  "version":"1.8"
+               }
+            },
+            "osInformation":{
+               "name":"Windows Server 2016",
+               "version":"10.0",
+               "architecture":"amd64"
+            },
+            "muleLicenseExpirationDate":1588291200000
+         }
+      }
+   ]
+}
