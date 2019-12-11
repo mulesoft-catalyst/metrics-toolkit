@@ -1,14 +1,13 @@
 [
   {
-    "date": "2019-12-09T18:22:47.711-03:00",
     "businessGroup": "Fantasy Company",
     "coreServicesMetrics": {
       "users": {
-        "total": 77,
-        "activeMembers": 76,
-        "inactiveMembers": 1,
-        "activeMembersLast60Days": 54,
-        "activeMembersLast30Days": 50
+        "total": 1,
+        "activeMembers": 1,
+        "inactiveMembers": 0,
+        "activeMembersLast60Days": 1,
+        "activeMembersLast30Days": 1
       },
       "environments": {
         "total": 5,
@@ -17,76 +16,73 @@
       }
     },
     "designCenterMetrics": {
-      "total": 170,
-      "apiSpecs": 143,
-      "fragments": 25,
-      "flowDesignerApps": 2
+      "total": 1,
+      "apiSpecs": 0,
+      "fragments": 0,
+      "flowDesignerApps": 0
     },
     "exchangeMetrics": {
-      "total": 318,
-      "apiSpecs": 139,
-      "connectors": 139,
-      "fragments": 24,
+      "total": 1,
+      "apiSpecs": 0,
+      "connectors": 0,
+      "fragments": 0,
       "proxies": 0,
-      "extensions": 3,
-      "custom": 7,
-      "overallSatisfaction": 0.027932960893854747
+      "extensions": 0,
+      "custom": 1,
+      "overallSatisfaction": 0.0
     },
     "apiManagerMetrics": {
-      "clients": 250,
+      "clients": 2,
       "apis": {
         "production": {
-          "total": 31,
-          "active": 15,
-          "inactive": 17,
-          "apiInstances": 32,
-          "apiVersions": 2,
-          "apisWithPolicies": 28,
-          "apisWithoutPolicies": 4,
-          "apisWithSecurity": 27,
-          "apisWithoutSecurity": 5,
-          "apisWithContracts": 25,
-          "apisWithoutContracts": 7,
-          "apisWithMoreThanOneConsumer": 6,
-          "apisWithOneOrMoreConsumers": 25,
-          "contracts": 51,
+          "total": 0,
+          "active": 0,
+          "inactive": 0,
+          "apiInstances": 0,
+          "apiVersions": 0,
+          "apisWithPolicies": 0,
+          "apisWithoutPolicies": 0,
+          "apisWithSecurity": 0,
+          "apisWithoutSecurity": 0,
+          "apisWithContracts": 0,
+          "apisWithoutContracts": 0,
+          "apisWithMoreThanOneConsumer": 0,
+          "apisWithOneOrMoreConsumers": 0,
+          "contracts": 0,
           "policiesUsed": [
-            "client-id-enforcement",
-            "http-basic-authentication"
+            
           ],
-          "policiesUsedTotal": 2,
+          "policiesUsedTotal": 0,
           "automatedPoliciesUsed": [
             
           ],
           "automatedPoliciesUsedTotal": 0,
-          "transactions": 37066
+          "transactions": 0
         },
         "sandbox": {
-          "total": 256,
-          "active": 188,
-          "inactive": 37,
-          "apiInstances": 225,
-          "apiVersions": 3,
-          "apisWithPolicies": 176,
-          "apisWithoutPolicies": 49,
-          "apisWithSecurity": 168,
-          "apisWithoutSecurity": 57,
-          "apisWithContracts": 208,
-          "apisWithoutContracts": 17,
-          "apisWithMoreThanOneConsumer": 43,
-          "apisWithOneOrMoreConsumers": 208,
+          "total": 0,
+          "active": 0,
+          "inactive": 0,
+          "apiInstances": 0,
+          "apiVersions": 0,
+          "apisWithPolicies": 0,
+          "apisWithoutPolicies": 0,
+          "apisWithSecurity": 0,
+          "apisWithoutSecurity": 0,
+          "apisWithContracts": 0,
+          "apisWithoutContracts": 0,
+          "apisWithMoreThanOneConsumer": 0,
+          "apisWithOneOrMoreConsumers": 0,
           "policiesUsed": [
-            "http-caching",
-            "client-id-enforcement",
-            "http-basic-authentication"
+            
           ],
-          "policiesUsedTotal": 5,
+          "policiesUsedTotal": 0,
           "automatedPoliciesUsed": [
             
           ],
           "automatedPoliciesUsedTotal": 0,
-          "contracts": 325,
-          "transactions": 1840843
+          "contracts": 0,
+          "transactions": 0
         }
       }
     },
@@ -94,88 +90,84 @@
       "cloudhub": {
         "networking": {
           "vpcsTotal": 4,
-          "vpcsAvailable": 0,
-          "vpcsUsed": 4,
+          "vpcsAvailable": 2,
+          "vpcsUsed": 2,
           "vpnsTotal": 6,
-          "vpnsAvailable": 6,
-          "vpnsUsed": 0
+          "vpnsAvailable": 2,
+          "vpnsUsed": 4
         },
         "applications": {
           "production": {
             "vcoresTotal": 13,
-            "vcoresAvailable": 12.6,
-            "vcoresUsed": 0.4,
-            "applicationsTotal": 4,
-            "applicationsStarted": 4,
-            "applicationsStopped": 0,
+            "vcoresAvailable": 12.8,
+            "vcoresUsed": 0.2,
+            "applicationsTotal": 2,
+            "applicationsStarted": 1,
+            "applicationsStopped": 1,
             "runtimesUsed": [
-              "4.1.5"
+              "4.1.5",
+              "4.2.1"
             ],
-            "runtimesUsedTotal": 1
+            "runtimesUsedTotal": 2
           },
           "sandbox": {
             "vcoresTotal": 47,
-            "vcoresAvailable": 15.9,
-            "vcoresUsed": 31.1,
-            "applicationsTotal": 298,
-            "applicationsStarted": 293,
-            "applicationsStopped": 5,
+            "vcoresAvailable": 46.2,
+            "vcoresUsed": 0.8,
+            "applicationsTotal": 8,
+            "applicationsStarted": 4,
+            "applicationsStopped": 4,
             "runtimesUsed": [
               "4.1.5",
-              "4.2.1",
-              "4.2.0",
-              "4.2.2"
+              "4.2.1"
             ],
-            "runtimesUsedTotal": 4
+            "runtimesUsedTotal": 2
           }
         }
       },
       "rtf": {
         "capacity": {
-          "fabrics": 8,
-          "workers": 24,
-          "controllers": 24,
-          "coresTotal": 133.2,
-          "memoryTotal": 755.808,
+          "fabrics": 1,
+          "workers": 3,
+          "controllers": 3,
+          "coresTotal": 16.65,
+          "memoryTotal": 94.476,
           "coresPerFabric": 16.65,
           "memoryPerFabric": 94.476
         },
         "applications": {
           "production": {
-            "coresUsed": 0.16,
-            "memoryUsed": 1.4,
-            "applicationsTotal": 9,
-            "applicationsStarted": 9,
+            "coresUsed": 0.0,
+            "memoryUsed": 0.0,
+            "applicationsTotal": 1,
+            "applicationsStarted": 1,
             "applicationsStopped": 0,
             "runtimesUsed": [
-              "4.2.0:v1.2.36",
               "4.2.1:v1.2.19"
             ],
-            "runtimesUsedTotal": 2
+            "runtimesUsedTotal": 1
           },
           "sandbox": {
-            "coresUsed": 7.08,
-            "memoryUsed": 59.3,
-            "applicationsTotal": 106,
-            "applicationsStarted": 104,
-            "applicationsStopped": 106,
+            "coresUsed": 0.0,
+            "memoryUsed": 0.0,
+            "applicationsTotal": 4,
+            "applicationsStarted": 4,
+            "applicationsStopped": 4,
             "runtimesUsed": [
-              "4.2.0:v1.2.36",
-              "4.2.0:v1.2.28",
               "4.2.1:v1.2.19"
             ],
-            "runtimesUsedTotal": 3
+            "runtimesUsedTotal": 1
           }
         }
       },
       "hybrid": {
         "production": {
-          "servers": 5,
-          "clusters": 2,
+          "servers": 4,
+          "clusters": 0,
           "serverGroups": 0,
-          "applicationsTotal": 12,
-          "applicationsStarted": 12,
-          "applicationsStopped": 0,
+          "applicationsTotal": 1,
+          "applicationsStarted": 0,
+          "applicationsStopped": 1,
           "runtimesUsed": [
             "4.2.0",
             "4.1.4",
@@ -184,17 +176,18 @@
           "runtimesUsedTotal": 3
         },
         "sandbox": {
-          "servers": 5,
-          "clusters": 1,
+          "servers": 16,
+          "clusters": 0,
           "serverGroups": 0,
-          "applicationsTotal": 6,
-          "applicationsStarted": 5,
-          "applicationsStopped": 1,
+          "applicationsTotal": 4,
+          "applicationsStarted": 0,
+          "applicationsStopped": 4,
           "runtimesUsed": [
             "4.2.0",
-            "4.1.4"
+            "4.1.4",
+            "4.1.5"
           ],
-          "runtimesUsedTotal": 2
+          "runtimesUsedTotal": 3
         }
       }
     },
