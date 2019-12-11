@@ -15,7 +15,8 @@
 
 		<app.runtime>4.2.0</app.runtime>
 		<mule.maven.plugin.version>3.2.7</mule.maven.plugin.version>
-	<munit.version>2.2.1</munit.version>
+		<munit.version>2.2.1</munit.version>
+		<munit.runtime>4.2.1-hf5</munit.runtime>
     </properties>
 
 	<build>
@@ -44,6 +45,7 @@
                     </execution>
                 </executions>
                 <configuration>
+               	   <runtimeVersion>${munit.runtime}</runtimeVersion>
                     <coverage>
                         <runCoverage>true</runCoverage>
                         <formats>

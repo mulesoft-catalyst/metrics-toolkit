@@ -15,6 +15,7 @@ auth:
   username: "xx"
   password: "xx"
   orgId: "123"
+  token: ""
     
 splunk:
   host: "splunk-metrics.env.services.mulesoft.com"
