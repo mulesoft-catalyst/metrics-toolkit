@@ -1,0 +1,22 @@
+{
+   "policies":[
+      {
+         "policyTemplateId":"2493",
+         "order":1,
+         "pointcutData":null,
+         "type":"system",
+         "policyId":489122,
+         "configuration":{
+            "credentialsOriginHasHttpBasicAuthenticationHeader":"customExpression",
+            "clientIdExpression":"#[attributes.headers['client_id']]",
+            "clientSecretExpression":"#[attributes.headers['client_secret']]"
+         },
+         "template":{
+            "groupId":"68ef9520-24e9-4cf2-b2f5-620025690913",
+            "assetId":"client-id-enforcement",
+            "assetVersion":"1.1.3"
+         },
+         "version":1550696066519
+      }
+   ]
+}
