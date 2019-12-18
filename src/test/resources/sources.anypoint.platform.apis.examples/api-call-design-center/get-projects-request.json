@@ -1,0 +1,20 @@
+[
+  {
+   "createdBy":"db03bc38-164e-4786-8f6d-ac35e596610c",
+   "createdDate":1535135653097,
+   "deleted":false,
+   "externalUri":"/var/lib/anypoint-vcs/projects/977baaaa-36ba-4021-84d5-45bae78e0ee2/raml/proc-test-api/08d04dc9-f9ed-44dd-8ac4-c20737123134",
+   "externalUriSchema":"FILE",
+   "id":"08d04dc9-f9ed-44dd-8ac4-c20737123134",
+   "lastBackupDate":1566529353362,
+   "lastUpdatedDate":1566529352363,
+   "name":"proc-test-api",
+   "organizationId":"977baaaa-36ba-4021-84d5-45bae78e0ee2",
+   "product":"designcenter",
+   "storageId":"08d04dc9-f9ed-44dd-8ac4-c20737123134",
+   "type":"raml",
+   "vcsStorageType":"GIT_INTERNAL",
+   "vcsType":"GIT",
+   "version":790
+  }
+]

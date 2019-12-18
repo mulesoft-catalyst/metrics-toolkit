@@ -1,0 +1,33 @@
+{
+   "total":2,
+   "items":[
+      {
+         "id":"3894758",
+         "name":"proc-expense-management-api",
+         "creationDate":1568826384055,
+         "lastModifiedDate":1574816430736,
+         "target":{
+            "provider":"RR",
+            "targetId":"1734799"
+         },
+         "status":"STOPPED",
+         "application":{
+            "status":"NOT_RUNNING"
+         }
+      },
+      {
+         "id":"da0c6a37-ebb7-11e9-9b0e-058ff88b1753",
+         "name":"sys-journals-api",
+         "creationDate":1570751048130,
+         "lastModifiedDate":1575275404284,
+         "target":{
+            "provider":"MC",
+            "targetId":"ec9d123f-4587-4f07-bd90-5bcdf321135f"
+         },
+         "status":"APPLIED",
+         "application":{
+            "status":"RUNNING"
+         }
+      }
+   ]
+}
