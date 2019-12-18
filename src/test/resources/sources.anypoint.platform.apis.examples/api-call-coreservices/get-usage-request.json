@@ -1,0 +1,9 @@
+{
+  "productionVCoresConsumed": 0.4,
+  "sandboxVCoresConsumed": 30.6,
+  "designVCoresConsumed": 0,
+  "staticIpsConsumed": 21,
+  "vpcsConsumed": 2,
+  "vpnsConsumed": 4,
+  "loadBalancersConsumed": 2
+}

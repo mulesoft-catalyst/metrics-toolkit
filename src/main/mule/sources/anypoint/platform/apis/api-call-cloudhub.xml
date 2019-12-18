@@ -13,8 +13,8 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"Authorization" : "Bearer " ++ vars.token,
-	"X-ANYPNT-ENV-ID" : vars.environmentId
+	"X-ANYPNT-ENV-ID" : vars.environmentId,
+	"Authorization" : "Bearer " ++ vars.token
 }]]]></http:headers>
 			<http:uri-params><![CDATA[#[output application/java
 ---

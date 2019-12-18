@@ -13,9 +13,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"X-ANYPNT-ORG-ID" : vars.orgId,
 	"X-ANYPNT-ENV-ID" : vars.environmentId,
-	"Authorization" : "Bearer " ++ vars.token
+	"Authorization" : "Bearer " ++ vars.token,
+	"X-ANYPNT-ORG-ID" : vars.orgId
 }]]]></http:headers>
 		
 		</http:request>
@@ -29,9 +29,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"X-ANYPNT-ORG-ID" : vars.orgId,
 	"X-ANYPNT-ENV-ID" : vars.environmentId,
-	"Authorization" : "Bearer " ++ vars.token
+	"Authorization" : "Bearer " ++ vars.token,
+	"X-ANYPNT-ORG-ID" : vars.orgId
 }]]]></http:headers>
 		
 		</http:request>
@@ -45,9 +45,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"X-ANYPNT-ORG-ID" : vars.orgId,
 	"X-ANYPNT-ENV-ID" : vars.environmentId,
-	"Authorization" : "Bearer " ++ vars.token
+	"Authorization" : "Bearer " ++ vars.token,
+	"X-ANYPNT-ORG-ID" : vars.orgId
 }]]]></http:headers>
 		
 		</http:request>
@@ -61,9 +61,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"X-ANYPNT-ORG-ID" : vars.orgId,
 	"X-ANYPNT-ENV-ID" : vars.environmentId,
-	"Authorization" : "Bearer " ++ vars.token
+	"Authorization" : "Bearer " ++ vars.token,
+	"X-ANYPNT-ORG-ID" : vars.orgId
 }]]]></http:headers>
 		
 		</http:request>
@@ -92,7 +92,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	
 	<flow name="api-call-arm-deployment-flow" doc:id="8cc0a05d-1b91-4ee7-b849-2fdb1d45fe5a">
 		<logger level="INFO" doc:name="Logger" doc:id="52d3aa31-c787-41d8-8940-ba58039bd080" message="Calling ARM - Deployment - Details" />
-		<http:request method="GET" doc:name="Get Deployments Request" doc:id="dc71690b-0e4e-4da6-a1cf-05648d2ef389" config-ref="HTTP_Request_configuration"
+		<http:request method="GET" doc:name="Get Deployment Details Request" doc:id="dc71690b-0e4e-4da6-a1cf-05648d2ef389" config-ref="HTTP_Request_configuration"
 			path="${anypoint.platform.apis.arm.deployment.path}">
 			<http:headers><![CDATA[#[output application/java
 ---
@@ -103,8 +103,8 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 ---
 {
 	"orgId" : vars.orgId,
-	"envId" : vars.environmentId,
-	"deploymentId" : vars.deploymentId
+	"deploymentId" : vars.deploymentId,
+	"envId" : vars.environmentId
 }]]]></http:uri-params>
 		
 		</http:request>
