@@ -1,8 +1,10 @@
 anypoint:
   platform:
     host: "anypoint.mulesoft.com" #Change to eu1.anypoint.mulesoft.com  if using the EU Control Plane
+    responseTimeout: "30000"
     apis:
       coreservices:
+        maxConcurrency: "100"
         login:
           path: "/accounts/login"
         hierarchy:
@@ -16,9 +18,11 @@ anypoint:
           limit: "1000"
           offset: "0"
       cloudhub:
+        maxConcurrency: "100"
         apps:
           path: "/cloudhub/api/v2/applications"
       arm:
+        maxConcurrency: "100"
         apps:
           path: "/hybrid/api/v1/applications"
         servers:
@@ -32,25 +36,31 @@ anypoint:
         deployment:
           path: "/hybrid/api/v2/organizations/{orgId}/environments/{envId}/deployments/{deploymentId}"
       rtf:
+        maxConcurrency: "100"
         fabrics:
           path: "/runtimefabric/api/organizations/{orgId}/fabrics"
       apiManager:
+        maxConcurrency: "100"
         apis:
           path: "/apimanager/api/v1/organizations/{orgId}/environments/{envId}/apis"
         apiPolicies:
           path: "/apimanager/api/v1/organizations/{orgId}/environments/{envId}/apis/{apiId}/policies"
+          enabled: "false"
         automatedPolicies:
           path: "/apimanager/api/v1/organizations/{orgId}/automated-policies"
       apiPlatform:
+        maxConcurrency: "100"
         clients:
           path: "/apiplatform/repository/v2/organizations/{orgId}/applications"
           limit: "250"
           offset: "0"
           targetAdminSite: "true"
       designCenter:
+        maxConcurrency: "100"
         projects:
           path: "/designcenter/api-designer/projects"
       analytics:
+        maxConcurrency: "100"
         events:
           path: "/analytics/1.0/{orgId}/environments/{envId}/events"
           duration: "1d"
@@ -61,6 +71,7 @@ anypoint:
           duration: "30d"
           timeout: "8000"
       exchange:
+        maxConcurrency: "100"
         assets:
           path: "/exchange/api/v1/assets"
           limit: "1000"
