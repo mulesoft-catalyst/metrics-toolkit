@@ -16,7 +16,14 @@
 					variableName="apiId" />
 				<set-variable value="#[payload.assetId]" doc:name="Set API Instance ID Variable" doc:id="4e0d363f-17fb-4c70-8d18-c46618ef6354"
 					variableName="assetId" />
-				<flow-ref doc:name="Get Policies Flow Reference" doc:id="67e4b5f9-c79b-4b8d-bc6b-fdc0e2430bc1" name="api-call-api-manager-api-policies-flow" />
+				<choice doc:name="Choice">
+					<when expression="#[p('anypoint.platform.apis.apiManager.apiPolicies.enabled') == &quot;true&quot;]">
+						<flow-ref doc:name="Get Policies Flow Reference" doc:id="e6bdf64f-d578-46b6-9eb9-6f2ee0f2a016" name="api-call-api-manager-api-policies-flow" />
+					</when>
+					<otherwise>
+						<logger level="INFO" doc:name="Logger" doc:id="15b5b596-fef7-4c58-8574-13940fd0fc86" message="Policies polling disabled"/>
+					</otherwise>					
+				</choice>
 				<set-payload value='#[output application/json --- { id: vars.apiId, artifactId: vars.assetId, policies: payload.policies}]'
 				doc:name="Aggregate metrics" doc:id="a1da36e3-6baa-4a3e-a3c9-60af2dfffd63" />
 			
