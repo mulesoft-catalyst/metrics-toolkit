@@ -7,7 +7,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	
 	
 	<flow name="aggregator-platform-benefits-master-flow" doc:id="29336dcf-814b-4c3f-9ba3-e66e3e299175" >
-		<set-variable value="#[now()]" doc:name="Set Variable" doc:id="ed676637-37db-4851-bf7f-d97bffabfe55" variableName="date"/>
+		<set-variable value="#[now()]" doc:name="Set Date Variable" doc:id="ed676637-37db-4851-bf7f-d97bffabfe55" variableName="date"/>
 		<set-variable value="#[[]]" doc:name="Set Errors Variable" doc:id="402d8deb-1afa-4e38-ac80-6ac3faf200e7" variableName="errors"/>
 		<flow-ref doc:name="Get Token Flow Reference" doc:id="9fe90312-b4d2-4e3a-8700-fd4d298a5910" name="api-call-coreservices-login-flow" target="token" targetValue="payload.access_token" />
 		<flow-ref doc:name="api-call-coreservices-organizations-flow" doc:id="752346db-0103-4300-a2ed-501eedefb929" name="api-call-coreservices-organizations-flow"/>
