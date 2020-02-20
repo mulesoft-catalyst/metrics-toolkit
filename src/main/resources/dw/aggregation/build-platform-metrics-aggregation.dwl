@@ -51,10 +51,10 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 		}
 	},
 	designCenterMetrics: {
-		total: sizeOf(designCenterProjects default []),
-		apiSpecs: sizeOf(designCenterProjects filter($."type" == "raml") default []),
-		fragments: sizeOf(designCenterProjects filter($."type" == "raml-fragment") default []),
-		flowDesignerApps: sizeOf(designCenterProjects filter($."type" == "Mule_Application") default [])
+		total: if (designCenterProjects is Array) (sizeOf(designCenterProjects default [])) else ([]),
+		apiSpecs: if (designCenterProjects is Array)  (sizeOf(designCenterProjects filter($."type" == "raml") default [])) else ([]),
+		fragments: if (designCenterProjects is Array) (sizeOf(designCenterProjects filter($."type" == "raml-fragment") default [])) else ([]),
+		flowDesignerApps: if  (designCenterProjects is Array) (sizeOf(designCenterProjects filter($."type" == "Mule_Application") default [])) else ([])
 	},
 	exchangeMetrics: {
 		total: sizeOf(exchangeAssets default []) + sizeOf(exchangeAssets filter($."type" == "rest-api") default []),
