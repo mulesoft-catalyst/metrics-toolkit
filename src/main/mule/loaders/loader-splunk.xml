@@ -41,7 +41,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 			</ee:message>
 		</ee:transform>
 		<choice doc:name="Choice" doc:id="f39b9d61-8883-419a-8fca-2f94d8f351d1">
-			<when expression="#[p('vars.loaderDetails.protocol' == &quot;HTTPS&quot;)]">
+			<when expression='#[vars.loaderDetails.splunk.protocol == "HTTPS"]'>
 				<http:request method="POST" doc:name="Splunk HTTPS Request" doc:id="1a59e005-7fd4-428a-9154-2a47a0cc072a" config-ref="HTTPS_Splunk_Request_configuration" path="/services/collector/event">
 					<http:headers><![CDATA[#[output application/java
 ---
