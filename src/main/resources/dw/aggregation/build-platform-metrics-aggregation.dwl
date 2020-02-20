@@ -51,20 +51,20 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 		}
 	},
 	designCenterMetrics: {
-		total: if (designCenterProjects is Array) (sizeOf(designCenterProjects default [])) else ([]),
-		apiSpecs: if (designCenterProjects is Array)  (sizeOf(designCenterProjects filter($."type" == "raml") default [])) else ([]),
-		fragments: if (designCenterProjects is Array) (sizeOf(designCenterProjects filter($."type" == "raml-fragment") default [])) else ([]),
-		flowDesignerApps: if  (designCenterProjects is Array) (sizeOf(designCenterProjects filter($."type" == "Mule_Application") default [])) else ([])
+		total: if (designCenterProjects is Array) (sizeOf(designCenterProjects default [])) else (0),
+		apiSpecs: if (designCenterProjects is Array)  (sizeOf(designCenterProjects filter($."type" == "raml") default [])) else (0),
+		fragments: if (designCenterProjects is Array) (sizeOf(designCenterProjects filter($."type" == "raml-fragment") default [])) else (0),
+		flowDesignerApps: if  (designCenterProjects is Array) (sizeOf(designCenterProjects filter($."type" == "Mule_Application") default [])) else (0)
 	},
 	exchangeMetrics: {
-		total: sizeOf(exchangeAssets default []) + sizeOf(exchangeAssets filter($."type" == "rest-api") default []),
-		apiSpecs: sizeOf(exchangeAssets filter($."type" == "rest-api") default []),
-		connectors: sizeOf(exchangeAssets filter($."type" == "rest-api") default []),
-		fragments: sizeOf(exchangeAssets filter($."type" == "raml-fragment") default []),
-		proxies: sizeOf(exchangeAssets filter($."type" == "http-api") default []),
-		extensions: sizeOf(exchangeAssets filter($."type" == "extension") default []),
-		custom: sizeOf(exchangeAssets filter($."type" == "custom") default [])	,
-		overallSatisfaction: if (sizeOf(exchangeAssets) > 0) (sum(exchangeAssets.rating default [])/sizeOf(exchangeAssets)) else 0		
+		total: if (exchangeAssets is Array) (sizeOf(exchangeAssets default []) + sizeOf(exchangeAssets filter($."type" == "rest-api") default [])) else (0),
+		apiSpecs: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "rest-api") default [])) else (0),
+		connectors: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "rest-api") default [])) else (0),
+		fragments: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "raml-fragment") default [])) else (0),
+		proxies: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "http-api") default [])) else (0),
+		extensions: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "extension") default [])) else (0),
+		custom: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "custom") default [])) else (0),
+		overallSatisfaction: if (exchangeAssets is Array) (if (sizeOf(exchangeAssets) > 0) (sum(exchangeAssets.rating default [])/sizeOf(exchangeAssets)) else 0) else (0)		
 	},
 	apiManagerMetrics: {
 		clients: sizeOf(apiClients default []),
