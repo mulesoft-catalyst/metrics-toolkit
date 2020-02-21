@@ -2,7 +2,7 @@ http:
   port: "8081"
   
 poller:
-  enabled: "true"
+  enabled: "false"
   frequency: "60" #minutes
   
 aggregation:
