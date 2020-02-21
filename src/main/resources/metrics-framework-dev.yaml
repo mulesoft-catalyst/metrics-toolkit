@@ -1,9 +1,9 @@
 http:
-  port: "8083"
+  port: "8081"
   
 poller:
-  enabled: "false"
-  frequency: "1" #minutes
+  enabled: "true"
+  frequency: "60" #minutes
   
 aggregation:
   raw: "false"
@@ -15,7 +15,6 @@ auth:
   username: "xx"
   password: "xx"
   orgId: "123"
-  token: ""
     
 splunk:
   host: "splunk-metrics.env.services.mulesoft.com"
