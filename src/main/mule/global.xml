@@ -21,7 +21,7 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
 			expirationInterval="${cache.token.expirationInterval}" entryTtlUnit="MINUTES" />
 	</ee:object-store-caching-strategy>
 
-	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="fb8155e1-f458-44fb-a798-492732af56b0" enableCookies="false">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="fb8155e1-f458-44fb-a798-492732af56b0" enableCookies="false" responseTimeout="${anypoint.platform.responseTimeout}">
 		<http:request-connection host="${anypoint.platform.host}" port="443" protocol="HTTPS" />
 	</http:request-config>
 </mule>

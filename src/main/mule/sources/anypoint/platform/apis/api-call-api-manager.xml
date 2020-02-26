@@ -6,7 +6,7 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
-	<flow name="api-call-api-manager-apis-flow" doc:id="cb45e4dc-7fd3-476d-aff3-7c0a30556088">
+	<flow name="api-call-api-manager-apis-flow" doc:id="cb45e4dc-7fd3-476d-aff3-7c0a30556088" maxConcurrency="${anypoint.platform.apis.apiManager.maxConcurrency}">
 		<logger level="INFO" doc:name="Logger" doc:id="c04d063d-9f26-41c8-9f2c-efd64bc5a457" message="Calling API Manager - APIs" />
 		<http:request method="GET" doc:name="Get APIs Request" doc:id="ea3a4010-08c1-44e9-b9d4-a82201dbb162" config-ref="HTTP_Request_configuration"
 			path="${anypoint.platform.apis.apiManager.apis.path}">
@@ -25,7 +25,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<logger level="INFO" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 	
-	<flow name="api-call-api-manager-api-policies-flow" doc:id="392b0852-86a0-4067-bab6-7b5f55855136">
+	<flow name="api-call-api-manager-api-policies-flow" doc:id="392b0852-86a0-4067-bab6-7b5f55855136" maxConcurrency="${anypoint.platform.apis.apiManager.maxConcurrency}">
 		<logger level="INFO" doc:name="Logger" doc:id="19b1b41d-e3f3-40bf-a39d-2fbdfc8e2738" message="Calling API Manager - API Policies" />
 		<http:request method="GET" doc:name="Get API Policies Request" doc:id="d5c85809-9166-498c-babc-e74cd8a8a886" config-ref="HTTP_Request_configuration"
 			path="${anypoint.platform.apis.apiManager.apiPolicies.path}">
@@ -52,7 +52,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<logger level="INFO" doc:name="Logger" doc:id="3099c073-7970-440a-8683-90ecfe96a6d5" message='#["Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 	
-	<flow name="api-call-api-manager-automated-policies-flow" doc:id="42654c28-a89d-4de6-88ba-dc0fb72281a8">
+	<flow name="api-call-api-manager-automated-policies-flow" doc:id="42654c28-a89d-4de6-88ba-dc0fb72281a8" maxConcurrency="${anypoint.platform.apis.apiManager.maxConcurrency}">
 		<logger level="INFO" doc:name="Logger" doc:id="72a5e4e6-06fc-40d8-a9c8-b52535a58743" message="Calling API Manager - Automated Policies" />
 		<http:request method="GET" doc:name="Get Automated Policies Request" doc:id="12594095-06f6-4b7a-af6d-5b3150abe1af" config-ref="HTTP_Request_configuration"
 			path="${anypoint.platform.apis.apiManager.automatedPolicies.path}">

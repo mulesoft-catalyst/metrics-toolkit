@@ -6,7 +6,7 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
-	<flow name="api-call-exchange-assets-flow" doc:id="cb45e4dc-7fd3-476d-aff3-7c0a30556088">
+	<flow name="api-call-exchange-assets-flow" doc:id="cb45e4dc-7fd3-476d-aff3-7c0a30556088" maxConcurrency="${anypoint.platform.apis.exchange.maxConcurrency}">
 		<logger level="INFO" doc:name="Logger" doc:id="c04d063d-9f26-41c8-9f2c-efd64bc5a457" message="Calling Exchange - Assets" />
 		<http:request method="GET" doc:name="Get Assets Request" doc:id="ea3a4010-08c1-44e9-b9d4-a82201dbb162" config-ref="HTTP_Request_configuration"
 			path="${anypoint.platform.apis.exchange.assets.path}">
