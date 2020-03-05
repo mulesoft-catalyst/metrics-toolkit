@@ -13,14 +13,11 @@ loader:
 
 auth:
   username: "xx"
-  password: "xx"
-  orgId: "123"
     
 splunk:
   host: "splunk-metrics.env.services.mulesoft.com"
   port: "8088"
   protocol: "HTTP"
-  token: "xx"
   source: "test-source"
   source.type: "_json"
   index:

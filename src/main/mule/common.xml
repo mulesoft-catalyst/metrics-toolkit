@@ -28,11 +28,11 @@ output application/java
 	</flow>
 	
 	<flow name="metrics-framework-common-set-auth-vars-from-properties" doc:id="bcd8192b-7a75-45a5-963e-6c98065b3e71">
-		<set-variable value="#[p('auth.orgId')]" doc:name="Set Master Org Id Variable" doc:id="8b0fe279-f6c8-4478-a0b7-63e2c617dae4"
+		<set-variable value="#[p('secure::auth.orgId')]" doc:name="Set Master Org Id Variable" doc:id="8b0fe279-f6c8-4478-a0b7-63e2c617dae4"
 			variableName="masterOrgId" />
 		<set-variable value="#[p('auth.username')]" doc:name="Set Username Variable" doc:id="25a83be2-4394-4791-9bca-11caf8376406"
 			variableName="username" />
-		<set-variable value="#[p('auth.password')]" doc:name="Set Password Variable" doc:id="23e750a5-512e-46bd-8c37-4f8d1eddd533"
+		<set-variable value="#[p('secure::auth.password')]" doc:name="Set Password Variable" doc:id="23e750a5-512e-46bd-8c37-4f8d1eddd533"
 			variableName="password" />
 	</flow>
 	

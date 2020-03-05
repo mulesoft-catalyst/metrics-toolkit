@@ -13,9 +13,9 @@
 			<http:request config-ref="HTTP_Request_Configuration" method="GET" path="/platform-metrics" responseTimeout="60000">
                 <http:headers><![CDATA[#[{
 	"Accept":"application/json",
-	"X-ANYPNT-ORG-ID": Mule::p('auth.orgId'),
+	"X-ANYPNT-ORG-ID": Mule::p('secure::auth.orgId'),
 	"X-ANYPNT-USERNAME": Mule::p('auth.username'),
-	"X-ANYPNT-PASSWORD": Mule::p('auth.password')
+	"X-ANYPNT-PASSWORD": Mule::p('secure::auth.password')
 }]]]></http:headers>
                 <http:query-params><![CDATA[#[{"raw":"false"}]]]></http:query-params>
             </http:request>
