@@ -57,7 +57,7 @@ Default configurations defined in `/src/main/resources/properties/metrics-framew
 ### Secure Configuration
 - Make sure to encrypt all the sensitive data using the Secure Properties Module: https://docs.mulesoft.com/mule-runtime/4.2/secure-configuration-properties.
 - Default secure config file defined in `/src/main/resources/properties/secure/metrics-framework.{env}.yaml`
-- Example `mule.key` used and configured as a Global Property under `global.xml`
+- Example `mule.key` used and configured as a Global Property under `global.xml` file
 
 ## Run in Anypoint Studio
 1. Clone the project from GitHub `git clone git@github.com:mulesoft-consulting/metrics-framework-m4.git`
