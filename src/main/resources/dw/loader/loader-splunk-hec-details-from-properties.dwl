@@ -10,7 +10,7 @@ var strategy = p('loader.strategy')
   			host: p('splunk.host'),
 			port: p('splunk.port'),
 			protocol: p('splunk.protocol'),
-			token: p('splunk.token'),
+			token: p('secure::splunk.token'),
 			platformMetricsIndex: p('splunk.index.metrics'),
 			platformBenefitsIndex: p('splunk.index.benefits'),
 			source: p('splunk.source'),

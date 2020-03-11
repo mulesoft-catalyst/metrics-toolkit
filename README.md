@@ -52,8 +52,12 @@ How to link business needs, measurements and data sources?
 ![Scenario 1](/img/approach.png)
 
 ## Configuration
-Default configurations defined in `/src/main/resources/metrics-framework.{env}.yaml`:
+Default configurations defined in `/src/main/resources/properties/metrics-framework.{env}.yaml`:
 
+### Secure Configuration
+- Make sure to encrypt all the sensitive data using the Secure Properties Module: https://docs.mulesoft.com/mule-runtime/4.2/secure-configuration-properties.
+- Default secure config file defined in `/src/main/resources/properties/secure/metrics-framework.{env}.yaml`
+- Example `mule.key` used and configured as a Global Property under `global.xml` file
 
 ## Run in Anypoint Studio
 1. Clone the project from GitHub `git clone git@github.com:mulesoft-consulting/metrics-framework-m4.git`
