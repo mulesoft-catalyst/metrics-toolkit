@@ -14,7 +14,7 @@
                 <http:headers><![CDATA[#[{
 	"Accept":"application/json",
 	"X-ANYPNT-ORG-ID": Mule::p('secure::auth.orgId'),
-	"X-ANYPNT-USERNAME": Mule::p('auth.username'),
+	"X-ANYPNT-USERNAME": Mule::p('secure::auth.username'),
 	"X-ANYPNT-PASSWORD": Mule::p('secure::auth.password')
 }]]]></http:headers>
                 <http:query-params><![CDATA[#[{"raw":"false"}]]]></http:query-params>
