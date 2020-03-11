@@ -1,0 +1,25 @@
+http:
+  port: "8081"
+  
+poller:
+  enabled: "false"
+  frequency: "60" #minutes
+  
+aggregation:
+  raw: "false"
+  
+loader:
+  strategy: "logger"
+    
+splunk:
+  host: "splunk-metrics.env.services.mulesoft.com"
+  port: "8088"
+  protocol: "HTTP"
+  source: "test-source"
+  source.type: "_json"
+  index:
+    metrics: "metrics"
+    benefits: "platform_benefits"
+
+tableau:
+  path: "/test-tableau.json"
