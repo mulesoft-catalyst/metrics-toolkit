@@ -1,13 +1,14 @@
 [
   {
     "businessGroup": "Fantasy Company",
+    "businessGroupId": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
     "coreServicesMetrics": {
       "users": {
         "total": 1,
         "activeMembers": 1,
         "inactiveMembers": 0,
-        "activeMembersLast60Days": 1,
-        "activeMembersLast30Days": 1
+        "activeMembersLast60Days": 0,
+        "activeMembersLast30Days": 0
       },
       "environments": {
         "total": 5,
