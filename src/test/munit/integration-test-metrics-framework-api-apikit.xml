@@ -4,7 +4,7 @@
     <http:request-config name="HTTP_Request_Configuration" basePath="/api">
         <http:request-connection host="localhost" port="${http.port}" usePersistentConnections="false"/>
     </http:request-config>
-    <munit:test name="get:\platform-metrics:metrics-framework-api-config-200-application\json-FlowTest" description="Verifying functionality of [get:\platform-metrics:metrics-framework-api-config-200-application\json]">
+    <munit:test name="get:\platform-metrics:metrics-framework-api-config-200-application\json-FlowTest" description="Verifying functionality of [get:\platform-metrics:metrics-framework-api-config-200-application\json]" ignore="true">
         <munit:enable-flow-sources>
             <munit:enable-flow-source value="metrics-framework-api-main" />
             <munit:enable-flow-source value="get:\platform-metrics:metrics-framework-api-config" />
