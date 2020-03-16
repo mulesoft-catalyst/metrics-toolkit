@@ -90,10 +90,6 @@ flatten (payload map ((event, eventIndex) -> ([
        businessGroup: event.businessGroup, date: event.date, group: exchange, environmentType: envNA
     }, 
     {
-       name: "Exchange Extensions Total", value: event.exchangeMetrics.extensions,
-       businessGroup: event.businessGroup, date: event.date, group: exchange, environmentType: envNA
-    }, 
-    {
        name: "Exchange Custom Assets Total", value: event.exchangeMetrics.custom,
        businessGroup: event.businessGroup, date: event.date, group: exchange, environmentType: envNA
     }, 
