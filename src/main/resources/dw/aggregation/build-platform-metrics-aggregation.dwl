@@ -31,6 +31,22 @@ var sandboxApisAssets=sandboxApis.assets
 var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 
 var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","authentication"]
+
+var assetsNotGenerated = exchangeAssets filter ($.isGenerated == false)
+
+var parentAssets = (childAsset) -> exchangeAssets filter ((parentAsset) -> 
+      sizeOf(
+        parentAsset.dependencies filter ((dependency) ->
+          dependency.groupId == childAsset.groupId
+          and dependency.assetId == childAsset.assetId
+          and dependency.version == childAsset.version
+        )
+      ) > 0
+    )
+
+var assetsReuseRate = assetsNotGenerated map sizeOf(parentAssets($))
+
+var avgAssetReuseRate = avg(assetsReuseRate)
 ---
 {
 	date: vars.date,
@@ -64,7 +80,8 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 		proxies: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "http-api") default [])) else (0),
 		extensions: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "extension") default [])) else (0),
 		custom: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "custom") default [])) else (0),
-		overallSatisfaction: if (exchangeAssets is Array) (if (sizeOf(exchangeAssets) > 0) (sum(exchangeAssets.rating default [])/sizeOf(exchangeAssets)) else 0) else (0)		
+		overallSatisfaction: if (exchangeAssets is Array) (if (sizeOf(exchangeAssets) > 0) (sum(exchangeAssets.rating default [])/sizeOf(exchangeAssets)) else 0) else (0),
+		reuseRate: avgAssetReuseRate
 	},
 	apiManagerMetrics: {
 		clients: sizeOf(apiClients default []),
