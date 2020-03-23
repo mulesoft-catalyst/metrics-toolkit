@@ -57,9 +57,9 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 		flowDesignerApps: if  (designCenterProjects is Array) (sizeOf(designCenterProjects filter($."type" == "Mule_Application") default [])) else (0)
 	},
 	exchangeMetrics: {
-		total: if (exchangeAssets is Array) (sizeOf(exchangeAssets default []) + sizeOf(exchangeAssets filter($."type" == "rest-api") default [])) else (0),
+		total: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."isGenerated" == false) default [])) else (0),
 		apiSpecs: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "rest-api") default [])) else (0),
-		connectors: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "rest-api") default [])) else (0),
+		connectors: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "connector") default [])) else (0),
 		fragments: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "raml-fragment") default [])) else (0),
 		proxies: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "http-api") default [])) else (0),
 		extensions: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "extension") default [])) else (0),
