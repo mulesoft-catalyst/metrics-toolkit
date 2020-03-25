@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+	<flow name="loader-csv-main-flow" doc:id="ef10b993-2925-4b83-8b9b-83092f1e3c97">
+		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="2a2d9ce7-a83a-4ebb-bfdf-cace7354c9a4" name="aggregator-platform-metrics-master-flow" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="bc500a4d-66b9-457f-93df-f44c1066e18e" message="#[payload]" />
+		<ee:transform doc:name="Build CSV Structure" doc:id="543f1859-4fd1-4200-926a-7a55f0cdcd94">
+			<ee:message>
+				<ee:set-payload resource="dw/loader/loader-csv-build-structure.dwl" />
+			</ee:message>
+		</ee:transform>
+	</flow>
+
+	<flow name="loader-benefits-csv-main-flow" doc:id="ed5c9f13-fdf4-4b8b-87f0-c3dd48b522e7">
+		<flow-ref doc:name="Aggregate Platform Benefits Flow Reference" doc:id="83d65c5b-f5e6-40e1-b7df-f3a9df1d5f67" name="aggregator-platform-benefits-master-flow" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="66bb2880-91ad-48f6-9105-3e5e25f5de7b" message="#[payload]" />
+		<ee:transform doc:name="Build CSV Structure" doc:id="d04f9d55-4124-4508-9d2f-2b7bda29e508" >
+			<ee:message >
+				<ee:set-payload resource="dw/loader/loader-csv-build-benefits-structure.dwl" />
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
