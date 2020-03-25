@@ -15,6 +15,9 @@
 			<when expression="#[vars.loaderDetails.strategy == 'tableau']">
 				<flow-ref doc:name="loader-tableau-main-flow" doc:id="de20ba38-08f0-4b89-b2a0-219402a2846c" name="loader-tableau-main-flow"/>
 			</when>
+			<when expression="#[vars.loaderDetails.strategy == 'csv']">
+				<flow-ref doc:name="loader-csv-main-flow" doc:id="65f19b6d-439f-4b07-abf4-0cc1a1281e92" name="loader-csv-main-flow"/>
+			</when>
 			<otherwise >
 				<flow-ref doc:name="loader-default-flow" doc:id="173ea082-922f-4f69-b9f3-55f9246f0291" name="loader-default-flow"/>
 			</otherwise>
@@ -24,13 +27,16 @@
 		<logger level="INFO" doc:name="Logger" doc:id="9be0e416-ab29-4086-94fa-141f4d722ce5" message="Strategy: #[vars.loaderDeetails.strategy]"/>
 		<choice doc:name="Choice" doc:id="7a991914-5a01-45f8-8760-d710de43ab10" >
 			<when expression="#[vars.loaderDetails.strategy == 'am']">
-				<flow-ref doc:name="loader-anypoint-monitoring" doc:id="172d89b4-f5ae-4f5c-8209-ae9e70b46671" name="loader-benefits-anypoint-monitoring"/>
+				<flow-ref doc:name="loader-benefits-anypoint-monitoring" doc:id="172d89b4-f5ae-4f5c-8209-ae9e70b46671" name="loader-benefits-anypoint-monitoring"/>
 			</when>
 			<when expression="#[vars.loaderDetails.strategy == 'splunk']">
-				<flow-ref doc:name="loader-splunk-main-flow" doc:id="41866117-d58b-43d0-ab0b-46992be58400" name="loader-benefits-splunk-hec-main-flow"/>
+				<flow-ref doc:name="loader-benefits-splunk-hec-main-flow" doc:id="41866117-d58b-43d0-ab0b-46992be58400" name="loader-benefits-splunk-hec-main-flow"/>
 			</when>
-			<when expression="#[vars.loaderDeetails.strategy == 'tableau']">
-				<flow-ref doc:name="loader-tableau-main-flow" doc:id="843f4611-bd19-4888-a910-87b88638083a" name="loader-benefits-tableau-main-flow"/>
+			<when expression="#[vars.loaderDetails.strategy == 'tableau']">
+				<flow-ref doc:name="loader-benefits-tableau-main-flow" doc:id="843f4611-bd19-4888-a910-87b88638083a" name="loader-benefits-tableau-main-flow"/>
+			</when>
+			<when expression="#[vars.loaderDetails.strategy == 'csv']">
+				<flow-ref doc:name="loader-benefits-csv-main-flow" doc:id="0ee2a53f-83dc-43ca-b5f5-01fe81a5f1d5" name="loader-benefits-csv-main-flow"/>
 			</when>
 			<otherwise >
 				<flow-ref doc:name="loader-default-flow" doc:id="52ba5200-2a44-4e16-83a1-76125f24fef9" name="loader-default-flow"/>
