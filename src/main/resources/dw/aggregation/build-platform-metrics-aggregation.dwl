@@ -43,7 +43,6 @@ var parentAssets = (childAsset) -> exchangeAssets filter ((parentAsset) ->
         parentAsset.dependencies filter ((dependency) ->
           dependency.groupId == childAsset.groupId
           and dependency.assetId == childAsset.assetId
-          and dependency.version == childAsset.version
         )
       ) > 0
     )

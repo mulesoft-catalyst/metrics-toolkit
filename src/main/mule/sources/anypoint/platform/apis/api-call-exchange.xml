@@ -9,19 +9,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<flow name="api-call-exchange-assets-flow" doc:id="cb45e4dc-7fd3-476d-aff3-7c0a30556088" maxConcurrency="${anypoint.platform.apis.exchange.maxConcurrency}">
 		<logger level="INFO" doc:name="Logger" doc:id="c04d063d-9f26-41c8-9f2c-efd64bc5a457" message="Calling Exchange - Assets" />
 		<set-variable value='#["query Platform { assets(organizationIds: [\"" ++ vars.orgId ++ "\"], latestVersionsOnly: true) { organizationId, groupId, assetId, version, minorVersion, versionGroup, description, name, type, status, isPublic, isLatestVersion, createdDate, updatedDate, originalFormat, minMuleVersion, isGenerated, isMozartTemplate, isSnapshot, rating, numberOfRates } }"]' doc:name="Set graphqlQuery" doc:id="a26748f9-1b9b-4f4e-afb7-3892de2a3b15" variableName="graphqlQuery"/>
-		<flow-ref doc:name="execute-graphql-query" doc:id="495f6701-b5cd-4b46-9788-6b478ef557a6" name="execute-graphql-query"/>
-		<set-payload value="#[output application/java --- payload.data.assets]" doc:name="Set Payload" doc:id="536390ec-0bf3-4f0c-b46c-159bc1e6fd51" />
-		<logger level="INFO" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Response Status Code:" ++ attributes.statusCode]' />
-	</flow>
-	<flow name="api-call-exchange-asset-dependencies-flow" doc:id="8d61d5dd-a6f3-4ca2-ba1a-4b3026de2910" maxConcurrency="${anypoint.platform.apis.exchange.maxConcurrency}">
-		<logger level="INFO" doc:name="Logger" doc:id="3e43ad0e-d15b-4fe9-81ab-4535b69d588f" message="Calling Exchange - Asset dependencies" />
-		<set-variable value='#["query Platform { asset(groupId:\"" ++ payload.groupId ++ "\",assetId:\"" ++ payload.assetId ++ "\",version:\"" ++ payload.version ++ "\") { organizationId, groupId, assetId, version, dependencies { groupId, assetId, version, type } } }"]' doc:name="Set graphqlQuery" doc:id="5573198f-4646-4863-8491-be70cd69196a" variableName="graphqlQuery" />
-		<flow-ref doc:name="execute-graphql-query" doc:id="b146f6c4-9312-4a40-b9c5-caef567acdd5" name="execute-graphql-query" />
-		<set-payload value="#[output application/java --- payload.data.asset.dependencies]" doc:name="Set Payload" doc:id="51bf83d2-c080-4fb8-9398-e4cee83bc18d" />
-		<logger level="INFO" doc:name="Logger" doc:id="6614e1cb-bb54-4e89-b1bb-84630aeae5fa" message='#["Response Status Code:" ++ attributes.statusCode]' />
-	</flow>
-	<sub-flow name="execute-graphql-query" doc:id="17e4c4e9-a4d9-44cb-b281-cea01a9e8a00" >
-		<http:request method="POST" doc:name="GraphQL Query" doc:id="1f623af2-82f7-4c5e-9ba4-559bc8bf251f" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.exchange.graphql.path}" >
+		<http:request method="POST" doc:name="Get Assets" doc:id="8bc85d2b-02cc-4aa4-b430-5f59fe7ba99c" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.exchange.graphql.path}" >
 			<http:body ><![CDATA[#[output application/json
 ---
 {
@@ -32,7 +20,26 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
   operationName: "Platform"
 }]]]></http:body>
 		</http:request>
-	</sub-flow>
+		<set-payload value="#[output application/java --- payload.data.assets]" doc:name="Set Payload" doc:id="536390ec-0bf3-4f0c-b46c-159bc1e6fd51" />
+		<logger level="INFO" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+	<flow name="api-call-exchange-asset-dependencies-flow" doc:id="8d61d5dd-a6f3-4ca2-ba1a-4b3026de2910" maxConcurrency="${anypoint.platform.apis.exchange.maxConcurrency}">
+		<logger level="INFO" doc:name="Logger" doc:id="3e43ad0e-d15b-4fe9-81ab-4535b69d588f" message="Calling Exchange - Asset dependencies" />
+		<set-variable value='#["query Platform { asset(groupId:\"" ++ payload.groupId ++ "\",assetId:\"" ++ payload.assetId ++ "\",version:\"" ++ payload.version ++ "\") { organizationId, groupId, assetId, version, dependencies { groupId, assetId, version, type } } }"]' doc:name="Set graphqlQuery" doc:id="5573198f-4646-4863-8491-be70cd69196a" variableName="graphqlQuery" />
+		<http:request method="POST" doc:name="Get Asset Dependencies" doc:id="3ff3648d-aa68-46db-b39a-2b563ce443f3" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.exchange.graphql.path}" >
+			<http:body ><![CDATA[#[output application/json
+---
+{
+  query: vars.graphqlQuery,
+  variables: {
+  	accessToken: vars.token
+  },
+  operationName: "Platform"
+}]]]></http:body>
+		</http:request>
+		<set-payload value="#[output application/java --- payload.data.asset.dependencies]" doc:name="Set Payload" doc:id="51bf83d2-c080-4fb8-9398-e4cee83bc18d" />
+		<logger level="INFO" doc:name="Logger" doc:id="6614e1cb-bb54-4e89-b1bb-84630aeae5fa" message='#["Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
 
 
 </mule>

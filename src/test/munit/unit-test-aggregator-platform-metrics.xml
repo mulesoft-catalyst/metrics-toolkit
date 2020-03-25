@@ -57,10 +57,21 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</munit-tools:mock-when>
 			<munit-tools:mock-when doc:name="Mock when Get Assets Request" doc:id="40397920-b0e9-49da-b9e1-b564d49e4468" processor="http:request">
 				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="Get Assets Request" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Get Assets" attributeName="doc:name" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
 					<munit-tools:payload value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-exchange/get-assets-response.json')]" mediaType="application/json" />
+					<munit-tools:attributes value='#[{
+ "statusCode": 200
+ }]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get Asset Dependencies Request" doc:id="c01af08a-07c5-48e8-b1a2-07dad34a2f90" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get Asset Dependencies" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-exchange/get-asset-dependencies-response.json')]" mediaType="application/json" />
 					<munit-tools:attributes value='#[{
  "statusCode": 200
  }]' />
