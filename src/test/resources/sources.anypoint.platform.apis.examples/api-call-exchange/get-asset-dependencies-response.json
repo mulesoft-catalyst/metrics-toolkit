@@ -1,0 +1,14 @@
+{
+  "data": {
+    "asset": {
+      "dependencies": [
+        {
+          "groupId": "a5ff6947-66ff-4292-a31d-51f322457ee6",
+          "assetId": "automotive-data-model",
+          "version": "1.0.0",
+          "type": "raml-fragment"
+        }
+      ] 
+    }
+  }
+}
