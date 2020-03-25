@@ -1,6 +1,10 @@
 %dw 2.0
 output application/json
+
 var environments = vars.environments
+var entitlements = vars.entitlements
+var errors = vars.errors
+
 var cloudHubApps = payload[0].payload.payload
 var exchangeAssets = payload[1].payload
 var apiManagerApis = payload[2].payload.payload
@@ -57,8 +61,8 @@ var avgAssetReuseRate = avg(assetsReuseRate)
 			total: sizeOf(members.data default []),
 			activeMembers: sizeOf(members.data  filter ($.enabled == true) default []),
 			inactiveMembers: sizeOf(members.data  filter ($.enabled == false) default []),
-			activeMembersLast60Days: sizeOf(members.data filter ($.lastLogin  >= (now() - |P60D|)) default []),
-			activeMembersLast30Days: sizeOf(members.data filter ($.lastLogin  >= (now() - |P30D|)) default []) 
+			activeMembersLast60Days: sizeOf(members.data filter (($.lastLogin default |2000-01-01T00:00:00.000Z|)  >= (now() - |P60D|)) default []),  // defaulting to |2000-01-01T00:00:00.000Z| for null cases
+			activeMembersLast30Days: sizeOf(members.data filter (($.lastLogin default |2000-01-01T00:00:00.000Z|)  >= (now() - |P30D|)) default [])  // defaulting to |2000-01-01T00:00:00.000Z| for null cases
 		},
 		environments: {
 			total:  sizeOf(environments default []),
@@ -134,18 +138,18 @@ var avgAssetReuseRate = avg(assetsReuseRate)
 	runtimeManagerMetrics: {
 		cloudhub: {
 			networking: {
-				vpcsTotal: vars.entitlements.vpcs.assigned,
-				vpcsAvailable: (vars.entitlements.vpcs.assigned default 0) - (usage.vpcsConsumed default 0),
+				vpcsTotal: entitlements.vpcs.assigned,
+				vpcsAvailable: (entitlements.vpcs.assigned default 0) - (usage.vpcsConsumed default 0),
 				vpcsUsed: usage.vpcsConsumed,
-				vpnsTotal: vars.entitlements.vpns.assigned,
-				vpnsAvailable: (vars.entitlements.vpns.assigned default 0) - (usage.vpnsConsumed default 0),
+				vpnsTotal: entitlements.vpns.assigned,
+				vpnsAvailable: (entitlements.vpns.assigned default 0) - (usage.vpnsConsumed default 0),
 				vpnsUsed: usage.vpnsConsumed
 			},
 			
 			applications:{
 				production: {
-					vcoresTotal: vars.entitlements.vCoresProduction.assigned,
-					vcoresAvailable: (vars.entitlements.vCoresProduction.assigned as Number) - sum(flatten(getProdData(cloudHubApps) default []) map ($.workers."type".weight * $.workers.amount)),
+					vcoresTotal: entitlements.vCoresProduction.assigned,
+					vcoresAvailable: (entitlements.vCoresProduction.assigned as Number) - sum(flatten(getProdData(cloudHubApps) default []) map ($.workers."type".weight * $.workers.amount)),
 					vcoresUsed: sum(flatten(getProdData(cloudHubApps) default []) map ($.workers."type".weight * $.workers.amount)),
 					applicationsTotal: sizeOf(flatten(getProdData(cloudHubApps) default []) default []),
 					applicationsStarted: sizeOf(flatten(getProdData(cloudHubApps) default []) filter ($.status == "STARTED") default []),
@@ -154,8 +158,8 @@ var avgAssetReuseRate = avg(assetsReuseRate)
 					runtimesUsedTotal: sizeOf(flatten(getProdData(cloudHubApps) default []).muleVersion.version distinctBy ($) default [])
 				},
 				sandbox:{
-					vcoresTotal: vars.entitlements.vCoresSandbox.assigned,
-					vcoresAvailable: (vars.entitlements.vCoresSandbox.assigned as Number) - sum(flatten(getSandboxData(cloudHubApps) default []) map ($.workers."type".weight * $.workers.amount)),
+					vcoresTotal: entitlements.vCoresSandbox.assigned,
+					vcoresAvailable: (entitlements.vCoresSandbox.assigned as Number) - sum(flatten(getSandboxData(cloudHubApps) default []) map ($.workers."type".weight * $.workers.amount)),
 					vcoresUsed: sum(flatten(getSandboxData(cloudHubApps) default []) map ($.workers."type".weight * $.workers.amount)),
 					applicationsTotal: sizeOf(flatten(getSandboxData(cloudHubApps) default []) default []),
 					applicationsStarted: sizeOf(flatten(getSandboxData(cloudHubApps) default []) filter ($.status == "STARTED") default []),
@@ -171,7 +175,7 @@ var avgAssetReuseRate = avg(assetsReuseRate)
     				workers: sizeOf((flatten(rtf.nodes) filter($.role == "worker") default []) default []),
     				controllers: sizeOf((flatten(rtf.nodes) filter($.role == "controller") default []) default []),
     				coresTotal: sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.cpuMillis default [])/1000,
-   				memoryTotal: sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.memoryMi default [])/1000,
+   				    memoryTotal: sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.memoryMi default [])/1000,
     				coresPerFabric: if (sizeOf(rtf) > 0) (sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.cpuMillis default [])/(sizeOf(rtf) * 1000)) else 0,
     				memoryPerFabric: if (sizeOf(rtf) > 0) (sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.memoryMi default [])/(sizeOf(rtf) * 1000)) else 0
 			},
@@ -226,5 +230,5 @@ var avgAssetReuseRate = avg(assetsReuseRate)
 		}
 		
 	},
-	errors: vars.errors	
+	errors: errors	
 }
