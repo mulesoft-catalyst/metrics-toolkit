@@ -35,6 +35,21 @@ var sandboxApisAssets=sandboxApis.assets
 var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 
 var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","authentication"]
+
+var assetsNotGenerated = exchangeAssets filter ($.isGenerated == false)
+
+var parentAssets = (childAsset) -> exchangeAssets filter ((parentAsset) -> 
+      sizeOf(
+        parentAsset.dependencies filter ((dependency) ->
+          dependency.groupId == childAsset.groupId
+          and dependency.assetId == childAsset.assetId
+        )
+      ) > 0
+    )
+
+var assetsReuseRate = assetsNotGenerated map sizeOf(parentAssets($))
+
+var avgAssetReuseRate = avg(assetsReuseRate)
 ---
 {
 	date: vars.date,
@@ -61,14 +76,15 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 		flowDesignerApps: if  (designCenterProjects is Array) (sizeOf(designCenterProjects filter($."type" == "Mule_Application") default [])) else (0)
 	},
 	exchangeMetrics: {
-		total: if (exchangeAssets is Array) (sizeOf(exchangeAssets default []) + sizeOf(exchangeAssets filter($."type" == "rest-api") default [])) else (0),
+		total: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."isGenerated" == false) default [])) else (0),
 		apiSpecs: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "rest-api") default [])) else (0),
-		connectors: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "rest-api") default [])) else (0),
+		connectors: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "connector") default [])) else (0),
 		fragments: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "raml-fragment") default [])) else (0),
 		proxies: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "http-api") default [])) else (0),
 		extensions: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "extension") default [])) else (0),
 		custom: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "custom") default [])) else (0),
-		overallSatisfaction: if (exchangeAssets is Array) (if (sizeOf(exchangeAssets) > 0) (sum(exchangeAssets.rating default [])/sizeOf(exchangeAssets)) else 0) else (0)		
+		overallSatisfaction: if (exchangeAssets is Array) (if (sizeOf(exchangeAssets) > 0) (sum(exchangeAssets.rating default [])/sizeOf(exchangeAssets)) else 0) else (0),
+		reuseRate: avgAssetReuseRate
 	},
 	apiManagerMetrics: {
 		clients: sizeOf(apiClients default []),
