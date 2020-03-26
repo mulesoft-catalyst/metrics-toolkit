@@ -23,14 +23,15 @@
       "flowDesignerApps": 0
     },
     "exchangeMetrics": {
-      "total": 1,
-      "apiSpecs": 0,
-      "connectors": 0,
-      "fragments": 0,
+      "total": 3,
+      "apiSpecs": 2,
+      "connectors": 1,
+      "fragments": 1,
       "proxies": 0,
-      "extensions": 0,
-      "custom": 1,
-      "overallSatisfaction": 0.0
+      "extensions": 1,
+      "custom": 0,
+      "overallSatisfaction": 0.0,
+      "reuseRate": 1.6666666666666667
     },
     "apiManagerMetrics": {
       "clients": 2,
