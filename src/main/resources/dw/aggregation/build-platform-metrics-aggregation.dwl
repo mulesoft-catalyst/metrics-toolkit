@@ -181,7 +181,9 @@ var avgAssetReuseRate = avg(assetsReuseRate)
 			applications: {
 				production: {
 					//coresAvailable: "NA", // Not able to calculate because a fabric can be associated with multiple environments of any type
-					coresUsed: sum((flatten(getProdDetails(armApps) default []).target.deploymentSettings.resources.cpu.limit  map (($ replace  "m" with "") as Number)) default [])/1000, //cores
+					//coresUsed: sum((flatten(getProdDetails(armApps) default []).target.deploymentSettings.resources.cpu.limit  map (($ replace  "m" with "") as Number)) default [])/1000, //cores
+					coresUsed: sum(((flatten(getProdDetails(armApps) default []) filter($.application.status == "RUNNING"))) map (((($.target.deploymentSettings.resources.cpu.reserved) replace "m" with "") as Number) * ($.target.replicas as Number)) default [])/1000,
+					coresReserved: sum(((flatten(getProdDetails(armApps) default []) filter($.application.status == "RUNNING"))) map (((($.target.deploymentSettings.cpuReserved) replace "m" with "") as Number) * ($.target.replicas as Number)) default [])/1000,
 					//memoryAvailable: "NA", // Not able to calculate because a fabric can be associated with multiple environments of any type
 					memoryUsed: sum((flatten(getProdDetails(armApps) default []).target.deploymentSettings.resources.memory.limit  map (($ replace  "Mi" with "") as Number)) default [])/1000, //Gigs
 					applicationsTotal: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == 'MC') default []),
@@ -194,12 +196,14 @@ var avgAssetReuseRate = avg(assetsReuseRate)
 				},
 				sandbox:{
 					//coresAvailable: "NA", //cores // Not able to calculate because a fabric can be associated with multiple environments of any type
-					coresUsed: sum((flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.resources.cpu.limit  map (($ replace  "m" with "") as Number)) default [])/1000, //cores
+					//coresUsed: sum((flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.resources.cpu.limit  map (($ replace  "m" with "") as Number)) default [])/1000, //cores
+					coresUsed: sum(((flatten(getSandboxDetails(armApps) default []) filter($.application.status == "RUNNING"))) map (((($.target.deploymentSettings.resources.cpu.reserved) replace "m" with "") as Number) * ($.target.replicas as Number)) default [])/1000,
+                    coresReserved: sum(((flatten(getSandboxDetails(armApps) default []) filter($.application.status == "RUNNING"))) map (((($.target.deploymentSettings.cpuReserved) replace "m" with "") as Number) * ($.target.replicas as Number)) default [])/1000,
 					//memoryAvailable: "NA", //Gigs // Not able to calculate because a fabric can be associated with multiple environments of any type
 					memoryUsed: sum((flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.resources.memory.limit  map (($ replace  "Mi" with "") as Number)) default [])/1000, //Gigs
 					applicationsTotal: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default []),
 					applicationsStarted: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.application.status == 'RUNNING') default []),
-					applicationsStopped: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.applcation.status != 'RUNNING') default []),
+					applicationsStopped: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.application.status != 'RUNNING') default []),
 					runtimesUsed: flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [],
 					runtimesUsedTotal: sizeOf(flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [])
 				}	
