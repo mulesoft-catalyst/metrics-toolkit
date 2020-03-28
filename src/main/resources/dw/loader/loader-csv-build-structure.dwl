@@ -395,6 +395,10 @@ flatten (payload map ((event, eventIndex) -> ([
        businessGroup: event.businessGroup, date: event.date, group: runtimeManagerRTF, environmentType: envProduction
     },
     {
+       name: "RTF Cores Reserved Total", value: event.runtimeManagerMetrics.rtf.applications.production.coresReserved,
+       businessGroup: event.businessGroup, date: event.date, group: runtimeManagerRTF, environmentType: envProduction
+    },
+    {
        name: "RTF Memory Used Total", value: event.runtimeManagerMetrics.rtf.applications.production.memoryUsed,
        businessGroup: event.businessGroup, date: event.date, group: runtimeManagerRTF, environmentType: envProduction
     },
@@ -423,6 +427,10 @@ flatten (payload map ((event, eventIndex) -> ([
     //Runtime Manager - RTF - Sandbox
     {
        name: "RTF Cores Used Total", value: event.runtimeManagerMetrics.rtf.applications.sandbox.coresUsed,
+       businessGroup: event.businessGroup, date: event.date, group: runtimeManagerRTF, environmentType: envSandbox
+    },
+    {
+       name: "RTF Cores Reserved Total", value: event.runtimeManagerMetrics.rtf.applications.sandbox.coresReserved,
        businessGroup: event.businessGroup, date: event.date, group: runtimeManagerRTF, environmentType: envSandbox
     },
     {
