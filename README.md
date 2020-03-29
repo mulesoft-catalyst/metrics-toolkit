@@ -4,8 +4,8 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 ## Features
 - Compact mule application (1 single application)
 - Provides more than 100 metrics from 2 complementary domains:
-- Platform Operational Metrics: collected and calculated automatically based on multiple products from Anypoint Platform: Exchange, Design Center, Runtime Manager, Access Management; covering metrics from applications deployed on-prem (Standalone), RTF and CloudHub.
-- Platform Benefits: require manual input to calculate final metrics, crossing information from the "Platform Operational" domain
+- **Platform Operational Metrics**: collected and calculated automatically based on multiple products from Anypoint Platform: Exchange, Design Center, Runtime Manager, Access Management; covering metrics from applications deployed on-prem (Standalone), RTF and CloudHub.
+- **Platform Benefits**: require manual input to calculate final metrics, crossing information from the "Platform Operational" domain
 
 ![Domains](/img/domains.png)
 
@@ -20,11 +20,11 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 	- API endpoint for loading platform benefits - manual input required
 	
 ### Loader options
-    - CSV
-    - JSON
-    - Plain Log: in case you forward logs to external systems (e.g using Splunk forwarder)
-    - Splunk: Including an out of the box dashboard with more than 80 charts
-	- Anypoint Monitoring: Requires Titanium subscription, dashboard is not provided 
+    - **CSV**
+    - **JSON**
+    - **Plain Log**: in case you forward logs to external systems (e.g using Splunk forwarder)
+    - **Splunk**: Including an out of the box dashboard with more than 80 charts
+	- **Anypoint Monitoring**: Requires Titanium subscription, dashboard is not provided 
 	- Tableau: (Not available yet) 
 	- ELK: (Not available yet) 
 
@@ -55,7 +55,7 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 
 
 Name | Description | Default Value
------------- | ------------ | ------------ | ------------
+------------ | ------------ | ------------
 http.port | The port for exposing the metrics-framework API | 8081
 poller.enabled | Property to enable or disable the poller to collect and load metrics in external systems | false
 poller.frequency | In the case of enabling the poller, this property defines the scheduler frequency in minutes: Recommended to collect metrics once a day | 480
