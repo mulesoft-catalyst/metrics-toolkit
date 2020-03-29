@@ -80,6 +80,12 @@ CloudHub VPCs Used Total | RuntimeManager | BG |
 CloudHub VPNs Total | RuntimeManager | BG |
 CloudHub VPNs Available Total | RuntimeManager | BG |
 CloudHub VPNs Used Total | RuntimeManager | BG |
+CloudHub DLBs Total | RuntimeManager | BG |
+CloudHub DLBs Available Total | RuntimeManager | BG |
+CloudHub DLBs Used Total | RuntimeManager | BG |
+CloudHub Static IPs Total | RuntimeManager | BG |
+CloudHub Static IPs Available Total | RuntimeManager | BG |
+CloudHub Static IPs Used Total | RuntimeManager | BG |
 CloudHub vCores Total | RuntimeManager | BG, Environment |
 CloudHub vCores Available Total | RuntimeManager | BG, Environment |
 CloudHub vCores Used Total | RuntimeManager | BG, Environment |
