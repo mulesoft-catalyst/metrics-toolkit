@@ -20,13 +20,13 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 	- API endpoint for loading platform benefits - manual input required
 	
 ### Loader options
-    - **CSV**
-    - **JSON**
-    - **Plain Log**: in case you forward logs to external systems (e.g using Splunk forwarder)
-    - **Splunk**: Including an out of the box dashboard with more than 80 charts
-	- **Anypoint Monitoring**: Requires Titanium subscription, dashboard is not provided 
-	- Tableau: (Not available yet) 
-	- ELK: (Not available yet) 
+- **CSV**
+- **JSON**
+- **Plain Log**: in case you forward logs to external systems (e.g using Splunk forwarder)
+- **Splunk**: Including an out of the box dashboard with more than 80 charts
+- **Anypoint Monitoring**: Requires Titanium subscription, dashboard is not provided 
+- Tableau: (Not available yet) 
+- ELK: (Not available yet) 
 
 
 ## Installation
