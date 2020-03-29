@@ -32,7 +32,7 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 
 ### Platform Metrics
 
-Name | Product | Dimensions | 
+Name | Product | Dimensions | - 
 ------------ | ------------ | ------------ | ------------
 Users Total | Access Management | BG |
 Active Users | Access Management | BG |
