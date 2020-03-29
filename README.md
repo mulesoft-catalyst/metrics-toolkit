@@ -68,12 +68,12 @@ auth.orgId | Anypoint Platform master org Id |
 
 Properties specific for Splunk
 Name | Description | Default Value
------------- | ------------ | ------------ | ------------
+------------ | ------------ | ------------
 splunk.host | HTTP Event Collector (HEC) host | 
 splunk.port | HEC port | 8088
 splunk.protocol | HEC endpoint protocol: HTTPS or HTTP | HTTP
 splunk.token | HEC token  | 
-splunk.source | HEC source | 
+splunk.source | HEC source | metrics-source
 splunk.source.type | Source Type | _json
 splunk.index.metrics | Index for storing Platform operational metrics | metrics
 splunk.index.benefits | Index for storing Platform benefits | platform_benefits
