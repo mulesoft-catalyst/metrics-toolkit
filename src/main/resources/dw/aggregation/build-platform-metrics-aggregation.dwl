@@ -38,18 +38,18 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 
 var assetsNotGenerated = exchangeAssets filter ($.isGenerated == false)
 
-var parentAssets = (childAsset) -> exchangeAssets filter ((parentAsset) -> 
-      sizeOf(
-        parentAsset.dependencies filter ((dependency) ->
-          dependency.groupId == childAsset.groupId
-          and dependency.assetId == childAsset.assetId
-        )
-      ) > 0
-    )
+//var parentAssets = (childAsset) -> exchangeAssets filter ((parentAsset) -> 
+//      sizeOf(
+//        parentAsset.dependencies filter ((dependency) ->
+//          dependency.groupId == childAsset.groupId
+//          and dependency.assetId == childAsset.assetId
+//        )
+//      ) > 0
+//    )
 
-var assetsReuseRate = assetsNotGenerated map sizeOf(parentAssets($))
+//var assetsReuseRate = assetsNotGenerated map sizeOf(parentAssets($))
 
-var avgAssetReuseRate = avg(assetsReuseRate)
+//var avgAssetReuseRate = avg(assetsReuseRate)
 ---
 {
 	date: vars.date,
@@ -84,7 +84,7 @@ var avgAssetReuseRate = avg(assetsReuseRate)
 		extensions: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "extension") default [])) else (0),
 		custom: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "custom") default [])) else (0),
 		overallSatisfaction: if (exchangeAssets is Array) (if (sizeOf(exchangeAssets) > 0) (sum(exchangeAssets.rating default [])/sizeOf(exchangeAssets)) else 0) else (0),
-		reuseRate: avgAssetReuseRate
+		//reuseRate: avgAssetReuseRate
 	},
 	apiManagerMetrics: {
 		clients: sizeOf(apiClients default []),
@@ -142,7 +142,13 @@ var avgAssetReuseRate = avg(assetsReuseRate)
 				vpcsUsed: usage.vpcsConsumed,
 				vpnsTotal: entitlements.vpns.assigned,
 				vpnsAvailable: (entitlements.vpns.assigned default 0) - (usage.vpnsConsumed default 0),
-				vpnsUsed: usage.vpnsConsumed
+				vpnsUsed: usage.vpnsConsumed,
+				dlbsTotal: entitlements.loadBalancer.assigned,
+				dlbsAvailable: (entitlements.loadBalancer.assigned default 0) - (usage.loadBalancersConsumed default 0),
+				dlbsUsed: usage.loadBalancersConsumed,
+				staticIPsTotal: entitlements.staticIps.assigned,
+				staticIPsAvailable: (entitlements.staticIps.assigned default 0) - (usage.staticIpsConsumed default 0),
+				staticIPsUsed: usage.staticIpsConsumed
 			},
 			
 			applications:{

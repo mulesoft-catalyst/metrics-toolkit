@@ -285,6 +285,31 @@ flatten (payload map ((event, eventIndex) -> ([
        name: "CloudHub VPNs Used Total", value: event.runtimeManagerMetrics.cloudhub.networking.vpnsUsed,
        businessGroup: event.businessGroup, date: event.date, group: runtimeManagerCH, environmentType: envNA
     },
+    {
+       name: "CloudHub DLBs Total", value: event.runtimeManagerMetrics.cloudhub.networking.dlbsTotal,
+       businessGroup: event.businessGroup, date: event.date, group: runtimeManagerCH, environmentType: envNA
+    },
+    {
+       name: "CloudHub DLBs Available Total", value: event.runtimeManagerMetrics.cloudhub.networking.dlbsAvailable,
+       businessGroup: event.businessGroup, date: event.date, group: runtimeManagerCH, environmentType: envNA
+    },
+    {
+       name: "CloudHub DLBs Used Total", value: event.runtimeManagerMetrics.cloudhub.networking.dlbsUsed,
+       businessGroup: event.businessGroup, date: event.date, group: runtimeManagerCH, environmentType: envNA
+    },
+    {
+       name: "CloudHub Static IPs Total", value: event.runtimeManagerMetrics.cloudhub.networking.staticIPsTotal,
+       businessGroup: event.businessGroup, date: event.date, group: runtimeManagerCH, environmentType: envNA
+    },
+    {
+       name: "CloudHub Static IPs Available Total", value: event.runtimeManagerMetrics.cloudhub.networking.staticIPsAvailable,
+       businessGroup: event.businessGroup, date: event.date, group: runtimeManagerCH, environmentType: envNA
+    },
+    {
+       name: "CloudHub Static IPs Used Total", value: event.runtimeManagerMetrics.cloudhub.networking.staticIPsUsed,
+       businessGroup: event.businessGroup, date: event.date, group: runtimeManagerCH, environmentType: envNA
+    },
+    
 
     //Runtime Manager - CloudHub Applications - Production
     {
