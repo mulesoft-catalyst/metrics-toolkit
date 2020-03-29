@@ -3,7 +3,7 @@ http:
   
 poller:
   enabled: "false"
-  frequency: "60" #minutes
+  frequency: "480" #minutes
   
 aggregation:
   raw: "false"
