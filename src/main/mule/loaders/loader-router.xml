@@ -27,7 +27,7 @@
 		</choice>
 	</flow>
 	<flow name="loader-benefits-router-flow" doc:id="e16783da-e945-4467-9b84-3dab05c3b953" >
-		<logger level="INFO" doc:name="Logger" doc:id="9be0e416-ab29-4086-94fa-141f4d722ce5" message="Strategy to Load Platform benefits: #[vars.loaderDeetails.strategy]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="9be0e416-ab29-4086-94fa-141f4d722ce5" message="Strategy to Load Platform benefits: #[vars.loaderDetails.strategy]"/>
 		<choice doc:name="Choice" doc:id="7a991914-5a01-45f8-8760-d710de43ab10" >
 			<when expression="#[vars.loaderDetails.strategy == 'am']">
 				<flow-ref doc:name="loader-benefits-anypoint-monitoring" doc:id="172d89b4-f5ae-4f5c-8209-ae9e70b46671" name="loader-benefits-anypoint-monitoring"/>
