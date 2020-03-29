@@ -8,7 +8,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 
 
 	<flow name="api-call-coreservices-login-flow" doc:id="c336bb42-e18a-4f7f-9c10-d210024c443c">
-		<logger level="INFO" doc:name="Logger" doc:id="fde73538-32e8-4c37-bc8e-a343e50f0522" message="Calling Coreservices - Login" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="fde73538-32e8-4c37-bc8e-a343e50f0522" message="Calling Coreservices - Login" />
 		<ee:transform doc:name="Build Login Request" doc:id="5eaea0ca-f420-4d6f-8b36-7a7001ab19b8">
 			<ee:message>
 				<ee:set-payload resource="dw/anypoint/coreservices-build-login-request.dwl" />
@@ -17,7 +17,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<http:request method="POST" doc:name="Post Login Request" doc:id="560a71f8-55b6-402b-b0e6-cfd411340797" config-ref="HTTP_Request_configuration"
 			path="${anypoint.platform.apis.coreservices.login.path}" />
 			
-		<logger level="INFO" doc:name="Logger" doc:id="94b6e2e7-72f9-4957-8c55-103ad0fe8765" message='#["Response Status Code:" ++ attributes.statusCode]' />
+		<logger level="DEBUG" doc:name="Logger" doc:id="94b6e2e7-72f9-4957-8c55-103ad0fe8765" message='#["Coreservices - Login, Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 
 	<flow name="api-call-coreservices-login-cache-flow" doc:id="48481958-9a25-435b-a50d-32ccc993a661">
@@ -27,7 +27,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</flow>
 
 	<flow name="api-call-coreservices-environments-flow" doc:id="cb45e4dc-7fd3-476d-aff3-7c0a30556088" maxConcurrency="${anypoint.platform.apis.coreservices.maxConcurrency}">
-		<logger level="INFO" doc:name="Logger" doc:id="c04d063d-9f26-41c8-9f2c-efd64bc5a457" message="Calling Coreservices - Environments" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="c04d063d-9f26-41c8-9f2c-efd64bc5a457" message="Calling Coreservices - Environments" />
 		<http:request method="GET" doc:name="Get Environments Request" doc:id="ea3a4010-08c1-44e9-b9d4-a82201dbb162" config-ref="HTTP_Request_configuration"
 			path="${anypoint.platform.apis.coreservices.environments.path}">
 			<http:headers><![CDATA[#[output application/java
@@ -41,11 +41,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"orgId" : vars.orgId
 }]]]></http:uri-params>
 		</http:request>
-		<logger level="INFO" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Response Status Code:" ++ attributes.statusCode]' />
+		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Coreservices - Environments, Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 	
 	<flow name="api-call-coreservices-usage-flow" doc:id="d5bf088a-61dd-443f-9308-0bdcd9ad5e8b" maxConcurrency="${anypoint.platform.apis.coreservices.maxConcurrency}">
-		<logger level="INFO" doc:name="Logger" doc:id="93c413e8-e344-4c8f-ac2e-c6e5c3bfc889" message="Calling Coreservices - Usage" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="93c413e8-e344-4c8f-ac2e-c6e5c3bfc889" message="Calling Coreservices - Usage" />
 		<http:request method="GET" doc:name="Get Usage Request" doc:id="281a7b5b-2f36-47f2-9681-f1a3259542d2" config-ref="HTTP_Request_configuration"
 			path="${anypoint.platform.apis.coreservices.usage.path}">
 			<http:headers><![CDATA[#[output application/java
@@ -59,11 +59,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"orgId" : vars.orgId
 }]]]></http:uri-params>
 		</http:request>
-		<logger level="INFO" doc:name="Logger" doc:id="ffee6271-74d2-421b-be0a-6002d720b680" message='#["Response Status Code:" ++ attributes.statusCode]' />
+		<logger level="DEBUG" doc:name="Logger" doc:id="ffee6271-74d2-421b-be0a-6002d720b680" message='#["Coreservices - Usage, Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 
 	<flow name="api-call-coreservices-members-flow" doc:id="4990df1e-b762-4df7-a800-fd6d77250ffa" maxConcurrency="${anypoint.platform.apis.coreservices.maxConcurrency}">
-		<logger level="INFO" doc:name="Logger" doc:id="479f824f-b589-4ee4-a744-8f39495bb2aa" message="Calling Coreservices - Members" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="479f824f-b589-4ee4-a744-8f39495bb2aa" message="Calling Coreservices - Members" />
 		<http:request method="GET" doc:name="Get Members Request" doc:id="1ba81296-2726-4c17-8f73-38ac1ee990ec" config-ref="HTTP_Request_configuration"
 			path="${anypoint.platform.apis.coreservices.members.path}">
 			<http:headers><![CDATA[#[output application/java
@@ -83,11 +83,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"limit" : p('anypoint.platform.apis.coreservices.members.limit')
 }]]]></http:query-params>
 		</http:request>
-		<logger level="INFO" doc:name="Logger" doc:id="6cab5b2d-cbdb-46eb-81b5-e4fd877beb10" message='#["Response Status Code:" ++ attributes.statusCode]' />
+		<logger level="DEBUG" doc:name="Logger" doc:id="6cab5b2d-cbdb-46eb-81b5-e4fd877beb10" message='#["Coreservices - Members, Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 	
 	<flow name="api-call-coreservices-organizations-flow" doc:id="cef7e93b-b2dc-4ff3-8cf4-582ead99cfcc" maxConcurrency="${anypoint.platform.apis.coreservices.maxConcurrency}">
-		<logger level="INFO" doc:name="Logger" doc:id="224fabbf-19d2-4f85-894f-85e95170afe9" message="Calling Coreservices - Hierarchy" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="224fabbf-19d2-4f85-894f-85e95170afe9" message="Calling Coreservices - Hierarchy" />
 		<http:request method="GET" doc:name="Get Hierarchy Request" doc:id="dc7dbe11-676b-4de2-8622-21a22e01f67a" config-ref="HTTP_Request_configuration"
 			path="${anypoint.platform.apis.coreservices.hierarchy.path}">
 			<http:headers><![CDATA[#[output application/java
@@ -101,6 +101,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"orgId" : vars.masterOrgId
 }]]]></http:uri-params>
 		</http:request>
-		<logger level="INFO" doc:name="Logger" doc:id="30b6eab1-e157-488d-a99e-c530e720923f" message='#["Response Status Code:" ++ attributes.statusCode]' />
+		<logger level="DEBUG" doc:name="Logger" doc:id="30b6eab1-e157-488d-a99e-c530e720923f" message='#["Coreservices - Hierarchy, Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 </mule>

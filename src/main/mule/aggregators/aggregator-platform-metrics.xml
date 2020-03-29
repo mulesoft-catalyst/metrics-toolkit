@@ -20,7 +20,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<set-variable value="#[payload.id]" doc:name="Set Variable" doc:id="ebf69e75-918d-46fc-a42a-8513e64da3ca" variableName="orgId"/>
 			<set-variable value="#[payload.name]" doc:name="Set Variable" doc:id="82a35793-7064-442c-bac3-4b3702fe0b02" variableName="orgName"/>
 			<set-variable value="#[payload.entitlements]" doc:name="Set Variable" doc:id="2f51d4bf-b223-46bc-95a9-af732fbf215d" variableName="entitlements"/>
-			<logger level="INFO" doc:name="Logger" doc:id="19862db5-f751-47a1-b5f3-ffd75708938e" message="#[vars.orgId]"/>
+			<logger level="INFO" doc:name="Logger" doc:id="19862db5-f751-47a1-b5f3-ffd75708938e" message="Aggregating metrics from the OrgId: #[vars.orgId]"/>
 			<flow-ref doc:name="Aggregator Organization Flow Reference" doc:id="97a715ab-2afc-47ee-9969-65d0c170cb4f" name="aggregator-platform-metrics-org-flow"/>
 		</parallel-foreach>
 		<set-payload value="#[output application/json --- payload.payload]" doc:name="Set Payload" doc:id="4de1289b-f761-496c-b966-670bce6484ac" />
@@ -60,8 +60,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<flow-ref doc:name="Analytics Enriched Data Flow Reference" doc:id="2908db4d-cc5b-421b-a844-2272898b0b73" name="collector-analytics-metrics-parallel-flow" />
 			</route>
 		</scatter-gather>
-		<logger level="DEBUG" doc:name="Logger" doc:id="93babf32-d504-496b-85a1-accfb5a1779a" message="#[%dw 2.0
-output application/json --- payload[9].payload.payload]"/>
 		<choice doc:name="Choice" doc:id="a97772ac-5115-4717-ab5e-333822e3841b" >
 			<when expression="#[vars.rawData]">
 				<ee:transform doc:name="Build Raw Data Response" doc:id="c571107e-cd3c-4e87-83fe-c9d44cf35596">
@@ -78,6 +76,7 @@ output application/json --- payload[9].payload.payload]"/>
 		</ee:transform>
 			</otherwise>
 		</choice>
+		<logger level="INFO" doc:name="Logger" doc:id="d32c2c3a-1466-43b6-bee0-a8cefa80287e" message="Metrics aggregated successfully"/>
 	</flow>
 	
 	<flow name="aggregator-platform-metrics-arm-flow" doc:id="2eed9166-ad29-43c6-b1a3-5a971150a931">
