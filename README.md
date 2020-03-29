@@ -79,10 +79,9 @@ splunk.index.metrics | Index for storing Platform operational metrics | metrics
 splunk.index.benefits | Index for storing Platform benefits | platform_benefits
 
 
-#Some Theory around the Framework
+## Some Theory around the Framework
 The framework is intended to cover the main areas to define and implement metrics using Mule.
 
-## Framework
 ### Business Needs
 
 There are several business needs around the definition of metrics. The principal goal is to provide **visibility** on 4 main areas: People/Teams, Projects, Processes and Technology. By having visibility on these areas, the involved stakeholders can make decisions, anticipate technical and non-technical needs and optimize time and resources
