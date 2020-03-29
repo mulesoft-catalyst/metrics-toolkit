@@ -160,19 +160,19 @@ flatten (payload map ((event, eventIndex) -> ([
        businessGroup: event.businessGroup, date: event.date, group: apiManager, environmentType: envProduction
     }, 
     {
-       name: "API Manager Polcies Used", value: event.apiManagerMetrics.apis.production.policiesUsed joinBy " ",
+       name: "API Manager Policies Used", value: event.apiManagerMetrics.apis.production.policiesUsed joinBy " ",
        businessGroup: event.businessGroup, date: event.date, group: apiManager, environmentType: envProduction
     }, 
     {
-       name: "API Manager Polcies Used Total", value: event.apiManagerMetrics.apis.production.policiesUsedTotal,
+       name: "API Manager Policies Used Total", value: event.apiManagerMetrics.apis.production.policiesUsedTotal,
        businessGroup: event.businessGroup, date: event.date, group: apiManager, environmentType: envProduction
     }, 
     {
-       name: "API Manager Automated Polcies Used", value: event.apiManagerMetrics.apis.production.automatedPoliciesUsed joinBy " ",
+       name: "API Manager Automated Policies Used", value: event.apiManagerMetrics.apis.production.automatedPoliciesUsed joinBy " ",
        businessGroup: event.businessGroup, date: event.date, group: apiManager, environmentType: envProduction
     }, 
     {
-       name: "API Manager Automated Polcies Used Total", value: event.apiManagerMetrics.apis.production.automatedPoliciesUsedTotal,
+       name: "API Manager Automated Policies Used Total", value: event.apiManagerMetrics.apis.production.automatedPoliciesUsedTotal,
        businessGroup: event.businessGroup, date: event.date, group: apiManager, environmentType: envProduction
     }, 
     //Analytics Production
@@ -239,19 +239,19 @@ flatten (payload map ((event, eventIndex) -> ([
        businessGroup: event.businessGroup, date: event.date, group: apiManager, environmentType: envSandbox
     }, 
     {
-       name: "API Manager Polcies Used", value: event.apiManagerMetrics.apis.sandbox.policiesUsed joinBy " ",
+       name: "API Manager Policies Used", value: event.apiManagerMetrics.apis.sandbox.policiesUsed joinBy " ",
        businessGroup: event.businessGroup, date: event.date, group: apiManager, environmentType: envSandbox
     }, 
     {
-       name: "API Manager Polcies Used Total", value: event.apiManagerMetrics.apis.sandbox.policiesUsedTotal,
+       name: "API Manager Policies Used Total", value: event.apiManagerMetrics.apis.sandbox.policiesUsedTotal,
        businessGroup: event.businessGroup, date: event.date, group: apiManager, environmentType: envSandbox
     }, 
     {
-       name: "API Manager Automated Polcies Used", value: event.apiManagerMetrics.apis.sandbox.automatedPoliciesUsed joinBy " ",
+       name: "API Manager Automated Policies Used", value: event.apiManagerMetrics.apis.sandbox.automatedPoliciesUsed joinBy " ",
        businessGroup: event.businessGroup, date: event.date, group: apiManager, environmentType: envSandbox
     }, 
     {
-       name: "API Manager Automated Polcies Used Total", value: event.apiManagerMetrics.apis.sandbox.automatedPoliciesUsedTotal,
+       name: "API Manager Automated Policies Used Total", value: event.apiManagerMetrics.apis.sandbox.automatedPoliciesUsedTotal,
        businessGroup: event.businessGroup, date: event.date, group: apiManager, environmentType: envSandbox
     },
     //Analytics Sandbox 
