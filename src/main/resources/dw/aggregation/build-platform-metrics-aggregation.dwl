@@ -36,20 +36,67 @@ var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 
 var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","authentication"]
 
-var assetsNotGenerated = exchangeAssets filter ($.isGenerated == false)
+var notGeneratedAssets = if (exchangeAssets is Array) (exchangeAssets filter($."isGenerated" == false)) else []
+var assetsByType = (assetType) -> notGeneratedAssets filter($."type" == assetType)
+var countAssetType = (assetType) -> sizeOf(assetsByType(assetType))
 
-//var parentAssets = (childAsset) -> exchangeAssets filter ((parentAsset) -> 
-//      sizeOf(
-//        parentAsset.dependencies filter ((dependency) ->
-//          dependency.groupId == childAsset.groupId
-//          and dependency.assetId == childAsset.assetId
-//        )
-//      ) > 0
-//    )
+var assetHasDependency = (parentAsset, childAsset) -> (
+    sizeOf(
+        parentAsset.dependencies filter ((dependency) ->
+            dependency.groupId == childAsset.groupId
+            and dependency.assetId == childAsset.assetId
+        )
+    ) > 0
+)
 
-//var assetsReuseRate = assetsNotGenerated map sizeOf(parentAssets($))
+var assetReuseArray = (parentAssets, childAssets) -> (
+    childAssets map (childAsset) -> (
+        sizeOf(
+            parentAssets filter (assetHasDependency($,childAsset))
+        )
+    )
+)
 
-//var avgAssetReuseRate = avg(assetsReuseRate)
+var avgSafe = (array) -> if(sizeOf(array) > 0) avg(array) else 0
+
+var assetReuseAvg = (parentAssetType, childAssetType) -> avgSafe(assetReuseArray(assetsByType(parentAssetType), assetsByType(childAssetType)))
+
+var apiManagerImportsbyApiSpec = (apiSpecAsset, inProduction) -> sizeOf(
+    do {
+        var apiManagerAssets = (apiManagerApis filter ($.isProduction == inProduction)).data.assets
+        ---
+        if (apiManagerAssets != null)
+            flatten(
+                apiManagerAssets
+            ) filter ($.groupId == apiSpecAsset.groupId and $.assetId == apiSpecAsset.assetId)
+        else []
+    }
+)
+
+var apiManagerImports = (inProduction) -> (
+    assetsByType("rest-api") map ((asset) -> 
+        apiManagerImportsbyApiSpec(asset,inProduction)
+    )
+)
+
+var apiPoliciesApplied = (inProduction) -> do {
+    flatten(apiManagerApis filter ($.isProduction == inProduction) map (environment) -> (
+        flatten(environment.details map ((apiDetail) ->
+            apiDetail.policies
+        ))
+    ))
+}
+
+var policiesAppliedByPolicy = (inProduction) -> (
+    assetsByType("policy") map ((policy) ->
+        sizeOf(
+            apiPoliciesApplied(inProduction) filter (
+                $.template.groupId == policy.groupId
+                and $.template.assetId == policy.assetId
+            )
+        )
+    )
+)
 ---
 {
 	date: vars.date,
@@ -76,15 +123,41 @@ var assetsNotGenerated = exchangeAssets filter ($.isGenerated == false)
 		flowDesignerApps: if  (designCenterProjects is Array) (sizeOf(designCenterProjects filter($."type" == "Mule_Application") default [])) else (0)
 	},
 	exchangeMetrics: {
-		total: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."isGenerated" == false) default [])) else (0),
-		apiSpecs: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "rest-api") default [])) else (0),
-		connectors: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "connector") default [])) else (0),
-		fragments: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "raml-fragment") default [])) else (0),
-		proxies: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "http-api") default [])) else (0),
-		extensions: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "extension") default [])) else (0),
-		custom: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "custom") default [])) else (0),
-		overallSatisfaction: if (exchangeAssets is Array) (if (sizeOf(exchangeAssets) > 0) (sum(exchangeAssets.rating default [])/sizeOf(exchangeAssets)) else 0) else (0),
-		//reuseRate: avgAssetReuseRate
+        count: {
+            total: sizeOf(notGeneratedAssets),
+		    apiSpecs: countAssetType("rest-api"),
+            fragments: countAssetType("raml-fragment"),
+            proxies: countAssetType("http-api"),
+            soapAPI: countAssetType("soap-api"),
+            policies: countAssetType("policy"),
+            // Mule 3 DevKit components are connectors
+		    mule3Connectors: countAssetType("connector"),
+            // Mule 4 XML and Java SDK components are extensions
+            extensions: countAssetType("extension"),
+            applications: countAssetType("app"),
+		    custom: countAssetType("custom")
+        },
+        reuse: {
+            // Avg of times a Fragment is imported by an API Spec
+            fragments: assetReuseAvg("rest-api","raml-fragment"),
+            // Avg of times an API Spec is implemented by an Application
+            // Only valid for Applications uploaded to Exchange with RAML as a dependency
+            implementedApis: assetReuseAvg("app","rest-api"),
+            // Avg of times an API Spec is managed from API Manager (Sandbox environments)
+            managedSboxApis: avgSafe(apiManagerImports(false)),
+            // Avg of times an API Spec is managed from API Manager (Production environments)
+            managedProdApis: avgSafe(apiManagerImports(true)),
+            // Avg of times a Extension is imported by an Application
+            // Only valid for Applications uploaded to Exchange with RAML as a dependency
+            extensions: assetReuseAvg("app","extension"),
+            // Avg of times a Custom Policy is applied on API Manager (Sandbox environments)
+            appliedPoliciesSbox: avgSafe(policiesAppliedByPolicy(false)),
+            // Avg of times a Custom Policy is applied on API Manager (Production environments)
+            appliedPoliciesProd: avgSafe(policiesAppliedByPolicy(true))
+        },
+		overallSatisfaction: if (sizeOf(notGeneratedAssets) > 0) (
+            (notGeneratedAssets.rating reduce ($ + $$) default 0) / sizeOf(notGeneratedAssets)
+        ) else 0
 	},
 	apiManagerMetrics: {
 		clients: sizeOf(apiClients default []),
