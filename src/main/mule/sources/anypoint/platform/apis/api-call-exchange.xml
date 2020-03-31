@@ -8,7 +8,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 
 	<flow name="api-call-exchange-assets-flow" doc:id="cb45e4dc-7fd3-476d-aff3-7c0a30556088" maxConcurrency="${anypoint.platform.apis.exchange.maxConcurrency}">
 		<logger level="DEBUG" doc:name="Logger" doc:id="c04d063d-9f26-41c8-9f2c-efd64bc5a457" message="Calling Exchange - Assets" />
-		<set-variable value='#["query Platform { assets(organizationIds: [\"" ++ vars.orgId ++ "\"], latestVersionsOnly: true) { organizationId, groupId, assetId, version, minorVersion, versionGroup, description, name, type, status, isPublic, isLatestVersion, createdDate, updatedDate, originalFormat, minMuleVersion, isGenerated, isMozartTemplate, isSnapshot, rating, numberOfRates } }"]' doc:name="Set graphqlQuery" doc:id="a26748f9-1b9b-4f4e-afb7-3892de2a3b15" variableName="graphqlQuery"/>
+		<ee:transform doc:name="Set GraphQL Query" doc:id="17f03534-c094-40bf-a0f9-c16770263fc0" >
+			<ee:variables >
+				<ee:set-variable resource="anypoint-exchange-build-graphql-query.dwl" variableName="graphqlQuery" />
+			</ee:variables>
+		</ee:transform>
 		<http:request method="POST" doc:name="Get Assets" doc:id="8bc85d2b-02cc-4aa4-b430-5f59fe7ba99c" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.exchange.graphql.path}" >
 			<http:body ><![CDATA[#[output application/json
 ---

@@ -77,7 +77,7 @@ anypoint:
           limit: "1000"
         graphql:
           path: "/graph/api/v2/graphql/"
-          limit: "1000"
+          limit: "250"
 
 cache:
   token:
