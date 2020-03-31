@@ -1,6 +1,13 @@
 %dw 2.0
 output application/json
 var environments = vars.environments
+var entitlements = vars.entitlements
+var errors = vars.errors
+
+var date = vars.date
+var orgName = vars.orgName
+var orgId = vars.orgId
+
 var cloudHubApps = payload[0].payload.payload
 var exchangeAssets = payload[1].payload
 var apiManagerApis = payload[2].payload.payload
@@ -17,11 +24,11 @@ var rtf = payload[8].payload
 var analyticsQueryResult = payload[9].payload.payload
 ---
 {
-	date: vars.date,
-	businessGroup: vars.orgName,
-	businessGroupId: vars.orgId,
+	date: date,
+	businessGroup: orgName,
+	businessGroupId: orgId,
 	coreServicesData: {
-		entitlements: vars.entitlements,
+		entitlements: entitlements,
 		users: members.data,
 		usage: usage,
 		environments: environments
@@ -42,5 +49,5 @@ var analyticsQueryResult = payload[9].payload.payload
 		armClusters: armClusters,
 		armServerGroups: armServerGroups
 	},
-	errors: vars.errors		
+	errors: errors		
 }
