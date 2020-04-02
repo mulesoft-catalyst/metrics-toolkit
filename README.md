@@ -1,5 +1,5 @@
 # Metrics Framework
-The metrics framework is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts.
+The metrics framework is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. [This is an UNLICENSED software, please review the considerations] (UNLICENSED.md). If you need assistance for extending this, contact MuleSoft Professional Services
 
 ## Features
 - Compact Mule application (1 single application)
@@ -49,12 +49,19 @@ Design Center | Fragments Total | BG |
 Design Center | Flow Designer Apps Total | BG |
 Exchange | Assets Total | BG |
 Exchange | API Specs Total | BG |
-Exchange | Connectors Total | BG |
+Exchange | Mule 3 Connectors Total | BG |
+Exchange | SOAP APIs Total | BG |
 Exchange | Fragments Total | BG |
 Exchange | HTTP Proxies Total | BG |
+Exchange | Policies Total | BG |
 Exchange | Extensions Total | BG |
 Exchange | Custom Assets Total | BG |
 Exchange | Overall Satisfaction | BG |
+Exchange | API Fragments reuse | BG |
+Exchange | API Spec reuse | BG |
+Exchange | Extensions reuse | BG |
+Exchange | API Specs managed in API Manager reuse | BG, Environment |
+Exchange | Policies applied in API Manager reuse | BG, Environment |
 API Manager | API Specs Managed Total | BG, Environment |
 API Manager | API Instances Total | BG, Environment |
 API Manager | API Instances Active Total | BG, Environment |
@@ -168,7 +175,17 @@ auth.username | Anypoint Platform username |
 auth.password | Anypoint Platform password | 
 auth.orgId | Anypoint Platform master org Id | 
 
-Properties specific for Splunk
+### Splunk steps
+
+1. Create 2 indexes: metrics and platform_benefits
+2. In the Splunk instance configure an HTTP Event Collector (HEC) associated to these 2 indexes, format _json 
+3. The token obtained will be used as part of the properties of the Mule application
+4. Load the dashboards, simply copy the xmls provided under `/dashboards/splunk` to `{SPLUNK_HOME}/etc/apps/{APP_NAME}/local/data/ui/views`
+5. If you can't copy the dashboard xmls, you can use the UI to create them and using the "Source" option, you can copy & paste the content of the xmls provided
+
+Follow official Splunk documentation: https://docs.splunk.com/Documentation/Splunk/
+
+#### Properties specific for Splunk
 Name | Description | Default Value
 ------------ | ------------ | ------------
 splunk.host | HTTP Event Collector (HEC) host | 
@@ -183,7 +200,7 @@ splunk.index.benefits | Index for storing Platform benefits | platform_benefits
 ## Considerations
 
 - This application can be deployed in any Mule Runtime (OnPrem, CloudHub, RTF)
-- The metrics collection will depend on the features available in each account; e.g if the account uses RTF it will collect information from there, otherwise the values will appear as zeroes; if using PCE, there won't be information about API Analytics 
+- The metrics collection will depend on the features available in each account; e.g if the account has the API Manager add-on, the framework will collect and aggregate the metrics related to API Manager, otherwise the values will appear as zeroes; if using PCE, there won't be information about API Analytics 
 
 ## Some Theory around the Framework
 The framework is intended to cover the main areas to define and implement metrics using Mule.
