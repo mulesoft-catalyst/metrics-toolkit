@@ -32,91 +32,100 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 
 ### Platform Metrics
 
-Name | Product | Dimensions | - 
+Product | Metric | Dimensions | - 
 ------------ | ------------ | ------------ | ------------
-Users Total | Access Management | BG |
-Active Users | Access Management | BG |
-Inactive Users | Access Management | BG |
-Active Users Last 60 days | Access Management | BG |
-Active Users Last 30 days | Access Management | BG |
-Environments Total | Access Management | BG |
-Environments Production Total | Access Management | BG |
-Environments Sandbox Total | Design Center | BG |
-Design Center Assets Total | Design Center | BG |
-Design Center API Specs Total | Design Center | BG |
-Design Center Fragments Total | Design Center | BG |
-Design Center Flow Designer Apps Total | Design Center | BG |
-Exchange Assets Total | Exchange | BG |
-Exchange API Specs Total | Exchange | BG |
-Exchange Connectors Total | Exchange | BG |
-Exchange Fragments Total | Exchange | BG |
-Exchange HTTP Proxies Total | Exchange | BG |
-Exchange Extensions Total | Exchange | BG |
-Exchange Custom Assets Total | Exchange | BG |
-Exchange Overall Satisfaction | Exchange | BG |
-API Manager Client Applications Total | API Platform | BG, Environment |
-API Manager API Specs Managed Total | API Manager | BG, Environment |
-API Manager API Instances Total | API Manager | BG, Environment |
-API Manager API Instances Active Total | API Manager | BG, Environment |
-API Manager API Instances Inactive Total | API Manager | BG, Environment |
-API Manager API Instances Versions Total | API Manager | BG, Environment |
-API Manager API Instances With Policies Total | API Manager | BG, Environment |
-API Manager API Instances Without Policies Total | API Manager | BG, Environment |
-API Manager API Instances With Security Policies Total | API Manager | BG, Environment |
-API Manager API Instances Without Security Policies Total | API Manager | BG, Environment |
-API Manager API Instances With Contracts Total | API Manager | BG, Environment |
-API Manager API Instances Without Contracts Total | API Manager | BG, Environment |
-API Manager API Instances With More Than One Consumer Total | API Manager | BG, Environment |
-API Manager API Instances With One or More Consumers Total | API Manager | BG, Environment |
-API Manager API Contracts Total | API Manager | BG, Environment |
-API Manager Policies Used | API Manager | BG, Environment |
-API Manager Policies Used Total | API Manager | BG, Environment |
-API Manager Automated Policies Used | API Manager | BG, Environment |
-API Manager Automated Policies Used Total | API Manager | BG, Environment |
-API Analytics Transactions Last 30 days Total | API Analytics | BG, Environment |
-CloudHub VPCs Total | RuntimeManager | BG |
-CloudHub VPCs Available Total | RuntimeManager | BG |
-CloudHub VPCs Used Total | RuntimeManager | BG |
-CloudHub VPNs Total | RuntimeManager | BG |
-CloudHub VPNs Available Total | RuntimeManager | BG |
-CloudHub VPNs Used Total | RuntimeManager | BG |
-CloudHub DLBs Total | RuntimeManager | BG |
-CloudHub DLBs Available Total | RuntimeManager | BG |
-CloudHub DLBs Used Total | RuntimeManager | BG |
-CloudHub Static IPs Total | RuntimeManager | BG |
-CloudHub Static IPs Available Total | RuntimeManager | BG |
-CloudHub Static IPs Used Total | RuntimeManager | BG |
-CloudHub vCores Total | RuntimeManager | BG, Environment |
-CloudHub vCores Available Total | RuntimeManager | BG, Environment |
-CloudHub vCores Used Total | RuntimeManager | BG, Environment |
-CloudHub Applications Total | RuntimeManager | BG, Environment |
-CloudHub Applications Started Total | RuntimeManager | BG, Environment |
-CloudHub Applications Stopped Total | RuntimeManager | BG, Environment |
-CloudHub Runtime Versions Used | RuntimeManager | BG, Environment |
-CloudHub Runtime Versions Used Total | RuntimeManager | BG, Environment |
-RTF Fabrics Total | RuntimeManager | BG |
-RTF Workers Total | RuntimeManager | BG |
-RTF Controllers Total | RuntimeManager | BG |
-RTF Cores Total | RuntimeManager | BG |
-RTF Memory Total | RuntimeManager | BG |
-RTF Cores Per Fabric Average | RuntimeManager | BG |
-RTF Memory Per Fabric Average | RuntimeManager | BG |
-RTF Cores Used Total | RuntimeManager | BG, Environment |
-RTF Cores Reserved Total | RuntimeManager | BG, Environment |
-RTF Memory Used Total | RuntimeManager | BG, Environment |
-RTF Applications Total | RuntimeManager | BG, Environment |
-RTF Applications Started Total | RuntimeManager | BG, Environment |
-RTF Applications Stopped Total | RuntimeManager | BG, Environment |
-RTF Runtime Versions Used | RuntimeManager | BG, Environment |
-RTF Runtime Versions Used Total | RuntimeManager | BG, Environment |
-Standalone Mule Servers Total | RuntimeManager | BG, Environment |
-Standalone Mule Clusters Total | RuntimeManager | BG, Environment |
-Standalone Mule Server Groups Total | RuntimeManager | BG, Environment |
-Standalone Mule Applications Total | RuntimeManager | BG, Environment |
-Standalone Mule Applications Started Total | RuntimeManager | BG, Environment |
-Standalone Mule Applications Stopped Total | RuntimeManager | BG, Environment |
-Standalone Mule Runtime Versions | RuntimeManager | BG, Environment |
-Standalone Mule Runtime Versions Total | RuntimeManager | BG, Environment |
+Access Management | Users Total | BG |
+Access Management | Active Users | BG |
+Access Management | Inactive Users | BG |
+Access Management | Active Users Last 60 days | BG |
+Access Management | Active Users Last 30 days |  BG |
+Access Management | Environments Total | BG |
+Access Management | Environments Production Total | BG |
+Access Management | Environments Sandbox Total | BG |
+Access Management | API Client Applications Total | BG |
+
+Design Center | Assets Total | BG |
+Design Center | API Specs Total | BG |
+Design Center | Fragments Total | BG |
+Design Center | Flow Designer Apps Total | BG |
+
+Exchange | Assets Total | BG |
+Exchange | API Specs Total | BG |
+Exchange | Connectors Total | BG |
+Exchange | Fragments Total | BG |
+Exchange | HTTP Proxies Total | BG |
+Exchange | Extensions Total | BG |
+Exchange | Custom Assets Total | BG |
+Exchange | Overall Satisfaction | BG |
+
+API Manager | API Specs Managed Total | BG, Environment |
+API Manager | API Instances Total | BG, Environment |
+API Manager | API Instances Active Total | BG, Environment |
+API Manager | API Instances Inactive Total | BG, Environment |
+API Manager | API Instances Versions Total | BG, Environment |
+API Manager | API Instances With Policies Total | BG, Environment |
+API Manager | API Instances Without Policies Total | BG, Environment |
+API Manager | API Instances With Security Policies Total | BG, Environment |
+API Manager | API Instances Without Security Policies Total | BG, Environment |
+API Manager | API Instances With Contracts Total | BG, Environment |
+API Manager | API Instances Without Contracts Total | BG, Environment |
+API Manager | API Instances With More Than One Consumer Total | BG, Environment |
+API Manager | API Instances With One or More Consumers Total | BG, Environment |
+API Manager | API Contracts Total | BG, Environment |
+API Manager | Policies Used | BG, Environment |
+API Manager | Policies Used Total | BG, Environment |
+API Manager | Automated Policies Used | BG, Environment |
+API Manager | Automated Policies Used Total | BG, Environment |
+
+API Analytics | Transactions Last 30 days Total | BG, Environment |
+
+RuntimeManager - CloudHub - Networking | VPCs Total | BG |
+RuntimeManager - CloudHub - Networking | VPCs Available Total | BG |
+RuntimeManager - CloudHub - Networking | VPCs Used Total | BG |
+RuntimeManager - CloudHub - Networking | VPNs Total | BG |
+RuntimeManager - CloudHub - Networking | VPNs Available Total | BG |
+RuntimeManager - CloudHub - Networking | VPNs Used Total | BG |
+RuntimeManager - CloudHub - Networking | DLBs Total | BG |
+RuntimeManager - CloudHub - Networking | DLBs Available Total | BG |
+RuntimeManager - CloudHub - Networking | DLBs Used Total | BG |
+RuntimeManager - CloudHub - Networking | Static IPs Total | BG |
+RuntimeManager - CloudHub - Networking | Static IPs Available Total | BG |
+RuntimeManager - CloudHub - Networking | Static IPs Used Total | BG |
+
+RuntimeManager - CloudHub - Applications | vCores Total | BG, Environment |
+RuntimeManager - CloudHub - Applications | vCores Available Total | BG, Environment |
+RuntimeManager - CloudHub - Applications | vCores Used Total | BG, Environment |
+RuntimeManager - CloudHub - Applications | Applications Total | BG, Environment |
+RuntimeManager - CloudHub - Applications | Applications Started Total | BG, Environment |
+RuntimeManager - CloudHub - Applications | Applications Stopped Total | BG, Environment |
+RuntimeManager - CloudHub - Applications | Runtime Versions Used | BG, Environment |
+RuntimeManager - CloudHub - Applications | Runtime Versions Used Total | BG, Environment |
+
+RuntimeManager - RTF - Capacity | Fabrics Total | BG |
+RuntimeManager - RTF - Capacity | Workers Total | BG |
+RuntimeManager - RTF - Capacity | Controllers Total | BG |
+RuntimeManager - RTF - Capacity | Cores Total | BG |
+RuntimeManager - RTF - Capacity | Memory Total | BG |
+RuntimeManager - RTF - Capacity | Cores Per Fabric Average | BG |
+RuntimeManager - RTF - Capacity | Memory Per Fabric Average | BG |
+
+RuntimeManager - RTF - Applications | Cores Used Total | BG, Environment |
+RuntimeManager - RTF - Applications | Cores Reserved Total | BG, Environment |
+RuntimeManager - RTF - Applications | Memory Used Total | BG, Environment |
+RuntimeManager - RTF - Applications | Applications Total | BG, Environment |
+RuntimeManager - RTF - Applications | Applications Started Total | BG, Environment |
+RuntimeManager - RTF - Applications | Applications Stopped Total | BG, Environment |
+RuntimeManager - RTF - Applications | Runtime Versions Used | BG, Environment |
+RuntimeManager - RTF - Applications | Runtime Versions Used Total | BG, Environment |
+
+RuntimeManager - Standalone | Mule Servers Total | BG, Environment |
+RuntimeManager - Standalone | Mule Clusters Total | BG, Environment |
+RuntimeManager - Standalone | Mule Server Groups Total | BG, Environment |
+RuntimeManager - Standalone | Mule Applications Total | BG, Environment |
+RuntimeManager - Standalone | Mule Applications Started Total | BG, Environment |
+RuntimeManager - Standalone | Mule Applications Stopped Total | BG, Environment |
+RuntimeManager - Standalone | Mule Runtime Versions | BG, Environment |
+RuntimeManager - Standalone | Mule Runtime Versions Total | BG, Environment |
 
 ### Platform Benefits
 
