@@ -1,5 +1,5 @@
 # Metrics Framework
-The metrics framework is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. [This is an UNLICENSED software, please review the considerations] (UNLICENSED.md). If you need assistance for extending this, contact MuleSoft Professional Services
+The metrics framework is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. This is an [UNLICENSED software, please review the considerations](UNLICENSED.md). If you need assistance for extending this, contact MuleSoft Professional Services
 
 ## Features
 - Compact Mule application (1 single application)
