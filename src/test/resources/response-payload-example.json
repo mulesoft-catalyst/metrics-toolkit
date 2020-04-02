@@ -1,13 +1,14 @@
 [
   {
     "businessGroup": "Fantasy Company",
+    "businessGroupId": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
     "coreServicesMetrics": {
       "users": {
         "total": 1,
         "activeMembers": 1,
         "inactiveMembers": 0,
-        "activeMembersLast60Days": 1,
-        "activeMembersLast30Days": 1
+        "activeMembersLast60Days": 0,
+        "activeMembersLast30Days": 0
       },
       "environments": {
         "total": 5,
@@ -22,14 +23,15 @@
       "flowDesignerApps": 0
     },
     "exchangeMetrics": {
-      "total": 1,
-      "apiSpecs": 0,
-      "connectors": 0,
-      "fragments": 0,
+      "total": 3,
+      "apiSpecs": 2,
+      "connectors": 1,
+      "fragments": 1,
       "proxies": 0,
-      "extensions": 0,
-      "custom": 1,
-      "overallSatisfaction": 0.0
+      "extensions": 1,
+      "custom": 0,
+      "overallSatisfaction": 0.0,
+      "reuseRate": 1.6666666666666667
     },
     "apiManagerMetrics": {
       "clients": 2,
