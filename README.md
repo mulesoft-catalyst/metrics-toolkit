@@ -43,12 +43,10 @@ Access Management | Environments Total | BG |
 Access Management | Environments Production Total | BG |
 Access Management | Environments Sandbox Total | BG |
 Access Management | API Client Applications Total | BG |
-
 Design Center | Assets Total | BG |
 Design Center | API Specs Total | BG |
 Design Center | Fragments Total | BG |
 Design Center | Flow Designer Apps Total | BG |
-
 Exchange | Assets Total | BG |
 Exchange | API Specs Total | BG |
 Exchange | Connectors Total | BG |
@@ -57,7 +55,6 @@ Exchange | HTTP Proxies Total | BG |
 Exchange | Extensions Total | BG |
 Exchange | Custom Assets Total | BG |
 Exchange | Overall Satisfaction | BG |
-
 API Manager | API Specs Managed Total | BG, Environment |
 API Manager | API Instances Total | BG, Environment |
 API Manager | API Instances Active Total | BG, Environment |
@@ -76,9 +73,7 @@ API Manager | Policies Used | BG, Environment |
 API Manager | Policies Used Total | BG, Environment |
 API Manager | Automated Policies Used | BG, Environment |
 API Manager | Automated Policies Used Total | BG, Environment |
-
 API Analytics | Transactions Last 30 days Total | BG, Environment |
-
 RuntimeManager - CloudHub - Networking | VPCs Total | BG |
 RuntimeManager - CloudHub - Networking | VPCs Available Total | BG |
 RuntimeManager - CloudHub - Networking | VPCs Used Total | BG |
@@ -91,7 +86,6 @@ RuntimeManager - CloudHub - Networking | DLBs Used Total | BG |
 RuntimeManager - CloudHub - Networking | Static IPs Total | BG |
 RuntimeManager - CloudHub - Networking | Static IPs Available Total | BG |
 RuntimeManager - CloudHub - Networking | Static IPs Used Total | BG |
-
 RuntimeManager - CloudHub - Applications | vCores Total | BG, Environment |
 RuntimeManager - CloudHub - Applications | vCores Available Total | BG, Environment |
 RuntimeManager - CloudHub - Applications | vCores Used Total | BG, Environment |
@@ -100,7 +94,6 @@ RuntimeManager - CloudHub - Applications | Applications Started Total | BG, Envi
 RuntimeManager - CloudHub - Applications | Applications Stopped Total | BG, Environment |
 RuntimeManager - CloudHub - Applications | Runtime Versions Used | BG, Environment |
 RuntimeManager - CloudHub - Applications | Runtime Versions Used Total | BG, Environment |
-
 RuntimeManager - RTF - Capacity | Fabrics Total | BG |
 RuntimeManager - RTF - Capacity | Workers Total | BG |
 RuntimeManager - RTF - Capacity | Controllers Total | BG |
@@ -108,7 +101,6 @@ RuntimeManager - RTF - Capacity | Cores Total | BG |
 RuntimeManager - RTF - Capacity | Memory Total | BG |
 RuntimeManager - RTF - Capacity | Cores Per Fabric Average | BG |
 RuntimeManager - RTF - Capacity | Memory Per Fabric Average | BG |
-
 RuntimeManager - RTF - Applications | Cores Used Total | BG, Environment |
 RuntimeManager - RTF - Applications | Cores Reserved Total | BG, Environment |
 RuntimeManager - RTF - Applications | Memory Used Total | BG, Environment |
@@ -117,7 +109,6 @@ RuntimeManager - RTF - Applications | Applications Started Total | BG, Environme
 RuntimeManager - RTF - Applications | Applications Stopped Total | BG, Environment |
 RuntimeManager - RTF - Applications | Runtime Versions Used | BG, Environment |
 RuntimeManager - RTF - Applications | Runtime Versions Used Total | BG, Environment |
-
 RuntimeManager - Standalone | Mule Servers Total | BG, Environment |
 RuntimeManager - Standalone | Mule Clusters Total | BG, Environment |
 RuntimeManager - Standalone | Mule Server Groups Total | BG, Environment |
