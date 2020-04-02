@@ -1,6 +1,10 @@
 %dw 2.0
 output application/json
+
 var environments = vars.environments
+var entitlements = vars.entitlements
+var errors = vars.errors
+
 var cloudHubApps = payload[0].payload.payload
 var exchangeAssets = payload[1].payload
 var apiManagerApis = payload[2].payload.payload
@@ -31,6 +35,68 @@ var sandboxApisAssets=sandboxApis.assets
 var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 
 var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","authentication"]
+
+var notGeneratedAssets = if (exchangeAssets is Array) (exchangeAssets filter($."isGenerated" == false)) else []
+var assetsByType = (assetType) -> notGeneratedAssets filter($."type" == assetType)
+var countAssetType = (assetType) -> sizeOf(assetsByType(assetType))
+
+var assetHasDependency = (parentAsset, childAsset) -> (
+    sizeOf(
+        parentAsset.dependencies filter ((dependency) ->
+            dependency.groupId == childAsset.groupId
+            and dependency.assetId == childAsset.assetId
+        )
+    ) > 0
+)
+
+var assetReuseArray = (parentAssets, childAssets) -> (
+    childAssets map (childAsset) -> (
+        sizeOf(
+            parentAssets filter (assetHasDependency($,childAsset))
+        )
+    )
+)
+
+var avgSafe = (array) -> if(sizeOf(array) > 0) avg(array) else 0
+
+var assetReuseAvg = (parentAssetType, childAssetType) -> avgSafe(assetReuseArray(assetsByType(parentAssetType), assetsByType(childAssetType)))
+
+var apiManagerImportsbyApiSpec = (apiSpecAsset, inProduction) -> sizeOf(
+    do {
+        var apiManagerAssets = (apiManagerApis filter ($.isProduction == inProduction)).data.assets
+        ---
+        if (apiManagerAssets != null)
+            flatten(
+                apiManagerAssets
+            ) filter ($.groupId == apiSpecAsset.groupId and $.assetId == apiSpecAsset.assetId)
+        else []
+    }
+)
+
+var apiManagerImports = (inProduction) -> (
+    assetsByType("rest-api") map ((asset) -> 
+        apiManagerImportsbyApiSpec(asset,inProduction)
+    )
+)
+
+var apiPoliciesApplied = (inProduction) -> do {
+    flatten(apiManagerApis filter ($.isProduction == inProduction) map (environment) -> (
+        flatten(environment.details map ((apiDetail) ->
+            apiDetail.policies
+        ))
+    ))
+}
+
+var policiesAppliedByPolicy = (inProduction) -> (
+    assetsByType("policy") map ((policy) ->
+        sizeOf(
+            apiPoliciesApplied(inProduction) filter (
+                $.template.groupId == policy.groupId
+                and $.template.assetId == policy.assetId
+            )
+        )
+    )
+)
 ---
 {
 	date: vars.date,
@@ -41,8 +107,8 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 			total: sizeOf(members.data default []),
 			activeMembers: sizeOf(members.data  filter ($.enabled == true) default []),
 			inactiveMembers: sizeOf(members.data  filter ($.enabled == false) default []),
-			activeMembersLast60Days: sizeOf(members.data filter ($.lastLogin  >= (now() - |P60D|)) default []),
-			activeMembersLast30Days: sizeOf(members.data filter ($.lastLogin  >= (now() - |P30D|)) default []) 
+			activeMembersLast60Days: sizeOf(members.data filter (($.lastLogin default |2000-01-01T00:00:00.000Z|)  >= (now() - |P60D|)) default []),  // defaulting to |2000-01-01T00:00:00.000Z| for null cases
+			activeMembersLast30Days: sizeOf(members.data filter (($.lastLogin default |2000-01-01T00:00:00.000Z|)  >= (now() - |P30D|)) default [])  // defaulting to |2000-01-01T00:00:00.000Z| for null cases
 		},
 		environments: {
 			total:  sizeOf(environments default []),
@@ -57,14 +123,38 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 		flowDesignerApps: if  (designCenterProjects is Array) (sizeOf(designCenterProjects filter($."type" == "Mule_Application") default [])) else (0)
 	},
 	exchangeMetrics: {
-		total: if (exchangeAssets is Array) (sizeOf(exchangeAssets default []) + sizeOf(exchangeAssets filter($."type" == "rest-api") default [])) else (0),
-		apiSpecs: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "rest-api") default [])) else (0),
-		connectors: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "rest-api") default [])) else (0),
-		fragments: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "raml-fragment") default [])) else (0),
-		proxies: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "http-api") default [])) else (0),
-		extensions: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "extension") default [])) else (0),
-		custom: if (exchangeAssets is Array) (sizeOf(exchangeAssets filter($."type" == "custom") default [])) else (0),
-		overallSatisfaction: if (exchangeAssets is Array) (if (sizeOf(exchangeAssets) > 0) (sum(exchangeAssets.rating default [])/sizeOf(exchangeAssets)) else 0) else (0)		
+            total: sizeOf(notGeneratedAssets),
+		    apiSpecs: countAssetType("rest-api"),
+            fragments: countAssetType("raml-fragment"),
+            proxies: countAssetType("http-api"),
+            soapApis: countAssetType("soap-api"),
+            policies: countAssetType("policy"),
+            //connectors -> was removed and replaced by mule3Connectors
+            // Mule 3 DevKit components are connectors
+		    mule3Connectors: countAssetType("connector"),
+            // Mule 4 XML and Java SDK components are extensions
+            extensions: countAssetType("extension"),
+            applications: countAssetType("app"),
+		    custom: countAssetType("custom"),
+		    overallSatisfaction: if (sizeOf(notGeneratedAssets) > 0) ((notGeneratedAssets.rating reduce ($ + $$) default 0) / sizeOf(notGeneratedAssets)) else 0,
+        reuse: {
+            // Avg of times a Fragment is imported by an API Spec
+            fragments: assetReuseAvg("rest-api","raml-fragment"),
+            // Avg of times an API Spec is implemented by an Application
+            // Only valid for Applications uploaded to Exchange with RAML as a dependency
+            implementedApis: assetReuseAvg("app","rest-api"),
+            // Avg of times an API Spec is managed from API Manager (Sandbox environments)
+            managedSboxApis: avgSafe(apiManagerImports(false)),
+            // Avg of times an API Spec is managed from API Manager (Production environments)
+            managedProdApis: avgSafe(apiManagerImports(true)),
+            // Avg of times a Extension is imported by an Application
+            // Only valid for Applications uploaded to Exchange with RAML as a dependency
+            extensions: assetReuseAvg("app","extension"),
+            // Avg of times a Custom Policy is applied on API Manager (Sandbox environments)
+            appliedPoliciesSbox: avgSafe(policiesAppliedByPolicy(false)),
+            // Avg of times a Custom Policy is applied on API Manager (Production environments)
+            appliedPoliciesProd: avgSafe(policiesAppliedByPolicy(true))
+        }
 	},
 	apiManagerMetrics: {
 		clients: sizeOf(apiClients default []),
@@ -117,19 +207,25 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 	runtimeManagerMetrics: {
 		cloudhub: {
 			networking: {
-				vpcsTotal: vars.entitlements.vpcs.assigned,
-				vpcsAvailable: (vars.entitlements.vpcs.assigned default 0) - (usage.vpcsConsumed default 0),
+				vpcsTotal: entitlements.vpcs.assigned,
+				vpcsAvailable: (entitlements.vpcs.assigned default 0) - (usage.vpcsConsumed default 0),
 				vpcsUsed: usage.vpcsConsumed,
-				vpnsTotal: vars.entitlements.vpns.assigned,
-				vpnsAvailable: (vars.entitlements.vpns.assigned default 0) - (usage.vpnsConsumed default 0),
-				vpnsUsed: usage.vpnsConsumed
+				vpnsTotal: entitlements.vpns.assigned,
+				vpnsAvailable: (entitlements.vpns.assigned default 0) - (usage.vpnsConsumed default 0),
+				vpnsUsed: usage.vpnsConsumed,
+				dlbsTotal: entitlements.loadBalancer.assigned,
+				dlbsAvailable: (entitlements.loadBalancer.assigned default 0) - (usage.loadBalancersConsumed default 0),
+				dlbsUsed: usage.loadBalancersConsumed,
+				staticIPsTotal: entitlements.staticIps.assigned,
+				staticIPsAvailable: (entitlements.staticIps.assigned default 0) - (usage.staticIpsConsumed default 0),
+				staticIPsUsed: usage.staticIpsConsumed
 			},
 			
 			applications:{
 				production: {
-					vcoresTotal: vars.entitlements.vCoresProduction.assigned,
-					vcoresAvailable: (vars.entitlements.vCoresProduction.assigned as Number) - sum(flatten(getProdData(cloudHubApps) default []) map ($.workers."type".weight * $.workers.amount)),
-					vcoresUsed: sum(flatten(getProdData(cloudHubApps) default []) map ($.workers."type".weight * $.workers.amount)),
+					vcoresTotal: entitlements.vCoresProduction.assigned,
+					vcoresAvailable: (entitlements.vCoresProduction.assigned as Number) - sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == "STARTED") default [] ) map ($.workers."type".weight * $.workers.amount)),
+					vcoresUsed: sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == "STARTED") default [] ) map ($.workers."type".weight * $.workers.amount)),
 					applicationsTotal: sizeOf(flatten(getProdData(cloudHubApps) default []) default []),
 					applicationsStarted: sizeOf(flatten(getProdData(cloudHubApps) default []) filter ($.status == "STARTED") default []),
 					applicationsStopped: sizeOf(flatten(getProdData(cloudHubApps) default []) filter ($.status != "STARTED") default []),
@@ -137,9 +233,9 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 					runtimesUsedTotal: sizeOf(flatten(getProdData(cloudHubApps) default []).muleVersion.version distinctBy ($) default [])
 				},
 				sandbox:{
-					vcoresTotal: vars.entitlements.vCoresSandbox.assigned,
-					vcoresAvailable: (vars.entitlements.vCoresSandbox.assigned as Number) - sum(flatten(getSandboxData(cloudHubApps) default []) map ($.workers."type".weight * $.workers.amount)),
-					vcoresUsed: sum(flatten(getSandboxData(cloudHubApps) default []) map ($.workers."type".weight * $.workers.amount)),
+					vcoresTotal: entitlements.vCoresSandbox.assigned,
+					vcoresAvailable: (entitlements.vCoresSandbox.assigned as Number) - sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == "STARTED") default [] ) map ($.workers."type".weight * $.workers.amount)),
+					vcoresUsed: sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == "STARTED") default [] ) map ($.workers."type".weight * $.workers.amount)),
 					applicationsTotal: sizeOf(flatten(getSandboxData(cloudHubApps) default []) default []),
 					applicationsStarted: sizeOf(flatten(getSandboxData(cloudHubApps) default []) filter ($.status == "STARTED") default []),
 					applicationsStopped: sizeOf(flatten(getSandboxData(cloudHubApps) default []) filter ($.status != "STARTED") default []),
@@ -154,14 +250,16 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
     				workers: sizeOf((flatten(rtf.nodes) filter($.role == "worker") default []) default []),
     				controllers: sizeOf((flatten(rtf.nodes) filter($.role == "controller") default []) default []),
     				coresTotal: sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.cpuMillis default [])/1000,
-   				memoryTotal: sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.memoryMi default [])/1000,
+   				    memoryTotal: sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.memoryMi default [])/1000,
     				coresPerFabric: if (sizeOf(rtf) > 0) (sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.cpuMillis default [])/(sizeOf(rtf) * 1000)) else 0,
     				memoryPerFabric: if (sizeOf(rtf) > 0) (sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.memoryMi default [])/(sizeOf(rtf) * 1000)) else 0
 			},
 			applications: {
 				production: {
 					//coresAvailable: "NA", // Not able to calculate because a fabric can be associated with multiple environments of any type
-					coresUsed: sum((flatten(getProdDetails(armApps) default []).target.deploymentSettings.resources.cpu.limit  map (($ replace  "m" with "") as Number)) default [])/1000, //cores
+					//coresUsed: sum((flatten(getProdDetails(armApps) default []).target.deploymentSettings.resources.cpu.limit  map (($ replace  "m" with "") as Number)) default [])/1000, //cores
+					coresUsed: sum(((flatten(getProdDetails(armApps) default []) filter($.application.status == "RUNNING"))) map (((($.target.deploymentSettings.resources.cpu.reserved) replace "m" with "") as Number) * ($.target.replicas as Number)) default [])/1000,
+					coresReserved: sum(((flatten(getProdDetails(armApps) default []) filter($.application.status == "RUNNING"))) map (((($.target.deploymentSettings.cpuReserved) replace "m" with "") as Number) * ($.target.replicas as Number)) default [])/1000,
 					//memoryAvailable: "NA", // Not able to calculate because a fabric can be associated with multiple environments of any type
 					memoryUsed: sum((flatten(getProdDetails(armApps) default []).target.deploymentSettings.resources.memory.limit  map (($ replace  "Mi" with "") as Number)) default [])/1000, //Gigs
 					applicationsTotal: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == 'MC') default []),
@@ -174,12 +272,14 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 				},
 				sandbox:{
 					//coresAvailable: "NA", //cores // Not able to calculate because a fabric can be associated with multiple environments of any type
-					coresUsed: sum((flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.resources.cpu.limit  map (($ replace  "m" with "") as Number)) default [])/1000, //cores
+					//coresUsed: sum((flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.resources.cpu.limit  map (($ replace  "m" with "") as Number)) default [])/1000, //cores
+					coresUsed: sum(((flatten(getSandboxDetails(armApps) default []) filter($.application.status == "RUNNING"))) map (((($.target.deploymentSettings.resources.cpu.reserved) replace "m" with "") as Number) * ($.target.replicas as Number)) default [])/1000,
+                    coresReserved: sum(((flatten(getSandboxDetails(armApps) default []) filter($.application.status == "RUNNING"))) map (((($.target.deploymentSettings.cpuReserved) replace "m" with "") as Number) * ($.target.replicas as Number)) default [])/1000,
 					//memoryAvailable: "NA", //Gigs // Not able to calculate because a fabric can be associated with multiple environments of any type
 					memoryUsed: sum((flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.resources.memory.limit  map (($ replace  "Mi" with "") as Number)) default [])/1000, //Gigs
 					applicationsTotal: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default []),
 					applicationsStarted: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.application.status == 'RUNNING') default []),
-					applicationsStopped: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.applcation.status != 'RUNNING') default []),
+					applicationsStopped: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.application.status != 'RUNNING') default []),
 					runtimesUsed: flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [],
 					runtimesUsedTotal: sizeOf(flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [])
 				}	
@@ -209,5 +309,5 @@ var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","auth
 		}
 		
 	},
-	errors: vars.errors	
+	errors: errors	
 }

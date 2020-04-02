@@ -1,0 +1,84 @@
+<form>
+  <label>Metrics Framework - Design Center</label>
+  <fieldset submitButton="false">
+    <input type="multiselect" token="bgToken" searchWhenChanged="true">
+      <label>Business Group</label>
+      <fieldForLabel>bg</fieldForLabel>
+      <fieldForValue>bg</fieldForValue>
+      <search>
+        <query>index=$platformMetricsIndex$ | stats values(businessGroup) as bg by businessGroup</query>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+      <delimiter>,</delimiter>
+      <valuePrefix>"</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+    </input>
+    <input type="time" token="timeToken">
+      <label>Time range</label>
+      <default>
+        <earliest>0</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="text" token="platformMetricsIndex" depends="$alwaysHide$">
+      <label>Platform Metrics Index</label>
+      <default>metrics</default>
+    </input>
+    <input type="text" token="platformBenefitsIndex" depends="$alwaysHide$">
+      <label>Platform Benefits Index</label>
+      <default>platform_benefits</default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Design Center - Assets - Current Count</title>
+      <single>
+        <title>Design Center - Assets - Current Count</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(designCenterMetrics.total) as total | stats max(total) as "Design Center - Total Assets"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Design Center Projects</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Design Center - Assets by Type - Current</title>
+      <chart>
+        <title>Design Center - Assets by Type - Current</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(designCenterMetrics.apiSpecs) as apiSpecs, values(designCenterMetrics.fragments) as fragments, values(designCenterMetrics.flowDesignerApps) as flowDesignerApps | stats max(apiSpecs) as "API Specs", max(fragments) as "Fragments", max(flowDesignerApps) as "Flow Designer Apps" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Design Center - Assets - Timeline</title>
+      <chart>
+        <title>Design Center - Assets - Timeline</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(designCenterMetrics.apiSpecs) as "API Specs", values(designCenterMetrics.fragments) as "Fragments", values(designCenterMetrics.flowDesignerApps) as "Flow Designer Apps" by _time, businessGroup</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">minmax</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+</form>

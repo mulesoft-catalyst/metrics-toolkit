@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
 
 	<http:request-config name="HTTP_Splunk_Request_configuration" doc:name="HTTP Request configuration" doc:id="8c04fe97-3fc0-496a-b707-0d6ce98e8248">
 		<http:request-connection host="#[vars.loaderDetails.splunk.host]" port="#[vars.loaderDetails.splunk.port]"
@@ -13,7 +14,11 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 
 	<http:request-config name="HTTPS_Splunk_Request_configuration" doc:name="HTTP Request configuration" doc:id="ae305828-d97f-490b-adff-1b84b683f2ad">
 		<http:request-connection host="#[vars.loaderDetails.splunk.host]" port="#[vars.loaderDetails.splunk.port]"
-			protocol="HTTPS" />
+			protocol="HTTPS" >
+			<tls:context >
+				<tls:trust-store insecure="true" />
+			</tls:context>
+		</http:request-connection>
 	</http:request-config>
 
 	<flow name="loader-splunk-hec-main-flow" doc:id="ef10b993-2925-4b83-8b9b-83092f1e3c97">
