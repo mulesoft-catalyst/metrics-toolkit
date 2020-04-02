@@ -3,24 +3,18 @@ http:
   
 poller:
   enabled: "false"
-  frequency: "60" #minutes
+  frequency: "480" #minutes
   
 aggregation:
   raw: "false"
   
 loader:
   strategy: "logger"
-
-auth:
-  username: "xx"
-  password: "xx"
-  orgId: "123"
     
 splunk:
   host: "splunk-metrics.env.services.mulesoft.com"
   port: "8088"
   protocol: "HTTP"
-  token: "xx"
   source: "test-source"
   source.type: "_json"
   index:
@@ -28,4 +22,4 @@ splunk:
     benefits: "platform_benefits"
 
 tableau:
-  path: "/test-tableau.json"   
+  path: "/test-tableau.json"
