@@ -123,20 +123,20 @@ var policiesAppliedByPolicy = (inProduction) -> (
 		flowDesignerApps: if  (designCenterProjects is Array) (sizeOf(designCenterProjects filter($."type" == "Mule_Application") default [])) else (0)
 	},
 	exchangeMetrics: {
-        count: {
             total: sizeOf(notGeneratedAssets),
 		    apiSpecs: countAssetType("rest-api"),
             fragments: countAssetType("raml-fragment"),
             proxies: countAssetType("http-api"),
-            soapAPI: countAssetType("soap-api"),
+            soapApis: countAssetType("soap-api"),
             policies: countAssetType("policy"),
+            //connectors -> was removed and replaced by mule3Connectors
             // Mule 3 DevKit components are connectors
 		    mule3Connectors: countAssetType("connector"),
             // Mule 4 XML and Java SDK components are extensions
             extensions: countAssetType("extension"),
             applications: countAssetType("app"),
-		    custom: countAssetType("custom")
-        },
+		    custom: countAssetType("custom"),
+		    overallSatisfaction: if (sizeOf(notGeneratedAssets) > 0) ((notGeneratedAssets.rating reduce ($ + $$) default 0) / sizeOf(notGeneratedAssets)) else 0,
         reuse: {
             // Avg of times a Fragment is imported by an API Spec
             fragments: assetReuseAvg("rest-api","raml-fragment"),
@@ -154,10 +154,7 @@ var policiesAppliedByPolicy = (inProduction) -> (
             appliedPoliciesSbox: avgSafe(policiesAppliedByPolicy(false)),
             // Avg of times a Custom Policy is applied on API Manager (Production environments)
             appliedPoliciesProd: avgSafe(policiesAppliedByPolicy(true))
-        },
-		overallSatisfaction: if (sizeOf(notGeneratedAssets) > 0) (
-            (notGeneratedAssets.rating reduce ($ + $$) default 0) / sizeOf(notGeneratedAssets)
-        ) else 0
+        }
 	},
 	apiManagerMetrics: {
 		clients: sizeOf(apiClients default []),
@@ -227,8 +224,8 @@ var policiesAppliedByPolicy = (inProduction) -> (
 			applications:{
 				production: {
 					vcoresTotal: entitlements.vCoresProduction.assigned,
-					vcoresAvailable: (entitlements.vCoresProduction.assigned as Number) - sum(flatten(getProdData(cloudHubApps) default []) map ($.workers."type".weight * $.workers.amount)),
-					vcoresUsed: sum(flatten(getProdData(cloudHubApps) default []) map ($.workers."type".weight * $.workers.amount)),
+					vcoresAvailable: (entitlements.vCoresProduction.assigned as Number) - sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == "STARTED") default [] ) map ($.workers."type".weight * $.workers.amount)),
+					vcoresUsed: sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == "STARTED") default [] ) map ($.workers."type".weight * $.workers.amount)),
 					applicationsTotal: sizeOf(flatten(getProdData(cloudHubApps) default []) default []),
 					applicationsStarted: sizeOf(flatten(getProdData(cloudHubApps) default []) filter ($.status == "STARTED") default []),
 					applicationsStopped: sizeOf(flatten(getProdData(cloudHubApps) default []) filter ($.status != "STARTED") default []),
@@ -237,8 +234,8 @@ var policiesAppliedByPolicy = (inProduction) -> (
 				},
 				sandbox:{
 					vcoresTotal: entitlements.vCoresSandbox.assigned,
-					vcoresAvailable: (entitlements.vCoresSandbox.assigned as Number) - sum(flatten(getSandboxData(cloudHubApps) default []) map ($.workers."type".weight * $.workers.amount)),
-					vcoresUsed: sum(flatten(getSandboxData(cloudHubApps) default []) map ($.workers."type".weight * $.workers.amount)),
+					vcoresAvailable: (entitlements.vCoresSandbox.assigned as Number) - sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == "STARTED") default [] ) map ($.workers."type".weight * $.workers.amount)),
+					vcoresUsed: sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == "STARTED") default [] ) map ($.workers."type".weight * $.workers.amount)),
 					applicationsTotal: sizeOf(flatten(getSandboxData(cloudHubApps) default []) default []),
 					applicationsStarted: sizeOf(flatten(getSandboxData(cloudHubApps) default []) filter ($.status == "STARTED") default []),
 					applicationsStopped: sizeOf(flatten(getSandboxData(cloudHubApps) default []) filter ($.status != "STARTED") default []),
