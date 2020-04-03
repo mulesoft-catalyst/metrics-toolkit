@@ -5,7 +5,7 @@
 
 	<groupId>com.mulesoft</groupId>
 	<artifactId>metrics-framework</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<packaging>mule-application</packaging>
 
 	<name>metrics-framework</name>

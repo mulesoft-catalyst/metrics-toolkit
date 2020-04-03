@@ -2,19 +2,25 @@ http:
   port: "8081"
   
 poller:
-  enabled: "false"
-  frequency: "480" #minutes
+  enabled: "true"
+  when: 
+    cron-expression: "0 0 0 * * ? *" 
+    #Sample for dev "0 17 * * * ? *" At second :00 of minute :17 of every hour
+    #Sample for prod "0 0 0 * * ? *" At 00:00:00am every day
+    #https://www.freeformatter.com/cron-expression-generator-quartz.html
+    timezone: "GMT-3"
   
 aggregation:
   raw: "false"
   
 loader:
   strategy: "logger"
-    
+  
 splunk:
   host: "splunk-metrics.env.services.mulesoft.com"
   port: "8088"
   protocol: "HTTP"
+  token: "xx"
   source: "test-source"
   source.type: "_json"
   index:
@@ -22,4 +28,4 @@ splunk:
     benefits: "platform_benefits"
 
 tableau:
-  path: "/test-tableau.json"
+  path: "/test-tableau.json"   
