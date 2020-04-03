@@ -12,7 +12,7 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 ### Modes
 - Poller (Push mode)
 	- Collects, transforms and loads metrics in a defined visualization system
-	- Configurable - frequency (cron expression and timezone ) and status (enabled/disabled).
+	- Configurable - frequency and status (enabled/disabled).
 
 - API to manage the asset:
 	- API endpoint to obtain metrics on-demand (Pull mode)
@@ -167,8 +167,7 @@ Name | Description | Default Value
 ------------ | ------------ | ------------
 http.port | The port for exposing the metrics-framework API | 8081
 poller.enabled | Property to enable or disable the poller to collect and load metrics in external systems | false
-poller.when.cron-expresion | Defines the exact frequency to trigger the execution: Recommended to collect metrics once a day | 0 0 0 \* \* ? \*
-poller.when.timezone | Defines the time zone in which the cron-expression will be efective | GMT-3
+poller.frequency | In the case of enabling the poller, this property defines the scheduler frequency in minutes: Recommended to collect metrics once a day | 480
 aggregation.raw | Flag to define the format of the final response **False**: Won’t provide the raw data but final metrics **True**: Will provide raw data to be aggregated outside this asset | false
 loader.strategy | In the case of using the poller, this property defines the strategy for loading data in external systems, the options are: **csv, json, logger, splunk, am, elk, tableau** | logger
 anypoint.platform.host | Anypoint Platform Host. Change to eu1.anypoint.mulesoft.com if using the EU Control Plane or to a private host if using PCE | anypoint.mulesoft.com
