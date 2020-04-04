@@ -9,4 +9,4 @@ splunk:
   token: "![yqKEWZ57M3XUasumfcwhV5A3JMblY6G4MCwHM5j5VuA=]"
 
 ignoreLists:
-  organizations: ""
+  organizations: ""  #Array: comma-separated values 'orgId1,orgId2'
