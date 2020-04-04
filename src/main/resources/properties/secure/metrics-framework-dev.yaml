@@ -6,3 +6,7 @@ auth:
 splunk:
   token: "![yqKEWZ57M3XUasumfcwhV5A3JMblY6G4MCwHM5j5VuA=]"ignoreLists:
   organizations: "" #Array: comma-separated values 'orgId1,orgId2'
+  token: "![yqKEWZ57M3XUasumfcwhV5A3JMblY6G4MCwHM5j5VuA=]"
+
+ignoreLists:
+  organizations: ""
