@@ -2,7 +2,7 @@ http:
   port: "8081"
   
 poller:
-  enabled: "false"
+  enabled: "true"
   when: 
     cron-expression: "0 0 0 * * ? *" 
     #Sample for dev "0 17 * * * ? *" At second :00 of minute :17 of every hour
@@ -15,11 +15,12 @@ aggregation:
   
 loader:
   strategy: "logger"
-    
+  
 splunk:
   host: "splunk-metrics.env.services.mulesoft.com"
   port: "8088"
   protocol: "HTTP"
+  token: "xx"
   source: "test-source"
   source.type: "_json"
   index:
@@ -27,4 +28,4 @@ splunk:
     benefits: "platform_benefits"
 
 tableau:
-  path: "/test-tableau.json"
+  path: "/test-tableau.json"   
