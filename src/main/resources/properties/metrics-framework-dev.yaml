@@ -20,6 +20,14 @@ splunk:
   index:
     metrics: "metrics"
     benefits: "platform_benefits"
+    
+elk:
+  host: "localhost"
+  port: "9200"
+  protocol: "HTTP"
+  index:
+    metrics: "metrics"
+    benefits: "platformbenefits"     
 
 tableau:
   path: "/test-tableau.json"
