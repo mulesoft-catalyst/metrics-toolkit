@@ -16,11 +16,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-payload resource="dw/aggregation/build-orgs-aggregation.dwl" />
 			</ee:message>
 		</ee:transform>
-		<ee:transform doc:name="remove {ignoreLists.organizations}" doc:id="1c7ea56b-68d9-42e4-99b6-5a74ac7b4a40">
-			<ee:message>
-				<ee:set-payload resource="dw/aggregation/remove.ignore-lists.organizations.dwl" />
-			</ee:message>
-		</ee:transform>
 		<parallel-foreach doc:name="For Each" doc:id="59a2752c-19ce-4e8c-b3cf-512c04000a55" collection="#[payload]">
 			<set-variable value="#[payload.id]" doc:name="Set Variable" doc:id="ebf69e75-918d-46fc-a42a-8513e64da3ca" variableName="orgId"/>
 			<set-variable value="#[payload.name]" doc:name="Set Variable" doc:id="82a35793-7064-442c-bac3-4b3702fe0b02" variableName="orgName"/>
