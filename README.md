@@ -1,5 +1,5 @@
 # Metrics Framework
-The metrics framework is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. This is an [UNLICENSED software, please review the considerations](UNLICENSED.md). If you need assistance for extending this, contact MuleSoft Professional Services
+The metrics framework is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance for extending this, contact MuleSoft Professional Services
 
 ## Features
 - Compact Mule application (1 single application)
@@ -163,8 +163,8 @@ Total Savings | BG
 - Example `mule.key` used and configured as a Global Property under `global.xml` file
 
 
-Name | Description | Default Value
------------- | ------------ | ------------
+Name | Description | Default Value | Example
+------------ | ------------ | ------------ | ------------
 http.port | The port for exposing the metrics-framework API | 8081
 poller.enabled | Property to enable or disable the poller to collect and load metrics in external systems | false
 poller.when.cron-expresion | Defines the exact frequency to trigger the execution: Recommended to collect metrics once a day | 0 0 0 \* \* ? \*
@@ -175,6 +175,7 @@ anypoint.platform.host | Anypoint Platform Host. Change to eu1.anypoint.mulesoft
 auth.username | Anypoint Platform username | 
 auth.password | Anypoint Platform password | 
 auth.orgId | Anypoint Platform master org Id | 
+ignoreLists.organizations | An array (comma-separated values) of Anypoint Platform sub-organizations id that will be ignored while retrieving metrics | "cdfa4e7d-47cd-n1h1-8f39-6a73fbb9ffcb, cdfa4e7d-47cd-n2h2-8f39-6a73fbb9ffcb"
 
 ### Splunk steps
 

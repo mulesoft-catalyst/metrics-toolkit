@@ -1,7 +1,10 @@
 auth:
-  username: "![Zjv8nFIUwDlayZ6O7DP31p1zQRfrwfjbkmi5DyNiD38=]"
-  password: "![yqKEWZ57M3XUasumfcwhV35QQl9B5mf5GBon8eY/x8o=]"
-  orgId: "![yqKEWZ57M3XUasumfcwhVykLsfUM6yOEv2oEJ04vxZc=]"
-    
+  username: "![iUuXD2jDRvRyihXS/57UEFvpam8SQLGEHR4O5pr8qiM=]"
+  password: "![Rl4cotH6e/mqUitO6jChow==]"
+  orgId: "![B1J+8w0BmFck5SNG0D6H4OkajJCxhxIGclv/0I5sBawqdn/Xsj1VMif7VfWTF16e]"
+
 splunk:
-  token: "![yqKEWZ57M3XUasumfcwhV5A3JMblY6G4MCwHM5j5VuA=]"
+  token: "![jA4ZgAiOVTHI+9ePCU0ALA==]"
+
+ignoreLists:
+  organizations: ""  #Array: comma-separated values 'orgId1,orgId2'
