@@ -93,6 +93,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<route>
 				<flow-ref doc:name="ARM ServerGroups Metrics Flow Reference" doc:id="e6703e89-e973-4a9c-8844-51d1535cc1f7" name="collector-arm-server-groups-metrics-parallel-flow" />
 			</route>
+			<route>
+				<flow-ref doc:name="collector-arm-apps-metrics-parallel-flow" doc:id="7d054ece-8e5c-4541-a339-c17b06b34f05" name="collector-arm-apps-metrics-parallel-flow"/>
+			</route>	
 		</scatter-gather>
 	</flow>
 	
