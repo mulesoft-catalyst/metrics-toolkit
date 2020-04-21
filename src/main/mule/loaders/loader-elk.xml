@@ -21,7 +21,11 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		</flow>
 	
 	<flow name="loader-benefits-elk-main-flow" doc:id="994a4062-ea71-4212-8017-bb1afeff4ade">
-		<logger level="INFO" doc:name="Logger" doc:id="0905d645-c1aa-4e8c-9886-f5cf530ff8a8" />
+		<flow-ref doc:name="Aggregate Platform Benefits Flow Reference" doc:id="da93546f-96c4-48ab-8787-ba1cad43efbe" name="aggregator-platform-benefits-master-flow"/>
+		<logger level="DEBUG" doc:name="Logger" doc:id="ff5189f5-84fa-4fbb-9b02-034a2cf09a62" message="#[payload]" />
+		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="b41f1e53-dcfb-4051-835f-5a940a9ffa37" variableName="event" />
+		<set-variable value="#[vars.loaderDetails.elk.platformBenefitsIndex]" doc:name="Set Index Variable" doc:id="912c41c9-2ff6-410b-b4bd-6a3633a1fa0a" variableName="index" />
+		<flow-ref doc:name="ELK Flow Reference" doc:id="1904fc24-d853-4327-9ab9-bd448efe8835" name="elk-loader-flow" />
 	</flow>
 	<flow name="elk-loader-flow" doc:id="25af15cd-3600-4c54-9bbc-7ff34b691a88" >
 		<ee:transform doc:name="Build ELK Request" doc:id="5d244fb2-4857-465b-bfa9-a1b043c53a80" >
