@@ -13,7 +13,14 @@
 			<when expression="#[p('poller.enabled') == &quot;true&quot;]">
 				<flow-ref doc:name="Set Auth Vars from Properties Flow Reference" doc:id="fe3a2c56-7824-4cf5-b65f-8e9d45ae857b" name="metrics-framework-common-set-auth-vars-from-properties" />
 				<flow-ref doc:name="Set Loader Details From Properties Flow Reference" doc:id="648cd66c-3fd0-4a41-92af-427be248dced" name="metrics-framework-common-set-loader-vars-from-properties" />
-				<flow-ref doc:name="Loader Router Flow Reference" doc:id="842bf11b-aac0-45a4-81b6-038620241284" name="loader-router-flow" />
+								<scatter-gather doc:name="Scatter-Gather" doc:id="15bf5dbe-534c-413e-aac5-2ee0ed373a98" >
+					<route >
+						<flow-ref doc:name="Loader Router Platform Flow Reference" doc:id="3305fb66-3716-4bea-a2f8-d319778deb2a" name="loader-router-flow" />
+					</route>
+					<route >
+						<flow-ref doc:name="Loader Router SDLC Flow Reference" doc:id="92948a09-fda9-438a-990c-06e518835583" name="loader-sdlc-router-flow"/>
+					</route>
+				</scatter-gather>
 			</when>
 			<otherwise >
 				<logger level="INFO" doc:name="Logger" doc:id="1ec91447-d56a-41b5-ba44-5fd9c47553ee" message="Poller disabled"/>

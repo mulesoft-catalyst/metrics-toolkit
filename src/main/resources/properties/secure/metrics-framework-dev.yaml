@@ -5,3 +5,21 @@ auth:
     
 splunk:
   token: "![yqKEWZ57M3XUasumfcwhV5A3JMblY6G4MCwHM5j5VuA=]"
+
+# SDLC Metrics
+sdlc:
+  confluence:
+    user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+    token: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+  bitbucket:
+    user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+    token: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+  jira:
+    user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+    token: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+  jenkins:
+    user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+    token: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+  splunk:
+    user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+    password: "![0CXQwZBMmw43vtBN7jyoRQ==]"

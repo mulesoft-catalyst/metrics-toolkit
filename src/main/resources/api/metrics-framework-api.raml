@@ -86,7 +86,26 @@ securitySchemes:
         201:
           body:
             application/json:  
-            
+/sdlc-metrics:
+  get:
+    queryParameters:
+      raw:
+        description: "Provide raw data"
+        type: boolean
+        default: false
+    responses:
+      200:
+        body:
+          application/json:
+  /load:
+    post:
+      body:
+        application/json:
+          
+      responses:
+        201:
+          body:
+            application/json:
 
 
             

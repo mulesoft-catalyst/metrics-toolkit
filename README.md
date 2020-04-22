@@ -1,11 +1,12 @@
 # Metrics Framework
-The metrics framework is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance for extending this, contact MuleSoft Professional Services
+The metrics framework is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. In addition to the platform metrics, the framework also extends the capabilities to integrate with external applications like Jira, Confluence, Jenkins, Bitbucket and Splunk to gather SDLC metrics. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance for extending this, contact MuleSoft Professional Services
 
 ## Features
 - Compact Mule application (1 single application)
 - Provides more than 100 metrics from 2 complementary domains:
 	- **Platform Operational Metrics**: collected and calculated automatically based on multiple products from Anypoint Platform: Exchange, Design Center, Runtime Manager, Access Management; covering metrics from applications deployed on-prem (Standalone), RTF and CloudHub.
 	- **Platform Benefits**: require manual input to calculate final metrics, crossing information from the "Platform Operational" domain
+	- **External sdlc Metrics**: collected and calculated automatically based on multiple external applications: Jira, Confluence, Jenkins, Bitbucket and Splunk; 
 
 ![Domains](/img/domains.png)
 
@@ -138,12 +139,34 @@ Savings From Maintenance Productivity | BG
 Savings From Reuse in Maintenance | BG
 Total Savings | BG
 
+### SDLC Metrics
+
+**These metrics are optional and can be cherry picked as per your requirement**
+
+Name | Metric
+------------ | ------------
+BitBucket | Total Number of BitBucket Repositories
+Confluence | Total Number of Confluence pages
+Confluence | Total Number of Confluence pages created in the last 30 days
+Confluence | Total Number of Confluence pages updated in the last 30 days
+Confluence | Top Contributors in the last 30 days and associated number of pages created
+Jenkins | Total Number of Jenkins jobs
+Jenkins | Total Number of failed Jenkins jobs
+Jenkins | Total Number of successful Jenkins jobs
+Jenkins | Total Number of unexecuted Jenkins jobs
+Jira | Total Number of Jira stories in the backlog
+Jira | Total Number of Jira stories in the current sprint
+Jira | Jira stories categorized by type and associated count in the current sprint
+Jira | Jira stories categorized by status and associated count in the current sprint
+Splunk | Total Number of Splunk dashboards
+
 ## Installation
 
 ### Requirements
 - Mule Runtime 4.2.1 or above 
 - All deployments models are supported: CloudHub, OnPrem hosted Runtimes, Runtime Fabric
 - Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data 
+- Authorized user with api access to any of the applications: Jira, Confluence, Jenkins, Bitbucket and Splunk for which you want to gather data. 
 
 ### Steps
 
@@ -174,6 +197,37 @@ anypoint.platform.host | Anypoint Platform Host. Change to eu1.anypoint.mulesoft
 auth.username | Anypoint Platform username | 
 auth.password | Anypoint Platform password | 
 auth.orgId | Anypoint Platform master org Id | 
+sdlc.confluence.enabled | Property to enable or disable application to collect metrics from Confluence | false
+sdlc.confluence.host | Confluence server host | 
+sdlc.confluence.port | Confluence server port | 
+sdlc.confluence.path | Context url of the [Confluence REST API](https://developer.atlassian.com/cloud/confluence/rest/)  | 
+sdlc.confluence.user | Authorized Confluence user to access REST APIs | 
+sdlc.confluence.token | User token to access REST APIs | 
+sdlc.bitbucket.enabled | Property to enable or disable application to collect metrics from Bitbucket | false
+sdlc.bitbucket.host | Bitbucket server host | 
+sdlc.bitbucket.port | Bitbucket server port | 
+sdlc.bitbucket.path | Context url of the [Bitbucket REST API](https://developer.atlassian.com/bitbucket/api/2/reference/resource/)  | 
+sdlc.bitbucket.user | Authorized Bitbucket user to access REST APIs | 
+sdlc.bitbucket.token | User token to access REST APIs | 
+sdlc.jira.enabled | Property to enable or disable application to collect metrics from Jira | false
+sdlc.jira.host | Jira server host | 
+sdlc.jira.port | Jira server port | 
+sdlc.jira.path | Context url of the [Jira REST API](https://developer.atlassian.com/cloud/jira/platform/rest/v2/)  | 
+sdlc.jira.backlogPath | Context url of the [Jira REST API](https://developer.atlassian.com/cloud/jira/platform/rest/v2/) to fetch stories from backlog  | 
+sdlc.jira.user | Authorized Jira user to access REST APIs | 
+sdlc.jira.token | User token to access REST APIs | 
+sdlc.jenkins.enabled | Property to enable or disable application to collect metrics from Jenkins | false
+sdlc.jenkins.host | Jenkins server host | 
+sdlc.jenkins.port | Jenkins server port | 
+sdlc.jenkins.path | Context url of the [Jenkins REST API](https://wiki.jenkins.io/display/JENKINS/Remote+access+API)  | 
+sdlc.jenkins.user | Authorized Jenkins user to access REST APIs | 
+sdlc.jenkins.token | User token to access REST APIs | 
+sdlc.splunk.enabled | Property to enable or disable application to collect metrics from Splunk | false
+sdlc.splunk.host | Splunk server host | 
+sdlc.splunk.port | Splunk server port | 
+sdlc.splunk.path | Context url of the [Splunk REST API](https://docs.splunk.com/Documentation/Splunk/8.0.3/RESTTUT/RESTandCloud)  | 
+sdlc.splunk.user | Authorized Splunk user to access REST APIs | 
+sdlc.splunk.password | Password to access REST APIs | 
 
 ### Splunk steps
 
