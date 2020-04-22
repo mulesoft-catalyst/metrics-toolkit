@@ -104,6 +104,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<route>
 				<flow-ref doc:name="Coreservices Usage Flow Reference" doc:id="01f684db-614f-416a-bd90-1f74a954b70d" name="collector-usage-metrics-flow" />
 			</route>
+			<route> 
+				<flow-ref doc:name="collector-rolegroups-metrics" doc:id="c446c3a8-f5c2-4d31-a6f6-0bf45f9825b4" name="collector-rolegroups-metrics" /> 
+			</route> 
 		</scatter-gather>
 	</flow>
 
