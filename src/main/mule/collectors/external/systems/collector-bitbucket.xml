@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="collector-bitbucket-metrics-flow" doc:id="9c738c99-3e9c-46ac-a3a6-1944640f0cb0">
+		<choice doc:name="Choice" doc:id="b20a44d7-1115-4fc9-ac60-942a567a3456" >
+			<when expression="#[p('sdlc.bitbucket.enabled') == &quot;true&quot;]">
+				<flow-ref doc:name="api-call-bitbucket-app-flow" doc:id="0e7895e6-7894-418e-8d0d-8b1203a586f0" name="api-call-bitbucket-app-flow" />
+			</when>
+			<otherwise >
+				<set-payload value="#[null]" doc:name="Set Payload" doc:id="fcb49feb-0106-42c9-8704-e8b873888443" />
+			</otherwise>
+		</choice>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="645ae969-8713-4223-8032-58faedca3009" >
+				<logger level="WARN" doc:name="Logger" doc:id="f1f614fc-5a93-4a8f-a546-32c742308a11" message="'Not able to get Bitbucket metrics'"/>
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable" doc:id="95d99588-c0ab-426b-b7b6-57071a6869b5" variableName="errors"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>

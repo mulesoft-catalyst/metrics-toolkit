@@ -49,4 +49,21 @@
 			</otherwise>
 		</choice>
 	</flow>
+	<flow name="loader-sdlc-router-flow" doc:id="ba3ecd92-9941-49f7-ad09-42229171b604" >
+		<logger level="INFO" doc:name="Logger" doc:id="f353e3d0-cf07-4f19-95ec-3880c57e2a24" message="Strategy: #[vars.loaderDeetails.strategy]" />
+		<choice doc:name="Choice" doc:id="fecd31fc-8de2-495e-ac87-de8f3c7b4878" >
+			<when expression="#[vars.loaderDetails.strategy == 'am']" >
+				<logger level="INFO" doc:name="Logger" doc:id="d59e2709-6dcd-4228-91c9-01420b999e85" />
+			</when>
+			<when expression="#[vars.loaderDetails.strategy == 'splunk']" >
+				<logger level="INFO" doc:name="Logger" doc:id="4b0769be-7776-4a38-8fc4-994e830c3310" />
+			</when>
+			<when expression="#[vars.loaderDetails.strategy == 'tableau']" >
+				<logger level="INFO" doc:name="Logger" doc:id="ed713140-a11a-491a-a475-35d617ba6134" />
+			</when>
+			<otherwise >
+				<flow-ref doc:name="loader-sdlc-flow" doc:id="c8083744-2396-4acb-b877-99f7fe64bfec" name="loader-sdlc-flow" />
+			</otherwise>
+		</choice>
+	</flow>
 </mule>

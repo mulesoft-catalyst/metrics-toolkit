@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="collector-jenkins-metrics-flow" doc:id="1114d338-b793-4c04-8e5a-dec56745f6e0">
+		<choice doc:name="Choice" doc:id="a4f615a0-62f6-4561-abac-958fe96dd04d" >
+			<when expression="#[p('sdlc.jenkins.enabled') == &quot;true&quot;]">
+				<flow-ref doc:name="api-call-jenkins-app-flow" doc:id="51a0c201-54e7-46d2-810e-985b5e650bfa" name="api-call-jenkins-app-flow" />
+			</when>
+			<otherwise >
+				<set-payload value="#[null]" doc:name="Set Payload" doc:id="bbb73100-8eeb-45b3-8849-dcf0abddc522" />
+			</otherwise>
+		</choice>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="f254e3b4-052e-4579-accb-c754ba6d8655" >
+				<logger level="WARN" doc:name="Logger" doc:id="ad54499f-d0b8-46a8-8adf-8889df1d955b" message="'Not able to get Jenkins metrics'"/>
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable" doc:id="8e480808-d1d8-47db-b205-8fd1428924a5" variableName="errors"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>
