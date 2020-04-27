@@ -68,11 +68,11 @@
   </row>
   <row>
     <panel>
-      <title>API Manager - Production - APIs - Current Count</title>
+      <title>API Manager - Production - API instances - Current Count</title>
       <single>
-        <title>API Manager - Production - APIs - Current Count</title>
+        <title>API Manager - Production - API instances - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.total) as total | stats max(total) as "API Manager - Total APIs"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apiInstances) as total | stats max(total) as "API Manager - Total API Instances"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -84,9 +84,9 @@
       </single>
     </panel>
     <panel>
-      <title>API Manager - Production - APIs by Status - Current</title>
+      <title>API Manager - Production - API instances by Status - Current</title>
       <chart>
-        <title>API Manager - Production - APIs by Status - Current</title>
+        <title>API Manager - Production - API instances by Status - Current</title>
         <search>
           <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.active) as active, values(apiManagerMetrics.apis.production.inactive) as inactive | stats max(active) as "Active APIs", max(inactive) as "Inactive APIs" | transpose</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -99,9 +99,9 @@
       </chart>
     </panel>
     <panel>
-      <title>API Manager - Production - APIs by Status - Timeline</title>
+      <title>API Manager - Production - API instances by Status - Timeline</title>
       <chart>
-        <title>API Manager - Production - APIs by Status - Timeline</title>
+        <title>API Manager - Production - API instances by Status - Timeline</title>
         <search>
           <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(apiManagerMetrics.apis.production.active) as "Active APIs", values(apiManagerMetrics.apis.production.inactive) as "Inactive APIs" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -134,9 +134,9 @@
       </single>
     </panel>
     <panel>
-      <title>API Manager - Production - APIs with contracts - Current Count</title>
+      <title>API Manager - Production - API instances with contracts - Current Count</title>
       <single>
-        <title>API Manager - Production - APIs with more than one contract - Current Count</title>
+        <title>API Manager - Production - API instances with more than one contract - Current Count</title>
         <search>
           <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apisWithMoreThanOneConsumer) as total | stats max(total) as "APIs"</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -149,7 +149,7 @@
         <option name="useColors">0</option>
       </single>
       <single>
-        <title>API Manager - Production - APIs with one or more contracts - Current Count</title>
+        <title>API Manager - Production - API instances with one or more contracts - Current Count</title>
         <search>
           <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apisWithOneOrMoreConsumers) as total | stats max(total) as "APIs"</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -182,9 +182,9 @@
   </row>
   <row>
     <panel>
-      <title>API Manager - Production - APIs by Polcies' existence - Current</title>
+      <title>API Manager - Production - API instances by Polcies' existence - Current</title>
       <chart>
-        <title>API Manager - Production - APIs by Polcies' existence - Current</title>
+        <title>API Manager - Production - API instances by Polcies' existence - Current</title>
         <search>
           <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apisWithPolicies) as withPolicies, values(apiManagerMetrics.apis.production.apisWithoutPolicies) as withoutPolicies | stats max(withPolicies) as "APIs with Policies", max(withoutPolicies) as "APIs without Policies" | transpose</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -197,9 +197,9 @@
       </chart>
     </panel>
     <panel>
-      <title>API Manager - Production - APIs by Polcies' existence - Timeline</title>
+      <title>API Manager - Production - API instances by Polcies' existence - Timeline</title>
       <chart>
-        <title>API Manager - Production - APIs by Polcies' existence - Timeline</title>
+        <title>API Manager - Production - API instances by Polcies' existence - Timeline</title>
         <search>
           <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(apiManagerMetrics.apis.production.apisWithPolicies) as "APIs with Policies", values(apiManagerMetrics.apis.production.apisWithoutPolicies) as "APIs without Policies" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -226,9 +226,9 @@
       </table>
     </panel>
     <panel>
-      <title>API Manager - Production - APIs by secure Policies - Current</title>
+      <title>API Manager - Production - API instances by secure Policies - Current</title>
       <chart>
-        <title>API Manager - Production - APIs by secure Policies - Current</title>
+        <title>API Manager - Production - API instances by secure Policies - Current</title>
         <search>
           <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apisWithSecurity) as withPolicies, values(apiManagerMetrics.apis.production.apisWithoutSecurity) as withoutPolicies | stats max(withPolicies) as "APIs with Secure Policies", max(withoutPolicies) as "APIs without Secure Policies" | transpose</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -241,9 +241,9 @@
       </chart>
     </panel>
     <panel>
-      <title>API Manager - Production - APIs by secure Policies - Timeline</title>
+      <title>API Manager - Production - API instances by secure Policies - Timeline</title>
       <chart>
-        <title>API Manager - Production - APIs by secure Policies - Timeline</title>
+        <title>API Manager - Production - API instances by secure Policies - Timeline</title>
         <search>
           <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(apiManagerMetrics.apis.production.apisWithSecurity) as "APIs with Secure Policies", values(apiManagerMetrics.apis.production.apisWithoutSecurity) as "APIs without Secure Policies" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
