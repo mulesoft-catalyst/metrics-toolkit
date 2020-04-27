@@ -25,4 +25,14 @@
 		</error-handler>
 	</flow>	
 	
+	<flow name="collector-rolegroups-metrics" doc:id="6708764f-af78-4223-a380-b213e6cd5ee5">
+		<flow-ref doc:name="api-call-coreservices-rolegroups" doc:id="f1756d0c-1091-40f3-95b2-cdb0a5763b74" name="api-call-coreservices-rolegroups" />
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="0671e54d-6239-4544-9984-1ca33fe3e5a4" >
+				<logger level="WARN" doc:name="Logger" doc:id="3de28b64-a93f-4cab-a0fe-210c61597537" message="'Not able to get Coreservices - rolegroups metrics for BG:' #[vars.orgId]"/>
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable" doc:id="78aae4cd-c4ae-4065-b0e0-72a07fe13b80" variableName="errors"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>	
+	
 </mule>
