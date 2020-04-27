@@ -1,3 +1,34 @@
+Table of Contents
+=================
+
+   * [Metrics Framework](#metrics-framework)
+      * [Features](#features)
+         * [Modes](#modes)
+         * [Loader options](#loader-options)
+      * [Available Metrics](#available-metrics)
+         * [Platform Metrics](#platform-metrics)
+         * [Platform Benefits](#platform-benefits)
+         * [SDLC Metrics](#sdlc-metrics)
+      * [Installation](#installation)
+         * [Requirements](#requirements)
+         * [Steps](#steps)
+         * [Properties configurations](#properties-configurations)
+         * [Splunk steps](#splunk-steps)
+            * [Properties specific for Splunk](#properties-specific-for-splunk)
+         * [ELK steps](#elk-steps)
+            * [Properties specific for ELK](#properties-specific-for-elk)
+      * [Considerations](#considerations)
+      * [Some Theory around the Framework](#some-theory-around-the-framework)
+         * [Business Needs](#business-needs)
+         * [Data Sources](#data-sources)
+         * [Measurements](#measurements)
+         * [Problem Space](#problem-space)
+         * [Approach - Conceptual](#approach---conceptual)
+         * [Approach](#approach)
+            * [Conceptual](#conceptual)
+            * [Detailed](#detailed)
+      * [Final Notes](#final-notes)
+      
 # Metrics Framework
 The metrics framework is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. In addition to the platform metrics, the framework also extends the capabilities to integrate with external applications like Jira, Confluence, Jenkins, Bitbucket and Splunk to gather SDLC metrics. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance for extending this, contact MuleSoft Professional Services
 
@@ -335,5 +366,5 @@ How to link business needs, measurements and data sources?
 #### Detailed
 ![Implementation Approach](/img/implementation_approach.png)
 
-## Final Note
+## Final Notes
 Enjoy and provide feedback / contribute :)
