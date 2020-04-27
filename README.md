@@ -218,8 +218,8 @@ Splunk | Total Number of Splunk dashboards
 - Example `mule.key` used and configured as a Global Property under `global.xml` file
 
 
-Name | Description | Default Value
------------- | ------------ | ------------
+Name | Description | Default Value 
+------------ | ------------ | ------------ 
 http.port | The port for exposing the metrics-framework API | 8081
 poller.enabled | Property to enable or disable the poller to collect and load metrics in external systems | false
 poller.frequency.cron | Defines the exact frequency (using cron-expressions) to trigger the execution: Recommended to collect metrics once a day | 0 0 0 \* \* ? \*
@@ -230,6 +230,7 @@ anypoint.platform.host | Anypoint Platform Host. Change to eu1.anypoint.mulesoft
 auth.username | Anypoint Platform username | 
 auth.password | Anypoint Platform password | 
 auth.orgId | Anypoint Platform master org Id | 
+ignoreLists.organizations | An array (comma-separated values) of Anypoint Platform sub-organizations id that will be ignored while retrieving metrics e.g "cdfa4e7d-47cd-n1h1-8f39-6a73fbb9ffcb, cdfa4e7d-47cd-n2h2-8f39-6a73fbb9ffcb" | 
 
 #### SDLC metrics collectors properties configuration
 Name | Description | Default Value
