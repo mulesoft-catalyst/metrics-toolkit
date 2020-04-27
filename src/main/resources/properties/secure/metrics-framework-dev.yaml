@@ -5,7 +5,10 @@ auth:
     
 splunk:
   token: "![yqKEWZ57M3XUasumfcwhV5A3JMblY6G4MCwHM5j5VuA=]"
-<<<<<<< HEAD
+  
+elk:
+  user: "user"
+  password: "password"
 
 # SDLC Metrics
 sdlc:
@@ -24,9 +27,3 @@ sdlc:
   splunk:
     user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
     password: "![0CXQwZBMmw43vtBN7jyoRQ==]"
-=======
-  
-elk:
-  user: "user"
-  password: "password"
->>>>>>> develop
