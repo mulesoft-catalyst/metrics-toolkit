@@ -1,3 +1,36 @@
+Table of Contents
+=================
+
+   * [Table of Contents](#table-of-contents)
+   * [Metrics Framework](#metrics-framework)
+      * [Features](#features)
+         * [Modes](#modes)
+         * [Loader options](#loader-options)
+      * [Available Metrics](#available-metrics)
+         * [Platform Metrics](#platform-metrics)
+         * [Platform Benefits](#platform-benefits)
+         * [SDLC Metrics](#sdlc-metrics)
+      * [Installation](#installation)
+         * [Requirements](#requirements)
+         * [Steps](#steps)
+         * [Properties configurations](#properties-configurations)
+            * [SDLC metrics collectors properties configuration](#sdlc-metrics-collectors-properties-configuration)
+         * [Splunk steps](#splunk-steps)
+            * [Properties specific for Splunk](#properties-specific-for-splunk)
+         * [ELK steps](#elk-steps)
+            * [Properties specific for ELK](#properties-specific-for-elk)
+      * [Considerations](#considerations)
+      * [Some Theory around the Framework](#some-theory-around-the-framework)
+         * [Business Needs](#business-needs)
+         * [Data Sources](#data-sources)
+         * [Measurements](#measurements)
+         * [Problem Space](#problem-space)
+         * [Approach - Conceptual](#approach---conceptual)
+         * [Approach](#approach)
+            * [Conceptual](#conceptual)
+            * [Detailed](#detailed)
+      * [Final Notes](#final-notes)
+      
 # Metrics Framework
 The metrics framework is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. In addition to the platform metrics, the framework also extends the capabilities to integrate with external applications like Jira, Confluence, Jenkins, Bitbucket and Splunk to gather SDLC metrics. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance for extending this, contact MuleSoft Professional Services
 
@@ -24,10 +57,10 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 - **CSV**
 - **JSON**
 - **Plain Log**: in case you forward logs to external systems (e.g using Splunk forwarder)
-- **Splunk**: Including an out of the box dashboard with more than 80 charts
+- **Splunk**: Including an out of the box dashboard with more than 100 charts
+- **ELK**: Including out of the box, basic, Kibana dashboards
 - **Anypoint Monitoring**: Requires Titanium subscription, dashboard is not provided
 - Tableau: (Not available yet)
-- ELK: (Not available yet)
 
 ## Available Metrics
 
@@ -105,13 +138,12 @@ RuntimeManager - CloudHub - Applications | Runtime Versions Used Total | BG, Env
 RuntimeManager - RTF - Capacity | Fabrics Total | BG |
 RuntimeManager - RTF - Capacity | Workers Total | BG |
 RuntimeManager - RTF - Capacity | Controllers Total | BG |
-RuntimeManager - RTF - Capacity | Cores Total | BG |
-RuntimeManager - RTF - Capacity | Memory Total | BG |
-RuntimeManager - RTF - Capacity | Cores Per Fabric Average | BG |
-RuntimeManager - RTF - Capacity | Memory Per Fabric Average | BG |
-RuntimeManager - RTF - Applications | Cores Used Total | BG, Environment |
-RuntimeManager - RTF - Applications | Cores Reserved Total | BG, Environment |
-RuntimeManager - RTF - Applications | Memory Used Total | BG, Environment |
+RuntimeManager - RTF - Capacity | Cores Allocated Total | BG |
+RuntimeManager - RTF - Capacity | Memory Allocated Total | BG |
+RuntimeManager - RTF - Capacity | Cores Allocated Per Fabric Average | BG |
+RuntimeManager - RTF - Capacity | Memory Allocated Per Fabric Average | BG |
+RuntimeManager - RTF - Applications | Cores Allocated Total | BG, Environment |
+RuntimeManager - RTF - Applications | Memory Allocated Total | BG, Environment |
 RuntimeManager - RTF - Applications | Applications Total | BG, Environment |
 RuntimeManager - RTF - Applications | Applications Started Total | BG, Environment |
 RuntimeManager - RTF - Applications | Applications Stopped Total | BG, Environment |
@@ -166,8 +198,7 @@ Splunk | Total Number of Splunk dashboards
 - Mule Runtime 4.2.1 or above
 - All deployments models are supported: CloudHub, OnPrem hosted Runtimes, Runtime Fabric
 - Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data 
-- Authorized user with api access to any of the applications: Jira, Confluence, Jenkins, Bitbucket and Splunk for which you want to gather data. 
-- Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data
+- (Optional for SDLC metrics) Authorized user with API access to any of the applications: Jira, Confluence, Jenkins, Bitbucket and Splunk for which you want to gather data. 
 
 ### Steps
 
@@ -198,6 +229,10 @@ anypoint.platform.host | Anypoint Platform Host. Change to eu1.anypoint.mulesoft
 auth.username | Anypoint Platform username | 
 auth.password | Anypoint Platform password | 
 auth.orgId | Anypoint Platform master org Id | 
+
+#### SDLC metrics collectors properties configuration
+Name | Description | Default Value
+------------ | ------------ | ------------
 sdlc.confluence.enabled | Property to enable or disable application to collect metrics from Confluence | false
 sdlc.confluence.host | Confluence server host | 
 sdlc.confluence.port | Confluence server port | 
@@ -335,5 +370,5 @@ How to link business needs, measurements and data sources?
 #### Detailed
 ![Implementation Approach](/img/implementation_approach.png)
 
-## Final Note
+## Final Notes
 Enjoy and provide feedback / contribute :)
