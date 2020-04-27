@@ -33,9 +33,59 @@
   </fieldset>
   <row>
     <panel>
-      <title>Runtime Manager - RTF - Cores total - Current Count</title>
+      <title>Runtime Manager - RTF - Fabrics Total - Current Count</title>
       <single>
-        <title>Runtime Manager - RTF - Cores total - Current Count</title>
+        <title>Runtime Manager - RTF - Fabrics Total - Current Count</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.capacity.fabrics) as total | stats max(total) as "Fabrics"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Fabrics</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - RTF - Workers Total - Current Count</title>
+      <single>
+        <title>Runtime Manager - RTF - Workers Total - Current Count</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.capacity.workers) as total | stats max(total) as "Workers"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Fabrics</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - RTF - Controllers Total - Current Count</title>
+      <single>
+        <title>Runtime Manager - RTF - Controllers Total - Current Count</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.capacity.controllers) as total | stats max(total) as "Controllers"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">Fabrics</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Runtime Manager - RTF - VCores total - Current Count</title>
+      <single>
+        <title>Runtime Manager - RTF - VCores total - Current Count</title>
         <search>
           <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.capacity.coresTotal) as total | stats max(total) as "vCores"</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -45,6 +95,22 @@
         <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
         <option name="refresh.display">progressbar</option>
         <option name="underLabel">vCores</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - RTF - Memory total - Current Count</title>
+      <single>
+        <title>Runtime Manager - RTF - Memory total - Current Count</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.capacity.memoryTotal) as total | stats max(total) as "GBs"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">GBs</option>
         <option name="useColors">0</option>
       </single>
     </panel>
