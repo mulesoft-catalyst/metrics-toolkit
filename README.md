@@ -1,6 +1,7 @@
 Table of Contents
 =================
 
+   * [Table of Contents](#table-of-contents)
    * [Metrics Framework](#metrics-framework)
       * [Features](#features)
          * [Modes](#modes)
@@ -13,6 +14,7 @@ Table of Contents
          * [Requirements](#requirements)
          * [Steps](#steps)
          * [Properties configurations](#properties-configurations)
+            * [SDLC metrics collectors properties configuration](#sdlc-metrics-collectors-properties-configuration)
          * [Splunk steps](#splunk-steps)
             * [Properties specific for Splunk](#properties-specific-for-splunk)
          * [ELK steps](#elk-steps)
