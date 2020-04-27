@@ -18,21 +18,21 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 	- API endpoint to obtain metrics on-demand (Pull mode)
 	- API endpoint for triggering a specific loader to push data to a visualization system
 	- API endpoint for loading platform benefits - manual input required
-	
+
 ### Loader options
 - **CSV**
 - **JSON**
 - **Plain Log**: in case you forward logs to external systems (e.g using Splunk forwarder)
 - **Splunk**: Including an out of the box dashboard with more than 80 charts
-- **Anypoint Monitoring**: Requires Titanium subscription, dashboard is not provided 
-- Tableau: (Not available yet) 
+- **Anypoint Monitoring**: Requires Titanium subscription, dashboard is not provided
+- Tableau: (Not available yet)
 - ELK: (Not available yet)
 
 ## Available Metrics
 
 ### Platform Metrics
 
-Product | Metric | Dimensions | - 
+Product | Metric | Dimensions | -
 ------------ | ------------ | ------------ | ------------
 Access Management | Users Total | BG |
 Access Management | Active Users | BG |
@@ -141,9 +141,9 @@ Total Savings | BG
 ## Installation
 
 ### Requirements
-- Mule Runtime 4.2.1 or above 
+- Mule Runtime 4.2.1 or above
 - All deployments models are supported: CloudHub, OnPrem hosted Runtimes, Runtime Fabric
-- Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data 
+- Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data
 
 ### Steps
 
@@ -155,7 +155,7 @@ Total Savings | BG
 
 4. If you want to run the application using the poller mode, you have to configure some properties
 
-### Properties configurations 
+### Properties configurations
 
 - Default configurations defined in `/src/main/resources/properties/metrics-framework.{env}.yaml`:
 - Make sure to encrypt all sensitive data using the Secure Properties Module: https://docs.mulesoft.com/mule-runtime/4.2/secure-configuration-properties.
@@ -171,14 +171,14 @@ poller.frequency | In the case of enabling the poller, this property defines the
 aggregation.raw | Flag to define the format of the final response **False**: Won’t provide the raw data but final metrics **True**: Will provide raw data to be aggregated outside this asset | false
 loader.strategy | In the case of using the poller, this property defines the strategy for loading data in external systems, the options are: **csv, json, logger, splunk, am, elk, tableau** | logger
 anypoint.platform.host | Anypoint Platform Host. Change to eu1.anypoint.mulesoft.com if using the EU Control Plane or to a private host if using PCE | anypoint.mulesoft.com
-auth.username | Anypoint Platform username | 
-auth.password | Anypoint Platform password | 
-auth.orgId | Anypoint Platform master org Id | 
+auth.username | Anypoint Platform username |
+auth.password | Anypoint Platform password |
+auth.orgId | Anypoint Platform master org Id |
 
 ### Splunk steps
 
 1. Create 2 indexes: metrics and platform_benefits
-2. In the Splunk instance configure an HTTP Event Collector (HEC) associated to these 2 indexes, format _json 
+2. In the Splunk instance configure an HTTP Event Collector (HEC) associated to these 2 indexes, format _json
 3. The token obtained will be used as part of the properties of the Mule application
 4. Load the dashboards, simply copy the xmls provided under `/dashboards/splunk` to `{SPLUNK_HOME}/etc/apps/{APP_NAME}/local/data/ui/views`
 5. If you can't copy the dashboard xmls, you can use the UI to create them and using the "Source" option, you can copy & paste the content of the xmls provided
@@ -188,19 +188,41 @@ Follow official Splunk documentation: https://docs.splunk.com/Documentation/Splu
 #### Properties specific for Splunk
 Name | Description | Default Value
 ------------ | ------------ | ------------
-splunk.host | HTTP Event Collector (HEC) host | 
+splunk.host | HTTP Event Collector (HEC) host |
 splunk.port | HEC port | 8088
 splunk.protocol | HEC endpoint protocol: HTTPS or HTTP | HTTP
-splunk.token | HEC token  | 
+splunk.token | HEC token  |
 splunk.source | HEC source | metrics-source
 splunk.source.type | Source Type | _json
 splunk.index.metrics | Index for storing Platform operational metrics | metrics
 splunk.index.benefits | Index for storing Platform benefits | platform_benefits
 
+### ELK steps
+
+1. The Framework will load data into the `metrics` and `platformbenefits` indexes. Once data is loaded create an index pattern on Kibana for these indexes
+2. Set the loader strategy to `elk` on the `metrics-framework-{env}.yaml` file, along with the `elk.user` and `elk.password` parameters in the secure `metrics-framework-{env}.yaml` file
+3. To load the dashboards, replace the `<YOUR-INDEX-PATTERN-ID>` occurrences on all of the dashboards provided under `/dashboards/elk` with your index pattern ID. The index pattern ID can be obtained on Kibana under `Management>>Index Patterns`
+4. Log into your Kibana instance, and on the `Management>>Saved Objects` menu, click on import for each dashboard. This will import all dashboards and visualizations
+
+
+Follow official ELK documentation: https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html
+https://www.elastic.co/guide/en/kibana/current/index.html
+
+#### Properties specific for ELK
+Name | Description | Default Value
+------------ | ------------ | ------------
+elk.host | Elasticsearch host |
+elk.port | Elasticsearch port | 9200
+elk.protocol | Elasticsearch protocol: HTTP | HTTP
+elk.user | Elasticsearch username  |
+elk.password | Elasticsearch password |
+elk.index.metrics | Index for storing Platform operational metrics | metrics
+elk.index.benefits | Index for storing Platform benefits | platformbenefits
+
 ## Considerations
 
 - This application can be deployed in any Mule Runtime (OnPrem, CloudHub, RTF)
-- The metrics collection will depend on the features available in each account; e.g if the account has the API Manager add-on, the framework will collect and aggregate the metrics related to API Manager, otherwise the values will appear as zeroes; if using PCE, there won't be information about API Analytics 
+- The metrics collection will depend on the features available in each account; e.g if the account has the API Manager add-on, the framework will collect and aggregate the metrics related to API Manager, otherwise the values will appear as zeroes; if using PCE, there won't be information about API Analytics
 
 ## Some Theory around the Framework
 The framework is intended to cover the main areas to define and implement metrics using Mule.
@@ -213,9 +235,9 @@ There are several business needs around the definition of metrics. The principal
 
 Any system containing raw data
 
-### Measurements 
+### Measurements
 
-1. **Basic measurements**: 
+1. **Basic measurements**:
 
 Examples:
 - Number of projects
@@ -246,7 +268,7 @@ How to link business needs, measurements and data sources?
 
 3. **Aggregators/Transformers**: Transform (calculate, compose, enrich, build metric/event normalized/denormalized objects
 
-4. **Loaders**: Processes to send/load events into external storages/systems 
+4. **Loaders**: Processes to send/load events into external storages/systems
 
 5. **Visualization**: Third party systems for showing charts and dashboards based on metrics-events (e.g Microstrategy, Tableau, Splunk dashboards, ELK, custom dashboards, BI software, etc)
 

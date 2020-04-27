@@ -21,6 +21,9 @@
 			<when expression="#[vars.loaderDetails.strategy == 'json']">
 				<flow-ref doc:name="loader-json-main-flow" doc:id="4391eb71-d6ff-4ede-be37-4e8db692b70a" name="loader-json-main-flow"/>
 			</when>
+			<when expression="#[vars.loaderDetails.strategy == 'elk']">
+				<flow-ref doc:name="loader-elk-main-flow" doc:id="7bf1f286-f84d-4b0e-b0b3-f0fa96d57c10" name="loader-elk-main-flow"/>
+			</when>
 			<otherwise >
 				<flow-ref doc:name="loader-default-flow" doc:id="173ea082-922f-4f69-b9f3-55f9246f0291" name="loader-default-flow"/>
 			</otherwise>
@@ -44,6 +47,9 @@
 			<when expression="#[vars.loaderDetails.strategy == 'json']">
 				<flow-ref doc:name="loader-benefits-json-main-flow" doc:id="efea80f1-d2d7-4bf9-940a-2a4bac41e93a" name="loader-benefits-json-main-flow"/>
 			</when>
+			<when expression="#[vars.loaderDetails.strategy == 'elk']">
+				<flow-ref doc:name="loader-elk-main-flow" doc:id="c9706c9c-e85e-417c-a87d-90531ee0afda" name="loader-benefits-elk-main-flow"/>
+			</when>			
 			<otherwise >
 				<flow-ref doc:name="loader-default-flow" doc:id="52ba5200-2a44-4e16-83a1-76125f24fef9" name="loader-default-flow"/>
 			</otherwise>

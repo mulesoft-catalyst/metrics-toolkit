@@ -6,13 +6,41 @@
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 	
+	<http:request-config name="HTTP_ELK_Request_configuration" doc:name="HTTP Request configuration" doc:id="8eb5087d-d50a-45c5-9d1f-ebe9147bcc01">
+		<http:request-connection host="#[vars.loaderDetails.elk.host]" port="#[vars.loaderDetails.elk.port]"
+			protocol="HTTP" />
+	</http:request-config>	
 	
 	<flow name="loader-elk-main-flow" doc:id="ef10b993-2925-4b83-8b9b-83092f1e3c97">
-		<logger level="INFO" doc:name="Logger" doc:id="bc500a4d-66b9-457f-93df-f44c1066e18e" />
-	</flow>
+		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="4a78f776-bc6c-448e-a1a4-60d400625405" name="aggregator-platform-metrics-master-flow" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="fac7f40c-7e36-4d17-8c08-df196536ed6e" message="#[payload]" />
+		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="0f44c986-4495-4ca5-8db5-fc539ce2f26d" variableName="event" />
+		<set-variable value="#[vars.loaderDetails.elk.platformMetricsIndex]" doc:name="Set Index Variable" doc:id="94250b59-6b71-4e06-a803-0d308ddff7d6"
+			variableName="index" />
+		<flow-ref doc:name="ELK Flow Reference" doc:id="ab2afc39-8e58-4878-85af-9973911f547c" name="elk-loader-flow" />
+		</flow>
 	
 	<flow name="loader-benefits-elk-main-flow" doc:id="994a4062-ea71-4212-8017-bb1afeff4ade">
-		<logger level="INFO" doc:name="Logger" doc:id="0905d645-c1aa-4e8c-9886-f5cf530ff8a8" />
+		<flow-ref doc:name="Aggregate Platform Benefits Flow Reference" doc:id="da93546f-96c4-48ab-8787-ba1cad43efbe" name="aggregator-platform-benefits-master-flow"/>
+		<logger level="DEBUG" doc:name="Logger" doc:id="ff5189f5-84fa-4fbb-9b02-034a2cf09a62" message="#[payload]" />
+		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="b41f1e53-dcfb-4051-835f-5a940a9ffa37" variableName="event" />
+		<set-variable value="#[vars.loaderDetails.elk.platformBenefitsIndex]" doc:name="Set Index Variable" doc:id="912c41c9-2ff6-410b-b4bd-6a3633a1fa0a" variableName="index" />
+		<flow-ref doc:name="ELK Flow Reference" doc:id="1904fc24-d853-4327-9ab9-bd448efe8835" name="elk-loader-flow" />
+	</flow>
+	<flow name="elk-loader-flow" doc:id="25af15cd-3600-4c54-9bbc-7ff34b691a88" >
+		<ee:transform doc:name="Build ELK Request" doc:id="5d244fb2-4857-465b-bfa9-a1b043c53a80" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/x-ndjson
+---
+flatten(payload map ((v,k) -> 
+	[{index: {}}] ++ 
+	[{ (v) }]
+	)
+)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<http:request method="POST" doc:name="Build HTTP Request" doc:id="f98fcdf0-fd8f-4b2c-b027-90473c432fc5" config-ref="HTTP_ELK_Request_configuration" path="#['/$(vars.loaderDetails.elk.platformMetricsIndex)/_bulk']"/>
 	</flow>
 	
 
