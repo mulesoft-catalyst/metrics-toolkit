@@ -2,15 +2,20 @@ http:
   port: "8081"
   
 poller:
-  enabled: "false"
-  frequency: "480" #minutes
+  enabled: "true"
+  frequency: 
+    cron: "0 0 0 * * ? *" 
+    #Sample for dev "0 17 * * * ? *" At second :00 of minute :17 of every hour
+    #Sample for prod "0 0 0 * * ? *" At 00:00:00am every day
+    #https://www.freeformatter.com/cron-expression-generator-quartz.html
+    timezone: "GMT-3"
   
 aggregation:
   raw: "false"
   
 loader:
   strategy: "logger"
-    
+  
 splunk:
   host: "splunk-metrics.env.services.mulesoft.com"
   port: "8088"
@@ -20,6 +25,43 @@ splunk:
   index:
     metrics: "metrics"
     benefits: "platform_benefits"
+    
+elk:
+  host: "localhost"
+  port: "9200"
+  protocol: "HTTP"
+  index:
+    metrics: "metrics"
+    benefits: "platformbenefits"     
 
 tableau:
   path: "/test-tableau.json"
+
+# SDLC Metrics
+sdlc:
+  confluence:
+    enabled: "false" #Set this to true if confluence metrics is required
+    host: "test.atlassian.net"
+    port: "443"
+    path: "/wiki/rest/api/content/search?next=true&limit=1000&cql=%28type=page%20and%20space=%27MUL%27%29&expand=version,history,history.lastUpdated"
+  bitbucket:
+    enabled: "false" #Set this to false if bitbucket metrics is required
+    host: "api.bitbucket.org"
+    port: "443"
+    path: "/2.0/repositories/fm_ebiz?q=project.key=%22MUL%22"
+  jira:
+    enabled: "false" #Set this to false if jira metrics is required
+    host: "test.atlassian.net"
+    port: "443"
+    path: "/rest/api/2/search?maxResults=100&jql=project+%3D+Integrations+AND+sprint+IN+openSprints()"
+    backlogPath: "/rest/api/2/search?jql=project%20%3D%20Integrations%20AND%20%28Sprint%20%3D%20EMPTY%20OR%20Sprint%20in%20futureSprints%28%29%29%20AND%20issuetype%20%21%3D%20Epic"
+  jenkins:
+    enabled: "false" #Set this to false if jenkins metrics is required
+    host: "jenkins.test.net"
+    port: "443"
+    path: "/jenkins/view/9_MULE_4/api/json"
+  splunk:
+    enabled: "false" #Set this to false if splunk metrics is required
+    host: "test.splunk.com"
+    port: "8089"
+    path: "/servicesNS/nobody/mulesoft/data/ui/views?count=-0"
