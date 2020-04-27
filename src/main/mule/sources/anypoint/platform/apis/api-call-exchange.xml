@@ -10,7 +10,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<logger level="DEBUG" doc:name="Logger" doc:id="c04d063d-9f26-41c8-9f2c-efd64bc5a457" message="Calling Exchange - Assets" />
 		<ee:transform doc:name="Set GraphQL Query" doc:id="17f03534-c094-40bf-a0f9-c16770263fc0" >
 			<ee:variables >
-				<ee:set-variable resource="anypoint-exchange-build-graphql-query.dwl" variableName="graphqlQuery" />
+				<ee:set-variable resource="dw/anypoint/anypoint-exchange-build-graphql-query.dwl" variableName="graphqlQuery" />
 			</ee:variables>
 		</ee:transform>
 		<http:request method="POST" doc:name="Get Assets" doc:id="8bc85d2b-02cc-4aa4-b430-5f59fe7ba99c" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.exchange.graphql.path}" >
