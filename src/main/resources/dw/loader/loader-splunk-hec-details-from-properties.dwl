@@ -19,6 +19,14 @@ var strategy = p('loader.strategy')
   		case "tableau" -> tableau: {
   			path: p('tableau.path')
   		}
+  		case "elk" -> elk: {
+  			host: p('elk.host'),
+  			port: p('elk.port'),
+  			user: p('secure::elk.user'),
+  			password: p('secure::elk.password'),
+  			platformMetricsIndex: p('elk.index.metrics'),
+			platformBenefitsIndex: p('elk.index.benefits'),		
+  		}
   		else -> {}
 	})
 }
