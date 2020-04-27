@@ -6,7 +6,7 @@
 	<flow name="metrics-framework-poller-flow" doc:id="e1266183-c6b3-477b-9ded-da55dd9032fa" >
 		<scheduler doc:name="Scheduler" doc:id="bb3cd2a8-90a1-4492-a52d-322485a0f93c" >
 			<scheduling-strategy >
-				<fixed-frequency frequency="${poller.frequency}" timeUnit="MINUTES"/>
+				<cron expression="${poller.frequency.cron}" timeZone="${poller.frequency.timezone}"/>
 			</scheduling-strategy>
 		</scheduler>
 		<choice doc:name="Choice" doc:id="e5805079-479d-4523-b8f3-3b6a4a3c8246" >
