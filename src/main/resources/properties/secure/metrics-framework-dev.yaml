@@ -5,3 +5,7 @@ auth:
     
 splunk:
   token: "![yqKEWZ57M3XUasumfcwhV5A3JMblY6G4MCwHM5j5VuA=]"
+  
+elk:
+  user: "user"
+  password: "password"
