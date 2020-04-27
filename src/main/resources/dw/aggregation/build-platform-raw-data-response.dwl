@@ -12,6 +12,7 @@ var cloudHubApps = payload[0].payload.payload
 var exchangeAssets = payload[1].payload
 var apiManagerApis = payload[2].payload.payload
 var members = payload[3].payload[0].payload
+var rolegroups = payload[3].payload[2].payload.data
 var usage = payload[3].payload[1].payload
 var designCenterProjects = payload[4].payload
 var apiClients = payload[5].payload.applications
@@ -30,6 +31,7 @@ var analyticsQueryResult = payload[9].payload.payload
 	coreServicesData: {
 		entitlements: entitlements,
 		users: members.data,
+		rolegroups: rolegroups,
 		usage: usage,
 		environments: environments
 	},
