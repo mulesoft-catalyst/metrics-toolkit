@@ -86,6 +86,29 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<logger level="DEBUG" doc:name="Logger" doc:id="6cab5b2d-cbdb-46eb-81b5-e4fd877beb10" message='#["Coreservices - Members, Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 	
+	<flow name="api-call-coreservices-rolegroups" doc:id="1bb94c6a-d222-4874-b208-4d0e8a7eacf8">
+		<logger level="DEBUG" doc:name="Logger" doc:id="afd73d5a-20ed-4091-89fd-153a37c6881e" message="Calling Coreservices - RoleGroups" />
+		<http:request method="GET" doc:name="Get RoleGroups Request" doc:id="78a8cbb4-8721-4a52-b01a-96c0e40ce173" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.coreservices.rolegroups.path}">
+		<http:headers><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.token
+}]]]></http:headers>
+			<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"orgId" : vars.orgId
+}]]]></http:uri-params>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"offset" : p('anypoint.platform.apis.coreservices.rolegroups.offset'),
+	"limit" : p('anypoint.platform.apis.coreservices.rolegroups.limit')
+}]]]></http:query-params>
+		</http:request>
+		<logger level="DEBUG" doc:name="Logger" doc:id="456a9478-33f7-4bc8-b9be-07f971121f85" message='#["Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+	
 	<flow name="api-call-coreservices-organizations-flow" doc:id="cef7e93b-b2dc-4ff3-8cf4-582ead99cfcc" maxConcurrency="${anypoint.platform.apis.coreservices.maxConcurrency}">
 		<logger level="DEBUG" doc:name="Logger" doc:id="224fabbf-19d2-4f85-894f-85e95170afe9" message="Calling Coreservices - Hierarchy" />
 		<http:request method="GET" doc:name="Get Hierarchy Request" doc:id="dc7dbe11-676b-4de2-8622-21a22e01f67a" config-ref="HTTP_Request_configuration"

@@ -17,6 +17,10 @@ anypoint:
           path: "/accounts/api/organizations/{orgId}/members"
           limit: "1000"
           offset: "0"
+        rolegroups:
+          path: "/accounts/api/organizations/{orgId}/rolegroups"
+          limit: "1000"
+          offset: "0"
       cloudhub:
         maxConcurrency: "100"
         apps:
