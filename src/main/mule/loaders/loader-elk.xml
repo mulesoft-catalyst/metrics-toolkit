@@ -30,14 +30,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<flow name="elk-loader-flow" doc:id="25af15cd-3600-4c54-9bbc-7ff34b691a88" >
 		<ee:transform doc:name="Build ELK Request" doc:id="5d244fb2-4857-465b-bfa9-a1b043c53a80" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/x-ndjson
----
-flatten(payload map ((v,k) -> 
-	[{index: {}}] ++ 
-	[{ (v) }]
-	)
-)]]></ee:set-payload>
+				<ee:set-payload resource="dw/loader/loader-elk-build-structure.dwl" />
 			</ee:message>
 		</ee:transform>
 		<http:request method="POST" doc:name="Build HTTP Request" doc:id="f98fcdf0-fd8f-4b2c-b027-90473c432fc5" config-ref="HTTP_ELK_Request_configuration" path="#['/$(vars.loaderDetails.elk.platformMetricsIndex)/_bulk']"/>
