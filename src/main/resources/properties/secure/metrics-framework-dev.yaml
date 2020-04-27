@@ -9,3 +9,21 @@ splunk:
 elk:
   user: "user"
   password: "password"
+
+# SDLC Metrics
+sdlc:
+  confluence:
+    user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+    token: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+  bitbucket:
+    user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+    token: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+  jira:
+    user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+    token: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+  jenkins:
+    user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+    token: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+  splunk:
+    user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+    password: "![0CXQwZBMmw43vtBN7jyoRQ==]"
