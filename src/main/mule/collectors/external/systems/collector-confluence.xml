@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="collector-confluence-metrics-flow" doc:id="2eb78f1c-917e-4f91-a345-e305670e7963">
+		<choice doc:name="Choice" doc:id="8a567c3a-7fd2-448e-ae59-5f3b519e3ef2" >
+			<when expression="#[p('sdlc.confluence.enabled') == &quot;true&quot;]">
+				<flow-ref doc:name="api-call-confluence-apps-flow" doc:id="38122f36-b606-4052-9d67-f2853edc73aa" name="api-call-confluence-apps-flow" />
+			</when>
+			<otherwise >
+				<set-payload value="#[null]" doc:name="Set Payload" doc:id="c819b0bc-4d8e-48da-af9d-f56c5beaf636" />
+			</otherwise>
+		</choice>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="393b91e9-a1f9-480b-aa5a-d797daf32046" >
+				<logger level="WARN" doc:name="Logger" doc:id="fdab06d6-99ce-49e0-8e13-355aef9f48d7" message="'Not able to get Confluence metrics'"/>
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable" doc:id="54e95770-5442-429f-bb81-3c960ba7bd6c" variableName="errors"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>
