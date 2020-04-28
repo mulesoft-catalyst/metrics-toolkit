@@ -1,18 +1,52 @@
+Table of Contents
+=================
+
+   * [Table of Contents](#table-of-contents)
+   * [Metrics Framework](#metrics-framework)
+      * [Features](#features)
+         * [Modes](#modes)
+         * [Loader options](#loader-options)
+      * [Available Metrics](#available-metrics)
+         * [Platform Metrics](#platform-metrics)
+         * [Platform Benefits](#platform-benefits)
+         * [SDLC Metrics](#sdlc-metrics)
+      * [Installation](#installation)
+         * [Requirements](#requirements)
+         * [Steps](#steps)
+         * [Properties configurations](#properties-configurations)
+            * [SDLC metrics collectors properties configuration](#sdlc-metrics-collectors-properties-configuration)
+         * [Splunk steps](#splunk-steps)
+            * [Properties specific for Splunk](#properties-specific-for-splunk)
+         * [ELK steps](#elk-steps)
+            * [Properties specific for ELK](#properties-specific-for-elk)
+      * [Considerations](#considerations)
+      * [Some Theory around the Framework](#some-theory-around-the-framework)
+         * [Business Needs](#business-needs)
+         * [Data Sources](#data-sources)
+         * [Measurements](#measurements)
+         * [Problem Space](#problem-space)
+         * [Approach - Conceptual](#approach---conceptual)
+         * [Approach](#approach)
+            * [Conceptual](#conceptual)
+            * [Detailed](#detailed)
+      * [Final Notes](#final-notes)
+      
 # Metrics Framework
-The metrics framework is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance for extending this, contact MuleSoft Professional Services
+The metrics framework is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. In addition to the platform metrics, the framework also extends the capabilities to integrate with external applications like Jira, Confluence, Jenkins, Bitbucket and Splunk to gather SDLC metrics. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance for extending this, contact MuleSoft Professional Services
 
 ## Features
 - Compact Mule application (1 single application)
 - Provides more than 100 metrics from 2 complementary domains:
 	- **Platform Operational Metrics**: collected and calculated automatically based on multiple products from Anypoint Platform: Exchange, Design Center, Runtime Manager, Access Management; covering metrics from applications deployed on-prem (Standalone), RTF and CloudHub.
 	- **Platform Benefits**: require manual input to calculate final metrics, crossing information from the "Platform Operational" domain
+	- **External sdlc Metrics**: collected and calculated automatically based on multiple external applications: Jira, Confluence, Jenkins, Bitbucket and Splunk; 
 
 ![Domains](/img/domains.png)
 
 ### Modes
 - Poller (Push mode)
 	- Collects, transforms and loads metrics in a defined visualization system
-	- Configurable - frequency and status (enabled/disabled).
+	- Configurable - frequency (cron expression and timezone ) and status (enabled/disabled).
 
 - API to manage the asset:
 	- API endpoint to obtain metrics on-demand (Pull mode)
@@ -23,10 +57,10 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 - **CSV**
 - **JSON**
 - **Plain Log**: in case you forward logs to external systems (e.g using Splunk forwarder)
-- **Splunk**: Including an out of the box dashboard with more than 80 charts
+- **Splunk**: Including an out of the box dashboard with more than 100 charts
+- **ELK**: Including out of the box, basic, Kibana dashboards
 - **Anypoint Monitoring**: Requires Titanium subscription, dashboard is not provided
 - Tableau: (Not available yet)
-- ELK: (Not available yet)
 
 ## Available Metrics
 
@@ -104,13 +138,12 @@ RuntimeManager - CloudHub - Applications | Runtime Versions Used Total | BG, Env
 RuntimeManager - RTF - Capacity | Fabrics Total | BG |
 RuntimeManager - RTF - Capacity | Workers Total | BG |
 RuntimeManager - RTF - Capacity | Controllers Total | BG |
-RuntimeManager - RTF - Capacity | Cores Total | BG |
-RuntimeManager - RTF - Capacity | Memory Total | BG |
-RuntimeManager - RTF - Capacity | Cores Per Fabric Average | BG |
-RuntimeManager - RTF - Capacity | Memory Per Fabric Average | BG |
-RuntimeManager - RTF - Applications | Cores Used Total | BG, Environment |
-RuntimeManager - RTF - Applications | Cores Reserved Total | BG, Environment |
-RuntimeManager - RTF - Applications | Memory Used Total | BG, Environment |
+RuntimeManager - RTF - Capacity | Cores Allocated Total | BG |
+RuntimeManager - RTF - Capacity | Memory Allocated Total | BG |
+RuntimeManager - RTF - Capacity | Cores Allocated Per Fabric Average | BG |
+RuntimeManager - RTF - Capacity | Memory Allocated Per Fabric Average | BG |
+RuntimeManager - RTF - Applications | Cores Allocated Total | BG, Environment |
+RuntimeManager - RTF - Applications | Memory Allocated Total | BG, Environment |
 RuntimeManager - RTF - Applications | Applications Total | BG, Environment |
 RuntimeManager - RTF - Applications | Applications Started Total | BG, Environment |
 RuntimeManager - RTF - Applications | Applications Stopped Total | BG, Environment |
@@ -138,12 +171,34 @@ Savings From Maintenance Productivity | BG
 Savings From Reuse in Maintenance | BG
 Total Savings | BG
 
+### SDLC Metrics
+
+**These metrics are optional and can be cherry picked as per your requirement**
+
+Name | Metric
+------------ | ------------
+BitBucket | Total Number of BitBucket Repositories
+Confluence | Total Number of Confluence pages
+Confluence | Total Number of Confluence pages created in the last 30 days
+Confluence | Total Number of Confluence pages updated in the last 30 days
+Confluence | Top Contributors in the last 30 days and associated number of pages created
+Jenkins | Total Number of Jenkins jobs
+Jenkins | Total Number of failed Jenkins jobs
+Jenkins | Total Number of successful Jenkins jobs
+Jenkins | Total Number of unexecuted Jenkins jobs
+Jira | Total Number of Jira stories in the backlog
+Jira | Total Number of Jira stories in the current sprint
+Jira | Jira stories categorized by type and associated count in the current sprint
+Jira | Jira stories categorized by status and associated count in the current sprint
+Splunk | Total Number of Splunk dashboards
+
 ## Installation
 
 ### Requirements
 - Mule Runtime 4.2.1 or above
 - All deployments models are supported: CloudHub, OnPrem hosted Runtimes, Runtime Fabric
-- Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data
+- Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data 
+- (Optional for SDLC metrics) Authorized user with API access to any of the applications: Jira, Confluence, Jenkins, Bitbucket and Splunk for which you want to gather data. 
 
 ### Steps
 
@@ -163,17 +218,54 @@ Total Savings | BG
 - Example `mule.key` used and configured as a Global Property under `global.xml` file
 
 
-Name | Description | Default Value
------------- | ------------ | ------------
+Name | Description | Default Value 
+------------ | ------------ | ------------ 
 http.port | The port for exposing the metrics-framework API | 8081
 poller.enabled | Property to enable or disable the poller to collect and load metrics in external systems | false
-poller.frequency | In the case of enabling the poller, this property defines the scheduler frequency in minutes: Recommended to collect metrics once a day | 480
+poller.frequency.cron | Defines the exact frequency (using cron-expressions) to trigger the execution: Recommended to collect metrics once a day | 0 0 0 \* \* ? \*
+poller.frequency.timezone | Defines the time zone in which the cron-expression will be efective | GMT-3
 aggregation.raw | Flag to define the format of the final response **False**: Won’t provide the raw data but final metrics **True**: Will provide raw data to be aggregated outside this asset | false
 loader.strategy | In the case of using the poller, this property defines the strategy for loading data in external systems, the options are: **csv, json, logger, splunk, am, elk, tableau** | logger
 anypoint.platform.host | Anypoint Platform Host. Change to eu1.anypoint.mulesoft.com if using the EU Control Plane or to a private host if using PCE | anypoint.mulesoft.com
-auth.username | Anypoint Platform username |
-auth.password | Anypoint Platform password |
-auth.orgId | Anypoint Platform master org Id |
+auth.username | Anypoint Platform username | 
+auth.password | Anypoint Platform password | 
+auth.orgId | Anypoint Platform master org Id | 
+ignoreLists.organizations | An array (comma-separated values) of Anypoint Platform sub-organizations id that will be ignored while retrieving metrics e.g "cdfa4e7d-47cd-n1h1-8f39-6a73fbb9ffcb, cdfa4e7d-47cd-n2h2-8f39-6a73fbb9ffcb" | 
+
+#### SDLC metrics collectors properties configuration
+Name | Description | Default Value
+------------ | ------------ | ------------
+sdlc.confluence.enabled | Property to enable or disable application to collect metrics from Confluence | false
+sdlc.confluence.host | Confluence server host | 
+sdlc.confluence.port | Confluence server port | 
+sdlc.confluence.path | Context url of the [Confluence REST API](https://developer.atlassian.com/cloud/confluence/rest/)  | 
+sdlc.confluence.user | Authorized Confluence user to access REST APIs | 
+sdlc.confluence.token | User token to access REST APIs | 
+sdlc.bitbucket.enabled | Property to enable or disable application to collect metrics from Bitbucket | false
+sdlc.bitbucket.host | Bitbucket server host | 
+sdlc.bitbucket.port | Bitbucket server port | 
+sdlc.bitbucket.path | Context url of the [Bitbucket REST API](https://developer.atlassian.com/bitbucket/api/2/reference/resource/)  | 
+sdlc.bitbucket.user | Authorized Bitbucket user to access REST APIs | 
+sdlc.bitbucket.token | User token to access REST APIs | 
+sdlc.jira.enabled | Property to enable or disable application to collect metrics from Jira | false
+sdlc.jira.host | Jira server host | 
+sdlc.jira.port | Jira server port | 
+sdlc.jira.path | Context url of the [Jira REST API](https://developer.atlassian.com/cloud/jira/platform/rest/v2/)  | 
+sdlc.jira.backlogPath | Context url of the [Jira REST API](https://developer.atlassian.com/cloud/jira/platform/rest/v2/) to fetch stories from backlog  | 
+sdlc.jira.user | Authorized Jira user to access REST APIs | 
+sdlc.jira.token | User token to access REST APIs | 
+sdlc.jenkins.enabled | Property to enable or disable application to collect metrics from Jenkins | false
+sdlc.jenkins.host | Jenkins server host | 
+sdlc.jenkins.port | Jenkins server port | 
+sdlc.jenkins.path | Context url of the [Jenkins REST API](https://wiki.jenkins.io/display/JENKINS/Remote+access+API)  | 
+sdlc.jenkins.user | Authorized Jenkins user to access REST APIs | 
+sdlc.jenkins.token | User token to access REST APIs | 
+sdlc.splunk.enabled | Property to enable or disable application to collect metrics from Splunk | false
+sdlc.splunk.host | Splunk server host | 
+sdlc.splunk.port | Splunk server port | 
+sdlc.splunk.path | Context url of the [Splunk REST API](https://docs.splunk.com/Documentation/Splunk/8.0.3/RESTTUT/RESTandCloud)  | 
+sdlc.splunk.user | Authorized Splunk user to access REST APIs | 
+sdlc.splunk.password | Password to access REST APIs | 
 
 ### Splunk steps
 
@@ -280,5 +372,5 @@ How to link business needs, measurements and data sources?
 #### Detailed
 ![Implementation Approach](/img/implementation_approach.png)
 
-## Final Note
+## Final Notes
 Enjoy and provide feedback / contribute :)
