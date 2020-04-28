@@ -7,8 +7,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 	
 	<http:request-config name="HTTP_ELK_Request_configuration" doc:name="HTTP Request configuration" doc:id="8eb5087d-d50a-45c5-9d1f-ebe9147bcc01">
-		<http:request-connection host="#[vars.loaderDetails.elk.host]" port="#[vars.loaderDetails.elk.port]"
-			protocol="HTTP" />
+		<http:request-connection host="#[vars.loaderDetails.elk.host]" port="#[vars.loaderDetails.elk.port]">
+			<http:authentication >
+				<http:basic-authentication username="${secure::elk.user}" password="${secure::elk.password}" />
+			</http:authentication>
+		</http:request-connection>
 	</http:request-config>	
 	
 	<flow name="loader-elk-main-flow" doc:id="ef10b993-2925-4b83-8b9b-83092f1e3c97">
