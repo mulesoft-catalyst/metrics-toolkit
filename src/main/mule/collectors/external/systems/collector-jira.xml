@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
-	<flow name="collector-jira-metrics-flow" doc:id="bf8d2beb-3d64-47a6-84db-b21edc049855" >
-		<logger level="INFO" doc:name="Logger" doc:id="67512d45-1a0a-4159-824f-339ba1047f2c" message="Collector Not Implemented"/>
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="collector-jira-metrics-stories-flow" doc:id="138c01ae-fcbf-417f-814a-bccb5add66b8">
+		<choice doc:name="Choice" doc:id="619483d9-4fc6-4030-bec2-def625acbbd5" >
+			<when expression="#[p('sdlc.jira.enabled') == &quot;true&quot;]">
+				<scatter-gather doc:name="Scatter-Gather" doc:id="f8b3c308-a777-430d-8072-1bace9ef8630" >
+					<route >
+						<flow-ref doc:name="api-call-jira-metrics-stories-flow" doc:id="e56f4aee-a46c-4de9-9a7d-f6125467814f" name="api-call-jira-metrics-stories-flow" />
+					</route>
+					<route >
+						<flow-ref doc:name="api-call-jira-metrics-backlog-items-flow" doc:id="0faaa687-0352-461a-a409-54fbd87521f5" name="api-call-jira-metrics-backlog-items-flow"/>
+					</route>
+				</scatter-gather>
+			</when>
+			<otherwise >
+				<set-payload value="#[null]" doc:name="Set Payload" doc:id="e56294e2-5dad-4655-a63b-4b0406140733" />
+			</otherwise>
+		</choice>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="abc3d23f-1f8a-490b-b5d0-ccd653944f5b" >
+				<logger level="WARN" doc:name="Logger" doc:id="097ecd5e-9616-4543-b9ba-ab73866c4e1c" message="'Not able to get Jira metrics'"/>
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable" doc:id="55929f44-c4ca-4789-9ec3-fdeb048c9303" variableName="errors"/>
+			</on-error-continue>
+		</error-handler>
 	</flow>
+	
 </mule>

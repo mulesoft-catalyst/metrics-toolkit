@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	
+	<flow name="aggregator-sdlc-metrics-main-flow" doc:id="035b11dd-8231-4603-9415-2cd60e6f29c9">
+<!-- 		<flow-ref doc:name="Environments Flow Reference" doc:id="add52fb3-8315-4b66-b9b8-7d28e00a9176" name="api-call-coreservices-environments-flow" target="environments" targetValue="#[payload.data[?$.isProduction]]"/> -->
+		<set-variable value="#[now()]" doc:name="Set Date Variable" doc:id="c4334274-1d59-41fc-b4f4-2a14b494cc18" variableName="date"/>
+		<set-variable value="#[[]]" doc:name="Set Errors Variable" doc:id="63324da3-1a14-434b-b284-3b7f287ff7cd" variableName="errors"/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="65b24f17-e389-4517-8ccd-87368bf2bf7f">		
+			<route>
+				<flow-ref doc:name="Bitbucket Metrics Flow Reference" doc:id="0c967cac-dfea-4eda-844f-066675186028" name="collector-bitbucket-metrics-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="Confluence Metrics Flow Reference" doc:id="bd2036bc-e93a-4dad-8ff3-4e750112c0e2" name="collector-confluence-metrics-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="Jenkins Metrics Flow Reference" doc:id="494d817f-5244-4218-bb30-79793ce355fd" name="collector-jenkins-metrics-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="JIRA Metrics Flow Reference" doc:id="d42691e3-59fd-475b-a4ef-25b62a046c34" name="collector-jira-metrics-stories-flow" />
+			</route>
+			<route>
+				<flow-ref doc:name="Splunk Metrics Flow Reference" doc:id="d27ee5f5-d6a3-4d16-bc9c-c3d22befbdc9" name="collector-splunk-metrics-flow" />
+			</route>
+		</scatter-gather>
+		<choice doc:name="Choice" doc:id="75ce7330-61e0-41b6-93bc-e23a95b7a015" >
+			<when expression="#[vars.rawData]" >
+				<ee:transform doc:name="Build Raw Data Response" doc:id="9a13fe26-670a-4ea5-9031-a9286693506b" >
+					<ee:message >
+						<ee:set-payload resource="dw/aggregation/build-sdlc-raw-data-response.dwl" />
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Build SDLC Aggregated Response" doc:id="4005312f-dfbe-47ce-aa28-e9f6959f06c3" >
+					<ee:message >
+						<ee:set-payload resource="dw/aggregation/build-sdlc-metrics-aggregation.dwl" />
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+	</flow>
+	
+
+</mule>
