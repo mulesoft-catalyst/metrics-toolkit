@@ -62,5 +62,35 @@
         <option name="height">251</option>
       </chart>
     </panel>
+    <panel>
+      <title>Runtime Manager - CloudHub - DLBs by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - CloudHub - DLBs by Status - Current</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.networking.dlbsAvailable) as available, values(runtimeManagerMetrics.cloudhub.networking.dlbsUsed) as used | stats max(available) as "Available", max(used) as "Used" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Runtime Manager - CloudHub - Static IPs by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - CloudHub - Static IPs by Status - Current</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.networking.staticIPsAvailable) as available, values(runtimeManagerMetrics.cloudhub.networking.staticIPs) as used | stats max(available) as "Available", max(used) as "Used" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
   </row>
 </form>

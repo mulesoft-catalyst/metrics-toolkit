@@ -12,14 +12,16 @@ var cloudHubApps = payload[0].payload.payload
 var exchangeAssets = payload[1].payload
 var apiManagerApis = payload[2].payload.payload
 var members = payload[3].payload[0].payload
+var rolegroups = payload[3].payload[2].payload.data
 var usage = payload[3].payload[1].payload
 var designCenterProjects = payload[4].payload
 var apiClients = payload[5].payload.applications
 var apiAutomatedPolicies = payload[6].payload.payload
-var armApps = payload[7].payload[0].payload.payload
+var armDeployments = payload[7].payload[0].payload.payload
 var armServers = payload[7].payload[1].payload.payload
 var armClusters = payload[7].payload[2].payload.payload
 var armServerGroups = payload[7].payload[3].payload.payload
+var armApps = payload[7].payload[4].payload.payload
 var rtf = payload[8].payload
 var analyticsQueryResult = payload[9].payload.payload
 ---
@@ -30,6 +32,7 @@ var analyticsQueryResult = payload[9].payload.payload
 	coreServicesData: {
 		entitlements: entitlements,
 		users: members.data,
+		rolegroups: rolegroups,
 		usage: usage,
 		environments: environments
 	},
@@ -44,6 +47,7 @@ var analyticsQueryResult = payload[9].payload.payload
 	runtimeManagerData: {
 		cloudHubApps: cloudHubApps,
 		rtf: rtf,
+		armDeployments: armDeployments,
 		armApps: armApps,
 		armServers: armServers,
 		armClusters: armClusters,

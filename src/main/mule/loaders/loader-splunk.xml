@@ -38,6 +38,14 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 			variableName="index" />
 		<flow-ref doc:name="Splunk HEC Flow Reference" doc:id="625cfc31-388f-4b74-8ab7-ec759ab9966b" name="splunk-hec-loader-flow" />
 	</flow>
+	
+	<flow name="loader-sdlc-splunk-hec-main-flow" doc:id="6a55ac3a-9666-4734-af8d-bf5077a89449">
+		<flow-ref doc:name="Aggregate SDLC Flow Reference" doc:id="b4a22370-8149-4a5d-bd99-a5d226d88b49" name="aggregator-sdlc-metrics-main-flow" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="a1551ebb-2744-423a-a729-0fbc4b542f1b" message="#[payload]" />
+		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="1efa7905-5dbf-4322-8ac7-e752e3f65128" variableName="event" />
+		<set-variable value="#[vars.loaderDetails.splunk.platformBenefitsIndex]" doc:name="Set Index Variable" doc:id="0c492689-5104-4053-aca1-5468d84dcedd" variableName="index"/>
+		<flow-ref doc:name="Splunk HEC Flow Reference" doc:id="908850aa-3c8e-4ddf-8d83-c22f7399913b" name="splunk-hec-loader-flow" />
+	</flow>
 
 	<flow name="splunk-hec-loader-flow" doc:id="8f05b352-bfee-4162-997b-08b922501590">
 		<ee:transform doc:name="Build Splunk HEC Request" doc:id="8884d8cc-4705-4fcf-b6b1-b9fd837536ba">
