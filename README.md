@@ -36,7 +36,7 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 
 ## Features
 - Compact Mule application (1 single application)
-- Provides more than 100 metrics from 2 complementary domains:
+- Provides more than 100 metrics from 3 complementary domains:
 	- **Platform Operational Metrics**: collected and calculated automatically based on multiple products from Anypoint Platform: Exchange, Design Center, Runtime Manager, Access Management; covering metrics from applications deployed on-prem (Standalone), RTF and CloudHub.
 	- **Platform Benefits**: require manual input to calculate final metrics, crossing information from the "Platform Operational" domain
 	- **External sdlc Metrics**: collected and calculated automatically based on multiple external applications: Jira, Confluence, Jenkins, Bitbucket and Splunk; 
