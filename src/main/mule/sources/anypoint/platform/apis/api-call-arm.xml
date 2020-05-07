@@ -87,7 +87,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 }]]]></http:uri-params>
 		
 		</http:request>
-		<logger level="DEBUG" doc:name="Logger" doc:id="23ab0941-f417-425d-a07c-8bd1c41a30b8" message='#["ARM - Deployments, Response Status Code:" ++ attributes.statusCode]' />
+		<logger level="DEBUG" doc:name="Logger" doc:id="23ab0941-f417-425d-a07c-8bd1c41a30b8" message='#["ARM - Deployments, Response Status Code:" ++ attributes.statusCode]' />		
 	</flow>
 	
 	<flow name="api-call-arm-deployment-flow" doc:id="8cc0a05d-1b91-4ee7-b849-2fdb1d45fe5a" maxConcurrency="${anypoint.platform.apis.arm.maxConcurrency}">
