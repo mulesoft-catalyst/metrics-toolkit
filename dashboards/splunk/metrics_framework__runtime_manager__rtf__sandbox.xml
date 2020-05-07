@@ -68,6 +68,41 @@
   </row>
   <row>
     <panel>
+      <title>Runtime Manager - RTF - Memory reserved total - Sandbox - Current Count</title>
+      <single>
+        <title>Runtime Manager - RTF - Memory reserved total - Sandbox - Current Count</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.applications.sandbox.memoryReserved) as total | stats max(total) as "memory"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">GBs</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - RTF - Memory reserved - Sandbox - Timeline</title>
+      <chart>
+        <title>Runtime Manager - RTF - Memory reserved - Sandbox - Timeline</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(runtimeManagerMetrics.rtf.applications.sandbox.memoryReserved) as "memory reserved" by _time, businessGroup</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">minmax</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
       <title>Runtime Manager - Sandbox - RTF - Runtime versions used - Current Count</title>
       <single>
         <title>Runtime Manager - Sandbox - RTF - Runtimes versions used - Current Count</title>
