@@ -78,9 +78,9 @@ var errors = vars.errors
 				apisWithMoreThanOneConsumer: 0,
 				apisWithOneOrMoreConsumers: 0,
 				contracts: 0,
-				policiesUsed: 0,
+				policiesUsed: [],
 				policiesUsedTotal: 0,
-				automatedPoliciesUsed: 0,
+				automatedPoliciesUsed: [],
 				automatedPoliciesUsedTotal: 0,
 				transactions: 0 //last x days on the period collected
 			
@@ -100,9 +100,9 @@ var errors = vars.errors
 				apisWithMoreThanOneConsumer: 0,
 				apisWithOneOrMoreConsumers: 0,
 				contracts: 0,
-				policiesUsed: 0,
+				policiesUsed: [],
 				policiesUsedTotal: 0,
-				automatedPoliciesUsed: 0,
+				automatedPoliciesUsed: [],
 				automatedPoliciesUsedTotal: 0,
 				transactions: 0 //last x days on the period collected
 			}	
@@ -133,7 +133,7 @@ var errors = vars.errors
 					applicationsTotal: 0,
 					applicationsStarted: 0,
 					applicationsStopped: 0,
-					runtimesUsed: 0,
+					runtimesUsed: [],
 					runtimesUsedTotal: 0
 				},
 				sandbox:{
@@ -143,7 +143,7 @@ var errors = vars.errors
 					applicationsTotal: 0,
 					applicationsStarted: 0,
 					applicationsStopped: 0,
-					runtimesUsed: 0,
+					runtimesUsed: [],
 					runtimesUsedTotal: 0
 				}
 			}
@@ -169,7 +169,7 @@ var errors = vars.errors
 					applicationsTotal: 0,
 					applicationsStarted: 0,
 					applicationsStopped: 0,
-					runtimesUsed: 0,
+					runtimesUsed: [],
 					runtimesUsedTotal: 0
 
 					
@@ -184,7 +184,7 @@ var errors = vars.errors
 					applicationsTotal: 0,
 					applicationsStarted: 0,
 					applicationsStopped: 0,
-					runtimesUsed: 0,
+					runtimesUsed: [],
 					runtimesUsedTotal: 0
 				}	
 			}
@@ -197,7 +197,7 @@ var errors = vars.errors
 				applicationsTotal: 0,
 				applicationsStarted: 0,
 				applicationsStopped: 0,
-				runtimesUsed: 0,
+				runtimesUsed: [],
 				runtimesUsedTotal: 0
 			},
 			sandbox:{
@@ -207,7 +207,7 @@ var errors = vars.errors
 				applicationsTotal: 0,
 				applicationsStarted: 0,
 				applicationsStopped: 0,
-				runtimesUsed: 0,
+				runtimesUsed: [],
 				runtimesUsedTotal: 0
 			}
 		}
