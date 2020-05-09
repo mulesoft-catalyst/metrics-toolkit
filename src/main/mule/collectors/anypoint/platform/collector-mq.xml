@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="collector-mq-metrics-parallel-flow" doc:id="a7c4771a-da4e-4ae4-94bb-424fd3d415c4">
+		<foreach doc:name="Parallel For Each" doc:id="f99f8566-3219-4c42-8fbd-7fd7d2b1a597"
+			collection="#[vars.environments]">
+			<flow-ref doc:name="Set Environment Variables" doc:id="9644c416-b1d8-407d-8b95-14e2f8287915"
+				name="collector-commons-set-environment-variables-flow" />
+			<flow-ref doc:name="Get MQ Destinations Flow Reference" doc:id="427f0c08-b92f-450a-ad79-44453796e830"
+				name="api-call-cloudhub-apps-flow" />
+			<logger level="DEBUG" doc:name="Logger" doc:id="90d32d61-8f70-4bc2-a482-ed9febdacf76" message="#[payload]" />
+			<set-payload
+				value='#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: payload}]'
+				doc:name="Aggregate metrics" doc:id="8c9f3e6e-86f5-40ee-9a3b-30072f98ab99" />
+		</foreach>
+		<error-handler>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue"
+				doc:id="831dd866-65b5-42dc-a8c9-5a00ce46d194">
+				<logger level="WARN" doc:name="Logger" doc:id="2132dfff-9435-493c-b81e-65e822603986"
+					message="'Not able to get MQ Destinations metrics for BG:' #[vars.orgId]" />
+				<set-variable value="#[vars.errors + error.description]" doc:name="Set Errors Variable"
+					doc:id="40c060f3-bd6b-4a7e-831e-693846502242" variableName="errors" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>
