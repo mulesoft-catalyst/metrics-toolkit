@@ -14,10 +14,10 @@ aggregation:
   raw: "false"
   
 loader:
-  strategy: "logger"
+  strategy: "splunk"
   
 splunk:
-  host: "splunk-metrics.env.services.mulesoft.com"
+  host: "localhost"
   port: "8088"
   protocol: "HTTP"
   source: "test-source"
