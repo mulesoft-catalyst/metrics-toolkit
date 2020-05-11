@@ -157,6 +157,15 @@ RuntimeManager - Standalone | Mule Applications Started Total | BG, Environment 
 RuntimeManager - Standalone | Mule Applications Stopped Total | BG, Environment |
 RuntimeManager - Standalone | Mule Runtime Versions | BG, Environment |
 RuntimeManager - Standalone | Mule Runtime Versions Total | BG, Environment |
+MQ | Queues total | BG, Environment, Region |
+MQ | FIFO Queues total | BG, Environment, Region |
+MQ | Queues In Flight Messages total | BG, Environment, Region |
+MQ | Queues Received Messages total | BG, Environment, Region |
+MQ | Queues Sent Messages total | BG, Environment, Region |
+MQ | Queues ACK Messages total | BG, Environment, Region |
+MQ | Exchanges total | BG, Environment, Region |
+MQ | Exchanges Published Messages total | BG, Environment, Region |
+MQ | Exchanges Delivered Messages total | BG, Environment, Region |
 
 ### Platform Benefits
 
