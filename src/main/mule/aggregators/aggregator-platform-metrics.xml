@@ -74,6 +74,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<route>
 				<flow-ref doc:name="Analytics Enriched Data Flow Reference" doc:id="2908db4d-cc5b-421b-a844-2272898b0b73" name="collector-analytics-metrics-parallel-flow" />
 			</route>
+					<route >
+						<flow-ref doc:name="MQ Metrics Flow Reference" doc:id="0b7b5322-2c65-4ee2-ac62-84bcdd19aef3" name="collector-mq-metrics-parallel-flow"/>
+					</route>
 		</scatter-gather>
 				<choice doc:name="Choice" doc:id="a97772ac-5115-4717-ab5e-333822e3841b">
 			<when expression="#[vars.rawData]">

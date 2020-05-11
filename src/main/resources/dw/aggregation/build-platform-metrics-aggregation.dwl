@@ -19,6 +19,7 @@ var armClusters = payload[7].payload[2].payload.payload
 var armServerGroups = payload[7].payload[3].payload.payload
 var rtf = payload[8].payload
 var analyticsQueryResult = payload[9].payload.payload
+var mq = payload[10].payload.payload
 
 var RTF_TARGET_TYPE = 'MC'
 var RTF_MI = "Mi"
@@ -343,6 +344,47 @@ var policiesAppliedByPolicy = (inProduction) -> (
 			}
 		}
 		
+	},
+	mqMetrics: {
+		stats: {
+			summary: {
+				production:{
+					queues: {
+						commonQueues: sum(flatten(getProdData(mq)).queues.commonQueues default [0]),
+						fifoQueues: sum(flatten(getProdData(mq)).queues.fifoQueues default [0]),
+						messagesInFlight: sum(flatten(getProdData(mq)).queues.messagesInFlight default [0]),
+						messagesSent: sum(flatten(getProdData(mq)).queues.messagesSent default [0]),
+						messagesReceived: sum(flatten(getProdData(mq)).queues.messagesReceived default [0]),
+						messagesAck: sum(flatten(getProdData(mq)).queues.messagesAck default [0])
+					},
+					exchanges: {
+						exchangeQueues: sum(flatten(getProdData(mq)).exchanges.exchangeQueues default [0]),
+						messagesPublished: sum(flatten(getProdData(mq)).exchanges.messagesPublished default [0]),
+						messagesDelivered: sum(flatten(getProdData(mq)).exchanges.messagesDelivered default [0])
+					}
+				}, 
+				sandbox: {
+					queues: {
+						commonQueues: sum(flatten(getSandboxData(mq)).queues.commonQueues default [0]),
+						fifoQueues: sum(flatten(getSandboxData(mq)).queues.fifoQueues default [0]),
+						messagesInFlight: sum(flatten(getSandboxData(mq)).queues.messagesInFlight default [0]),
+						messagesSent: sum(flatten(getSandboxData(mq)).queues.messagesSent default [0]),
+						messagesReceived: sum(flatten(getSandboxData(mq)).queues.messagesReceived default [0]),
+						messagesAck: sum(flatten(getSandboxData(mq)).queues.messagesAck default [0])
+					},
+					exchanges: {
+						exchangeQueues: sum(flatten(getSandboxData(mq)).exchanges.exchangeQueues default [0]),
+						messagesPublished: sum(flatten(getSandboxData(mq)).exchanges.messagesPublished default [0]),
+						messagesDelivered: sum(flatten(getSandboxData(mq)).exchanges.messagesDelivered default [0])
+					}
+				}
+			},
+			byRegion: {
+				production: (getProdData(mq)[0] default []),
+				sandbox: (getSandboxData(mq)[0] default [])
+			}
+			
+		}
 	},
 	errors: errors	
 }
