@@ -9,7 +9,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		maxConcurrency="${anypoint.platform.apis.cloudhub.maxConcurrency}">
 		<logger level="DEBUG" doc:name="Log MQ Regions Start" doc:id="a4b78172-ee53-4f15-86bb-2269b027308d" message="Calling MQ - Regions" />
 		<http:request method="GET" doc:name="Get Regions Request" doc:id="54d4b99b-2f39-4ffb-bc41-b4ba80147a3c"
-			config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.mq.regions.path}">
+			config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.mq.regions.path}" sendBodyMode="NEVER">
 			<http:headers><![CDATA[#[output application/java
 ---
 {
@@ -20,7 +20,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 ---
 {
 	"orgId" : vars.orgId,
-	"envId" : vars.envId
+	"envId" : vars.environmentId
 }]]]></http:uri-params>
 		</http:request>
 		<logger level="DEBUG" doc:name="Log MQ Regions Response" doc:id="b06fc811-d24a-4074-916e-8852c34d47d2"
@@ -30,7 +30,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		maxConcurrency="${anypoint.platform.apis.cloudhub.maxConcurrency}">
 		<logger level="DEBUG" doc:name="Log MQ Destination Start" doc:id="a42cb1d1-2b96-4abd-ae56-84fca3e5268d" message="Calling MQ - Destinations" />
 		<http:request method="GET" doc:name="Get Destinations Request" doc:id="55bd336c-372a-4301-91f9-786e8a1fc389"
-			config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.mq.destinations.path}">
+			config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.mq.destinations.path}" sendBodyMode="NEVER">
 			<http:headers><![CDATA[#[output application/java
 ---
 {
@@ -41,7 +41,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 ---
 {
 	"orgId" : vars.orgId,
-	"envId" : vars.envId,
+	"envId" : vars.environmentId,
 	"regionId": vars.regionId
 }]]]></http:uri-params>
 		</http:request>
@@ -52,7 +52,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		maxConcurrency="${anypoint.platform.apis.cloudhub.maxConcurrency}">
 		<logger level="DEBUG" doc:name="Log MQ Queue Stats Start" doc:id="c7c5695e-8493-4ef0-965b-ff6d918b8c6d" message="Calling MQ - Queue Stats" />
 		<http:request method="GET" doc:name="Get Queue Stats Request" doc:id="deb4d249-e649-4585-bf15-1ba8667e9f02"
-			config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.mq.queues.path}">
+			config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.mq.queues.path}" sendBodyMode="NEVER">
 			<http:headers><![CDATA[#[output application/java
 ---
 {
@@ -63,10 +63,17 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 ---
 {
 	"orgId" : vars.orgId,
-	"envId" : vars.envId,
+	"envId" : vars.environmentId,
 	"regionId": vars.regionId,
 	"queueId": vars.queueId
 }]]]></http:uri-params>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	period : p("anypoint.platform.apis.mq.period"),
+	startDate: (now() - |P1D|) as String {format: "E, dd MMM YYYY HH:mm:ss z"},
+	endDate: now() as String {format: "E, dd MMM YYYY HH:mm:ss z"}
+}]]]></http:query-params>
 		</http:request>
 		<logger level="DEBUG" doc:name="Log MQ Queue Stats Response" doc:id="e9a05093-dbea-42d1-8a8d-fdf186238acd"
 			message='#["MQ - Queue Stats, Response Status Code:" ++ attributes.statusCode]' />
@@ -75,7 +82,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		maxConcurrency="${anypoint.platform.apis.cloudhub.maxConcurrency}">
 		<logger level="DEBUG" doc:name="Log MQ Exchange Stats Start" doc:id="e49dffd0-0a85-48a8-87e6-b56a58e5d72b" message="Calling MQ - Exchange Stats" />
 		<http:request method="GET" doc:name="Get Exchange Stats Request" doc:id="96d5f554-9961-4750-a245-56374c37766e"
-			config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.mq.exchanges.path}">
+			config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.mq.exchanges.path}" sendBodyMode="NEVER">
 			<http:headers><![CDATA[#[output application/java
 ---
 {
@@ -86,10 +93,17 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 ---
 {
 	"orgId" : vars.orgId,
-	"envId" : vars.envId,
+	"envId" : vars.environmentId,
 	"regionId": vars.regionId,
 	"exchangeId": vars.exchangeId
 }]]]></http:uri-params>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	period : p("anypoint.platform.apis.mq.period"),
+	startDate: (now() - |P1D|) as String {format: "E, dd MMM YYYY HH:mm:ss z"},
+	endDate: now() as String {format: "E, dd MMM YYYY HH:mm:ss z"}
+}]]]></http:query-params>
 		</http:request>
 		<logger level="DEBUG" doc:name="Log MQ Exchange Stats Response" doc:id="20fbf9e6-e830-4287-b8c3-44507d292bda"
 			message='#["MQ - Exchange Stats, Response Status Code:" ++ attributes.statusCode]' />

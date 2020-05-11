@@ -9,6 +9,7 @@ poller:
     #Sample for prod "0 0 0 * * ? *" At 00:00:00am every day
     #https://www.freeformatter.com/cron-expression-generator-quartz.html
     timezone: "GMT-3"
+
   
 aggregation:
   raw: "false"

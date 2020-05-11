@@ -1,20 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="collector-mq-metrics-parallel-flow" doc:id="a7c4771a-da4e-4ae4-94bb-424fd3d415c4">
-		<foreach doc:name="Parallel For Each" doc:id="f99f8566-3219-4c42-8fbd-7fd7d2b1a597"
+		<parallel-foreach doc:name="Parallel For Each Environment" doc:id="f99f8566-3219-4c42-8fbd-7fd7d2b1a597"
 			collection="#[vars.environments]">
 			<flow-ref doc:name="Set Environment Variables" doc:id="9644c416-b1d8-407d-8b95-14e2f8287915"
 				name="collector-commons-set-environment-variables-flow" />
-			<flow-ref doc:name="Get MQ Destinations Flow Reference" doc:id="427f0c08-b92f-450a-ad79-44453796e830"
-				name="api-call-cloudhub-apps-flow" />
-			<logger level="DEBUG" doc:name="Logger" doc:id="90d32d61-8f70-4bc2-a482-ed9febdacf76" message="#[payload]" />
+			<flow-ref doc:name="Get MQ Regions" doc:id="427f0c08-b92f-450a-ad79-44453796e830" name="api-call-mq-regions-flow" />
+			<set-variable value="#[payload]" doc:name="Set regions variable" doc:id="2aebccbc-eead-4d6b-9912-1b84712136e0"
+				variableName="regions" />
+			<parallel-foreach doc:name="For Each Region" doc:id="e478a4ed-2013-4efe-88c4-c41da99a0121" collection="#[vars.regions]">
+				<set-variable value="#[payload.regionId]" doc:name="Set Region ID Variable" doc:id="33bd3f00-7bfb-4f36-ba65-8f3fca361ab3"
+					variableName="regionId" />
+				<flow-ref doc:name="Get MQ Destinations " doc:id="fc489e38-65f9-4404-ac15-0d8523bb1be8" name="api-call-mq-destinations-flow" />
+				<ee:transform doc:name="Collect different destinations" doc:id="ecf1a3a7-adfa-4120-915a-1c2241f0c079">
+					<ee:message>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable resource="dw/anypoint/mq-stats-categorization-per-env.dwl" variableName="mqDestinations" />
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="Collect metrics for destinations" doc:id="ceca42b4-6ac1-4f8e-b40a-ef50b1f6739a" name="collect-metrics-for-destination-sub-flow" />
+				<ee:transform doc:name="Aggregate metrics" doc:id="777e5079-7add-4005-b41f-d72537f301af" >
+					<ee:message >
+						<ee:set-payload resource="dw/anypoint/mq-aggregate-metrics-per-region.dwl" />
+					</ee:message>
+				</ee:transform>
+			</parallel-foreach>
+			<logger level="DEBUG" doc:name="Logger" doc:id="e1824c0a-dae2-4cc9-81bd-46102b89dc3e" message="'MQ - After parallel-foreach env:' #[payload]" />
 			<set-payload
-				value='#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: payload}]'
+				value='#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: payload.payload }]'
 				doc:name="Aggregate metrics" doc:id="8c9f3e6e-86f5-40ee-9a3b-30072f98ab99" />
-		</foreach>
+		</parallel-foreach>
+		<logger level="INFO" doc:name="Logger" doc:id="37ac0af8-fedd-4259-97ac-82c6c6ac7264" message="#[payload]" />
 		<error-handler>
 			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue"
 				doc:id="831dd866-65b5-42dc-a8c9-5a00ce46d194">
@@ -25,4 +46,24 @@
 			</on-error-continue>
 		</error-handler>
 	</flow>
+	<sub-flow name="collect-metrics-for-destination-sub-flow" doc:id="68cadf2c-f8fd-4a93-a6f4-30e6ac8a0aff" >
+		<parallel-foreach doc:name="Parallel For Each Queue" doc:id="ba23853c-1f12-438a-9c4b-63ce1acecda9" collection="#[payload]">
+					<choice doc:name="Queue or exchange?" doc:id="58769360-63e3-4380-b47d-31fed9157d10" >
+				<when expression='#[payload."type" == "queue"]'>
+					<set-variable value="#[payload.queueId]" doc:name="Set queueId as variable" doc:id="9d877b06-1402-4ac7-a52a-268c693857fd" variableName="queueId" />
+					<flow-ref doc:name="Call MQ Queue Stats" doc:id="8243218b-1fc7-4dac-a105-dad1cced0406" name="api-call-mq-queue-stats-flow" />
+				</when>
+				<otherwise >
+					<set-variable value="#[payload.exchangeId]" doc:name="Set exchangeId as variable" doc:id="8cfb0529-f3b2-4b90-b5d5-e713618f8953" variableName="exchangeId"/>
+					<flow-ref doc:name="Call MQ Exchange Stats" doc:id="0dd3a800-cc01-4751-8fd1-95f393adfbff" name="api-call-mq-exchange-stats-flow"/>
+				</otherwise>
+			</choice>
+					<ee:transform doc:name="Aggregate metrics" doc:id="56edc717-23f1-4a54-8508-7221ea967920" >
+				<ee:message >
+					<ee:set-payload resource="dw/anypoint/build-mq-destination-metrics.dwl" />
+				</ee:message>
+			</ee:transform>
+				</parallel-foreach>
+		<logger level="DEBUG" doc:name="Logger" doc:id="74f28fb1-4e11-4be3-bcaf-c83608b32f9f" message="#[payload]" />
+	</sub-flow>
 </mule>
