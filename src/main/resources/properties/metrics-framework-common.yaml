@@ -84,15 +84,15 @@ anypoint:
           limit: "250"
       mq:
         maxConcurrency: "100"
+        period: "8640"
         regions:
           path: "/mq/admin/api/v1/organizations/{orgId}/environments/{envId}/regions"
         destinations:
           path: "/mq/admin/api/v1/organizations/{orgId}/environments/{envId}/regions/{regionId}/destinations"
-        stats:
-          queues:
-            path: "/mq/stats/api/v1/organizations/{orgId}/environments/{envId}/regions/{regionId}/queues/{queueId}"
-          exchanges:
-            path: "/mq/stats/api/v1/organizations/{orgId}/environments/{envId}/regions/{regionId}/exchanges/{exchangeId}"
+        queues:
+          path: "/mq/stats/api/v1/organizations/{orgId}/environments/{envId}/regions/{regionId}/queues/{queueId}"
+        exchanges:
+          path: "/mq/stats/api/v1/organizations/{orgId}/environments/{envId}/regions/{regionId}/exchanges/{exchangeId}"
             
 
 cache:

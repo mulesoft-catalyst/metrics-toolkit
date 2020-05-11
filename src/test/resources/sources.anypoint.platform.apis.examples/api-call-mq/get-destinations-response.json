@@ -1,0 +1,15 @@
+[
+  {
+    "encrypted": false,
+    "type": "queue",
+    "queueId": "aQueueName1",
+    "fifo": false,
+    "defaultTtl": 120000,
+    "defaultLockTtl": 10000
+  },
+  {
+    "encrypted": true,
+    "type": "exchange",
+    "exchangeId": "anExchangeName"
+  }
+]
