@@ -51,7 +51,7 @@
     <panel>
       <title>Anypoint MQ - Sandbox - FIFO Queues created - Current Count</title>
       <single>
-        <title>Anypoint MQ - Sandbox - Queues created - Current Count</title>
+        <title>Anypoint MQ - Sandbox - FIFO Queues created - Current Count</title>
         <search>
           <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(mqMetrics.stats.summary.sandbox.queues.fifoQueues) as total | stats max(total) as "FIFO Queues"</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -60,14 +60,14 @@
         <option name="drilldown">none</option>
         <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
         <option name="refresh.display">progressbar</option>
-        <option name="underLabel">Queues</option>
+        <option name="underLabel">FIFO Queues</option>
         <option name="useColors">0</option>
       </single>
     </panel>
     <panel>
-      <title>Anypoint MQ - Sandbox - Queues created - Current Count</title>
+      <title>Anypoint MQ - Sandbox - Exchanges created - Current Count</title>
       <single>
-        <title>Anypoint MQ - Sandbox - Queues created - Current Count</title>
+        <title>Anypoint MQ - Sandbox - Exchanges created - Current Count</title>
         <search>
           <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(mqMetrics.stats.summary.sandbox.exchanges.exchangeQueues) as total | stats max(total) as "Exchanges"</query>
           <earliest>$timeToken.earliest$</earliest>
@@ -76,7 +76,7 @@
         <option name="drilldown">none</option>
         <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
         <option name="refresh.display">progressbar</option>
-        <option name="underLabel">Queues</option>
+        <option name="underLabel">Exchanges</option>
         <option name="useColors">0</option>
       </single>
     </panel>
@@ -98,9 +98,9 @@
       </chart>
     </panel>
     <panel>
-      <title>Anypoint MQ - Sandbox - Queues Growth - Timeline</title>
+      <title>Anypoint MQ - Sandbox - Usage Growth - Timeline</title>
       <chart>
-        <title>Anypoint MQ - Sandbox - Queues Growth - Timeline</title>
+        <title>Anypoint MQ - Sandbox - Usage Growth - Timeline</title>
         <search>
           <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(mqMetrics.stats.summary.sandbox.queues.commonQueues) as "Common Queues", values(mqMetrics.stats.summary.sandbox.queues.fifoQueues) as "FIFO Queues", values(mqMetrics.stats.summary.sandbox.exchanges.exchangeQueues) as "Exchange Queues" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
