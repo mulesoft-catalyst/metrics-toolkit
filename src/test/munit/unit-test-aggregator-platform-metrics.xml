@@ -335,6 +335,17 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
  }]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get RoleGroups" doc:id="1a87c303-aedb-4a21-8e0b-d8e3b02de874" processor="http:request" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get RoleGroups Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-coreservices/get-role-groups.json')]" mediaType="application/json" />
+					<munit-tools:attributes value='#[{
+ "statusCode": 200
+ }]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
 			<set-variable value="#[MunitTools::getResourceAsString('response-payload-example.json')]" doc:name="Set Expected Response Payload" doc:id="4c267c4a-708e-4848-aa4d-f98e3d90df41" variableName="expectedResponse" mimeType="application/json"/>

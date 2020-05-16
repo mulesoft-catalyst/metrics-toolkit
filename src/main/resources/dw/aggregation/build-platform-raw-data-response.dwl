@@ -24,6 +24,7 @@ var armServerGroups = payload[7].payload[3].payload.payload
 var armApps = payload[7].payload[4].payload.payload
 var rtf = payload[8].payload
 var analyticsQueryResult = payload[9].payload.payload
+var mq = payload[10].payload.payload
 ---
 {
 	date: date,
@@ -53,5 +54,6 @@ var analyticsQueryResult = payload[9].payload.payload
 		armClusters: armClusters,
 		armServerGroups: armServerGroups
 	},
+	mqMetrics: mq,
 	errors: errors		
 }
