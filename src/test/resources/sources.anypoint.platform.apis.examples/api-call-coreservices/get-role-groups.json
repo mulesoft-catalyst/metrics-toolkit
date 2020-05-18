@@ -1,0 +1,137 @@
+{
+  "data": [
+    {
+      "role_group_id": "f8239c23-2e04-4478-8961-2c23568a19d9",
+      "name": "API Creators",
+      "external_names": [],
+      "description": "API Creators",
+      "org_id": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+      "editable": false,
+      "created_at": "2017-08-07T17:00:10.727Z",
+      "updated_at": "2017-08-07T17:00:10.727Z",
+      "user_count": 1
+    },
+    {
+      "role_group_id": "fc6a590d-6e57-4883-b2c3-b3a85d404d80",
+      "name": "API Versions Owner",
+      "external_names": [],
+      "description": "Owner of all API versions in the organization",
+      "org_id": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+      "editable": false,
+      "created_at": "2017-08-07T17:00:10.728Z",
+      "updated_at": "2017-08-07T17:00:10.728Z",
+      "user_count": 1
+    },
+    {
+      "role_group_id": "423ed352-61ae-4b2c-9da7-5dde4509c217",
+      "name": "Audit Log Viewers",
+      "external_names": [],
+      "description": "Audit Log Viewers",
+      "org_id": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+      "editable": false,
+      "created_at": "2017-08-07T17:00:10.728Z",
+      "updated_at": "2017-08-07T17:00:10.728Z",
+      "user_count": 0
+    },
+    {
+      "role_group_id": "34b9e2d5-c0a7-4981-95b2-f58fa4aad4d7",
+      "name": "Cloudhub Admin (Design)",
+      "external_names": [],
+      "description": "Cloudhub (Design) Admin users",
+      "org_id": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+      "editable": true,
+      "created_at": "2017-08-07T17:00:10.874Z",
+      "updated_at": "2017-08-15T22:04:54.432Z",
+      "user_count": 1
+    },
+    {
+      "role_group_id": "d5114fab-0ae2-4141-9c0c-d42042fe1cee",
+      "name": "Cloudhub Admin (Production)",
+      "external_names": [],
+      "description": "Cloudhub (Production) Admin users",
+      "org_id": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+      "editable": true,
+      "created_at": "2020-02-20T14:24:41.563Z",
+      "updated_at": "2020-02-20T14:24:41.563Z",
+      "user_count": 1
+    },
+    {
+      "role_group_id": "9ecf45f2-0ad1-41d5-8d98-79a5158a4979",
+      "name": "Cloudhub Admin (Sandbox)",
+      "external_names": [],
+      "description": "Cloudhub (Sandbox) Admin users",
+      "org_id": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+      "editable": true,
+      "created_at": "2017-08-07T17:00:10.871Z",
+      "updated_at": "2018-05-01T01:51:24.244Z",
+      "user_count": 1
+    },
+    {
+      "role_group_id": "87de062f-1b42-4b0c-aaab-9e06f67f45ed",
+      "name": "Custom",
+      "external_names": [],
+      "description": "Custom",
+      "org_id": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+      "editable": true,
+      "created_at": "2018-04-18T20:21:38.749Z",
+      "updated_at": "2018-04-18T20:21:56.021Z",
+      "user_count": 0
+    },
+    {
+      "role_group_id": "2b54ed36-0cee-48a8-9dd9-a5b51caab1fb",
+      "name": "Exchange Administrators",
+      "external_names": [],
+      "description": "Exchange Administrators",
+      "org_id": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+      "editable": false,
+      "created_at": "2017-08-07T17:00:10.727Z",
+      "updated_at": "2017-08-07T17:00:10.727Z",
+      "user_count": 1
+    },
+    {
+      "role_group_id": "6602c0ee-355b-4d01-8122-aca3b0e3a7a6",
+      "name": "Exchange Contributors",
+      "external_names": [],
+      "description": "Exchange Contributors",
+      "org_id": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+      "editable": false,
+      "created_at": "2017-08-07T17:00:10.727Z",
+      "updated_at": "2017-08-07T17:00:10.727Z",
+      "user_count": 0
+    },
+    {
+      "role_group_id": "266d9ab9-e344-427e-b986-730cd30068cd",
+      "name": "Exchange Viewers",
+      "external_names": [],
+      "description": "Exchange Viewers",
+      "org_id": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+      "editable": false,
+      "created_at": "2017-08-07T17:00:10.727Z",
+      "updated_at": "2017-08-07T17:00:10.727Z",
+      "user_count": 0
+    },
+    {
+      "role_group_id": "f5c3c0aa-41ab-4c25-bd45-072e426ca952",
+      "name": "Organization Administrators",
+      "external_names": [],
+      "description": "Organization Administrators",
+      "org_id": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+      "editable": false,
+      "created_at": "2017-08-07T17:00:10.727Z",
+      "updated_at": "2018-04-18T19:56:51.685Z",
+      "user_count": 1
+    },
+    {
+      "role_group_id": "1b55363f-5cf8-4f7a-9b34-311c79357d9e",
+      "name": "Portals Viewer",
+      "external_names": [],
+      "description": "Viewer of all portals in the organization",
+      "org_id": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+      "editable": false,
+      "created_at": "2017-08-07T17:00:10.728Z",
+      "updated_at": "2017-08-07T17:00:10.728Z",
+      "user_count": 0
+    }
+  ],
+  "total": 12
+}
