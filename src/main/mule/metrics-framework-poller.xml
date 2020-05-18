@@ -18,12 +18,19 @@
 						<flow-ref doc:name="Loader Router Platform Flow Reference" doc:id="3305fb66-3716-4bea-a2f8-d319778deb2a" name="loader-router-flow" />
 					</route>
 					<route >
-						<flow-ref doc:name="Loader Router SDLC Flow Reference" doc:id="92948a09-fda9-438a-990c-06e518835583" name="loader-sdlc-router-flow"/>
+						<choice doc:name="Choice" doc:id="4dacb9be-368b-441a-9eca-0062b413ed2d" >
+							<when expression="#[p('sdlc.poller.enabled') == &quot;true&quot;]">
+								<flow-ref doc:name="Loader Router SDLC Flow Reference" doc:id="92948a09-fda9-438a-990c-06e518835583" name="loader-sdlc-router-flow" />
+							</when>
+							<otherwise >
+								<logger level="INFO" doc:name="Logger" doc:id="26ddbca7-f531-4bc8-83a8-706073770b1d" message="SDLC Poller disabled"/>
+							</otherwise>
+						</choice>
 					</route>
 				</scatter-gather>
 			</when>
 			<otherwise >
-				<logger level="INFO" doc:name="Logger" doc:id="1ec91447-d56a-41b5-ba44-5fd9c47553ee" message="Poller disabled"/>
+				<logger level="INFO" doc:name="Logger" doc:id="1ec91447-d56a-41b5-ba44-5fd9c47553ee" message="Main Poller disabled"/>
 			</otherwise>
 		</choice>
 	</flow>
