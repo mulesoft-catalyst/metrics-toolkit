@@ -56,17 +56,26 @@
 		</choice>
 	</flow>
 	<flow name="loader-sdlc-router-flow" doc:id="ba3ecd92-9941-49f7-ad09-42229171b604" >
-		<logger level="INFO" doc:name="Logger" doc:id="f353e3d0-cf07-4f19-95ec-3880c57e2a24" message="Strategy: #[vars.loaderDeetails.strategy]" />
+		<logger level="INFO" doc:name="Logger" doc:id="f353e3d0-cf07-4f19-95ec-3880c57e2a24" message="Strategy: #[vars.loaderDetails.strategy]" />
 		<choice doc:name="Choice" doc:id="fecd31fc-8de2-495e-ac87-de8f3c7b4878" >
 			<when expression="#[vars.loaderDetails.strategy == 'am']" >
-				<logger level="INFO" doc:name="Logger" doc:id="d59e2709-6dcd-4228-91c9-01420b999e85" />
+				<logger level="WARN" doc:name="Logger" doc:id="d59e2709-6dcd-4228-91c9-01420b999e85" message="AM Loader for SDLC not implemented"/>
 			</when>
 			<when expression="#[vars.loaderDetails.strategy == 'splunk']" >
-				<logger level="INFO" doc:name="Logger" doc:id="4b0769be-7776-4a38-8fc4-994e830c3310" />
+				<logger level="WARN" doc:name="Logger" doc:id="4b0769be-7776-4a38-8fc4-994e830c3310" message="Splunk Loader for SDLC not implemented"/>
 			</when>
 			<when expression="#[vars.loaderDetails.strategy == 'tableau']" >
-				<logger level="INFO" doc:name="Logger" doc:id="ed713140-a11a-491a-a475-35d617ba6134" />
+				<logger level="WARN" doc:name="Logger" doc:id="ed713140-a11a-491a-a475-35d617ba6134" message="Tableau Loader for SDLC not implemented"/>
 			</when>
+			<when expression="#[vars.loaderDetails.strategy == 'csv']">
+				<logger level="WARN" doc:name="Logger" doc:id="56dc8800-d271-43a9-9d42-0d3e6acc533c" message="CSV Loader for SDLC not implemented"/>
+			</when>
+			<when expression="#[vars.loaderDetails.strategy == 'json']">
+				<logger level="WARN" doc:name="Logger" doc:id="392fae7b-0830-4c54-b0b6-68902c024b59" message="JSON Loader for SDLC not implemented"/>
+			</when>
+			<when expression="#[vars.loaderDetails.strategy == 'elk']">
+				<logger level="WARN" doc:name="Logger" doc:id="f3f1563c-9e2a-4f4b-8730-f40860b81b1a" message="ELK Loader for SDLC not implemented"/>
+			</when>			
 			<otherwise >
 				<flow-ref doc:name="loader-sdlc-flow" doc:id="c8083744-2396-4acb-b877-99f7fe64bfec" name="loader-sdlc-flow" />
 			</otherwise>

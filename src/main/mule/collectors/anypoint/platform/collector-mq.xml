@@ -35,7 +35,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				value='#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: payload.payload }]'
 				doc:name="Aggregate metrics" doc:id="8c9f3e6e-86f5-40ee-9a3b-30072f98ab99" />
 		</parallel-foreach>
-		<logger level="INFO" doc:name="Logger" doc:id="37ac0af8-fedd-4259-97ac-82c6c6ac7264" message="#[payload]" />
 		<error-handler>
 			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue"
 				doc:id="831dd866-65b5-42dc-a8c9-5a00ce46d194">
