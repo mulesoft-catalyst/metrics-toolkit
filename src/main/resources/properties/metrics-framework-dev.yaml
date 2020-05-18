@@ -2,7 +2,7 @@ http:
   port: "8081"
   
 poller:
-  enabled: "true"
+  enabled: "false"
   frequency: 
     cron: "0 0 0 * * ? *" 
     #Sample for dev "0 17 * * * ? *" At second :00 of minute :17 of every hour
@@ -40,6 +40,8 @@ tableau:
 
 # SDLC Metrics
 sdlc:
+  poller:
+    enabled: "false"
   confluence:
     enabled: "false" #Set this to true if confluence metrics is required
     host: "test.atlassian.net"
