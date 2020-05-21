@@ -1,0 +1,44 @@
+[
+  {
+    "regionId": "us-east-1",
+    "regionName": "US East (N. Virginia)",
+    "serviceUrl": "https://mq-us-east-1.anypoint.mulesoft.com/api/v1",
+    "fifoAvailable": true
+  },
+  {
+    "regionId": "us-west-2",
+    "regionName": "US West (Oregon)",
+    "serviceUrl": "https://mq-us-west-2.anypoint.mulesoft.com/api/v1",
+    "fifoAvailable": true
+  },
+  {
+    "regionId": "ca-central-1",
+    "regionName": "Canada (Central)",
+    "serviceUrl": "https://mq-ca-central-1.anypoint.mulesoft.com/api/v1",
+    "fifoAvailable": true
+  },
+  {
+    "regionId": "eu-west-1",
+    "regionName": "EU (Ireland)",
+    "serviceUrl": "https://mq-eu-west-1.anypoint.mulesoft.com/api/v1",
+    "fifoAvailable": true
+  },
+  {
+    "regionId": "eu-west-2",
+    "regionName": "EU (London)",
+    "serviceUrl": "https://mq-eu-west-2.anypoint.mulesoft.com/api/v1",
+    "fifoAvailable": true
+  },
+  {
+    "regionId": "ap-southeast-1",
+    "regionName": "Asia Pacific (Singapore)",
+    "serviceUrl": "https://mq-ap-southeast-1.anypoint.mulesoft.com/api/v1",
+    "fifoAvailable": true
+  },
+  {
+    "regionId": "ap-southeast-2",
+    "regionName": "Asia Pacific (Sydney)",
+    "serviceUrl": "https://mq-ap-southeast-2.anypoint.mulesoft.com/api/v1",
+    "fifoAvailable": true
+  }
+]

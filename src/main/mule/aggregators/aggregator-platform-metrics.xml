@@ -32,8 +32,18 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</flow>
 	
 	<flow name="aggregator-platform-metrics-org-flow" doc:id="f52652d1-3952-4ab0-9d4b-20c69530e30a">
-		<flow-ref doc:name="Environments Flow Reference" doc:id="a65ee492-ea7b-4018-9096-08aff5fa21d4" name="api-call-coreservices-environments-flow" target="environments" targetValue="#[payload.data]"/>
-		<scatter-gather doc:name="Scatter-Gather" doc:id="f91aa95c-1b72-4596-bb78-c2d26978d2c7">
+		<try doc:name="Try" doc:id="f8f78884-8266-4dc7-bf74-dd37bd8dab8b" >
+			<flow-ref doc:name="Environments Flow Reference" doc:id="a65ee492-ea7b-4018-9096-08aff5fa21d4" name="api-call-coreservices-environments-flow" target="environments" targetValue='#[payload.data filter ($."type" != "design")]' />
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="79728178-b45e-42a4-ae95-4b3b4272d759" >
+					<logger level="INFO" doc:name="Logger" doc:id="82d2d1ef-4e3c-4b25-9a09-27312f8350fc" message="Getting environments failed"/>
+					<set-variable value="#[vars.errors + error.description]" doc:name="Set Variable" doc:id="fbe03c01-d12f-4e5d-8f94-35c2d1fe98fe" variableName="errors"/>
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<choice doc:name="Choice" doc:id="5eae9f6d-f0a4-489e-92ab-3aa8f2b5502b" >
+			<when expression="#[not isEmpty(vars.environments)]">
+				<scatter-gather doc:name="Scatter-Gather" doc:id="f91aa95c-1b72-4596-bb78-c2d26978d2c7">
 			<route> 
 				<flow-ref doc:name="CloudHub Apps Metrics Flow Reference" doc:id="b8f7e5c7-f5ed-4ef0-9ae2-eee199b1ebf2" name="collector-cloudhub-apps-metrics-parallel-flow" />
 			</route>
@@ -64,8 +74,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<route>
 				<flow-ref doc:name="Analytics Enriched Data Flow Reference" doc:id="2908db4d-cc5b-421b-a844-2272898b0b73" name="collector-analytics-metrics-parallel-flow" />
 			</route>
+					<route >
+						<flow-ref doc:name="MQ Metrics Flow Reference" doc:id="0b7b5322-2c65-4ee2-ac62-84bcdd19aef3" name="collector-mq-metrics-parallel-flow"/>
+					</route>
 		</scatter-gather>
-		<choice doc:name="Choice" doc:id="a97772ac-5115-4717-ab5e-333822e3841b" >
+				<choice doc:name="Choice" doc:id="a97772ac-5115-4717-ab5e-333822e3841b">
 			<when expression="#[vars.rawData]">
 				<ee:transform doc:name="Build Raw Data Response" doc:id="c571107e-cd3c-4e87-83fe-c9d44cf35596">
 			<ee:message>
@@ -73,7 +86,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</ee:message>
 		</ee:transform>
 			</when>
-			<otherwise >
+			<otherwise>
 				<ee:transform doc:name="Build Metrics Aggregated Response" doc:id="aa83f239-119d-46f3-9538-bd06b4c84ef1">
 			<ee:message>
 				<ee:set-payload resource="dw/aggregation/build-platform-metrics-aggregation.dwl" />
@@ -81,7 +94,17 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</ee:transform>
 			</otherwise>
 		</choice>
-		<logger level="INFO" doc:name="Logger" doc:id="d32c2c3a-1466-43b6-bee0-a8cefa80287e" message="Metrics aggregated successfully"/>
+				<logger level="INFO" doc:name="Logger" doc:id="d32c2c3a-1466-43b6-bee0-a8cefa80287e" message="Metrics aggregated successfully" />
+			</when>
+			<otherwise >
+				<logger level="ERROR" doc:name="Logger" doc:id="2f00c08f-d530-4bbc-926c-3ee37beab7df" message="Environments empty, skipping following calls"/>
+				<ee:transform doc:name="Build empty Event" doc:id="03dc7dda-2222-458a-907c-cb4f736e102b" >
+					<ee:message >
+						<ee:set-payload resource="dw/aggregation/build-platform-metrics-empty-aggregation.dwl" />
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
 	</flow>
 	
 	<flow name="aggregator-platform-metrics-arm-flow" doc:id="2eed9166-ad29-43c6-b1a3-5a971150a931">

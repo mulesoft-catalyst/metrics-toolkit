@@ -7,6 +7,7 @@ var apiAnalytics = "API Analytics"
 var runtimeManagerCH = "Runtime Manager - CloudHub"
 var runtimeManagerHybrid = "Runtime Manager - ARM"
 var runtimeManagerRTF = "Runtime Manager - RTF"
+var mq= "Anypoint MQ"
 
 var envSandbox = "Sandbox"
 var envProduction = "Production"
@@ -552,6 +553,79 @@ flatten (payload map ((event, eventIndex) -> ([
        name: "Standalone Mule Runtime Versions Total", value: event.runtimeManagerMetrics.hybrid.sandbox.runtimesUsedTotal,
        businessGroup: event.businessGroup, date: event.date, group: runtimeManagerHybrid, environmentType: envSandbox
     },
-
+	//Anypoint MQ - Sandbox
+    {
+       name: "Anypoint MQ - Summary - Total Queues", value: event.mqMetrics.stats.summary.sandbox.queues.commonQueues,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envSandbox
+    },
+    {
+       name: "Anypoint MQ - Summary - Total FIFO Queues", value: event.mqMetrics.stats.summary.sandbox.queues.fifoQueues,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envSandbox
+    },
+    {
+       name: "Anypoint MQ - Summary - Total Exchanges", value: event.mqMetrics.stats.summary.sandbox.exchanges.exchangesQueues,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envSandbox
+    },
+    {
+       name: "Anypoint MQ - Summary - Queues - Total Messages Sent", value: event.mqMetrics.stats.summary.sandbox.queues.messagesSent,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envSandbox
+    },
+    {
+       name: "Anypoint MQ - Summary - Queues - Total Messages Received", value: event.mqMetrics.stats.summary.sandbox.queues.messagesReceived,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envSandbox
+    },
+    {
+       name: "Anypoint MQ - Summary - Queues - Total Messages ACK", value: event.mqMetrics.stats.summary.sandbox.queues.messagesAck,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envSandbox
+    },
+    {
+       name: "Anypoint MQ - Summary - Queues - Total Messages In Flight", value: event.mqMetrics.stats.summary.sandbox.queues.messagesInFlight,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envSandbox
+    },
+    {
+       name: "Anypoint MQ - Summary - Exchanges - Total Messages Published", value: event.mqMetrics.stats.summary.sandbox.exchanges.messagesPublished,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envSandbox
+    },
+    {
+       name: "Anypoint MQ - Summary - Exchanges - Total Messages Delivered", value: event.mqMetrics.stats.summary.sandbox.exchanges.messagesDelivered,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envSandbox
+    },
+    //Anypoint MQ - Production
+    {
+       name: "Anypoint MQ - Summary - Total Queues", value: event.mqMetrics.stats.summary.production.queues.commonQueues,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envProduction
+    },
+    {
+       name: "Anypoint MQ - Summary - Total FIFO Queues", value: event.mqMetrics.stats.summary.production.queues.fifoQueues,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envProduction
+    },
+    {
+       name: "Anypoint MQ - Summary - Total Exchanges", value: event.mqMetrics.stats.summary.production.exchanges.exchangesQueues,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envProduction
+    },
+    {
+       name: "Anypoint MQ - Summary - Queues - Total Messages Sent", value: event.mqMetrics.stats.summary.production.queues.messagesSent,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envProduction
+    },
+    {
+       name: "Anypoint MQ - Summary - Queues - Total Messages Received", value: event.mqMetrics.stats.summary.production.queues.messagesReceived,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envProduction
+    },
+    {
+       name: "Anypoint MQ - Summary - Queues - Total Messages ACK", value: event.mqMetrics.stats.summary.production.queues.messagesAck,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envProduction
+    },
+    {
+       name: "Anypoint MQ - Summary - Queues - Total Messages In Flight", value: event.mqMetrics.stats.summary.production.queues.messagesInFlight,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envProduction
+    },
+    {
+       name: "Anypoint MQ - Summary - Exchanges - Total Messages Published", value: event.mqMetrics.stats.summary.production.exchanges.messagesPublished,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envProduction
+    },
+    {
+       name: "Anypoint MQ - Summary - Exchanges - Total Messages Delivered", value: event.mqMetrics.stats.summary.production.exchanges.messagesDelivered,
+       businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envProduction
+    },
    ])
 ))

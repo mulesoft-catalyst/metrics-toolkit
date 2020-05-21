@@ -7,13 +7,13 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
 	<flow name="api-call-jira-metrics-backlog-items-flow" doc:id="cb45e4dc-7fd3-476d-aff3-7c0a30556088">
-		<logger level="INFO" doc:name="Logger" doc:id="c04d063d-9f26-41c8-9f2c-efd64bc5a457" message="Calling Jira Backlog - APIs" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="c04d063d-9f26-41c8-9f2c-efd64bc5a457" message="Calling Jira Backlog - APIs" />
 		<http:request method="GET" doc:name="GET Backlog Items" doc:id="d0997982-315e-4a12-b8f9-6b493e253ef5" path="${sdlc.jira.backlogPath}" config-ref="HTTP_Jira_Request_Config"/>
-		<logger level="INFO" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Response Status Code:" ++ attributes.statusCode]' />
+		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 	
 	<flow name="api-call-jira-metrics-stories-flow" doc:id="e921ec15-1975-4b80-bdf5-931b43fac2ad">
-		<logger level="INFO" doc:name="Logger" doc:id="cc1fc929-6c79-4223-a438-4836c31f8085" message="Calling Jira Stories - APIs" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="cc1fc929-6c79-4223-a438-4836c31f8085" message="Calling Jira Stories - APIs" />
 		<set-variable value="1" doc:name="Set Counter" doc:id="e14d62ff-22f6-49c2-b52e-fb9e2010d7d0" variableName="counter" />
 		<set-variable value="${sdlc.jira.path}" doc:name="Set Path" doc:id="c843c598-69c5-4fee-acb1-30012d3dbace" variableName="path" />
 		<flow-ref doc:name="recursive-call-jira-metrics-stories-flow" doc:id="a6f6ec25-2e0d-4b68-8778-492fdb41c618" name="recursive-call-jira-metrics-stories-flow" />
@@ -22,7 +22,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<ee:set-payload resource="dw/api/build-jira-raw-data-response.dwl" />
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="c36021d5-e271-4f6a-b632-155686cf6879" message='#["Response Status Code:" ++ attributes.statusCode]' />
+		<logger level="DEBUG" doc:name="Logger" doc:id="c36021d5-e271-4f6a-b632-155686cf6879" message='#["Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 	<sub-flow name="recursive-call-jira-metrics-stories-flow" doc:id="8245000b-72b0-4d43-941a-31d6d69d81b9" >
 		<choice doc:name="Choice" doc:id="1820acfd-2286-4c40-bb6c-a5d20d6b25af" >
@@ -42,7 +42,7 @@ vars.outputPayload default [] ++ payload.issues]]></ee:set-variable>
 				<flow-ref doc:name="recursive-call-jira-metrics-stories-flow" doc:id="e6f26c02-e07c-49a5-af74-31a9376f0e27" name="recursive-call-jira-metrics-stories-flow" />
 			</when>
 			<otherwise >
-				<logger level="INFO" doc:name="Logger" doc:id="65c67e92-de89-44bd-b07b-1afae8147085" message="All Matching records extracted from jira"/>
+				<logger level="DEBUG" doc:name="Logger" doc:id="65c67e92-de89-44bd-b07b-1afae8147085" message="All Matching records extracted from jira"/>
 			</otherwise>
 		</choice>
 	</sub-flow>
