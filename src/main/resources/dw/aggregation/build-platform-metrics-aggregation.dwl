@@ -19,6 +19,16 @@ var armClusters = payload[7].payload[2].payload.payload
 var armServerGroups = payload[7].payload[3].payload.payload
 var rtf = payload[8].payload
 var analyticsQueryResult = payload[9].payload.payload
+var mq = payload[10].payload.payload
+
+var RTF_TARGET_TYPE = 'MC'
+var RTF_MI = "Mi"
+var RTF_M = "m"
+var RTF_WORKER = "worker"
+var RTF_CONTROLLER = "controller"
+var HYBRID_TARGET_TYPE = 'RR'
+var APP_STATUS_RUNNING = "RUNNING"
+var APP_STATUS_STARTED = "STARTED"
 
 fun getProdData(arr) = (arr filter($.isProduction)).data
 fun getSandboxData(arr) = (arr filter(not $.isProduction)).data
@@ -224,21 +234,21 @@ var policiesAppliedByPolicy = (inProduction) -> (
 			applications:{
 				production: {
 					vcoresTotal: entitlements.vCoresProduction.assigned,
-					vcoresAvailable: (entitlements.vCoresProduction.assigned as Number) - sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == "STARTED") default [] ) map ($.workers."type".weight * $.workers.amount)),
-					vcoresUsed: sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == "STARTED") default [] ) map ($.workers."type".weight * $.workers.amount)),
+					vcoresAvailable: (entitlements.vCoresProduction.assigned as Number) - sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
+					vcoresUsed: sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
 					applicationsTotal: sizeOf(flatten(getProdData(cloudHubApps) default []) default []),
-					applicationsStarted: sizeOf(flatten(getProdData(cloudHubApps) default []) filter ($.status == "STARTED") default []),
-					applicationsStopped: sizeOf(flatten(getProdData(cloudHubApps) default []) filter ($.status != "STARTED") default []),
+					applicationsStarted: sizeOf(flatten(getProdData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default []),
+					applicationsStopped: sizeOf(flatten(getProdData(cloudHubApps) default []) filter ($.status != APP_STATUS_STARTED) default []),
 					runtimesUsed: flatten(getProdData(cloudHubApps) default []).muleVersion.version distinctBy ($) default[],
 					runtimesUsedTotal: sizeOf(flatten(getProdData(cloudHubApps) default []).muleVersion.version distinctBy ($) default [])
 				},
 				sandbox:{
 					vcoresTotal: entitlements.vCoresSandbox.assigned,
-					vcoresAvailable: (entitlements.vCoresSandbox.assigned as Number) - sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == "STARTED") default [] ) map ($.workers."type".weight * $.workers.amount)),
-					vcoresUsed: sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == "STARTED") default [] ) map ($.workers."type".weight * $.workers.amount)),
+					vcoresAvailable: (entitlements.vCoresSandbox.assigned as Number) - sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
+					vcoresUsed: sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
 					applicationsTotal: sizeOf(flatten(getSandboxData(cloudHubApps) default []) default []),
-					applicationsStarted: sizeOf(flatten(getSandboxData(cloudHubApps) default []) filter ($.status == "STARTED") default []),
-					applicationsStopped: sizeOf(flatten(getSandboxData(cloudHubApps) default []) filter ($.status != "STARTED") default []),
+					applicationsStarted: sizeOf(flatten(getSandboxData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default []),
+					applicationsStopped: sizeOf(flatten(getSandboxData(cloudHubApps) default []) filter ($.status != APP_STATUS_STARTED) default []),
 					runtimesUsed: flatten(getSandboxData(cloudHubApps) default []).muleVersion.version distinctBy ($) default[],
 					runtimesUsedTotal: sizeOf(flatten(getSandboxData(cloudHubApps) default []).muleVersion.version distinctBy ($) default [])
 				}
@@ -247,24 +257,36 @@ var policiesAppliedByPolicy = (inProduction) -> (
 		rtf: {
 			capacity: {
 				fabrics: sizeOf(rtf),
-    				workers: sizeOf((flatten(rtf.nodes) filter($.role == "worker") default []) default []),
-    				controllers: sizeOf((flatten(rtf.nodes) filter($.role == "controller") default []) default []),
-    				coresTotal: sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.cpuMillis default [])/1000,
-   				    memoryTotal: sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.memoryMi default [])/1000,
-    				coresPerFabric: if (sizeOf(rtf) > 0) (sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.cpuMillis default [])/(sizeOf(rtf) * 1000)) else 0,
-    				memoryPerFabric: if (sizeOf(rtf) > 0) (sum((flatten(rtf.nodes) filter($.role == "worker") default []).capacity.memoryMi default [])/(sizeOf(rtf) * 1000)) else 0
+    				workers: sizeOf((flatten(rtf.nodes) filter($.role == RTF_WORKER) default []) default []),
+    				controllers: sizeOf((flatten(rtf.nodes) filter($.role == RTF_CONTROLLER) default []) default []),
+    				coresTotal: sum((flatten(rtf.nodes) filter($.role == RTF_WORKER) default []).capacity.cpuMillis default [])/1000,
+   				    memoryTotal: sum((flatten(rtf.nodes) filter($.role == RTF_WORKER) default []).capacity.memoryMi default [])/1000,
+    				coresPerFabric: if (sizeOf(rtf) > 0) (sum((flatten(rtf.nodes) filter($.role == RTF_WORKER) default []).capacity.cpuMillis default [])/(sizeOf(rtf) * 1000)) else 0,
+    				memoryPerFabric: if (sizeOf(rtf) > 0) (sum((flatten(rtf.nodes) filter($.role == RTF_WORKER) default []).capacity.memoryMi default [])/(sizeOf(rtf) * 1000)) else 0
 			},
 			applications: {
 				production: {
 					//coresAvailable: "NA", // Not able to calculate because a fabric can be associated with multiple environments of any type
-					//coresUsed: sum((flatten(getProdDetails(armApps) default []).target.deploymentSettings.resources.cpu.limit  map (($ replace  "m" with "") as Number)) default [])/1000, //cores
-					coresUsed: sum(((flatten(getProdDetails(armApps) default []) filter($.application.status == "RUNNING"))) map (((($.target.deploymentSettings.resources.cpu.reserved) replace "m" with "") as Number) * ($.target.replicas as Number)) default [])/1000,
-					coresReserved: sum(((flatten(getProdDetails(armApps) default []) filter($.application.status == "RUNNING"))) map (((($.target.deploymentSettings.cpuReserved) replace "m" with "") as Number) * ($.target.replicas as Number)) default [])/1000,
+					coresReserved: (sum(((flatten(getProdDetails(armApps) default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources != null))) map (
+        				(($.target.deploymentSettings.resources.cpu.reserved) replace RTF_M with "") as Number * ($.target.replicas as Number)) default [])/1000)  + 
+    					(sum(((flatten(getProdDetails(armApps) default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources == null))) map (
+        				(($.target.deploymentSettings.cpuReserved) replace RTF_M with "") as Number * ($.target.replicas as Number)) default [])/1000),
+					coresReservedA: (sum(((flatten(getProdDetails(armApps) default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources != null))) map (
+        				(($.target.deploymentSettings.resources.cpu.reserved) replace RTF_M with "") as Number * ($.target.replicas as Number)) default [])/1000),
+					coresReservedB: (sum(((flatten(getProdDetails(armApps) default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources == null))) map (
+        				(($.target.deploymentSettings.cpuReserved) replace RTF_M with "") as Number * ($.target.replicas as Number)) default [])/1000),
 					//memoryAvailable: "NA", // Not able to calculate because a fabric can be associated with multiple environments of any type
-					memoryUsed: sum((flatten(getProdDetails(armApps) default []).target.deploymentSettings.resources.memory.limit  map (($ replace  "Mi" with "") as Number)) default [])/1000, //Gigs
-					applicationsTotal: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == 'MC') default []),
-					applicationsStarted: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.application.status == 'RUNNING') default []),
-					applicationsStopped: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.application.status != 'RUNNING') default []),
+					memoryReserved: (sum(((flatten(getProdDetails(armApps) default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources != null))) map (
+        				(($.target.deploymentSettings.resources.memory.reserved) replace RTF_MI with "") as Number * ($.target.replicas as Number)) default [])/1000) + 
+        				(sum(((flatten(getProdDetails(armApps) default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources == null))) map (
+       					 (($.target.deploymentSettings.memoryReserved) replace RTF_MI with "") as Number * ($.target.replicas as Number)) default [])/1000),
+    				memoryReservedA: (sum(((flatten(getProdDetails(armApps) default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources != null))) map (
+        				(($.target.deploymentSettings.resources.memory.reserved) replace RTF_MI with "") as Number * ($.target.replicas as Number)) default [])/1000),
+    				memoryReservedB: (sum(((flatten(getProdDetails(armApps) default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources == null))) map (
+       					 (($.target.deploymentSettings.memoryReserved) replace RTF_MI with "") as Number * ($.target.replicas as Number)) default [])/1000),
+					applicationsTotal: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == RTF_TARGET_TYPE) default []),
+					applicationsStarted: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == RTF_TARGET_TYPE) default [] filter ($.application.status == APP_STATUS_RUNNING) default []),
+					applicationsStopped: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == RTF_TARGET_TYPE) default [] filter ($.application.status != APP_STATUS_RUNNING) default []),
 					runtimesUsed: flatten(getProdDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [],
 					runtimesUsedTotal: sizeOf(flatten(getProdDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [])
 
@@ -272,14 +294,28 @@ var policiesAppliedByPolicy = (inProduction) -> (
 				},
 				sandbox:{
 					//coresAvailable: "NA", //cores // Not able to calculate because a fabric can be associated with multiple environments of any type
-					//coresUsed: sum((flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.resources.cpu.limit  map (($ replace  "m" with "") as Number)) default [])/1000, //cores
-					coresUsed: sum(((flatten(getSandboxDetails(armApps) default []) filter($.application.status == "RUNNING"))) map (((($.target.deploymentSettings.resources.cpu.reserved) replace "m" with "") as Number) * ($.target.replicas as Number)) default [])/1000,
-                    coresReserved: sum(((flatten(getSandboxDetails(armApps) default []) filter($.application.status == "RUNNING"))) map (((($.target.deploymentSettings.cpuReserved) replace "m" with "") as Number) * ($.target.replicas as Number)) default [])/1000,
+					coresReserved: (sum(((flatten(getSandboxDetails(armApps) default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources != null))) map (
+        				(($.target.deploymentSettings.resources.cpu.reserved) replace RTF_M with "") as Number * ($.target.replicas as Number)) default [])/1000)  + 
+    					(sum(((flatten(getSandboxDetails(armApps) default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources == null))) map (
+        				(($.target.deploymentSettings.cpuReserved) replace RTF_M with "") as Number * ($.target.replicas as Number)) default [])/1000),
+					coresReservedA: (sum(((flatten(getSandboxDetails(armApps) default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources != null))) map (
+        				(($.target.deploymentSettings.resources.cpu.reserved) replace RTF_M with "") as Number * ($.target.replicas as Number)) default [])/1000),
+					coresReservedB: (sum(((flatten(getSandboxDetails(armApps) default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources == null))) map (
+        				(($.target.deploymentSettings.cpuReserved) replace RTF_M with "") as Number * ($.target.replicas as Number)) default [])/1000),
 					//memoryAvailable: "NA", //Gigs // Not able to calculate because a fabric can be associated with multiple environments of any type
-					memoryUsed: sum((flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.resources.memory.limit  map (($ replace  "Mi" with "") as Number)) default [])/1000, //Gigs
-					applicationsTotal: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default []),
-					applicationsStarted: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.application.status == 'RUNNING') default []),
-					applicationsStopped: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'MC') default [] filter ($.application.status != 'RUNNING') default []),
+					
+					memoryReserved: (sum(((flatten(getSandboxDetails(armApps) default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources != null))) map (
+        				(($.target.deploymentSettings.resources.memory.reserved) replace RTF_MI with "") as Number * ($.target.replicas as Number)) default [])/1000) + 
+        				(sum(((flatten(getSandboxDetails(armApps) default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources == null))) map (
+       					 (($.target.deploymentSettings.memoryReserved) replace RTF_MI with "") as Number * ($.target.replicas as Number)) default [])/1000),
+    				memoryReservedA: (sum(((flatten(getSandboxDetails(armApps) default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources != null))) map (
+        				(($.target.deploymentSettings.resources.memory.reserved) replace RTF_MI with "") as Number * ($.target.replicas as Number)) default [])/1000),
+    				memoryReservedB: (sum(((flatten(getSandboxDetails(armApps) default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources == null))) map (
+       					 (($.target.deploymentSettings.memoryReserved) replace RTF_MI with "") as Number * ($.target.replicas as Number)) default [])/1000),
+    					
+					applicationsTotal: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == RTF_TARGET_TYPE) default []),
+					applicationsStarted: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == RTF_TARGET_TYPE) default [] filter ($.application.status == APP_STATUS_RUNNING) default []),
+					applicationsStopped: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == RTF_TARGET_TYPE) default [] filter ($.application.status != APP_STATUS_RUNNING) default []),
 					runtimesUsed: flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [],
 					runtimesUsedTotal: sizeOf(flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [])
 				}	
@@ -290,9 +326,9 @@ var policiesAppliedByPolicy = (inProduction) -> (
 				servers: sizeOf(flatten(getProdData(armServers).data default []) default []),
 				clusters: sizeOf(flatten(getProdData(armClusters).data default []) default []),
 				serverGroups: sizeOf(flatten(getProdData(armServerGroups).data default []) default []),
-				applicationsTotal: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == 'RR') default []),
-				applicationsStarted: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == 'RR') default [] filter ($.status == 'STARTED') default []),
-				applicationsStopped: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == 'RR') default [] filter ($.status != 'STARTED') default []),
+				applicationsTotal: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default []),
+				applicationsStarted: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status == APP_STATUS_STARTED) default []),
+				applicationsStopped: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status != APP_STATUS_STARTED) default []),
 				runtimesUsed: flatten(getProdData(armServers).data default []).muleVersion distinctBy $ default [],
 				runtimesUsedTotal: sizeOf(flatten(getProdData(armServers).data default []).muleVersion distinctBy $ default [])
 			},
@@ -300,14 +336,55 @@ var policiesAppliedByPolicy = (inProduction) -> (
 				servers: sizeOf(flatten(getSandboxData(armServers).data default []) default []),
 				clusters: sizeOf(flatten(getSandboxData(armClusters).data default []) default []),
 				serverGroups: sizeOf(flatten(getSandboxData(armServerGroups).data default []) default []),
-				applicationsTotal: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'RR') default []),
-				applicationsStarted: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'RR') default [] filter ($.status == 'STARTED') default []),
-				applicationsStopped: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == 'RR') default [] filter ($.status != 'STARTED') default []),
+				applicationsTotal: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default []),
+				applicationsStarted: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status == APP_STATUS_STARTED) default []),
+				applicationsStopped: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status != APP_STATUS_STARTED) default []),
 				runtimesUsed: flatten(getSandboxData(armServers).data default []).muleVersion distinctBy $ default [],
 				runtimesUsedTotal: sizeOf(flatten(getSandboxData(armServers).data default []).muleVersion distinctBy $ default [])
 			}
 		}
 		
+	},
+	mqMetrics: {
+		stats: {
+			summary: {
+				production:{
+					queues: {
+						commonQueues: sum(flatten(getProdData(mq)).queues.commonQueues default [0]),
+						fifoQueues: sum(flatten(getProdData(mq)).queues.fifoQueues default [0]),
+						messagesInFlight: sum(flatten(getProdData(mq)).queues.messagesInFlight default [0]),
+						messagesSent: sum(flatten(getProdData(mq)).queues.messagesSent default [0]),
+						messagesReceived: sum(flatten(getProdData(mq)).queues.messagesReceived default [0]),
+						messagesAck: sum(flatten(getProdData(mq)).queues.messagesAck default [0])
+					},
+					exchanges: {
+						exchangeQueues: sum(flatten(getProdData(mq)).exchanges.exchangeQueues default [0]),
+						messagesPublished: sum(flatten(getProdData(mq)).exchanges.messagesPublished default [0]),
+						messagesDelivered: sum(flatten(getProdData(mq)).exchanges.messagesDelivered default [0])
+					}
+				}, 
+				sandbox: {
+					queues: {
+						commonQueues: sum(flatten(getSandboxData(mq)).queues.commonQueues default [0]),
+						fifoQueues: sum(flatten(getSandboxData(mq)).queues.fifoQueues default [0]),
+						messagesInFlight: sum(flatten(getSandboxData(mq)).queues.messagesInFlight default [0]),
+						messagesSent: sum(flatten(getSandboxData(mq)).queues.messagesSent default [0]),
+						messagesReceived: sum(flatten(getSandboxData(mq)).queues.messagesReceived default [0]),
+						messagesAck: sum(flatten(getSandboxData(mq)).queues.messagesAck default [0])
+					},
+					exchanges: {
+						exchangeQueues: sum(flatten(getSandboxData(mq)).exchanges.exchangeQueues default [0]),
+						messagesPublished: sum(flatten(getSandboxData(mq)).exchanges.messagesPublished default [0]),
+						messagesDelivered: sum(flatten(getSandboxData(mq)).exchanges.messagesDelivered default [0])
+					}
+				}
+			},
+			byRegion: {
+				production: (getProdData(mq)[0] default []),
+				sandbox: (getSandboxData(mq)[0] default [])
+			}
+			
+		}
 	},
 	errors: errors	
 }

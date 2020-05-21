@@ -30,7 +30,7 @@ Table of Contents
             * [Conceptual](#conceptual)
             * [Detailed](#detailed)
       * [Final Notes](#final-notes)
-      
+
 # Metrics Framework
 The metrics framework is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. In addition to the platform metrics, the framework also extends the capabilities to integrate with external applications like Jira, Confluence, Jenkins, Bitbucket and Splunk to gather SDLC metrics. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance for extending this, contact MuleSoft Professional Services
 
@@ -39,7 +39,7 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 - Provides more than 100 metrics from 3 complementary domains:
 	- **Platform Operational Metrics**: collected and calculated automatically based on multiple products from Anypoint Platform: Exchange, Design Center, Runtime Manager, Access Management; covering metrics from applications deployed on-prem (Standalone), RTF and CloudHub.
 	- **Platform Benefits**: require manual input to calculate final metrics, crossing information from the "Platform Operational" domain
-	- **External sdlc Metrics**: collected and calculated automatically based on multiple external applications: Jira, Confluence, Jenkins, Bitbucket and Splunk; 
+	- **External sdlc Metrics**: collected and calculated automatically based on multiple external applications: Jira, Confluence, Jenkins, Bitbucket and Splunk;
 
 ![Domains](/img/domains.png)
 
@@ -157,6 +157,15 @@ RuntimeManager - Standalone | Mule Applications Started Total | BG, Environment 
 RuntimeManager - Standalone | Mule Applications Stopped Total | BG, Environment |
 RuntimeManager - Standalone | Mule Runtime Versions | BG, Environment |
 RuntimeManager - Standalone | Mule Runtime Versions Total | BG, Environment |
+MQ | Queues total | BG, Environment, Region |
+MQ | FIFO Queues total | BG, Environment, Region |
+MQ | Queues In Flight Messages total | BG, Environment, Region |
+MQ | Queues Received Messages total | BG, Environment, Region |
+MQ | Queues Sent Messages total | BG, Environment, Region |
+MQ | Queues ACK Messages total | BG, Environment, Region |
+MQ | Exchanges total | BG, Environment, Region |
+MQ | Exchanges Published Messages total | BG, Environment, Region |
+MQ | Exchanges Delivered Messages total | BG, Environment, Region |
 
 ### Platform Benefits
 
@@ -197,8 +206,8 @@ Splunk | Total Number of Splunk dashboards
 ### Requirements
 - Mule Runtime 4.2.1 or above
 - All deployments models are supported: CloudHub, OnPrem hosted Runtimes, Runtime Fabric
-- Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data 
-- (Optional for SDLC metrics) Authorized user with API access to any of the applications: Jira, Confluence, Jenkins, Bitbucket and Splunk for which you want to gather data. 
+- Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data
+- (Optional for SDLC metrics) Authorized user with API access to any of the applications: Jira, Confluence, Jenkins, Bitbucket and Splunk for which you want to gather data.
 
 ### Steps
 
@@ -218,8 +227,8 @@ Splunk | Total Number of Splunk dashboards
 - Example `mule.key` used and configured as a Global Property under `global.xml` file
 
 
-Name | Description | Default Value 
------------- | ------------ | ------------ 
+Name | Description | Default Value
+------------ | ------------ | ------------
 http.port | The port for exposing the metrics-framework API | 8081
 poller.enabled | Property to enable or disable the poller to collect and load metrics in external systems | false
 poller.frequency.cron | Defines the exact frequency (using cron-expressions) to trigger the execution: Recommended to collect metrics once a day | 0 0 0 \* \* ? \*
@@ -227,49 +236,49 @@ poller.frequency.timezone | Defines the time zone in which the cron-expression w
 aggregation.raw | Flag to define the format of the final response **False**: Won’t provide the raw data but final metrics **True**: Will provide raw data to be aggregated outside this asset | false
 loader.strategy | In the case of using the poller, this property defines the strategy for loading data in external systems, the options are: **csv, json, logger, splunk, am, elk, tableau** | logger
 anypoint.platform.host | Anypoint Platform Host. Change to eu1.anypoint.mulesoft.com if using the EU Control Plane or to a private host if using PCE | anypoint.mulesoft.com
-auth.username | Anypoint Platform username | 
-auth.password | Anypoint Platform password | 
-auth.orgId | Anypoint Platform master org Id | 
-ignoreLists.organizations | An array (comma-separated values) of Anypoint Platform sub-organizations id that will be ignored while retrieving metrics e.g "cdfa4e7d-47cd-n1h1-8f39-6a73fbb9ffcb, cdfa4e7d-47cd-n2h2-8f39-6a73fbb9ffcb" | 
+auth.username | Anypoint Platform username |
+auth.password | Anypoint Platform password |
+auth.orgId | Anypoint Platform master org Id |
+ignoreLists.organizations | An array (comma-separated values) of Anypoint Platform sub-organizations id that will be ignored while retrieving metrics e.g "cdfa4e7d-47cd-n1h1-8f39-6a73fbb9ffcb, cdfa4e7d-47cd-n2h2-8f39-6a73fbb9ffcb" |
 
 #### SDLC metrics collectors properties configuration
 Name | Description | Default Value
 ------------ | ------------ | ------------
 sdlc.confluence.enabled | Property to enable or disable application to collect metrics from Confluence | false
-sdlc.confluence.host | Confluence server host | 
-sdlc.confluence.port | Confluence server port | 
-sdlc.confluence.path | Context url of the [Confluence REST API](https://developer.atlassian.com/cloud/confluence/rest/)  | 
-sdlc.confluence.user | Authorized Confluence user to access REST APIs | 
-sdlc.confluence.token | User token to access REST APIs | 
+sdlc.confluence.host | Confluence server host |
+sdlc.confluence.port | Confluence server port |
+sdlc.confluence.path | Context url of the [Confluence REST API](https://developer.atlassian.com/cloud/confluence/rest/)  |
+sdlc.confluence.user | Authorized Confluence user to access REST APIs |
+sdlc.confluence.token | User token to access REST APIs |
 sdlc.bitbucket.enabled | Property to enable or disable application to collect metrics from Bitbucket | false
-sdlc.bitbucket.host | Bitbucket server host | 
-sdlc.bitbucket.port | Bitbucket server port | 
-sdlc.bitbucket.path | Context url of the [Bitbucket REST API](https://developer.atlassian.com/bitbucket/api/2/reference/resource/)  | 
-sdlc.bitbucket.user | Authorized Bitbucket user to access REST APIs | 
-sdlc.bitbucket.token | User token to access REST APIs | 
+sdlc.bitbucket.host | Bitbucket server host |
+sdlc.bitbucket.port | Bitbucket server port |
+sdlc.bitbucket.path | Context url of the [Bitbucket REST API](https://developer.atlassian.com/bitbucket/api/2/reference/resource/)  |
+sdlc.bitbucket.user | Authorized Bitbucket user to access REST APIs |
+sdlc.bitbucket.token | User token to access REST APIs |
 sdlc.jira.enabled | Property to enable or disable application to collect metrics from Jira | false
-sdlc.jira.host | Jira server host | 
-sdlc.jira.port | Jira server port | 
-sdlc.jira.path | Context url of the [Jira REST API](https://developer.atlassian.com/cloud/jira/platform/rest/v2/)  | 
-sdlc.jira.backlogPath | Context url of the [Jira REST API](https://developer.atlassian.com/cloud/jira/platform/rest/v2/) to fetch stories from backlog  | 
-sdlc.jira.user | Authorized Jira user to access REST APIs | 
-sdlc.jira.token | User token to access REST APIs | 
+sdlc.jira.host | Jira server host |
+sdlc.jira.port | Jira server port |
+sdlc.jira.path | Context url of the [Jira REST API](https://developer.atlassian.com/cloud/jira/platform/rest/v2/)  |
+sdlc.jira.backlogPath | Context url of the [Jira REST API](https://developer.atlassian.com/cloud/jira/platform/rest/v2/) to fetch stories from backlog  |
+sdlc.jira.user | Authorized Jira user to access REST APIs |
+sdlc.jira.token | User token to access REST APIs |
 sdlc.jenkins.enabled | Property to enable or disable application to collect metrics from Jenkins | false
-sdlc.jenkins.host | Jenkins server host | 
-sdlc.jenkins.port | Jenkins server port | 
-sdlc.jenkins.path | Context url of the [Jenkins REST API](https://wiki.jenkins.io/display/JENKINS/Remote+access+API)  | 
-sdlc.jenkins.user | Authorized Jenkins user to access REST APIs | 
-sdlc.jenkins.token | User token to access REST APIs | 
+sdlc.jenkins.host | Jenkins server host |
+sdlc.jenkins.port | Jenkins server port |
+sdlc.jenkins.path | Context url of the [Jenkins REST API](https://wiki.jenkins.io/display/JENKINS/Remote+access+API)  |
+sdlc.jenkins.user | Authorized Jenkins user to access REST APIs |
+sdlc.jenkins.token | User token to access REST APIs |
 sdlc.splunk.enabled | Property to enable or disable application to collect metrics from Splunk | false
-sdlc.splunk.host | Splunk server host | 
-sdlc.splunk.port | Splunk server port | 
-sdlc.splunk.path | Context url of the [Splunk REST API](https://docs.splunk.com/Documentation/Splunk/8.0.3/RESTTUT/RESTandCloud)  | 
-sdlc.splunk.user | Authorized Splunk user to access REST APIs | 
-sdlc.splunk.password | Password to access REST APIs | 
+sdlc.splunk.host | Splunk server host |
+sdlc.splunk.port | Splunk server port |
+sdlc.splunk.path | Context url of the [Splunk REST API](https://docs.splunk.com/Documentation/Splunk/8.0.3/RESTTUT/RESTandCloud)  |
+sdlc.splunk.user | Authorized Splunk user to access REST APIs |
+sdlc.splunk.password | Password to access REST APIs |
 
 ### Splunk steps
 
-1. Create 2 indexes: metrics and platform_benefits
+1. Create 2 indexes: metrics and platform_benefits (of type Events)
 2. In the Splunk instance configure an HTTP Event Collector (HEC) associated to these 2 indexes, format _json
 3. The token obtained will be used as part of the properties of the Mule application
 4. Load the dashboards, simply copy the xmls provided under `/dashboards/splunk` to `{SPLUNK_HOME}/etc/apps/{APP_NAME}/local/data/ui/views`
