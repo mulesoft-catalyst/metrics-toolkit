@@ -300,6 +300,8 @@ splunk.index.benefits | Index for storing Platform benefits | platform_benefits
 
 ### ELK steps
 
+**NOTE:** Dashboards were created and tested with Kibana 7.6.2, adjustments may be necessary for other versions
+
 1. The Framework will load data into the `metrics` and `platformbenefits` indexes. Once data is loaded create an index pattern on Kibana for these indexes
 2. Set the loader strategy to `elk` on the `metrics-framework-{env}.yaml` file, along with the `elk.user` and `elk.password` parameters in the secure `metrics-framework-{env}.yaml` file
 3. To load the dashboards, replace the `<YOUR-INDEX-PATTERN-ID>` occurrences on all of the dashboards provided under `/dashboards/elk` with your index pattern ID. The index pattern ID can be obtained on Kibana under `Management>>Index Patterns`
