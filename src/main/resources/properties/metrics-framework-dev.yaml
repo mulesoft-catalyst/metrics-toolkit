@@ -10,12 +10,34 @@ poller:
     #https://www.freeformatter.com/cron-expression-generator-quartz.html
     timezone: "GMT-3"
 
-  
 aggregation:
   raw: "false"
   
 loader:
   strategy: "logger"
+
+# Enabled Collectors
+#
+# Comma separated set of collectors that should be executed. Possible values are:
+#
+# Available for all deployment models:
+#  - ap: Automated Policies              
+#  - apc: API Clients
+#  - apm: API Manager
+#  - arm: Runtime Manager   
+#  - core: Core Services
+#  - dc: Design Center
+#  - ex: Exchange
+            
+# Not available for PCE deployment model:
+#  - amq: Anypoint MQ
+#  - apma: API Manager Analytics                                          
+#  - ch: Cloudhub   
+#  - rtf: Runtime Fabric
+
+# Default value: "all"
+  
+collectors: "all"
   
 splunk:
   host: "splunk-metrics.env.services.mulesoft.com"
