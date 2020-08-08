@@ -9,6 +9,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
  	<flow name="aggregator-platform-metrics-master-flow" doc:id="b44a5537-b4b2-48d6-be10-5966f49ef8dc" >
 		<set-variable value="#[now()]" doc:name="Set Date Variable" doc:id="19b78a0f-a914-48fc-a18c-e3df9ad7fd57" variableName="date"/>
 		<set-variable value="#[[]]" doc:name="Set Errors Variable" doc:id="26387c09-6d0a-49c6-b8b7-7e843c8602ce" variableName="errors"/>
+		<set-variable value='#[!(Mule::p("anypoint.platform.host") endsWith ".mulesoft.com")]' doc:name="isPCE" doc:id="3a12a8a0-0129-403e-a3de-b29c6c41a028" variableName="isPCE"/>
 		<flow-ref doc:name="Get Token Flow Reference" doc:id="675f99f2-d682-4162-9702-5da306885ba1" name="api-call-coreservices-login-flow" target="token" targetValue="payload.access_token" />
 		<flow-ref doc:name="api-call-coreservices-organizations-flow" doc:id="1f5906b9-2afa-4fc3-98e3-b11f8320e06f" name="api-call-coreservices-organizations-flow"/>
 		<ee:transform doc:name="Build Organizations including master org" doc:id="75e24a85-7cf4-4d19-9d58-d2b677f89993" >
@@ -44,38 +45,203 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<choice doc:name="Choice" doc:id="5eae9f6d-f0a4-489e-92ab-3aa8f2b5502b" >
 			<when expression="#[not isEmpty(vars.environments)]">
 				<scatter-gather doc:name="Scatter-Gather" doc:id="f91aa95c-1b72-4596-bb78-c2d26978d2c7">
-			<route> 
-				<flow-ref doc:name="CloudHub Apps Metrics Flow Reference" doc:id="b8f7e5c7-f5ed-4ef0-9ae2-eee199b1ebf2" name="collector-cloudhub-apps-metrics-parallel-flow" />
+			<route>
+						<choice doc:name="Choice" doc:id="6c736205-a79f-4791-b78e-e64cac2ffd2d" >
+							<when expression='#[!(vars.isPCE as Boolean) and !isEmpty(vars.collectors filter (["all", "ch"] contains $))]'>
+								<flow-ref doc:name="CloudHub Apps Metrics Flow Reference" doc:id="b8f7e5c7-f5ed-4ef0-9ae2-eee199b1ebf2" name="collector-cloudhub-apps-metrics-parallel-flow" />
+							</when>
+							<otherwise >
+								<logger level="INFO" doc:name="Logger" doc:id="3f084600-b105-4997-a7c9-ce60a882b16d" message="CloudHub Metrics won't be collected: deployment model is PCE or product not included in the request"/>
+								<ee:transform doc:name="Transform Message" doc:id="836b8124-f2b7-4532-abb1-6148fb1eb85b" >
+									<ee:message >
+										<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+null]]></ee:set-payload>
+									</ee:message>
+								</ee:transform>
+							</otherwise>
+						</choice>
 			</route>
 			<route>
-				<flow-ref doc:name="Exchange Assets Flow Reference" doc:id="9983e278-1c7d-4b63-84ac-8c148bdb2711" name="collector-exchange-metrics-flow" />
+				<choice doc:name="Choice" doc:id="c2affb6c-a28e-467e-bd9d-f11ce386b45f" >
+							<when expression='#[!isEmpty(vars.collectors filter (["all", "ex"] contains $))]'>
+								<flow-ref doc:name="Exchange Assets Flow Reference" doc:id="9983e278-1c7d-4b63-84ac-8c148bdb2711" name="collector-exchange-metrics-flow" />
+							</when>
+							<otherwise >
+								<logger level="INFO" doc:name="Logger" doc:id="ecaa93ea-d2e8-4c80-81b1-f021d286623a" message="Exchange Metrics won't be collected: product not included in the request" />
+								<ee:transform doc:name="Transform Message" doc:id="6165d1f0-52c0-4585-85da-7c00a0192321" >
+									<ee:message >
+										<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+null]]></ee:set-payload>
+									</ee:message>
+								</ee:transform>
+							</otherwise>
+						</choice>
 			</route>
 			<route>
-				<flow-ref doc:name="API Manager Metrics Flow Reference" doc:id="7d3f4740-47e1-4ad5-b87e-1c5869903a28" name="collector-apim-parallel-flow" />
+				<choice doc:name="Choice" doc:id="6e9676bf-b83f-4264-8917-58988d6dcbb5" >
+							<when expression='#[!isEmpty(vars.collectors filter (["all", "apm"] contains $))]'>
+								<flow-ref doc:name="API Manager Metrics Flow Reference" doc:id="7d3f4740-47e1-4ad5-b87e-1c5869903a28" name="collector-apim-parallel-flow" />
+							</when>
+							<otherwise >
+								<logger level="INFO" doc:name="Logger" doc:id="5fd82505-f624-402c-8867-bb038048e5a5" message="API Manager Metrics won't be collected: product not included in the request" />
+								<ee:transform doc:name="Transform Message" doc:id="467cd657-2b80-4aa1-b702-507d7316d897" >
+									<ee:message >
+										<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+null]]></ee:set-payload>
+									</ee:message>
+								</ee:transform>
+							</otherwise>
+						</choice>
 			</route>
 			<route>
-				<flow-ref doc:name="Coreservices Members Flow Reference" doc:id="0d270a25-f417-43ce-8729-7eec33548360" name="aggregator-platform-metrics-coreservices-flow" />
+						<choice doc:name="Choice" doc:id="41d460bc-09c8-4045-bb73-de630301d5a4" >
+							<when expression='#[!isEmpty(vars.collectors filter (["all", "core"] contains $))]'>
+								<flow-ref doc:name="Coreservices Members Flow Reference" doc:id="0d270a25-f417-43ce-8729-7eec33548360" name="aggregator-platform-metrics-coreservices-flow" />
+							</when>
+							<otherwise >
+								<logger level="INFO" doc:name="Logger" doc:id="dea0a312-f4f8-403a-bd7e-7e5916c035a9" message="Core Services Metrics won't be collected: product not included in the request" />
+								<ee:transform doc:name="Transform Message" doc:id="b8ed9827-e33b-45d5-b20d-e34204ef7175" >
+									<ee:message >
+										<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+null]]></ee:set-payload>
+									</ee:message>
+								</ee:transform>
+							</otherwise>
+						</choice>
 			</route>
 			<route>
-				<flow-ref doc:name="Design Center Projects Flow Reference" doc:id="f0ddec9e-176f-4f39-af14-728444fce2d2" name="collector-design-center-metrics-flow" />
+						<choice doc:name="Choice" doc:id="90dd01a9-cfd6-4fbe-b03b-32e4d26b6331" >
+							<when expression='#[!isEmpty(vars.collectors filter (["all", "dc"] contains $))]'>
+								<flow-ref doc:name="Design Center Projects Flow Reference" doc:id="f0ddec9e-176f-4f39-af14-728444fce2d2" name="collector-design-center-metrics-flow" />
+							</when>
+							<otherwise >
+								<logger level="INFO" doc:name="Logger" doc:id="a91ccede-f24f-4394-aca9-5cf94b9740cd" message="Design Center Metrics won't be collected: product not included in the request" />
+								<ee:transform doc:name="Transform Message" doc:id="bdafebe1-4f3b-4f5f-82de-5ad015035fa8" >
+									<ee:message >
+										<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+null]]></ee:set-payload>
+									</ee:message>
+								</ee:transform>
+							</otherwise>
+						</choice>
 			</route>
 			<route>
-				<flow-ref doc:name="API Clients Flow Reference" doc:id="dfcd3053-bd9e-4c9c-9ae6-384874401176" name="collector-api-clients-metrics-flow" />
+				<choice doc:name="Choice" doc:id="c22f530c-7f52-495e-8267-e7a4b49bd1e1" >
+							<when expression='#[!isEmpty(vars.collectors filter (["all", "apc"] contains $))]'>
+								<flow-ref doc:name="API Clients Flow Reference" doc:id="dfcd3053-bd9e-4c9c-9ae6-384874401176" name="collector-api-clients-metrics-flow" />
+							</when>
+							<otherwise >
+								<logger level="INFO" doc:name="Logger" doc:id="3a148aad-16a5-4824-977c-9f4694a2da53" message="API Client Metrics won't be collected: product not included in the request" />
+								<ee:transform doc:name="Transform Message" doc:id="fd6b3bd8-5ff3-4209-8766-3bb6d2edae5c" >
+									<ee:message >
+										<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+null]]></ee:set-payload>
+									</ee:message>
+								</ee:transform>
+							</otherwise>
+						</choice>
 			</route>
 			<route>
-				<flow-ref doc:name="Automated Policies Flow Reference" doc:id="7a5be530-6b17-4f93-a594-41d8a99328fa" name="collector-apim-automated-policies-metrics-flow" />
+				<choice doc:name="Choice" doc:id="b4f851c6-d56c-4b03-81f3-a418b4b9ce22" >
+							<when expression='#[!isEmpty(vars.collectors filter (["all", "ap"] contains $))]'>
+								<flow-ref doc:name="Automated Policies Flow Reference" doc:id="7a5be530-6b17-4f93-a594-41d8a99328fa" name="collector-apim-automated-policies-metrics-flow" />
+							</when>
+							<otherwise >
+								<logger level="INFO" doc:name="Logger" doc:id="62c3ffa6-1d8f-4e35-970c-681a409d5f47" message="Automated Policies Metrics won't be collected: product not included in the request" />
+								<ee:transform doc:name="Transform Message" doc:id="1ac109a1-6297-43a8-b2e1-01fd96ea73f2" >
+									<ee:message >
+										<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+null]]></ee:set-payload>
+									</ee:message>
+								</ee:transform>
+							</otherwise>
+						</choice>
 			</route> 
 			<route>
-				<flow-ref doc:name="ARM Metrics Flow Reference" doc:id="27879996-a1c7-4ab0-9b2d-8c4f60d1e6a3" name="aggregator-platform-metrics-arm-flow" />
+				<choice doc:name="Choice" doc:id="90201985-eda8-4fd6-ad59-25f72622fb48" >
+							<when expression='#[!isEmpty(vars.collectors filter (["all", "arm"] contains $))]'>
+								<flow-ref doc:name="ARM Metrics Flow Reference" doc:id="27879996-a1c7-4ab0-9b2d-8c4f60d1e6a3" name="aggregator-platform-metrics-arm-flow" />
+							</when>
+							<otherwise >
+								<logger level="INFO" doc:name="Logger" doc:id="9c72e831-0873-4787-9ce2-b021799b246c" message="Anypoint Runtime Metrics won't be collected: product not included in the request" />
+								<ee:transform doc:name="Transform Message" doc:id="d6b7cf64-27f6-4c10-8717-edd6648072cb" >
+									<ee:message >
+										<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+null]]></ee:set-payload>
+									</ee:message>
+								</ee:transform>
+							</otherwise>
+						</choice>
 			</route>
 			<route>
-				<flow-ref doc:name="RTF Fabrics Metrics Flow Reference" doc:id="51eaeb21-1453-4654-baa2-a721f989c244" name="collector-rtf-fabrics-metrics-flow" />
+				<choice doc:name="Choice" doc:id="764297d0-c282-4943-8cfb-6b2ae0cae9f0" >
+							<when expression='#[!(vars.isPCE as Boolean) and !isEmpty(vars.collectors filter (["all", "rtf"] contains $))]'>
+								<flow-ref doc:name="RTF Fabrics Metrics Flow Reference" doc:id="51eaeb21-1453-4654-baa2-a721f989c244" name="collector-rtf-fabrics-metrics-flow" />
+							</when>
+							<otherwise >
+								<logger level="INFO" doc:name="Logger" doc:id="5cdd8955-390d-4e52-9ca5-78bbdb63b40f" message="Runtime Fabric Metrics won't be collected: deployment model is PCE or product not included in the request" />
+								<ee:transform doc:name="Transform Message" doc:id="18b0a4eb-1981-4431-a6f4-7e84c2abbf1a" >
+									<ee:message >
+										<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+null]]></ee:set-payload>
+									</ee:message>
+								</ee:transform>
+							</otherwise>
+						</choice>
 			</route>
 			<route>
-				<flow-ref doc:name="Analytics Enriched Data Flow Reference" doc:id="2908db4d-cc5b-421b-a844-2272898b0b73" name="collector-analytics-metrics-parallel-flow" />
+				<choice doc:name="Choice" doc:id="95a8db4a-7755-4f78-a0eb-ed0a783e5eef" >
+							<when expression='#[!(vars.isPCE as Boolean) and !isEmpty(vars.collectors filter (["all", "apma"] contains $))]'>
+								<flow-ref doc:name="Analytics Enriched Data Flow Reference" doc:id="2908db4d-cc5b-421b-a844-2272898b0b73" name="collector-analytics-metrics-parallel-flow" />
+							</when>
+							<otherwise >
+								<logger level="INFO" doc:name="Logger" doc:id="691026dc-a61d-40d6-9b35-a472eb5e6f19" message="Analytics Metrics won't be collected: deployment model is PCE or product not included in the request" />
+								<ee:transform doc:name="Transform Message" doc:id="ac08b46f-ec59-4e71-a3bf-d7be84c3b315" >
+									<ee:message >
+										<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+null]]></ee:set-payload>
+									</ee:message>
+								</ee:transform>
+							</otherwise>
+						</choice>
 			</route>
 					<route >
-						<flow-ref doc:name="MQ Metrics Flow Reference" doc:id="0b7b5322-2c65-4ee2-ac62-84bcdd19aef3" name="collector-mq-metrics-parallel-flow"/>
+						<choice doc:name="Choice" doc:id="38b6f80f-6f6b-4437-9f4d-b1b3c5329b46" >
+							<when expression='#[!(vars.isPCE as Boolean) and !isEmpty(vars.collectors filter (["all", "amq"] contains $))]'>
+								<flow-ref doc:name="MQ Metrics Flow Reference" doc:id="0b7b5322-2c65-4ee2-ac62-84bcdd19aef3" name="collector-mq-metrics-parallel-flow" />
+							</when>
+							<otherwise >
+								<logger level="INFO" doc:name="Logger" doc:id="8dddd0f5-1dbf-4905-bf68-664c4dc5c87e" message="Anypoint MQ Metrics won't be collected: deployment model is PCE or product not included in the request" />
+								<ee:transform doc:name="Transform Message" doc:id="b8eb8e46-183e-4eaf-a2a1-0587f5c8a35e" >
+									<ee:message >
+										<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+null]]></ee:set-payload>
+									</ee:message>
+								</ee:transform>
+							</otherwise>
+						</choice>
 					</route>
 		</scatter-gather>
 				<choice doc:name="Choice" doc:id="a97772ac-5115-4717-ab5e-333822e3841b">
