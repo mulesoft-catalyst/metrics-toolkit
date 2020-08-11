@@ -52,12 +52,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 							</when>
 							<otherwise >
 								<logger level="INFO" doc:name="Logger" doc:id="3f084600-b105-4997-a7c9-ce60a882b16d" message="CloudHub Metrics won't be collected: deployment model is PCE or product not included in the request"/>
-								<ee:transform doc:name="Transform Message" doc:id="836b8124-f2b7-4532-abb1-6148fb1eb85b" >
+								<ee:transform doc:name="Set Null Response" doc:id="836b8124-f2b7-4532-abb1-6148fb1eb85b" >
 									<ee:message >
-										<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-null]]></ee:set-payload>
+										<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
 									</ee:message>
 								</ee:transform>
 							</otherwise>
@@ -70,12 +67,9 @@ null]]></ee:set-payload>
 							</when>
 							<otherwise >
 								<logger level="INFO" doc:name="Logger" doc:id="ecaa93ea-d2e8-4c80-81b1-f021d286623a" message="Exchange Metrics won't be collected: product not included in the request" />
-								<ee:transform doc:name="Transform Message" doc:id="6165d1f0-52c0-4585-85da-7c00a0192321" >
+								<ee:transform doc:name="Set Null Response" doc:id="2f4f82aa-065d-4cfa-811f-ce523fe28c65" >
 									<ee:message >
-										<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-null]]></ee:set-payload>
+										<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
 									</ee:message>
 								</ee:transform>
 							</otherwise>
@@ -88,12 +82,9 @@ null]]></ee:set-payload>
 							</when>
 							<otherwise >
 								<logger level="INFO" doc:name="Logger" doc:id="5fd82505-f624-402c-8867-bb038048e5a5" message="API Manager Metrics won't be collected: product not included in the request" />
-								<ee:transform doc:name="Transform Message" doc:id="467cd657-2b80-4aa1-b702-507d7316d897" >
+								<ee:transform doc:name="Set Null Response" doc:id="0f0e9f55-2eee-488b-8787-75e44d3e5804" >
 									<ee:message >
-										<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-null]]></ee:set-payload>
+										<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
 									</ee:message>
 								</ee:transform>
 							</otherwise>
@@ -106,12 +97,9 @@ null]]></ee:set-payload>
 							</when>
 							<otherwise >
 								<logger level="INFO" doc:name="Logger" doc:id="dea0a312-f4f8-403a-bd7e-7e5916c035a9" message="Core Services Metrics won't be collected: product not included in the request" />
-								<ee:transform doc:name="Transform Message" doc:id="b8ed9827-e33b-45d5-b20d-e34204ef7175" >
+								<ee:transform doc:name="Set Null Response" doc:id="93ad5189-4434-4916-ad86-f31817b8b3f3" >
 									<ee:message >
-										<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-null]]></ee:set-payload>
+										<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
 									</ee:message>
 								</ee:transform>
 							</otherwise>
@@ -124,12 +112,9 @@ null]]></ee:set-payload>
 							</when>
 							<otherwise >
 								<logger level="INFO" doc:name="Logger" doc:id="a91ccede-f24f-4394-aca9-5cf94b9740cd" message="Design Center Metrics won't be collected: product not included in the request" />
-								<ee:transform doc:name="Transform Message" doc:id="bdafebe1-4f3b-4f5f-82de-5ad015035fa8" >
+								<ee:transform doc:name="Set Null Response" doc:id="df6be0bd-2ff4-402d-9f37-174765cfc834" >
 									<ee:message >
-										<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-null]]></ee:set-payload>
+										<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
 									</ee:message>
 								</ee:transform>
 							</otherwise>
@@ -142,12 +127,9 @@ null]]></ee:set-payload>
 							</when>
 							<otherwise >
 								<logger level="INFO" doc:name="Logger" doc:id="3a148aad-16a5-4824-977c-9f4694a2da53" message="API Client Metrics won't be collected: product not included in the request" />
-								<ee:transform doc:name="Transform Message" doc:id="fd6b3bd8-5ff3-4209-8766-3bb6d2edae5c" >
+								<ee:transform doc:name="Set Null Response" doc:id="9de3b2b5-5fd2-4a41-be24-2dd52ca13961" >
 									<ee:message >
-										<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-null]]></ee:set-payload>
+										<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
 									</ee:message>
 								</ee:transform>
 							</otherwise>
@@ -160,12 +142,9 @@ null]]></ee:set-payload>
 							</when>
 							<otherwise >
 								<logger level="INFO" doc:name="Logger" doc:id="62c3ffa6-1d8f-4e35-970c-681a409d5f47" message="Automated Policies Metrics won't be collected: product not included in the request" />
-								<ee:transform doc:name="Transform Message" doc:id="1ac109a1-6297-43a8-b2e1-01fd96ea73f2" >
+								<ee:transform doc:name="Set Null Response" doc:id="0d508fbb-935f-4fb8-88db-dd3368e64f44" >
 									<ee:message >
-										<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-null]]></ee:set-payload>
+										<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
 									</ee:message>
 								</ee:transform>
 							</otherwise>
@@ -178,12 +157,9 @@ null]]></ee:set-payload>
 							</when>
 							<otherwise >
 								<logger level="INFO" doc:name="Logger" doc:id="9c72e831-0873-4787-9ce2-b021799b246c" message="Anypoint Runtime Metrics won't be collected: product not included in the request" />
-								<ee:transform doc:name="Transform Message" doc:id="d6b7cf64-27f6-4c10-8717-edd6648072cb" >
+								<ee:transform doc:name="Set Null Response" doc:id="d2b3b3df-d581-43cf-90c3-5cf6531a0fc2" >
 									<ee:message >
-										<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-null]]></ee:set-payload>
+										<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
 									</ee:message>
 								</ee:transform>
 							</otherwise>
@@ -196,12 +172,9 @@ null]]></ee:set-payload>
 							</when>
 							<otherwise >
 								<logger level="INFO" doc:name="Logger" doc:id="5cdd8955-390d-4e52-9ca5-78bbdb63b40f" message="Runtime Fabric Metrics won't be collected: deployment model is PCE or product not included in the request" />
-								<ee:transform doc:name="Transform Message" doc:id="18b0a4eb-1981-4431-a6f4-7e84c2abbf1a" >
+								<ee:transform doc:name="Set Null Response" doc:id="0d414482-199c-40e1-92ab-a99232cab864" >
 									<ee:message >
-										<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-null]]></ee:set-payload>
+										<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
 									</ee:message>
 								</ee:transform>
 							</otherwise>
@@ -214,12 +187,9 @@ null]]></ee:set-payload>
 							</when>
 							<otherwise >
 								<logger level="INFO" doc:name="Logger" doc:id="691026dc-a61d-40d6-9b35-a472eb5e6f19" message="Analytics Metrics won't be collected: deployment model is PCE or product not included in the request" />
-								<ee:transform doc:name="Transform Message" doc:id="ac08b46f-ec59-4e71-a3bf-d7be84c3b315" >
+								<ee:transform doc:name="Set Null Response" doc:id="6926d83f-33f0-40ce-ac1f-39a2d781ce90" >
 									<ee:message >
-										<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-null]]></ee:set-payload>
+										<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
 									</ee:message>
 								</ee:transform>
 							</otherwise>
@@ -232,12 +202,9 @@ null]]></ee:set-payload>
 							</when>
 							<otherwise >
 								<logger level="INFO" doc:name="Logger" doc:id="8dddd0f5-1dbf-4905-bf68-664c4dc5c87e" message="Anypoint MQ Metrics won't be collected: deployment model is PCE or product not included in the request" />
-								<ee:transform doc:name="Transform Message" doc:id="b8eb8e46-183e-4eaf-a2a1-0587f5c8a35e" >
+								<ee:transform doc:name="Set Null Response" doc:id="417ec330-6d7f-4bfa-ad9b-00870879c51a" >
 									<ee:message >
-										<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-null]]></ee:set-payload>
+										<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
 									</ee:message>
 								</ee:transform>
 							</otherwise>
