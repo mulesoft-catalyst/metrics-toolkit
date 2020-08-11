@@ -325,6 +325,11 @@ elk.index.benefits | Index for storing Platform benefits | platformbenefits
 - This application can be deployed in any Mule Runtime (OnPrem, CloudHub, RTF)
 - The metrics collection will depend on the features available in each account; e.g if the account has the API Manager add-on, the framework will collect and aggregate the metrics related to API Manager, otherwise the values will appear as zeroes; if using PCE, there won't be information about API Analytics
 
+## Limitations
+
+- API Manager metrics:
+	- API Manager API allows to retrieve up to 100 assets (APIs) per request call. As of today, the metrics framework only supports one request call, therefore there is a limitation that will prevent the metrics framework to retrieve stats for an organization that is currently managing +100 APIs
+
 ## Some Theory around the Framework
 The framework is intended to cover the main areas to define and implement metrics using Mule.
 
