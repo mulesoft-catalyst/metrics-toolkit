@@ -17,7 +17,7 @@ var armApps = if (payload[7].payload != null) payload[7].payload[0].payload.payl
 var armServers = if (payload[7].payload != null) payload[7].payload[1].payload.payload else null
 var armClusters = if (payload[7].payload != null) payload[7].payload[2].payload.payload else null
 var armServerGroups = if (payload[7].payload != null) payload[7].payload[3].payload.payload else null
-var rtf = payload[8].payload
+var rtf = payload[8].payload default []
 var analyticsQueryResult = if (payload[9].payload != null) payload[9].payload.payload else null
 var mq = if (payload[10].payload != null) payload[10].payload.payload else null
 

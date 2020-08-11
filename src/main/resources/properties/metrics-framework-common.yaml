@@ -73,7 +73,7 @@ anypoint:
         query:
           path: "/analytics/1.0/{orgId}/environments/{envId}/query"
           duration: "30d"
-          timeout: "8000"
+          timeout: "30000"
       exchange:
         maxConcurrency: "100"
         assets:

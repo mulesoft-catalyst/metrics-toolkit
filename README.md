@@ -234,6 +234,7 @@ poller.enabled | Property to enable or disable the poller to collect and load me
 poller.frequency.cron | Defines the exact frequency (using cron-expressions) to trigger the execution: Recommended to collect metrics once a day | 0 0 0 \* \* ? \*
 poller.frequency.timezone | Defines the time zone in which the cron-expression will be efective | GMT-3
 aggregation.raw | Flag to define the format of the final response **False**: Won’t provide the raw data but final metrics **True**: Will provide raw data to be aggregated outside this asset | false
+collectors | Comma separated set of collectors that should be executed. Default value: all. Possible values available for all deployment models: core (Core Services) ap (Automated Policies) apc (API Clients) apm (API Manager) arm (Standalone Runtimes) dc (Design Center) ex (Exchange). The following collectors are not available for PCE: amq (Anypoint MQ) apma (API Manager Analytics) ch (Cloudhub) rtf (Runtime Fabric) | all
 loader.strategy | In the case of using the poller, this property defines the strategy for loading data in external systems, the options are: **csv, json, logger, splunk, am, elk, tableau** | logger
 anypoint.platform.host | Anypoint Platform Host. Change to eu1.anypoint.mulesoft.com if using the EU Control Plane or to a private host if using PCE | anypoint.mulesoft.com
 auth.username | Anypoint Platform username |
@@ -324,6 +325,7 @@ elk.index.benefits | Index for storing Platform benefits | platformbenefits
 
 - This application can be deployed in any Mule Runtime (OnPrem, CloudHub, RTF)
 - The metrics collection will depend on the features available in each account; e.g if the account has the API Manager add-on, the framework will collect and aggregate the metrics related to API Manager, otherwise the values will appear as zeroes; if using PCE, there won't be information about API Analytics
+- In order to enable or disable specific collectors, you have to change the property "collectors" if using the poller or add a query parameter "collectors" if using the API, including a CSV string as explained in the properties section
 
 ## Limitations
 
