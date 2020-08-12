@@ -17,7 +17,7 @@ var armApps = payload[7].payload[0].payload.payload
 var armServers = payload[7].payload[1].payload.payload
 var armClusters = payload[7].payload[2].payload.payload
 var armServerGroups = payload[7].payload[3].payload.payload
-var rtf = payload[8].payload
+var rtf = payload[8].payload default []
 var analyticsQueryResult = payload[9].payload.payload
 var mq = payload[10].payload.payload
 

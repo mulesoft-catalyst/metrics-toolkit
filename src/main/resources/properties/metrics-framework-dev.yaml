@@ -2,13 +2,16 @@ http:
   port: "8081"
   
 poller:
-  enabled: "false"
+  enabled: "true"
   frequency: 
-    cron: "0 0 0 * * ? *" 
+    cron: "* */5 * * * ? *" 
     #Sample for dev "0 17 * * * ? *" At second :00 of minute :17 of every hour
     #Sample for prod "0 0 0 * * ? *" At 00:00:00am every day
     #https://www.freeformatter.com/cron-expression-generator-quartz.html
     timezone: "GMT-3"
+
+auth:
+  mode: "platform-credentials" # valid options are: platform-credentials or connected-app-credentials
 
   
 aggregation:
