@@ -9,7 +9,11 @@ protocols:
 securedBy: [basic-auth, headers-auth]
 securitySchemes:
   basic-auth:
-    description: This API supports Basic Authentication. This mechanism is mandatory if the password contains special characters.
+    description: | 
+      This API supports Basic Authentication. 
+      This mechanism is mandatory if the password contains special characters
+      Basic Authentication supports both platform-credentials and connected-apps-credentials mode.
+      If the content corresponds to a Connected App credentials, X-ANYPNT-AUTH-MODE header property value must be set to connected-app-credentials
     type: Basic Authentication
   headers-auth:
     description: This API supports Authentication based on custom headers.
@@ -17,13 +21,36 @@ securitySchemes:
     type: x-custom
     describedBy:
       headers:
+        X-ANYPNT-AUTH-MODE:
+          description: |
+            Receives the authentication mode to be used when login to Anypoint Platform.
+            Valid options are:
+              - platform-credentials: when login with a platform user username and password
+              - connectect-app-credentials: when login using a Connected App
+          type: string  
+          enum:
+            - platform-credentials
+            - connected-app-credentials
+          default: platform-credentials
         X-ANYPNT-USERNAME:
           description: |
             Receives the username used when login to Anypoint Platform.
+            Mandatory, when X-ANYPNT-AUTH-MODE = platform-credentials
           type: string
         X-ANYPNT-PASSWORD:
           description: |
-            Receives a text/plain password used when login to Anypoint Platform. 
+            Receives a text/plain password used when login to Anypoint Platform.
+            Mandatory, when X-ANYPNT-AUTH-MODE = platform-credentials 
+          type: string
+        X-ANYPNT-CLIENT-ID:
+          description: |
+            Receives the connected app client id used when login to Anypoint Platform.
+            Mandatory, when X-ANYPNT-AUTH-MODE = connected-app-credentials
+          type: string
+        X-ANYPNT-CLIENT-SECRET:
+          description: |
+            Receives the connected app client secret when login to Anypoint Platform.
+            Mandatory, when X-ANYPNT-AUTH-MODE = connected-app-credentials 
           type: string
        
 /platform-metrics:
