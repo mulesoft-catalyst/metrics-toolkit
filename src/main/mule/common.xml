@@ -6,7 +6,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<flow name="metrics-framework-common-set-auth-vars-from-headers" doc:id="49a5f71b-1858-485c-909a-f535468ebfb2">
 		<set-variable value='#[attributes.headers."X-ANYPNT-ORG-ID"]' doc:name="Set Master Org Id Variable" doc:id="583bc6bb-f12b-4473-b57f-b5d554fc5676"
 			variableName="masterOrgId" />
-		<set-variable value='#[attributes.headers."X-ANYPNT-AUTH-MODE"]' doc:name="Set Auth Mode" doc:id="ed34b3ea-cb4f-43d1-b568-823a020a0675" variableName="authMode"/>
+		<set-variable value='#[if (!isEmpty(attributes.headers."X-ANYPNT-CLIENT-ID")) "connected-app-credentials" else "platform-credentials"]' doc:name="Set Auth Mode" doc:id="ed34b3ea-cb4f-43d1-b568-823a020a0675" variableName="authMode"/>
 		<choice doc:name="Choice" doc:id="2a0f377d-08e0-4d07-ac6a-c1d20125606a" >
 			<when expression="#[attributes.headers.Authorization != null and (sizeOf(attributes.headers.Authorization) &gt; 0)]">
 				<set-variable value='#[%dw 2.0
@@ -21,8 +21,13 @@ output application/java
 (fromBase64((attributes.headers.Authorization default "") replace "Basic " with "") as String splitBy ":")[1]]' doc:name="Set ClientSecret Variable from Basic Auth" doc:id="6f9c4be5-e88f-4270-a117-c615a8bb3fc7" variableName="clientSecret" />
 			</when>
 			<otherwise >
-				<set-variable value='#[if (vars.authMode == "connected-app-credentials") attributes.headers."X-ANYPNT-CLIENT-ID" else attributes.headers."X-ANYPNT-USERNAME"]' doc:name="Set ClientId Variable" doc:id="075e4122-90a7-4d27-b35d-092db96c3f2e" variableName="clientId" />
-				<set-variable value='#[if (vars.authMode == "connected-app-credentials") attributes.headers."X-ANYPNT-CLIENT-SECRET" else attributes.headers."X-ANYPNT-PASSWORD"]' doc:name="Set ClientSecret Variable" doc:id="e0effa31-6072-4bbb-b3db-49e2e057d6e1" variableName="clientSecret" />
+				<set-variable value='#[if (!isEmpty(attributes.headers."X-ANYPNT-CLIENT-ID")) 
+  attributes.headers."X-ANYPNT-CLIENT-ID" 
+else 
+  attributes.headers."X-ANYPNT-USERNAME"]' doc:name="Set ClientId Variable" doc:id="075e4122-90a7-4d27-b35d-092db96c3f2e" variableName="clientId" />
+				<set-variable value='#[if (!isEmpty(attributes.headers."X-ANYPNT-CLIENT-SECRET")) 
+  attributes.headers."X-ANYPNT-CLIENT-SECRET" 
+else attributes.headers."X-ANYPNT-PASSWORD"]' doc:name="Set ClientSecret Variable" doc:id="e0effa31-6072-4bbb-b3db-49e2e057d6e1" variableName="clientSecret" />
 			</otherwise>
 		</choice>
 	</flow>

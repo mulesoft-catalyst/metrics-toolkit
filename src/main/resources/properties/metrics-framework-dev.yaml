@@ -2,9 +2,9 @@ http:
   port: "8081"
   
 poller:
-  enabled: "true"
+  enabled: "false"
   frequency: 
-    cron: "* */5 * * * ? *" 
+    cron: "0 0 0 * * ? *" 
     #Sample for dev "0 17 * * * ? *" At second :00 of minute :17 of every hour
     #Sample for prod "0 0 0 * * ? *" At 00:00:00am every day
     #https://www.freeformatter.com/cron-expression-generator-quartz.html
