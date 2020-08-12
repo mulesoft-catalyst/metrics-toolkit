@@ -4,7 +4,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 	<flow name="metrics-framework-poller-flow" doc:id="e1266183-c6b3-477b-9ded-da55dd9032fa" >
-		<scheduler doc:name="Scheduler" doc:id="bb3cd2a8-90a1-4492-a52d-322485a0f93c" >
+		<scheduler doc:name="Scheduler" doc:id="bb3cd2a8-90a1-4492-a52d-322485a0f93c" disallowConcurrentExecution="true">
 			<scheduling-strategy >
 				<cron expression="${poller.frequency.cron}" timeZone="${poller.frequency.timezone}"/>
 			</scheduling-strategy>
