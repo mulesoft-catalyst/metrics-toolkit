@@ -51,6 +51,8 @@ output application/java
 			</ee:variables>
 		</ee:transform>
 		<set-variable value="#[vars.loaderDetails.rawData]" doc:name="Set Raw Data flag" doc:id="b8a62246-5aca-4707-9c5c-a795bcbc7f16" variableName="rawData"/>
+		<set-variable value='#[if (isEmpty(Mule::p("collectors"))) ["all"]
+else (Mule::p("collectors") splitBy ",")]' doc:name="Set Selected Collectors" doc:id="195ddeed-04e9-402a-9bc1-c6bbcb4202cc" variableName="collectors"/>
 	</flow>
 	
 	<flow name="metrics-framework-common-set-benefits-vars-from-query-params" doc:id="49981a6e-5f09-40b9-8640-5a1af418d086">
