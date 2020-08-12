@@ -206,7 +206,37 @@ Splunk | Total Number of Splunk dashboards
 ### Requirements
 - Mule Runtime 4.2.1 or above
 - All deployments models are supported: CloudHub, OnPrem hosted Runtimes, Runtime Fabric
-- Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data
+- Anypoint Platform credentials, that can be:
+  - Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data
+  - A Connected App (client credentials) with the following scopes (make sure to include all Sub Orgs you want to collect data):
+    - Exchange
+      - Exchange Viewer
+    - Runtime Runtime
+      - Cloudhub Network Viewer
+      - Read Alerts
+      - Read Applications
+      - Read Servers
+    - Runtime Fabric
+      - Manage Runtime Fabrics
+    - API Manager
+      - View APIs Configuration
+      - View Contracts
+      - View Policies
+    - Data Gateway
+      - Data Gateway Viewer
+    - API Federation
+      - Data Graph Viewer
+    - ANG Governance
+      - Governance Manager - Viewer
+      - Governance Reports Viewer
+    - Object Store
+      - Store Metrics Viewer
+      - View stores
+    - General
+      - Audit Log Viewer
+      - Profile
+      - View Environment
+      - View Organization
 - (Optional for SDLC metrics) Authorized user with API access to any of the applications: Jira, Confluence, Jenkins, Bitbucket and Splunk for which you want to gather data.
 
 ### Steps
@@ -234,10 +264,14 @@ poller.enabled | Property to enable or disable the poller to collect and load me
 poller.frequency.cron | Defines the exact frequency (using cron-expressions) to trigger the execution: Recommended to collect metrics once a day | 0 0 0 \* \* ? \*
 poller.frequency.timezone | Defines the time zone in which the cron-expression will be efective | GMT-3
 aggregation.raw | Flag to define the format of the final response **False**: Won’t provide the raw data but final metrics **True**: Will provide raw data to be aggregated outside this asset | false
+collectors | Comma separated set of collectors that should be executed. Default value: all. Possible values available for all deployment models: core (Core Services) ap (Automated Policies) apc (API Clients) apm (API Manager) arm (Standalone Runtimes) dc (Design Center) ex (Exchange). The following collectors are not available for PCE: amq (Anypoint MQ) apma (API Manager Analytics) ch (Cloudhub) rtf (Runtime Fabric) | all
 loader.strategy | In the case of using the poller, this property defines the strategy for loading data in external systems, the options are: **csv, json, logger, splunk, am, elk, tableau** | logger
 anypoint.platform.host | Anypoint Platform Host. Change to eu1.anypoint.mulesoft.com if using the EU Control Plane or to a private host if using PCE | anypoint.mulesoft.com
-auth.username | Anypoint Platform username |
-auth.password | Anypoint Platform password |
+auth.mode | Authentication mode. Valid options are: platform-credentials or connected-app-credentials. Default: platform-credentials |
+auth.username | Anypoint Platform username. Used when auth.mode is platform-credentials |
+auth.password | Anypoint Platform password. Used when auth.mode is platform-credentials |
+auth.clientId | Anypoint Platform Connected App Client Id. Used when auth.mode is connected-app-credentials |
+auth.clientSecret | Anypoint Platform Connected App Client Secret. Used when auth.mode is connected-app-credentials |
 auth.orgId | Anypoint Platform master org Id |
 ignoreLists.organizations | An array (comma-separated values) of Anypoint Platform sub-organizations id that will be ignored while retrieving metrics e.g "cdfa4e7d-47cd-n1h1-8f39-6a73fbb9ffcb, cdfa4e7d-47cd-n2h2-8f39-6a73fbb9ffcb" |
 
@@ -324,6 +358,12 @@ elk.index.benefits | Index for storing Platform benefits | platformbenefits
 
 - This application can be deployed in any Mule Runtime (OnPrem, CloudHub, RTF)
 - The metrics collection will depend on the features available in each account; e.g if the account has the API Manager add-on, the framework will collect and aggregate the metrics related to API Manager, otherwise the values will appear as zeroes; if using PCE, there won't be information about API Analytics
+- In order to enable or disable specific collectors, you have to change the property "collectors" if using the poller or add a query parameter "collectors" if using the API, including a CSV string as explained in the properties section
+
+## Limitations
+
+- API Manager metrics:
+	- API Manager API allows to retrieve up to 100 assets (APIs) per request call. As of today, the metrics framework only supports one request call, therefore there is a limitation that will prevent the metrics framework to retrieve stats for an organization that is currently managing +100 APIs
 
 ## Some Theory around the Framework
 The framework is intended to cover the main areas to define and implement metrics using Mule.
