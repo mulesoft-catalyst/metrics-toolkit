@@ -14,11 +14,6 @@
 				"method": "GET",
 				"header": [
 					{
-						"key": "X-ANYPNT-AUTH-MODE",
-						"value": "platform-credentials",
-						"type": "text"
-					},
-					{
 						"key": "X-ANYPNT-USERNAME",
 						"value": "changeMe",
 						"type": "text"
@@ -87,11 +82,6 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "X-ANYPNT-AUTH-MODE",
-						"value": "platform-credentials",
-						"type": "text"
-					},				
-					{
 						"key": "X-ANYPNT-USERNAME",
 						"type": "text",
 						"value": "changeMe"
@@ -138,11 +128,6 @@
 			"request": {
 				"method": "POST",
 				"header": [
-					{
-						"key": "X-ANYPNT-AUTH-MODE",
-						"value": "platform-credentials",
-						"type": "text"
-					},				
 					{
 						"key": "X-ANYPNT-USERNAME",
 						"type": "text",
@@ -193,11 +178,6 @@
 			"request": {
 				"method": "GET",
 				"header": [
-					{
-						"key": "X-ANYPNT-AUTH-MODE",
-						"value": "platform-credentials",
-						"type": "text"
-					},				
 					{
 						"key": "X-ANYPNT-USERNAME",
 						"value": "changeMe",
@@ -251,11 +231,6 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "X-ANYPNT-AUTH-MODE",
-						"value": "platform-credentials",
-						"type": "text"
-					},
-					{
 						"key": "X-ANYPNT-USERNAME",
 						"type": "text",
 						"value": "changeMe"
@@ -303,11 +278,6 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "X-ANYPNT-AUTH-MODE",
-						"value": "platform-credentials",
-						"type": "text"
-					},
-					{
 						"key": "X-ANYPNT-USERNAME",
 						"type": "text",
 						"value": "changeMe"
@@ -354,11 +324,6 @@
 			"request": {
 				"method": "POST",
 				"header": [
-					{
-						"key": "X-ANYPNT-AUTH-MODE",
-						"value": "platform-credentials",
-						"type": "text"
-					},
 					{
 						"key": "X-ANYPNT-USERNAME",
 						"type": "text",
