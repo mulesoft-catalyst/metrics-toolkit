@@ -267,7 +267,7 @@ aggregation.raw | Flag to define the format of the final response **False**: Won
 collectors | Comma separated set of collectors that should be executed. Default value: all. Possible values available for all deployment models: core (Core Services) ap (Automated Policies) apc (API Clients) apm (API Manager) arm (Standalone Runtimes) dc (Design Center) ex (Exchange). The following collectors are not available for PCE: amq (Anypoint MQ) apma (API Manager Analytics) ch (Cloudhub) rtf (Runtime Fabric) | all
 loader.strategy | In the case of using the poller, this property defines the strategy for loading data in external systems, the options are: **csv, json, logger, splunk, am, elk, tableau** | logger
 anypoint.platform.host | Anypoint Platform Host. Change to eu1.anypoint.mulesoft.com if using the EU Control Plane or to a private host if using PCE | anypoint.mulesoft.com
-auth.mode | Authentication mode. Valid options are: platform-credentials or connected-app-credentials. Default: platform-credentials |
+auth.mode | Authentication mode. Valid options are: platform-credentials or connected-app-credentials | platform-credentials
 auth.username | Anypoint Platform username. Used when auth.mode is platform-credentials |
 auth.password | Anypoint Platform password. Used when auth.mode is platform-credentials |
 auth.clientId | Anypoint Platform Connected App Client Id. Used when auth.mode is connected-app-credentials |
