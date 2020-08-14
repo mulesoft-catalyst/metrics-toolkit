@@ -236,8 +236,18 @@ Splunk | Total Number of Splunk dashboards
 
 2. Adjust the properties, run the project and test it - go to your browser and open `http://localhost:8081/console/`
 
-3. Use the postman collection provided (/postman) to understand the API
-
+3. Use the postman collection provided (/postman) to understand the API. The postman collection contains the following requests:
+  - Platform Metrics:
+  	- GET Platform Metrics: retrieves plaform metrics
+  	- POST Platform Metrics - Load - Splunk Strategy: used to load platform metrics to Splunk. For more information, see [Splunk steps](#splunk-steps)
+  	- POST Platform Metrics - Load - CSV Strategy: returns platform metrics in CSV format.
+  	- POST Platform Metrics - Load - JSON Strategy: returns business metrics in JSON format.
+  
+  - Business Metrics:
+  	- GET Benefits: retrieves business metrics showing the benefits of using the platform
+  	- POST Benefits - Load - Splunk Strategy: used to load business metrics to Splunk. For more information, see [Splunk steps](#splunk-steps)
+  	- POST Benefits - Load - JSON Strategy: returns business metrics in JSON format.
+  
 4. If you want to run the application using the poller mode, you have to configure some properties
 
 ### Properties configurations
@@ -306,8 +316,10 @@ sdlc.splunk.password | Password to access REST APIs |
 1. Create 2 indexes: metrics and platform_benefits (of type Events)
 2. In the Splunk instance configure an HTTP Event Collector (HEC) associated to these 2 indexes, format _json
 3. The token obtained will be used as part of the properties of the Mule application
-4. Load the dashboards, simply copy the xmls provided under `/dashboards/splunk` to `{SPLUNK_HOME}/etc/apps/{APP_NAME}/local/data/ui/views`
-5. If you can't copy the dashboard xmls, you can use the UI to create them and using the "Source" option, you can copy & paste the content of the xmls provided
+4. Create a new application  
+5. Load the dashboards, simply copy the xmls provided under `/dashboards/splunk` to `{SPLUNK_HOME}/etc/apps/{APP_NAME}/local/data/ui/views`
+6. Restart the Splunk instance
+7. If you can't copy the dashboard xmls, you can use the UI to create them and using the "Source" option, you can copy & paste the content of the xmls provided
 
 Follow official Splunk documentation: https://docs.splunk.com/Documentation/Splunk/
 
