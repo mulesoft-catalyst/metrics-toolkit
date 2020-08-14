@@ -66,9 +66,9 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 
 ### Platform Metrics
 
-Product | Metric | Dimensions | -
+Product | Metric | Dimensions | Remarks
 ------------ | ------------ | ------------ | ------------
-Access Management | Users Total | BG |
+Access Management | Users Total | BG | 
 Access Management | Active Users | BG |
 Access Management | Inactive Users | BG |
 Access Management | Active Users Last 60 days | BG |
@@ -209,6 +209,8 @@ Splunk | Total Number of Splunk dashboards
 - Anypoint Platform credentials, that can be:
   - Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data
   - A Connected App (client credentials) with the following scopes (make sure to include all Sub Orgs you want to collect data):
+    - Design Center
+      - Design Center Developer
     - Exchange
       - Exchange Viewer
     - Runtime Runtime
@@ -222,18 +224,7 @@ Splunk | Total Number of Splunk dashboards
       - View APIs Configuration
       - View Contracts
       - View Policies
-    - Data Gateway
-      - Data Gateway Viewer
-    - API Federation
-      - Data Graph Viewer
-    - ANG Governance
-      - Governance Manager - Viewer
-      - Governance Reports Viewer
-    - Object Store
-      - Store Metrics Viewer
-      - View stores
     - General
-      - Audit Log Viewer
       - Profile
       - View Environment
       - View Organization
@@ -364,6 +355,15 @@ elk.index.benefits | Index for storing Platform benefits | platformbenefits
 
 - API Manager metrics:
 	- API Manager API allows to retrieve up to 100 assets (APIs) per request call. As of today, the metrics framework only supports one request call, therefore there is a limitation that will prevent the metrics framework to retrieve stats for an organization that is currently managing +100 APIs
+- Core Services:
+	- Usage: not supported when authenticating with Connected Apps
+	- Role & Groups: not supported when authenticating with Connected Apps and only available in Raw Data mode
+- CloudHub Applications: not supported on Private Cloud Edition (PCE)
+- Runtime Manager Applications: only available in Raw Data mode
+- Runtime Fabric: not supported on Private Cloud Edition (PCE)
+- API Platform Client Applications: not supporte when authentication with Connected Apps
+- Analytics: not supported on Private Cloud Edition (PCE)
+- Anypoint MQ: not supported on Private Cloud Edition (PCE) or when authenticating with Connected Apps
 
 ## Some Theory around the Framework
 The framework is intended to cover the main areas to define and implement metrics using Mule.

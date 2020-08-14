@@ -56,8 +56,15 @@ else attributes.headers."X-ANYPNT-PASSWORD"]' doc:name="Set ClientSecret Variabl
 			</ee:variables>
 		</ee:transform>
 		<set-variable value="#[vars.loaderDetails.rawData]" doc:name="Set Raw Data flag" doc:id="b8a62246-5aca-4707-9c5c-a795bcbc7f16" variableName="rawData"/>
-		<set-variable value='#[if (isEmpty(Mule::p("collectors"))) ["all"]
-else (Mule::p("collectors") splitBy ",")]' doc:name="Set Selected Collectors" doc:id="195ddeed-04e9-402a-9bc1-c6bbcb4202cc" variableName="collectors"/>
+		<set-variable value='#[!(Mule::p("anypoint.platform.host") endsWith ".mulesoft.com")]' doc:name="isPCE" doc:id="53262699-e9bd-4fc8-8493-9a28aa6dc1ea" variableName="isPCE" />
+		<set-variable value="#[var collectors = if (isEmpty(Mule::p(&quot;collectors&quot;))) [&quot;all&quot;] else (Mule::p(&quot;collectors&quot;) as String splitBy &quot;,&quot;)
+---
+(if (collectors contains &quot;all&quot;) 
+[&quot;ap&quot;,&quot;apc&quot;,&quot;apm&quot;,&quot;arm&quot;,&quot;core&quot;,&quot;dc&quot;,&quot;ex&quot;,&quot;amq&quot;,&quot;apma&quot;,&quot;ch&quot;,&quot;rtf&quot;]
+else 
+collectors)
+-- (if (vars.isPCE) [&quot;ch&quot;,&quot;rtf&quot;,&quot;apma&quot;,&quot;amq&quot;] else [])
+-- (if (vars.authMode == 'connected-app-credentials') [&quot;apc&quot;, &quot;amq&quot;] else [])]" doc:name="Set Selected Collectors" doc:id="195ddeed-04e9-402a-9bc1-c6bbcb4202cc" variableName="collectors"/>
 	</flow>
 	
 	<flow name="metrics-framework-common-set-benefits-vars-from-query-params" doc:id="49981a6e-5f09-40b9-8640-5a1af418d086">
