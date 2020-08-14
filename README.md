@@ -39,7 +39,7 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 - Provides more than 100 metrics from 3 complementary domains:
 	- **Platform Operational Metrics**: collected and calculated automatically based on multiple products from Anypoint Platform: Exchange, Design Center, Runtime Manager, Access Management; covering metrics from applications deployed on-prem (Standalone), RTF and CloudHub.
 	- **Platform Benefits**: require manual input to calculate final metrics, crossing information from the "Platform Operational" domain
-	- **External sdlc Metrics**: collected and calculated automatically based on multiple external applications: Jira, Confluence, Jenkins, Bitbucket and Splunk;
+	- **External SDLC Metrics**: collected and calculated automatically based on multiple external applications: Jira, Confluence, Jenkins, Bitbucket and Splunk;
 
 ![Domains](/img/domains.png)
 
@@ -66,9 +66,9 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 
 ### Platform Metrics
 
-Product | Metric | Dimensions | Remarks
+Product | Metric | Dimensions | -
 ------------ | ------------ | ------------ | ------------
-Access Management | Users Total | BG | 
+Access Management | Users Total | BG |
 Access Management | Active Users | BG |
 Access Management | Inactive Users | BG |
 Access Management | Active Users Last 60 days | BG |
@@ -208,12 +208,12 @@ Splunk | Total Number of Splunk dashboards
 - All deployments models are supported: CloudHub, OnPrem hosted Runtimes, Runtime Fabric
 - Anypoint Platform credentials, that can be:
   - Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data
-  - A Connected App (client credentials) with the following scopes (make sure to include all Sub Orgs you want to collect data):
+  - A Connected App (client credentials) with the following scopes (make sure to include all Sub Orgs and all environments you want to collect data):
     - Design Center
       - Design Center Developer
     - Exchange
       - Exchange Viewer
-    - Runtime Runtime
+    - Runtime Manager
       - Cloudhub Network Viewer
       - Read Alerts
       - Read Applications
