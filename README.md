@@ -206,7 +206,37 @@ Splunk | Total Number of Splunk dashboards
 ### Requirements
 - Mule Runtime 4.2.1 or above
 - All deployments models are supported: CloudHub, OnPrem hosted Runtimes, Runtime Fabric
-- Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data
+- Anypoint Platform credentials, that can be:
+  - Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data
+  - A Connected App (client credentials) with the following scopes (make sure to include all Sub Orgs you want to collect data):
+    - Exchange
+      - Exchange Viewer
+    - Runtime Runtime
+      - Cloudhub Network Viewer
+      - Read Alerts
+      - Read Applications
+      - Read Servers
+    - Runtime Fabric
+      - Manage Runtime Fabrics
+    - API Manager
+      - View APIs Configuration
+      - View Contracts
+      - View Policies
+    - Data Gateway
+      - Data Gateway Viewer
+    - API Federation
+      - Data Graph Viewer
+    - ANG Governance
+      - Governance Manager - Viewer
+      - Governance Reports Viewer
+    - Object Store
+      - Store Metrics Viewer
+      - View stores
+    - General
+      - Audit Log Viewer
+      - Profile
+      - View Environment
+      - View Organization
 - (Optional for SDLC metrics) Authorized user with API access to any of the applications: Jira, Confluence, Jenkins, Bitbucket and Splunk for which you want to gather data.
 
 ### Steps
@@ -237,8 +267,11 @@ aggregation.raw | Flag to define the format of the final response **False**: Won
 collectors | Comma separated set of collectors that should be executed. Default value: all. Possible values available for all deployment models: core (Core Services) ap (Automated Policies) apc (API Clients) apm (API Manager) arm (Standalone Runtimes) dc (Design Center) ex (Exchange). The following collectors are not available for PCE: amq (Anypoint MQ) apma (API Manager Analytics) ch (Cloudhub) rtf (Runtime Fabric) | all
 loader.strategy | In the case of using the poller, this property defines the strategy for loading data in external systems, the options are: **csv, json, logger, splunk, am, elk, tableau** | logger
 anypoint.platform.host | Anypoint Platform Host. Change to eu1.anypoint.mulesoft.com if using the EU Control Plane or to a private host if using PCE | anypoint.mulesoft.com
-auth.username | Anypoint Platform username |
-auth.password | Anypoint Platform password |
+auth.mode | Authentication mode. Valid options are: platform-credentials or connected-app-credentials | platform-credentials
+auth.username | Anypoint Platform username. Used when auth.mode is platform-credentials |
+auth.password | Anypoint Platform password. Used when auth.mode is platform-credentials |
+auth.clientId | Anypoint Platform Connected App Client Id. Used when auth.mode is connected-app-credentials |
+auth.clientSecret | Anypoint Platform Connected App Client Secret. Used when auth.mode is connected-app-credentials |
 auth.orgId | Anypoint Platform master org Id |
 ignoreLists.organizations | An array (comma-separated values) of Anypoint Platform sub-organizations id that will be ignored while retrieving metrics e.g "cdfa4e7d-47cd-n1h1-8f39-6a73fbb9ffcb, cdfa4e7d-47cd-n2h2-8f39-6a73fbb9ffcb" |
 

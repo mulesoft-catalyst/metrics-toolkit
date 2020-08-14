@@ -7,6 +7,8 @@ anypoint:
         maxConcurrency: "100"
         login:
           path: "/accounts/login"
+        token:
+          path: "/accounts/api/v2/oauth2/token"
         hierarchy:
           path: "/accounts/api/organizations/{orgId}/hierarchy"
         environments:
