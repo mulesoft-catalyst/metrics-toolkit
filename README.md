@@ -367,15 +367,19 @@ elk.index.benefits | Index for storing Platform benefits | platformbenefits
 
 - API Manager metrics:
 	- API Manager API allows to retrieve up to 100 assets (APIs) per request call. As of today, the metrics framework only supports one request call, therefore there is a limitation that will prevent the metrics framework to retrieve stats for an organization that is currently managing +100 APIs
-- Core Services:
-	- Usage: not supported when authenticating with Connected Apps
-	- Role & Groups: not supported when authenticating with Connected Apps and only available in Raw Data mode
-- CloudHub Applications: not supported on Private Cloud Edition (PCE)
-- Runtime Manager Applications: only available in Raw Data mode
-- Runtime Fabric: not supported on Private Cloud Edition (PCE)
-- API Platform Client Applications: not supporte when authentication with Connected Apps
-- Analytics: not supported on Private Cloud Edition (PCE)
-- Anypoint MQ: not supported on Private Cloud Edition (PCE) or when authenticating with Connected Apps
+- Core Services Usage: 
+	- Not supported when authenticating with Connected Apps
+- CloudHub Applications: 
+	- Not supported on Private Cloud Edition (PCE)
+- Runtime Fabric: 
+	- Not supported on Private Cloud Edition (PCE)
+- API Platform Client Applications: 
+	- Not supported when authentication with Connected Apps
+- Analytics: 
+	- Not supported on Private Cloud Edition (PCE)
+- Anypoint MQ: 
+	- Not supported on Private Cloud Edition (PCE)
+	- Not supported when authenticating with Connected Apps
 
 ## Some Theory around the Framework
 The framework is intended to cover the main areas to define and implement metrics using Mule.
