@@ -24,12 +24,18 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
   operationName: "Platform"
 }]]]></http:body>
 		</http:request>
-		<set-payload value="#[output application/java --- payload.data.assets]" doc:name="Set Payload" doc:id="536390ec-0bf3-4f0c-b46c-159bc1e6fd51" />
+		<set-payload value="#[output application/java --- payload.data.assets]" doc:name="Set Payload - Data Assets" doc:id="536390ec-0bf3-4f0c-b46c-159bc1e6fd51" />
 		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Exchange - Assets, Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 	<flow name="api-call-exchange-asset-dependencies-flow" doc:id="8d61d5dd-a6f3-4ca2-ba1a-4b3026de2910" maxConcurrency="${anypoint.platform.apis.exchange.maxConcurrency}">
 		<logger level="DEBUG" doc:name="Logger" doc:id="3e43ad0e-d15b-4fe9-81ab-4535b69d588f" message="Calling Exchange - Asset dependencies" />
-		<set-variable value='#["query Platform { asset(groupId:\"" ++ payload.groupId ++ "\",assetId:\"" ++ payload.assetId ++ "\",version:\"" ++ payload.version ++ "\") { organizationId, groupId, assetId, version, dependencies { groupId, assetId, version, type } } }"]' doc:name="Set graphqlQuery" doc:id="5573198f-4646-4863-8491-be70cd69196a" variableName="graphqlQuery" />
+		<ee:transform doc:name="Set GraphQL Query" doc:id="6010e0d0-7cc9-4b07-8c98-005a326e247c" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dw/anypoint/anypoint-exchange-build-graphql-dependencies-query.dwl" variableName="graphqlQuery" />
+			</ee:variables>
+		</ee:transform>
 		<http:request method="POST" doc:name="Get Asset Dependencies" doc:id="3ff3648d-aa68-46db-b39a-2b563ce443f3" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.exchange.graphql.path}" >
 			<http:body ><![CDATA[#[output application/json
 ---
@@ -41,7 +47,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
   operationName: "Platform"
 }]]]></http:body>
 		</http:request>
-		<set-payload value="#[output application/java --- payload.data.asset.dependencies]" doc:name="Set Payload" doc:id="51bf83d2-c080-4fb8-9398-e4cee83bc18d" />
+		<set-payload value="#[output application/java --- payload.data.asset.dependencies]" doc:name="Set Payload - Data Assets Dependencies" doc:id="51bf83d2-c080-4fb8-9398-e4cee83bc18d" />
 		<logger level="DEBUG" doc:name="Logger" doc:id="6614e1cb-bb54-4e89-b1bb-84630aeae5fa" message='#["Asset dependencies, Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 
