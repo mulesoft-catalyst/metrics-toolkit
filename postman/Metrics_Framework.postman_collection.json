@@ -254,7 +254,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"splunk\",\n\t\t\"rawData\": \"false\",\n\t\t\"splunk\": {\n\t\t\t\"host\": \"splunk.customer.com\",\n\t\t\t\"port\": \"8088\",\n\t\t\t\"protocol\": \"HTTP\",\n\t\t\t\"token\": \"123456789546654654\",\n\t\t\t\"platformMetricsIndex\": \"metrics\",\n\t\t\t\"platformBenefitsIndex\": \"platform_benefits\",\n\t\t\t\"source\": \"metrics-source\",\n\t\t\t\"sourceType\": \"_json\"\n\t\t}\n\t}\n}"
+					"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"splunk\",\n\t\t\"rawData\": \"false\",\n\t\t\"splunk\": {\n\t\t\t\"host\": \"localhost\",\n\t\t\t\"port\": \"8088\",\n\t\t\t\"protocol\": \"HTTP\",\n\t\t\t\"token\": \"10324b27-3735-40d7-9db7-cc76f6fb4c9f\",\n\t\t\t\"platformMetricsIndex\": \"metrics\",\n\t\t\t\"platformBenefitsIndex\": \"platform_benefits\",\n\t\t\t\"source\": \"metrics-source\",\n\t\t\t\"sourceType\": \"_json\"\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8081/api/platform-metrics/load",
@@ -301,7 +301,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"csv\",\n\t\t\"rawData\": \"false\"\n\t}\n}"
+					"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"csv\",\n\t\t\"rawData\": \"false\"\n\t}\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8081/api/platform-metrics/load",
@@ -348,7 +348,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"json\",\n\t\t\"rawData\": \"false\"\n\t}\n}"
+					"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"json\",\n\t\t\"rawData\": \"false\"\n\t}\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8081/api/platform-metrics/load",

@@ -48,7 +48,7 @@ else attributes.headers."X-ANYPNT-PASSWORD"]' doc:name="Set ClientSecret Variabl
 		<set-variable value='#[!(Mule::p("anypoint.platform.host") endsWith ".mulesoft.com")]' doc:name="sPCE" doc:id="665dad01-394a-44ab-9ff6-b440019dab21" variableName="isPCE" />
 		<set-variable value="#[%dw 2.0
 output application/java
-var collectors = if (isEmpty(payload.collectors)) [&quot;all&quot;] else (payload.collectors as String splitBy &quot;,&quot;)
+var collectors = if (isEmpty(payload.collectors)) [&quot;all&quot;] else payload.collectors
 ---
 (if (collectors contains &quot;all&quot;) 
 [&quot;ap&quot;,&quot;apc&quot;,&quot;apm&quot;,&quot;arm&quot;,&quot;core&quot;,&quot;dc&quot;,&quot;ex&quot;,&quot;amq&quot;,&quot;apma&quot;,&quot;ch&quot;,&quot;rtf&quot;]
