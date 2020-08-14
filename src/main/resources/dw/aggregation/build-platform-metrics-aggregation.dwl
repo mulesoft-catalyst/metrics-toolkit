@@ -52,27 +52,28 @@ var countAssetType = (assetType) -> sizeOf(assetsByType(assetType))
 
 var assetHasDependency = (parentAsset, childAsset) -> (
     sizeOf(
-        parentAsset.dependencies filter ((dependency) ->
+        (parentAsset.dependencies filter ((dependency) ->
             dependency.groupId == childAsset.groupId
             and dependency.assetId == childAsset.assetId
-        )
+        )) default []
     ) > 0
 )
 
 var assetReuseArray = (parentAssets, childAssets) -> (
     childAssets map (childAsset) -> (
         sizeOf(
-            parentAssets filter (assetHasDependency($,childAsset))
+            (parentAssets filter (assetHasDependency($,childAsset)))
+            default []
         )
     )
 )
 
-var avgSafe = (array) -> if(sizeOf(array) > 0) avg(array) else 0
+var avgSafe = (array) -> if(sizeOf(array default []) > 0) avg(array) else 0
 
 var assetReuseAvg = (parentAssetType, childAssetType) -> avgSafe(assetReuseArray(assetsByType(parentAssetType), assetsByType(childAssetType)))
 
 var apiManagerImportsbyApiSpec = (apiSpecAsset, inProduction) -> sizeOf(
-    do {
+    (do {
         var apiManagerAssets = (apiManagerApis filter ($.isProduction == inProduction)).data.assets
         ---
         if (apiManagerAssets != null)
@@ -80,7 +81,7 @@ var apiManagerImportsbyApiSpec = (apiSpecAsset, inProduction) -> sizeOf(
                 apiManagerAssets
             ) filter ($.groupId == apiSpecAsset.groupId and $.assetId == apiSpecAsset.assetId)
         else []
-    }
+    }) default []
 )
 
 var apiManagerImports = (inProduction) -> (
@@ -104,6 +105,7 @@ var policiesAppliedByPolicy = (inProduction) -> (
                 $.template.groupId == policy.groupId
                 and $.template.assetId == policy.assetId
             )
+            default []
         )
     )
 )
