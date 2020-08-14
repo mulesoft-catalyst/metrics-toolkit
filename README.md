@@ -39,7 +39,7 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 - Provides more than 100 metrics from 3 complementary domains:
 	- **Platform Operational Metrics**: collected and calculated automatically based on multiple products from Anypoint Platform: Exchange, Design Center, Runtime Manager, Access Management; covering metrics from applications deployed on-prem (Standalone), RTF and CloudHub.
 	- **Platform Benefits**: require manual input to calculate final metrics, crossing information from the "Platform Operational" domain
-	- **External sdlc Metrics**: collected and calculated automatically based on multiple external applications: Jira, Confluence, Jenkins, Bitbucket and Splunk;
+	- **External SDLC Metrics**: collected and calculated automatically based on multiple external applications: Jira, Confluence, Jenkins, Bitbucket and Splunk;
 
 ![Domains](/img/domains.png)
 
@@ -208,10 +208,12 @@ Splunk | Total Number of Splunk dashboards
 - All deployments models are supported: CloudHub, OnPrem hosted Runtimes, Runtime Fabric
 - Anypoint Platform credentials, that can be:
   - Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data
-  - A Connected App (client credentials) with the following scopes (make sure to include all Sub Orgs you want to collect data):
+  - A Connected App (client credentials) with the following scopes (make sure to include all Sub Orgs and all environments you want to collect data):
+    - Design Center
+      - Design Center Developer
     - Exchange
       - Exchange Viewer
-    - Runtime Runtime
+    - Runtime Manager
       - Cloudhub Network Viewer
       - Read Alerts
       - Read Applications
@@ -222,18 +224,7 @@ Splunk | Total Number of Splunk dashboards
       - View APIs Configuration
       - View Contracts
       - View Policies
-    - Data Gateway
-      - Data Gateway Viewer
-    - API Federation
-      - Data Graph Viewer
-    - ANG Governance
-      - Governance Manager - Viewer
-      - Governance Reports Viewer
-    - Object Store
-      - Store Metrics Viewer
-      - View stores
     - General
-      - Audit Log Viewer
       - Profile
       - View Environment
       - View Organization
@@ -241,7 +232,7 @@ Splunk | Total Number of Splunk dashboards
 
 ### Steps
 
-1. Clone or download the project from GitHub `git clone git@github.com:mulesoft-consulting/metrics-framework-m4.git`
+1. Clone or download the project from GitHub `git clone git@github.com:mulesoft-catalyst/metrics-framework-m4.git`
 
 2. Adjust the properties, run the project and test it - go to your browser and open `http://localhost:8081/console/`
 
