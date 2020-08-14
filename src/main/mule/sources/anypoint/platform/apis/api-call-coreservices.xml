@@ -9,13 +9,28 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 
 	<flow name="api-call-coreservices-login-flow" doc:id="c336bb42-e18a-4f7f-9c10-d210024c443c">
 		<logger level="DEBUG" doc:name="Logger" doc:id="fde73538-32e8-4c37-bc8e-a343e50f0522" message="Calling Coreservices - Login" />
-		<ee:transform doc:name="Build Login Request" doc:id="5eaea0ca-f420-4d6f-8b36-7a7001ab19b8">
+		<choice doc:name="Choice" doc:id="917c49c1-a155-41e6-abfe-8e320fc7b501" >
+			<when expression="#[vars.authMode == 'connected-app-credentials']">
+				<ee:transform doc:name="Build Connected App Credentials Login Request" doc:id="5eaea0ca-f420-4d6f-8b36-7a7001ab19b8">
 			<ee:message>
-				<ee:set-payload resource="dw/anypoint/coreservices-build-login-request.dwl" />
+						<ee:set-payload resource="dw/anypoint/coreservices-build-connected-app-login-request.dwl" />
 			</ee:message>
 		</ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Build Platform Credentials Login Request" doc:id="417f5d0e-fc59-4df9-a9d0-af43957e772f" >
+					<ee:message >
+						<ee:set-payload resource="dw/anypoint/coreservices-build-platform-login-request.dwl" />
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
 		<http:request method="POST" doc:name="Post Login Request" doc:id="560a71f8-55b6-402b-b0e6-cfd411340797" config-ref="HTTP_Request_configuration"
-			path="${anypoint.platform.apis.coreservices.login.path}" />
+			path="#[if (vars.authMode == 'connected-app-credentials')
+  Mule::p('anypoint.platform.apis.coreservices.token.path')
+else
+  Mule::p('anypoint.platform.apis.coreservices.login.path')]" >
+		</http:request>
 			
 		<logger level="DEBUG" doc:name="Logger" doc:id="94b6e2e7-72f9-4957-8c55-103ad0fe8765" message='#["Coreservices - Login, Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
