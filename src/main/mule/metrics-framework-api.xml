@@ -110,7 +110,9 @@
         <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="a99d508d-5bd1-4627-88d1-fec6fb4ed7cf" name="metrics-framework-common-set-auth-vars-from-headers" />
         <set-variable value="#[attributes.queryParams.raw]" doc:name="Set Raw Data flag" doc:id="867e09cc-11a9-43b5-8055-ef6e006192ea" variableName="rawData" />
 		<set-variable value='#[!(Mule::p("anypoint.platform.host") endsWith ".mulesoft.com")]' doc:name="isPCE" doc:id="d3599fc7-a92b-4d24-b8cb-e0a0565f983e" variableName="isPCE"/>        
-		<set-variable value="#[var collectors = if (isEmpty(attributes.queryParams.collectors)) [&quot;all&quot;] else (attributes.queryParams.collectors as String splitBy &quot;,&quot;)
+		<set-variable value="#[%dw 2.0
+output application/java
+var collectors = if (isEmpty(attributes.queryParams.collectors)) [&quot;all&quot;] else (attributes.queryParams.collectors as String splitBy &quot;,&quot;)
 ---
 (if (collectors contains &quot;all&quot;) 
 [&quot;ap&quot;,&quot;apc&quot;,&quot;apm&quot;,&quot;arm&quot;,&quot;core&quot;,&quot;dc&quot;,&quot;ex&quot;,&quot;amq&quot;,&quot;apma&quot;,&quot;ch&quot;,&quot;rtf&quot;]
