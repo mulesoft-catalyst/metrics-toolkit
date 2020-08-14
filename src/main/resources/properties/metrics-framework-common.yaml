@@ -1,6 +1,10 @@
 anypoint:
   platform:
-    host: "anypoint.mulesoft.com" #Change to eu1.anypoint.mulesoft.com  if using the EU Control Plane
+    #Change to anypoint.mulesoft.com  if using the US Control Plane 
+    #Change to eu1.anypoint.mulesoft.com  if using the EU Control Plane 
+    #Change to gov.anypoint.mulesoft.com  if using Gov Cloud
+    #Change to your_domain.com if using PCE
+    host: "anypoint.mulesoft.com" 
     responseTimeout: "30000"
     apis:
       coreservices:
