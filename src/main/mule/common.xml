@@ -6,22 +6,28 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<flow name="metrics-framework-common-set-auth-vars-from-headers" doc:id="49a5f71b-1858-485c-909a-f535468ebfb2">
 		<set-variable value='#[attributes.headers."X-ANYPNT-ORG-ID"]' doc:name="Set Master Org Id Variable" doc:id="583bc6bb-f12b-4473-b57f-b5d554fc5676"
 			variableName="masterOrgId" />
+		<set-variable value='#[if (!isEmpty(attributes.headers."X-ANYPNT-CLIENT-ID")) "connected-app-credentials" else "platform-credentials"]' doc:name="Set Auth Mode" doc:id="ed34b3ea-cb4f-43d1-b568-823a020a0675" variableName="authMode"/>
 		<choice doc:name="Choice" doc:id="2a0f377d-08e0-4d07-ac6a-c1d20125606a" >
 			<when expression="#[attributes.headers.Authorization != null and (sizeOf(attributes.headers.Authorization) &gt; 0)]">
 				<set-variable value='#[%dw 2.0
 import * from dw::core::Binaries
 output application/java
 ---
-(fromBase64((attributes.headers.Authorization default "") replace "Basic " with "") as String splitBy ":")[0]]' doc:name="Set Username Variable from Basic Auth" doc:id="681d4ea0-e2f4-4223-92df-482c47462f0c" variableName="username" />
+(fromBase64((attributes.headers.Authorization default "") replace "Basic " with "") as String splitBy ":")[0]]' doc:name="Set ClientId Variable from Basic Auth" doc:id="681d4ea0-e2f4-4223-92df-482c47462f0c" variableName="clientId" />
 				<set-variable value='#[%dw 2.0
 import * from dw::core::Binaries
 output application/java
 ---
-(fromBase64((attributes.headers.Authorization default "") replace "Basic " with "") as String splitBy ":")[1]]' doc:name="Set Password Variable from Basic Auth" doc:id="6f9c4be5-e88f-4270-a117-c615a8bb3fc7" variableName="password" />
+(fromBase64((attributes.headers.Authorization default "") replace "Basic " with "") as String splitBy ":")[1]]' doc:name="Set ClientSecret Variable from Basic Auth" doc:id="6f9c4be5-e88f-4270-a117-c615a8bb3fc7" variableName="clientSecret" />
 			</when>
 			<otherwise >
-				<set-variable value='#[attributes.headers."X-ANYPNT-USERNAME"]' doc:name="Set Username Variable" doc:id="075e4122-90a7-4d27-b35d-092db96c3f2e" variableName="username" />
-				<set-variable value='#[attributes.headers."X-ANYPNT-PASSWORD"]' doc:name="Set Password Variable" doc:id="e0effa31-6072-4bbb-b3db-49e2e057d6e1" variableName="password" />
+				<set-variable value='#[if (!isEmpty(attributes.headers."X-ANYPNT-CLIENT-ID")) 
+  attributes.headers."X-ANYPNT-CLIENT-ID" 
+else 
+  attributes.headers."X-ANYPNT-USERNAME"]' doc:name="Set ClientId Variable" doc:id="075e4122-90a7-4d27-b35d-092db96c3f2e" variableName="clientId" />
+				<set-variable value='#[if (!isEmpty(attributes.headers."X-ANYPNT-CLIENT-SECRET")) 
+  attributes.headers."X-ANYPNT-CLIENT-SECRET" 
+else attributes.headers."X-ANYPNT-PASSWORD"]' doc:name="Set ClientSecret Variable" doc:id="e0effa31-6072-4bbb-b3db-49e2e057d6e1" variableName="clientSecret" />
 			</otherwise>
 		</choice>
 	</flow>
@@ -29,10 +35,11 @@ output application/java
 	<flow name="metrics-framework-common-set-auth-vars-from-properties" doc:id="6e943f88-3e3e-42b0-895a-cc698f44ae6d">
 		<set-variable value="#[p('secure::auth.orgId')]" doc:name="Set Master Org Id Variable" doc:id="2f5e7631-e9a0-4abe-bf7b-2632464e286f"
 			variableName="masterOrgId" />
-		<set-variable value="#[p('secure::auth.username')]" doc:name="Set Username Variable" doc:id="44ad2ad3-421b-4b96-ac56-0c168039abae"
-			variableName="username" />
-		<set-variable value="#[p('secure::auth.password')]" doc:name="Set Password Variable" doc:id="8b40ff6c-f49f-4391-bb2c-92f7bd72ffb0"
-			variableName="password" />
+		<set-variable value="#[p('auth.mode')]" doc:name="Set Auth Mode" doc:id="ee72d7b8-7f34-4d70-aea6-9ddd5c1fbd65" variableName="authMode"/>
+		<set-variable value="#[if (vars.authMode == 'connected-app-credentials') p('secure::auth.clientId') else p('secure::auth.username')]" doc:name="Set ClientId Variable" doc:id="44ad2ad3-421b-4b96-ac56-0c168039abae"
+			variableName="clientId" />
+		<set-variable value="#[if (vars.authMode == 'connected-app-credentials') p('secure::auth.clientSecret') else p('secure::auth.password')]" doc:name="Set ClientSecret Variable" doc:id="8b40ff6c-f49f-4391-bb2c-92f7bd72ffb0"
+			variableName="clientSecret" />
 	</flow>
 	
 	<flow name="metrics-framework-common-set-loader-vars-from-payload" doc:id="46ce1dea-7ba5-48d2-9765-afc3acebc5d8">
