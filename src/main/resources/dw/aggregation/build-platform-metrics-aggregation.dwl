@@ -6,11 +6,11 @@ var entitlements = vars.entitlements
 var errors = vars.errors
 
 var cloudHubApps = if (payload[0].payload != null) payload[0].payload.payload else null
-var exchangeAssets = payload[1].payload
+var exchangeAssets = payload[1].payload default []
 var apiManagerApis = if (payload[2].payload != null) payload[2].payload.payload else null
 var members = if (payload[3].payload != null) payload[3].payload[0].payload else null
 var usage = if (payload[3].payload != null) payload[3].payload[1].payload else null
-var designCenterProjects = payload[4].payload
+var designCenterProjects = payload[4].payload default []
 var apiClients = if (payload[5].payload != null) payload[5].payload.applications else null
 var apiAutomatedPolicies = if (payload[6].payload != null) payload[6].payload.payload else null
 var armApps = if (payload[7].payload != null) payload[7].payload[0].payload.payload else null
