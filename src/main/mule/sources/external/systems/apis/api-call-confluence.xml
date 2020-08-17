@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<flow-ref doc:name="recursive-call-confluence-apps-flow" doc:id="45b4711d-f724-41e4-80ca-31ecbad06f29" name="recursive-call-confluence-apps-flow"/>
 		<ee:transform doc:name="Prepare Output" doc:id="2c4e0c54-1fa4-461e-a37d-a256ecc41d2d" >
 			<ee:message >
-			<ee:set-payload resource="dw/api/build-confluence-raw-data-response.dwl" />
+				<ee:set-payload resource="dw/sdlc/build-confluence-raw-data-response.dwl" />
 			</ee:message>
 		</ee:transform>
 		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Response Status Code:" ++ attributes.statusCode]' />

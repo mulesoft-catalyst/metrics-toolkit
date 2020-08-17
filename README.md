@@ -232,7 +232,7 @@ Splunk | Total Number of Splunk dashboards
 
 ### Steps
 
-1. Clone or download the project from GitHub `git clone git@github.com:mulesoft-consulting/metrics-framework-m4.git`
+1. Clone or download the project from GitHub `git clone git@github.com:mulesoft-catalyst/metrics-framework-m4.git`
 
 2. Adjust the properties, run the project and test it - go to your browser and open `http://localhost:8081/console/`
 
@@ -365,21 +365,31 @@ elk.index.benefits | Index for storing Platform benefits | platformbenefits
 
 ## Limitations
 
-- API Manager metrics:
+- **Access Management** metrics:
+	- Not supported on **GovCloud**
+- **Exchange** reuse metrics:
+	- Not supported for Private Cloud Edition (**PCE**)
+- **API Manager** metrics:
+	- API Manager metrics available only for accounts with the **API Manager** and Analytics **add-on**
 	- API Manager API allows to retrieve up to 100 assets (APIs) per request call. As of today, the metrics framework only supports one request call, therefore there is a limitation that will prevent the metrics framework to retrieve stats for an organization that is currently managing +100 APIs
-- Core Services Usage: 
-	- Not supported when authenticating with Connected Apps
-- CloudHub Applications: 
-	- Not supported on Private Cloud Edition (PCE)
-- Runtime Fabric: 
-	- Not supported on Private Cloud Edition (PCE)
-- API Platform Client Applications: 
-	- Not supported when authentication with Connected Apps
-- Analytics: 
-	- Not supported on Private Cloud Edition (PCE)
-- Anypoint MQ: 
-	- Not supported on Private Cloud Edition (PCE)
-	- Not supported when authenticating with Connected Apps
+- Runtime Manager (**CloudHub**) application metrics: 
+	- CloudHub is not supported on Private Cloud Edition (**PCE**)
+- Runtime Manager (**CloudHub**) **networking** metrics - VPCs, VPNs, DLBs and static IPs usage: 
+	- Not supported when authenticating with **Connected Apps**
+- Runtime Manager (**RuntimeFabric**) metrics: 
+    - Runtime Fabric is not supported on **GovCloud**
+	- Runtime Fabric is not supported on Private Cloud Edition (**PCE**)
+- Runtime Manager (**Standalone**) metrics: 
+    - Runtime Manager (Standalone Runtimes) not supported on **GovCloud**
+- **API Platform Client Applications** metrics: 
+	- Not supported when authentication with **Connected Apps**
+- **Analytics** metrics: 
+	- Not supported on **GovCloud**
+	- Not supported on Private Cloud Edition (**PCE**)
+	- Not supported when authentication with **Connected Apps**
+- **Anypoint MQ** metrics: 
+	- Not supported on Private Cloud Edition (**PCE**)
+	- Not supported when authenticating with **Connected Apps**
 
 ## Some Theory around the Framework
 The framework is intended to cover the main areas to define and implement metrics using Mule.

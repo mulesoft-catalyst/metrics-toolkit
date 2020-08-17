@@ -13,7 +13,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<flow-ref doc:name="api-call-jenkins-app-flow" doc:id="51a0c201-54e7-46d2-810e-985b5e650bfa" name="api-call-jenkins-app-flow" />
 			</when>
 			<otherwise >
-				<set-payload value="#[null]" doc:name="Set Payload" doc:id="bbb73100-8eeb-45b3-8849-dcf0abddc522" />
+				<set-payload value="#[null]" doc:name="Set Null Payload" doc:id="bbb73100-8eeb-45b3-8849-dcf0abddc522" />
 			</otherwise>
 		</choice>
 		<error-handler >
