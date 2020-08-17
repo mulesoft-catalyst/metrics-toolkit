@@ -19,7 +19,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<flow-ref doc:name="recursive-call-jira-metrics-stories-flow" doc:id="a6f6ec25-2e0d-4b68-8778-492fdb41c618" name="recursive-call-jira-metrics-stories-flow" />
 		<ee:transform doc:name="Prepare Output" doc:id="2dc5e17e-d6ff-42ec-91b6-111122292908">
 			<ee:message>
-			<ee:set-payload resource="dw/api/build-jira-raw-data-response.dwl" />
+				<ee:set-payload resource="dw/sdlc/build-jira-raw-data-response.dwl" />
 			</ee:message>
 		</ee:transform>
 		<logger level="DEBUG" doc:name="Logger" doc:id="c36021d5-e271-4f6a-b632-155686cf6879" message='#["Response Status Code:" ++ attributes.statusCode]' />

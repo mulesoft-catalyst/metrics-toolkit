@@ -10,5 +10,9 @@ var reducedOrg = (org) -> {
 var getOrgAndSubOrgs = (payload) -> (
     [reducedOrg(payload)] ++ flatten(payload.subOrganizations map getOrgAndSubOrgs($))
 )
+
+var ignoredOrganizations = Mule::p('secure::ignoreLists.organizations') splitBy ","
 ---
-getOrgAndSubOrgs(payload)
+getOrgAndSubOrgs(payload) filter ((item, index) ->  
+    !(ignoredOrganizations contains item.id) 
+)

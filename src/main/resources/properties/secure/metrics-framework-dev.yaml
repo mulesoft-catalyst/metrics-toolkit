@@ -10,11 +10,9 @@ auth:
   # If auth mode = connected-app-credentials (ignored, otherwise):
   clientId: "![Zjv8nFIUwDlayZ6O7DP31p1zQRfrwfjbkmi5DyNiD38=]"
   clientSecret: "![yqKEWZ57M3XUasumfcwhV35QQl9B5mf5GBon8eY/x8o=]"
-  
      
 ignoreLists:
   organizations: ""  #Array: comma-separated values 'orgId1,orgId2'
-  
 
 splunk:
   token: "![yqKEWZ57M3XUasumfcwhV5A3JMblY6G4MCwHM5j5VuA=]"

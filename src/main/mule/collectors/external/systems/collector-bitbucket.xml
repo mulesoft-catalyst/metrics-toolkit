@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 				<flow-ref doc:name="api-call-bitbucket-app-flow" doc:id="0e7895e6-7894-418e-8d0d-8b1203a586f0" name="api-call-bitbucket-app-flow" />
 			</when>
 			<otherwise >
-				<set-payload value="#[null]" doc:name="Set Payload" doc:id="fcb49feb-0106-42c9-8704-e8b873888443" />
+				<set-payload value="#[null]" doc:name="Set Null Payload" doc:id="fcb49feb-0106-42c9-8704-e8b873888443" />
 			</otherwise>
 		</choice>
 		<error-handler >
