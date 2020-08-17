@@ -6,7 +6,14 @@
 	<flow name="collector-exchange-metrics-flow" doc:id="8f2f8dff-4598-42a9-b813-e7b2874f1a1d">
 		<flow-ref doc:name="Get Exchange Assets Metrics" doc:id="2856ff72-faac-4205-9546-7f5dd627e51d" name="api-call-exchange-assets-flow"/>
 		<parallel-foreach doc:name="For Each Asset" doc:id="af467b92-9ec3-4aa9-a90e-ee73af4c9b84" collection="#[payload]">
-			<flow-ref doc:name="Retrieve Asset dependencies" doc:id="e4115f73-f1f5-4d4f-abed-48cf51085a3e" name="api-call-exchange-asset-dependencies-flow" target="dependencies"/>
+			<choice doc:name="Choice" doc:id="1eb6f1c0-8ab4-4649-80fc-fb01d0d4979a" >
+				<when expression='#[(payload."type" == "rest-api") or  (payload."type" == "app")]'>
+					<flow-ref doc:name="Retrieve Asset dependencies" doc:id="e4115f73-f1f5-4d4f-abed-48cf51085a3e" name="api-call-exchange-asset-dependencies-flow" target="dependencies" />
+				</when>
+				<otherwise >
+					<set-variable value="#[[]]" doc:name="Set Dependencies to Empty" doc:id="688be328-cbd6-4b92-9ada-c13050f45887" variableName="dependencies"/>
+				</otherwise>
+			</choice>
 			<set-payload value="#[output application/java --- payload ++ { dependencies: vars.dependencies }]" doc:name="Aggregate dependencies" doc:id="b15f0786-6c76-4ac3-929c-8150c15da6e2" />
 		</parallel-foreach>
 		<set-payload value="#[payload map $.payload]" doc:name="Obtain Payloads" doc:id="afef38e1-7c17-4f58-afc5-9ec7e614bca6" />
