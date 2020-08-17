@@ -376,20 +376,23 @@ elk.index.benefits | Index for storing Platform benefits | platformbenefits
 	- CloudHub is not supported on Private Cloud Edition (**PCE**)
 - Runtime Manager (**CloudHub**) **networking** metrics - VPCs, VPNs, DLBs and static IPs usage: 
 	- Not supported when authenticating with **Connected Apps**
+	- Not supported on **GovCloud**
 - Runtime Manager (**RuntimeFabric**) metrics: 
     - Runtime Fabric is not supported on **GovCloud**
 	- Runtime Fabric is not supported on Private Cloud Edition (**PCE**)
 - Runtime Manager (**Standalone**) metrics: 
     - Runtime Manager (Standalone Runtimes) not supported on **GovCloud**
 - **API Platform Client Applications** metrics: 
-	- Not supported when authentication with **Connected Apps**
+	- Not supported when authenticating with **Connected Apps**
+	- Not supported on **GovCloud**
 - **Analytics** metrics: 
 	- Not supported on **GovCloud**
 	- Not supported on Private Cloud Edition (**PCE**)
-	- Not supported when authentication with **Connected Apps**
+	- Not supported when authenticating with **Connected Apps**
 - **Anypoint MQ** metrics: 
 	- Not supported on Private Cloud Edition (**PCE**)
 	- Not supported when authenticating with **Connected Apps**
+	- Not supported on **GovCloud**
 
 ## Some Theory around the Framework
 The framework is intended to cover the main areas to define and implement metrics using Mule.
