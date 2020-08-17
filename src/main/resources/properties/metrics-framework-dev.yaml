@@ -31,10 +31,15 @@ loader:
 #  - dc: Design Center
 #  - ex: Exchange
             
-# Not available for PCE deployment model:
+# Not available for PCE:
 #  - amq: Anypoint MQ
 #  - apma: API Manager Analytics                                          
-#  - ch: Cloudhub   
+#  - ch: CloudHub   
+#  - rtf: Runtime Fabric
+
+# Not available for GovCloud:
+#  - apma: API Manager Analytics                                          
+#  - arm: Runtime Manager   
 #  - rtf: Runtime Fabric
 
 # Default value: "all"

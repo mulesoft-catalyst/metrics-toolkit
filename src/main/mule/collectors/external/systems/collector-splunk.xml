@@ -13,7 +13,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<flow-ref doc:name="api-call-splunk-apps-flow" doc:id="bb19f521-5129-4861-b03a-6beae805b23d" name="api-call-splunk-apps-flow" />
 			</when>
 			<otherwise >
-				<set-payload value="#[null]" doc:name="Set Payload" doc:id="fdade0a0-b98c-4891-964e-3c41cfb1fc2a" />
+				<set-payload value="#[null]" doc:name="Set Null Payload" doc:id="fdade0a0-b98c-4891-964e-3c41cfb1fc2a" />
 			</otherwise>
 		</choice>
 		<error-handler >
