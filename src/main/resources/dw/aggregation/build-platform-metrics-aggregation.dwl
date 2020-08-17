@@ -5,21 +5,21 @@ var environments = vars.environments
 var entitlements = vars.entitlements
 var errors = vars.errors
 
-var cloudHubApps = payload[0].payload.payload
-var exchangeAssets = payload[1].payload
-var apiManagerApis = payload[2].payload.payload
-var members = payload[3].payload[0].payload
-var usage = payload[3].payload[1].payload
-var designCenterProjects = payload[4].payload
-var apiClients = payload[5].payload.applications
-var apiAutomatedPolicies = payload[6].payload.payload
-var armApps = payload[7].payload[0].payload.payload
-var armServers = payload[7].payload[1].payload.payload
-var armClusters = payload[7].payload[2].payload.payload
-var armServerGroups = payload[7].payload[3].payload.payload
-var rtf = payload[8].payload
-var analyticsQueryResult = payload[9].payload.payload
-var mq = payload[10].payload.payload
+var cloudHubApps = if (payload[0].payload != null) payload[0].payload.payload else null
+var exchangeAssets = payload[1].payload default []
+var apiManagerApis = if (payload[2].payload != null) payload[2].payload.payload else null
+var members = if (payload[3].payload != null) payload[3].payload[0].payload else null
+var usage = if (payload[3].payload != null) payload[3].payload[1].payload else null
+var designCenterProjects = payload[4].payload default []
+var apiClients = if (payload[5].payload != null) payload[5].payload.applications else null
+var apiAutomatedPolicies = if (payload[6].payload != null) payload[6].payload.payload else null
+var armApps = if (payload[7].payload != null) payload[7].payload[0].payload.payload else null
+var armServers = if (payload[7].payload != null) payload[7].payload[1].payload.payload else null
+var armClusters = if (payload[7].payload != null) payload[7].payload[2].payload.payload else null
+var armServerGroups = if (payload[7].payload != null) payload[7].payload[3].payload.payload else null
+var rtf = payload[8].payload default []
+var analyticsQueryResult = if (payload[9].payload != null) payload[9].payload.payload else null
+var mq = if (payload[10].payload != null) payload[10].payload.payload else null
 
 var RTF_TARGET_TYPE = 'MC'
 var RTF_MI = "Mi"
@@ -52,27 +52,28 @@ var countAssetType = (assetType) -> sizeOf(assetsByType(assetType))
 
 var assetHasDependency = (parentAsset, childAsset) -> (
     sizeOf(
-        parentAsset.dependencies filter ((dependency) ->
+        (parentAsset.dependencies filter ((dependency) ->
             dependency.groupId == childAsset.groupId
             and dependency.assetId == childAsset.assetId
-        )
+        )) default []
     ) > 0
 )
 
 var assetReuseArray = (parentAssets, childAssets) -> (
     childAssets map (childAsset) -> (
         sizeOf(
-            parentAssets filter (assetHasDependency($,childAsset))
+            (parentAssets filter (assetHasDependency($,childAsset)))
+            default []
         )
     )
 )
 
-var avgSafe = (array) -> if(sizeOf(array) > 0) avg(array) else 0
+var avgSafe = (array) -> if(sizeOf(array default []) > 0) avg(array) else 0
 
 var assetReuseAvg = (parentAssetType, childAssetType) -> avgSafe(assetReuseArray(assetsByType(parentAssetType), assetsByType(childAssetType)))
 
 var apiManagerImportsbyApiSpec = (apiSpecAsset, inProduction) -> sizeOf(
-    do {
+    (do {
         var apiManagerAssets = (apiManagerApis filter ($.isProduction == inProduction)).data.assets
         ---
         if (apiManagerAssets != null)
@@ -80,7 +81,7 @@ var apiManagerImportsbyApiSpec = (apiSpecAsset, inProduction) -> sizeOf(
                 apiManagerAssets
             ) filter ($.groupId == apiSpecAsset.groupId and $.assetId == apiSpecAsset.assetId)
         else []
-    }
+    }) default []
 )
 
 var apiManagerImports = (inProduction) -> (
@@ -104,6 +105,7 @@ var policiesAppliedByPolicy = (inProduction) -> (
                 $.template.groupId == policy.groupId
                 and $.template.assetId == policy.assetId
             )
+            default []
         )
     )
 )
@@ -205,11 +207,11 @@ var policiesAppliedByPolicy = (inProduction) -> (
 				apisWithoutContracts: sizeOf(sandboxApiInstances.activeContractsCount filter ($ == 0) default []),
 				apisWithMoreThanOneConsumer: sizeOf(sandboxApiInstances.activeContractsCount filter ($ > 1) default []),
 				apisWithOneOrMoreConsumers: sizeOf(sandboxApiInstances.activeContractsCount filter ($ > 0) default []),
+				contracts: sum(sandboxApiInstances.activeContractsCount default []),				
 				policiesUsed: flatten(flatten(getSandboxDetails(apiManagerApis) default []).policies default []).template.assetId  distinctBy $ default [],
 				policiesUsedTotal: sizeOf(flatten(flatten(getSandboxDetails(apiManagerApis) default []).policies default []).template.assetId  distinctBy $ default []),
 				automatedPoliciesUsed: flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default [],
 				automatedPoliciesUsedTotal: sizeOf(flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default []),
-				contracts: sum(sandboxApiInstances.activeContractsCount default []),
 				transactions: sum(flatten(flatten(getSandboxData(analyticsQueryResult).response default [])."api_id" default [])..count default []) //last x days on the period collected
 			}	
 		}	
@@ -288,9 +290,7 @@ var policiesAppliedByPolicy = (inProduction) -> (
 					applicationsStarted: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == RTF_TARGET_TYPE) default [] filter ($.application.status == APP_STATUS_RUNNING) default []),
 					applicationsStopped: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == RTF_TARGET_TYPE) default [] filter ($.application.status != APP_STATUS_RUNNING) default []),
 					runtimesUsed: flatten(getProdDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [],
-					runtimesUsedTotal: sizeOf(flatten(getProdDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [])
-
-					
+					runtimesUsedTotal: sizeOf(flatten(getProdDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [])			
 				},
 				sandbox:{
 					//coresAvailable: "NA", //cores // Not able to calculate because a fabric can be associated with multiple environments of any type
@@ -343,7 +343,6 @@ var policiesAppliedByPolicy = (inProduction) -> (
 				runtimesUsedTotal: sizeOf(flatten(getSandboxData(armServers).data default []).muleVersion distinctBy $ default [])
 			}
 		}
-		
 	},
 	mqMetrics: {
 		stats: {

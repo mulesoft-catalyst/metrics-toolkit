@@ -1,12 +1,18 @@
 anypoint:
   platform:
-    host: "anypoint.mulesoft.com" #Change to eu1.anypoint.mulesoft.com  if using the EU Control Plane
+    #Change to anypoint.mulesoft.com  if using the US Control Plane 
+    #Change to eu1.anypoint.mulesoft.com  if using the EU Control Plane 
+    #Change to gov.anypoint.mulesoft.com  if using Gov Cloud
+    #Change to your_domain.com if using PCE
+    host: "anypoint.mulesoft.com" 
     responseTimeout: "30000"
     apis:
       coreservices:
         maxConcurrency: "100"
         login:
           path: "/accounts/login"
+        token:
+          path: "/accounts/api/v2/oauth2/token"
         hierarchy:
           path: "/accounts/api/organizations/{orgId}/hierarchy"
         environments:
@@ -73,7 +79,7 @@ anypoint:
         query:
           path: "/analytics/1.0/{orgId}/environments/{envId}/query"
           duration: "30d"
-          timeout: "8000"
+          timeout: "30000"
       exchange:
         maxConcurrency: "100"
         assets:

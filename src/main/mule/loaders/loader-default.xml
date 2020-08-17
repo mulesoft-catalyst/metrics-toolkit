@@ -8,7 +8,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<flow name="loader-default-flow" doc:id="470c779b-3b66-4ca6-bca4-6aa9bacd665e" >
 		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="079fcea0-d2b2-4fed-bda7-b75c981de108" name="aggregator-platform-metrics-master-flow"/>
 		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="930f6bcc-0467-4047-8160-d30381b3ddc3" variableName="event" />
-		<logger level="DEBUG" doc:name="Logger" doc:id="fb8912f7-6a80-429e-97f2-c66e76d8aa1c" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="fb8912f7-6a80-429e-97f2-c66e76d8aa1c" message="#[payload]"/>
 		<ee:transform doc:name="Build Loader Response" doc:id="7b0a367a-f137-405d-a515-0c6bf3299241" >
 			<ee:message >
 				<ee:set-payload resource="dw/loader/loader-success-response.dwl" />
@@ -18,7 +18,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<flow name="loader-benefits-flow" doc:id="658ccdca-ffb0-4f31-83eb-b855f5945912" >
 		<flow-ref doc:name="Aggregate Platform Benefits Metrics Flow Reference" doc:id="a8bde2de-19a0-40da-ad75-28fa2486ce41" name="aggregator-platform-benefits-master-flow" />
 		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="606c0d7d-9b06-4498-81dd-b473a7ba8999" variableName="event" />
-		<logger level="DEBUG" doc:name="Logger" doc:id="e17b3534-cdaf-4f9c-9a7d-161bfe071edc" message="#[payload]" />
+		<logger level="INFO" doc:name="Logger" doc:id="e17b3534-cdaf-4f9c-9a7d-161bfe071edc" message="#[payload]" />
 		<ee:transform doc:name="Build Loader Response" doc:id="6c2fbe45-f28d-4c6e-85f1-20c7500902e8" >
 			<ee:message >
 				<ee:set-payload resource="dw/loader/loader-success-response.dwl" />
@@ -28,7 +28,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<flow name="loader-sdlc-flow" doc:id="50025f04-3e2a-4591-b829-fb923457cc07" >
 		<flow-ref doc:name="Aggregate Platform SDLC Metrics Flow Reference" doc:id="ac4c924f-521a-4bd8-9f83-3edbadd8eecc" name="aggregator-sdlc-metrics-main-flow" />
 		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="a435d9b3-6c5a-4b23-92cb-329593214a38" variableName="event" />
-		<logger level="DEBUG" doc:name="Logger" doc:id="8def27d4-2abb-49fc-8a60-c2a64dd0f800" message="#[payload]" />
+		<logger level="INFO" doc:name="Logger" doc:id="8def27d4-2abb-49fc-8a60-c2a64dd0f800" message="#[payload]" />
 		<ee:transform doc:name="Build Loader Response" doc:id="806a6d8f-b4e3-4e88-b1b8-00ba8e0f8f61" >
 			<ee:message >
 				<ee:set-payload resource="dw/loader/loader-success-response.dwl" />
