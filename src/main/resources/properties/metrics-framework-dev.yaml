@@ -45,7 +45,7 @@ splunk:
   host: "splunk-metrics.env.services.mulesoft.com"
   port: "8088"
   protocol: "HTTP"
-  source: "test-source"
+  source: "metrics-source"
   source.type: "_json"
   index:
     metrics: "metrics"
