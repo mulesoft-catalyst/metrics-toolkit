@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Response Status Code:" ++ attributes.statusCode]' />
 		<ee:transform doc:name="Retrieve Metrics" doc:id="37f9b824-b6bc-4890-ae66-0040acca3395" >
 			<ee:message >
-				<ee:set-payload resource="dw/api/build-splunk-metrics-data-response.dwl" />
+				<ee:set-payload resource="dw/sdlc/build-splunk-metrics-data-response.dwl" />
 			</ee:message>
 		</ee:transform>
 	</flow>

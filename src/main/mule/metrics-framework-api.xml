@@ -112,8 +112,8 @@
     </flow>
     <flow name="get:\platform-metrics:metrics-framework-api-config">
         <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="a99d508d-5bd1-4627-88d1-fec6fb4ed7cf" name="metrics-framework-common-set-auth-vars-from-headers" />
-        <set-variable value="#[attributes.queryParams.raw]" doc:name="Set Raw Data flag" doc:id="867e09cc-11a9-43b5-8055-ef6e006192ea" variableName="rawData" />
-        <flow-ref doc:name="Aggregator Master Flow Reference" doc:id="5484cc09-2351-49d6-b728-a0d4b0b0d1b9" name="aggregator-platform-metrics-master-flow" />
+        <flow-ref doc:name="Set Aggregator Details From Query Params Flow Reference" doc:id="526a1967-37bb-499f-a47d-9c469bb3df26" name="metrics-framework-common-set-aggregator-vars-from-query-params"/>
+		<flow-ref doc:name="Aggregator Master Flow Reference" doc:id="5484cc09-2351-49d6-b728-a0d4b0b0d1b9" name="aggregator-platform-metrics-master-flow" />
     </flow>
     <flow name="post:\platform-metrics\load:metrics-framework-api-config">
         <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="e514bd7d-bdbc-4492-844c-b9d4549155f9" name="metrics-framework-common-set-auth-vars-from-headers" />
