@@ -20,7 +20,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</scatter-gather>
 			</when>
 			<otherwise >
-				<set-payload value="#[null]" doc:name="Set Payload" doc:id="e56294e2-5dad-4655-a63b-4b0406140733" />
+				<set-payload value="#[null]" doc:name="Set Null Payload" doc:id="e56294e2-5dad-4655-a63b-4b0406140733" />
 			</otherwise>
 		</choice>
 		<error-handler >

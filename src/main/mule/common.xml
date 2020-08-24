@@ -4,55 +4,92 @@
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
  
 	<flow name="metrics-framework-common-set-auth-vars-from-headers" doc:id="49a5f71b-1858-485c-909a-f535468ebfb2">
-		<set-variable value='#[attributes.headers."X-ANYPNT-ORG-ID"]' doc:name="Set Master Org Id Variable" doc:id="583bc6bb-f12b-4473-b57f-b5d554fc5676"
-			variableName="masterOrgId" />
+		<ee:transform doc:name="Set Master Org Id and Auth Mode" doc:id="63cefa2c-0709-40ad-b2b0-e69e4b9a2d3d" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dw/common/set-master-org-id-var.dwl" variableName="masterOrgId" />
+				<ee:set-variable resource="dw/common/set-auth-mode-var.dwl" variableName="authMode" />
+			</ee:variables>
+		</ee:transform>
 		<choice doc:name="Choice" doc:id="2a0f377d-08e0-4d07-ac6a-c1d20125606a" >
 			<when expression="#[attributes.headers.Authorization != null and (sizeOf(attributes.headers.Authorization) &gt; 0)]">
-				<set-variable value='#[%dw 2.0
-import * from dw::core::Binaries
-output application/java
----
-(fromBase64((attributes.headers.Authorization default "") replace "Basic " with "") as String splitBy ":")[0]]' doc:name="Set Username Variable from Basic Auth" doc:id="681d4ea0-e2f4-4223-92df-482c47462f0c" variableName="username" />
-				<set-variable value='#[%dw 2.0
-import * from dw::core::Binaries
-output application/java
----
-(fromBase64((attributes.headers.Authorization default "") replace "Basic " with "") as String splitBy ":")[1]]' doc:name="Set Password Variable from Basic Auth" doc:id="6f9c4be5-e88f-4270-a117-c615a8bb3fc7" variableName="password" />
+				<ee:transform doc:name="Set Client Id and Client Secret from Basic Auth Header" doc:id="a865fb33-a566-49d0-90b3-5953b6ad8674" >
+					<ee:message >
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable resource="dw/common/set-client-id-from-basic-auth-var.dwl" variableName="clientId" />
+						<ee:set-variable resource="dw/common/set-client-secret-from-basic-auth-var.dwl" variableName="clientSecret" />
+					</ee:variables>
+				</ee:transform>
 			</when>
 			<otherwise >
-				<set-variable value='#[attributes.headers."X-ANYPNT-USERNAME"]' doc:name="Set Username Variable" doc:id="075e4122-90a7-4d27-b35d-092db96c3f2e" variableName="username" />
-				<set-variable value='#[attributes.headers."X-ANYPNT-PASSWORD"]' doc:name="Set Password Variable" doc:id="e0effa31-6072-4bbb-b3db-49e2e057d6e1" variableName="password" />
+				<ee:transform doc:name="Set Client Id and Client Secret from Individual Headers" doc:id="d8aebcdb-42fd-4159-8037-46f1765b8ccb" >
+					<ee:message >
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable resource="dw/common/set-client-id-var.dwl" variableName="clientId" />
+						<ee:set-variable resource="dw/common/set-client-secret-var.dwl" variableName="clientSecret" />
+					</ee:variables>
+				</ee:transform>
 			</otherwise>
 		</choice>
 	</flow>
 	
 	<flow name="metrics-framework-common-set-auth-vars-from-properties" doc:id="6e943f88-3e3e-42b0-895a-cc698f44ae6d">
-		<set-variable value="#[p('secure::auth.orgId')]" doc:name="Set Master Org Id Variable" doc:id="2f5e7631-e9a0-4abe-bf7b-2632464e286f"
-			variableName="masterOrgId" />
-		<set-variable value="#[p('secure::auth.username')]" doc:name="Set Username Variable" doc:id="44ad2ad3-421b-4b96-ac56-0c168039abae"
-			variableName="username" />
-		<set-variable value="#[p('secure::auth.password')]" doc:name="Set Password Variable" doc:id="8b40ff6c-f49f-4391-bb2c-92f7bd72ffb0"
-			variableName="password" />
+		<ee:transform doc:name="Set Auth Vars from Properties" doc:id="75450437-8b95-4155-93b5-d517b0dab64c" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dw/common/set-master-org-id-from-props-vars.dwl" variableName="masterOrgId" />
+				<ee:set-variable resource="dw/common/set-auth-mode-from-props-var.dwl" variableName="authMode" />
+				<ee:set-variable resource="dw/common/set-client-id-from-props-var.dwl" variableName="clientId" />
+				<ee:set-variable resource="dw/common/set-client-secret-from-props-var.dwl" variableName="clientSecret" />
+			</ee:variables>
+		</ee:transform>
 	</flow>
 	
+	<flow name="metrics-framework-common-set-pce-gov-cloud-vars" doc:id="d9721c7a-f76e-425d-873d-6bbdeaa536ff" >
+		<set-variable value='#[!(Mule::p("anypoint.platform.host") endsWith ".mulesoft.com")]' doc:name="isPCE" doc:id="70d632bf-ccb9-4ed3-8c60-4503d71b97af" variableName="isPCE" />
+		<set-variable value='#[(Mule::p("anypoint.platform.host") == "gov.anypoint.mulesoft.com")]' doc:name="is GovCloud" doc:id="0d2074de-41dd-4a24-8da2-a201d04f0d1b" variableName="isGovCloud" />
+	</flow>
+	<flow name="metrics-framework-common-set-aggregator-vars-from-query-params" doc:id="3afbeac0-5a07-4b36-b75f-0fabae1693bb" >
+		<flow-ref doc:name="Flow Reference metrics-framework-common-set-pce-gov-cloud-vars" doc:id="b2f99e82-a01b-4568-9afd-d96d999a31ae" name="metrics-framework-common-set-pce-gov-cloud-vars"/>
+		<ee:transform doc:name="Set Aggregator Vars from Query Params" doc:id="d8a3b6db-0fc3-45ba-beb1-d15e8170caaa" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dw/common/set-raw-data-from-query-params-var.dwl" variableName="rawData" />
+				<ee:set-variable resource="dw/common/set-collectors-from-query-params-var.dwl" variableName="collectors" />
+			</ee:variables>
+		</ee:transform>
+	</flow>
 	<flow name="metrics-framework-common-set-loader-vars-from-payload" doc:id="46ce1dea-7ba5-48d2-9765-afc3acebc5d8">
-		<set-variable value="#[payload.loaderDetails]" doc:name="Set Loader Details Variable" doc:id="44849c09-157e-41b0-ab15-a0b34304db73" variableName="loaderDetails"/>
-		<set-variable value="#[vars.loaderDetails.rawData]" doc:name="Set Raw Data flag" doc:id="0d40b678-20de-4a06-80fb-f6ca2ef71f85" variableName="rawData"/>
+		<flow-ref doc:name="Flow Reference metrics-framework-common-set-pce-gov-cloud-vars" doc:id="c51f4709-5a0e-4c62-a455-497d5f21b67c" name="metrics-framework-common-set-pce-gov-cloud-vars"/>
+		<ee:transform doc:name="Set Loader Vars from Payload" doc:id="818b3df4-e880-48ed-82cd-d5a763a47de3" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dw/common/set-loader-details-from-payload-var.dwl" variableName="loaderDetails" />
+				<ee:set-variable resource="dw/common/set-raw-data-from-loader-details-payload-var.dwl" variableName="rawData" />			
+				<ee:set-variable resource="dw/common/set-collectors-from-payload-var.dwl" variableName="collectors" />
+			</ee:variables>
+		</ee:transform>
 	</flow>
-	
 	<flow name="metrics-framework-common-set-loader-vars-from-properties" doc:id="08f75994-74bc-47c3-8fe8-28004885c762">
+		<flow-ref doc:name="Flow Reference metrics-framework-common-set-pce-gov-cloud-vars" doc:id="69ac3b7f-0521-49c7-a932-5228194f3b5d" name="metrics-framework-common-set-pce-gov-cloud-vars"/>
 		<ee:transform doc:name="Build Loader Details From Properties" doc:id="892773d6-5f6f-432d-af3e-03f133a2fb7a" >
 			<ee:message >
 			</ee:message>
 			<ee:variables >
-				<ee:set-variable resource="dw/loader/loader-splunk-hec-details-from-properties.dwl" variableName="loaderDetails" />
+				<ee:set-variable resource="dw/common/set-raw-data-from-props-var.dwl" variableName="rawData" />
+				<ee:set-variable resource="dw/common/set-collectors-from-props-var.dwl" variableName="collectors" />
+				<ee:set-variable resource="dw/common/set-loader-details-from-props-var.dwl" variableName="loaderDetails" />
 			</ee:variables>
 		</ee:transform>
-		<set-variable value="#[vars.loaderDetails.rawData]" doc:name="Set Raw Data flag" doc:id="b8a62246-5aca-4707-9c5c-a795bcbc7f16" variableName="rawData"/>
 	</flow>
-	
 	<flow name="metrics-framework-common-set-benefits-vars-from-query-params" doc:id="49981a6e-5f09-40b9-8640-5a1af418d086">
-		<ee:transform doc:name="Build Platform Benefits Payload From Query Parameters" doc:id="ff33255d-24fb-4fd6-b39a-03ca94e56f0a" >
+		<ee:transform doc:name="Build Platform Benefits Inputs From Query Parameters" doc:id="ff33255d-24fb-4fd6-b39a-03ca94e56f0a" >
 			<ee:message >
 			</ee:message>
 			<ee:variables >
@@ -61,6 +98,6 @@ output application/java
 		</ee:transform>
 	</flow>
 	<flow name="metrics-framework-common-set-benefits-vars-from-payload" doc:id="83ccc2e8-dfbe-4c8c-9095-a26e42c30991">
-		<set-variable value="#[payload.event]" doc:name="Set Variable" doc:id="9d432a1e-41f6-422b-9896-6f5c009aec2b" variableName="benefitsInputs"/>
+		<set-variable value="#[payload.event]" doc:name="Set Benefits Inputs from Payload" doc:id="9d432a1e-41f6-422b-9896-6f5c009aec2b" variableName="benefitsInputs"/>
 	</flow>
 </mule>

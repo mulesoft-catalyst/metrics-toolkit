@@ -39,7 +39,7 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 - Provides more than 100 metrics from 3 complementary domains:
 	- **Platform Operational Metrics**: collected and calculated automatically based on multiple products from Anypoint Platform: Exchange, Design Center, Runtime Manager, Access Management; covering metrics from applications deployed on-prem (Standalone), RTF and CloudHub.
 	- **Platform Benefits**: require manual input to calculate final metrics, crossing information from the "Platform Operational" domain
-	- **External sdlc Metrics**: collected and calculated automatically based on multiple external applications: Jira, Confluence, Jenkins, Bitbucket and Splunk;
+	- **External SDLC Metrics**: collected and calculated automatically based on multiple external applications: Jira, Confluence, Jenkins, Bitbucket and Splunk;
 
 ![Domains](/img/domains.png)
 
@@ -206,17 +206,48 @@ Splunk | Total Number of Splunk dashboards
 ### Requirements
 - Mule Runtime 4.2.1 or above
 - All deployments models are supported: CloudHub, OnPrem hosted Runtimes, Runtime Fabric
-- Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data
+- Anypoint Platform credentials, that can be:
+  - Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data
+  - A Connected App (client credentials) with the following scopes (make sure to include all Sub Orgs and all environments you want to collect data):
+    - Design Center
+      - Design Center Developer
+    - Exchange
+      - Exchange Viewer
+    - Runtime Manager
+      - Cloudhub Network Viewer
+      - Read Alerts
+      - Read Applications
+      - Read Servers
+    - Runtime Fabric
+      - Manage Runtime Fabrics
+    - API Manager
+      - View APIs Configuration
+      - View Contracts
+      - View Policies
+    - General
+      - Profile
+      - View Environment
+      - View Organization
 - (Optional for SDLC metrics) Authorized user with API access to any of the applications: Jira, Confluence, Jenkins, Bitbucket and Splunk for which you want to gather data.
 
 ### Steps
 
-1. Clone or download the project from GitHub `git clone git@github.com:mulesoft-consulting/metrics-framework-m4.git`
+1. Clone or download the project from GitHub `git clone git@github.com:mulesoft-catalyst/metrics-framework-m4.git`
 
 2. Adjust the properties, run the project and test it - go to your browser and open `http://localhost:8081/console/`
 
-3. Use the postman collection provided (/postman) to understand the API
-
+3. Use the postman collection provided (/postman) to understand the API. The postman collection contains the following requests:
+  - Platform Metrics:
+  	- GET Platform Metrics: retrieves plaform metrics
+  	- POST Platform Metrics - Load - Splunk Strategy: used to load platform metrics to Splunk. For more information, see [Splunk steps](#splunk-steps)
+  	- POST Platform Metrics - Load - CSV Strategy: returns platform metrics in CSV format.
+  	- POST Platform Metrics - Load - JSON Strategy: returns business metrics in JSON format.
+  
+  - Business Metrics:
+  	- GET Benefits: retrieves business metrics showing the benefits of using the platform
+  	- POST Benefits - Load - Splunk Strategy: used to load business metrics to Splunk. For more information, see [Splunk steps](#splunk-steps)
+  	- POST Benefits - Load - JSON Strategy: returns business metrics in JSON format.
+  
 4. If you want to run the application using the poller mode, you have to configure some properties
 
 ### Properties configurations
@@ -234,10 +265,14 @@ poller.enabled | Property to enable or disable the poller to collect and load me
 poller.frequency.cron | Defines the exact frequency (using cron-expressions) to trigger the execution: Recommended to collect metrics once a day | 0 0 0 \* \* ? \*
 poller.frequency.timezone | Defines the time zone in which the cron-expression will be efective | GMT-3
 aggregation.raw | Flag to define the format of the final response **False**: Won’t provide the raw data but final metrics **True**: Will provide raw data to be aggregated outside this asset | false
+collectors | Comma separated set of collectors that should be executed. Default value: all. Possible values available for all deployment models: core (Core Services) ap (Automated Policies) apc (API Clients) apm (API Manager) arm (Standalone Runtimes) dc (Design Center) ex (Exchange). The following collectors are not available for PCE: amq (Anypoint MQ) apma (API Manager Analytics) ch (Cloudhub) rtf (Runtime Fabric) | all
 loader.strategy | In the case of using the poller, this property defines the strategy for loading data in external systems, the options are: **csv, json, logger, splunk, am, elk, tableau** | logger
 anypoint.platform.host | Anypoint Platform Host. Change to eu1.anypoint.mulesoft.com if using the EU Control Plane or to a private host if using PCE | anypoint.mulesoft.com
-auth.username | Anypoint Platform username |
-auth.password | Anypoint Platform password |
+auth.mode | Authentication mode. Valid options are: platform-credentials or connected-app-credentials | platform-credentials
+auth.username | Anypoint Platform username. Used when auth.mode is platform-credentials |
+auth.password | Anypoint Platform password. Used when auth.mode is platform-credentials |
+auth.clientId | Anypoint Platform Connected App Client Id. Used when auth.mode is connected-app-credentials |
+auth.clientSecret | Anypoint Platform Connected App Client Secret. Used when auth.mode is connected-app-credentials |
 auth.orgId | Anypoint Platform master org Id |
 ignoreLists.organizations | An array (comma-separated values) of Anypoint Platform sub-organizations id that will be ignored while retrieving metrics e.g "cdfa4e7d-47cd-n1h1-8f39-6a73fbb9ffcb, cdfa4e7d-47cd-n2h2-8f39-6a73fbb9ffcb" |
 
@@ -281,8 +316,10 @@ sdlc.splunk.password | Password to access REST APIs |
 1. Create 2 indexes: metrics and platform_benefits (of type Events)
 2. In the Splunk instance configure an HTTP Event Collector (HEC) associated to these 2 indexes, format _json
 3. The token obtained will be used as part of the properties of the Mule application
-4. Load the dashboards, simply copy the xmls provided under `/dashboards/splunk` to `{SPLUNK_HOME}/etc/apps/{APP_NAME}/local/data/ui/views`
-5. If you can't copy the dashboard xmls, you can use the UI to create them and using the "Source" option, you can copy & paste the content of the xmls provided
+4. Create a new application  
+5. Load the dashboards, simply copy the xmls provided under `/dashboards/splunk` to `{SPLUNK_HOME}/etc/apps/{APP_NAME}/local/data/ui/views`
+6. Restart the Splunk instance
+7. If you can't copy the dashboard xmls, you can use the UI to create them and using the "Source" option, you can copy & paste the content of the xmls provided
 
 Follow official Splunk documentation: https://docs.splunk.com/Documentation/Splunk/
 
@@ -299,6 +336,8 @@ splunk.index.metrics | Index for storing Platform operational metrics | metrics
 splunk.index.benefits | Index for storing Platform benefits | platform_benefits
 
 ### ELK steps
+
+**NOTE:** Dashboards were created and tested with Kibana 7.6.2, adjustments may be necessary for other versions
 
 1. The Framework will load data into the `metrics` and `platformbenefits` indexes. Once data is loaded create an index pattern on Kibana for these indexes
 2. Set the loader strategy to `elk` on the `metrics-framework-{env}.yaml` file, along with the `elk.user` and `elk.password` parameters in the secure `metrics-framework-{env}.yaml` file
@@ -324,6 +363,38 @@ elk.index.benefits | Index for storing Platform benefits | platformbenefits
 
 - This application can be deployed in any Mule Runtime (OnPrem, CloudHub, RTF)
 - The metrics collection will depend on the features available in each account; e.g if the account has the API Manager add-on, the framework will collect and aggregate the metrics related to API Manager, otherwise the values will appear as zeroes; if using PCE, there won't be information about API Analytics
+- In order to enable or disable specific collectors, you have to change the property "collectors" if using the poller or add a query parameter "collectors" if using the API, including a CSV string as explained in the properties section
+
+## Limitations
+
+- **Access Management** metrics:
+	- Not supported on **GovCloud**
+- **Exchange** reuse metrics:
+	- Not supported for Private Cloud Edition (**PCE**)
+- **API Manager** metrics:
+	- API Manager metrics available only for accounts with the **API Manager** and Analytics **add-on**
+	- API Manager API allows to retrieve up to 100 assets (APIs) per request call. As of today, the metrics framework only supports one request call, therefore there is a limitation that will prevent the metrics framework to retrieve stats for an organization that is currently managing +100 APIs
+- Runtime Manager (**CloudHub**) application metrics: 
+	- CloudHub is not supported on Private Cloud Edition (**PCE**)
+- Runtime Manager (**CloudHub**) **networking** metrics - VPCs, VPNs, DLBs and static IPs usage: 
+	- Not supported when authenticating with **Connected Apps**
+	- Not supported on **GovCloud**
+- Runtime Manager (**RuntimeFabric**) metrics: 
+    - Runtime Fabric is not supported on **GovCloud**
+	- Runtime Fabric is not supported on Private Cloud Edition (**PCE**)
+- Runtime Manager (**Standalone**) metrics: 
+    - Runtime Manager (Standalone Runtimes) not supported on **GovCloud**
+- **API Platform Client Applications** metrics: 
+	- Not supported when authenticating with **Connected Apps**
+	- Not supported on **GovCloud**
+- **Analytics** metrics: 
+	- Not supported on **GovCloud**
+	- Not supported on Private Cloud Edition (**PCE**)
+	- Not supported when authenticating with **Connected Apps**
+- **Anypoint MQ** metrics: 
+	- Not supported on Private Cloud Edition (**PCE**)
+	- Not supported when authenticating with **Connected Apps**
+	- Not supported on **GovCloud**
 
 ## Some Theory around the Framework
 The framework is intended to cover the main areas to define and implement metrics using Mule.

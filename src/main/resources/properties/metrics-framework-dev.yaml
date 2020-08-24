@@ -9,19 +9,48 @@ poller:
     #Sample for prod "0 0 0 * * ? *" At 00:00:00am every day
     #https://www.freeformatter.com/cron-expression-generator-quartz.html
     timezone: "GMT-3"
+auth:
+  mode: "platform-credentials" # valid options are: platform-credentials or connected-app-credentials
 
-  
 aggregation:
   raw: "false"
   
 loader:
   strategy: "logger"
+
+# Enabled Collectors
+#
+# Comma separated set of collectors that should be executed. Possible values are:
+#
+# Available for all deployment models:
+#  - ap: Automated Policies              
+#  - apc: API Clients
+#  - apm: API Manager
+#  - arm: Runtime Manager   
+#  - core: Core Services
+#  - dc: Design Center
+#  - ex: Exchange
+            
+# Not available for PCE:
+#  - amq: Anypoint MQ
+#  - apma: API Manager Analytics                                          
+#  - ch: CloudHub   
+#  - rtf: Runtime Fabric
+
+# Not available for GovCloud:
+#  - apma: API Manager Analytics                                          
+#  - arm: Runtime Manager   
+#  - rtf: Runtime Fabric
+
+# Default value: "all"
+  
+collectors: "all"
   
 splunk:
   host: "splunk-metrics.env.services.mulesoft.com"
   port: "8088"
   protocol: "HTTP"
-  source: "test-source"
+  source: "metrics-source"
   source.type: "_json"
   index:
     metrics: "metrics"
