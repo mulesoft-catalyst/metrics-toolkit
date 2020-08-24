@@ -1,7 +1,7 @@
 auth:
-  username: "![Zjv8nFIUwDlayZ6O7DP31p1zQRfrwfjbkmi5DyNiD38=]"
-  password: "![yqKEWZ57M3XUasumfcwhV35QQl9B5mf5GBon8eY/x8o=]"
-  orgId: "![yqKEWZ57M3XUasumfcwhVykLsfUM6yOEv2oEJ04vxZc=]"
+  username: "asdf"
+  password: "asdf"
+  orgId: "sdf"
 
 ignoreLists:
   organizations: ""  #Array: comma-separated values 'orgId1,orgId2'
@@ -16,17 +16,17 @@ elk:
 # SDLC Metrics
 sdlc:
   confluence:
-    user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
-    token: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+    user: ""
+    token: ""
   bitbucket:
-    user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
-    token: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+    user: ""
+    token: ""
   jira:
-    user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
-    token: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+    user: ""
+    token: ""
   jenkins:
-    user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
-    token: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+    user: ""
+    token: ""
   splunk:
-    user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
-    password: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+    user: ""
+    password: ""
