@@ -13,7 +13,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<flow-ref doc:name="api-call-confluence-apps-flow" doc:id="38122f36-b606-4052-9d67-f2853edc73aa" name="api-call-confluence-apps-flow" />
 			</when>
 			<otherwise >
-				<set-payload value="#[null]" doc:name="Set Payload" doc:id="c819b0bc-4d8e-48da-af9d-f56c5beaf636" />
+				<set-payload value="#[null]" doc:name="Set Null Payload" doc:id="c819b0bc-4d8e-48da-af9d-f56c5beaf636" />
 			</otherwise>
 		</choice>
 		<error-handler >

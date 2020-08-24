@@ -24,9 +24,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:query-params><![CDATA[#[output application/java
 ---
 {
-	"format" : p('anypoint.platform.apis.analytics.events.format'),
 	"fields" : p('anypoint.platform.apis.analytics.events.fields'),
-	"duration" : p('anypoint.platform.apis.analytics.events.duration')
+	"duration" : p('anypoint.platform.apis.analytics.events.duration'),
+	"format" : p('anypoint.platform.apis.analytics.events.format')
 }]]]></http:query-params>
 		</http:request>
 		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Analytics - Events, Response Status Code:" ++ attributes.statusCode]' />
