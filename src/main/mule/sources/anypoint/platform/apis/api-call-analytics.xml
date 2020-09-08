@@ -8,8 +8,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 
 	<flow name="api-call-analytics-events-flow" doc:id="cb45e4dc-7fd3-476d-aff3-7c0a30556088" maxConcurrency="${anypoint.platform.apis.analytics.maxConcurrency}">
 		<logger level="DEBUG" doc:name="Logger" doc:id="c04d063d-9f26-41c8-9f2c-efd64bc5a457" message="Calling Analytics - Events" />
-		<http:request method="GET" doc:name="Get Events Request" doc:id="ea3a4010-08c1-44e9-b9d4-a82201dbb162" config-ref="HTTP_Request_configuration"
-			path="${anypoint.platform.apis.analytics.events.path}">
+		<flow-ref doc:name="Get Events Flow Reference" doc:id="61c06a57-895a-4101-8404-a9a3c0d8ae69" name="api-call-analytics-get-events-flow" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Analytics - Events, Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+	<flow name="api-call-analytics-get-events-flow" doc:id="7bbe4fb0-475f-44ac-821f-21bccc72768a" >
+		<http:request method="GET" doc:name="Get Events Request" doc:id="ea3a4010-08c1-44e9-b9d4-a82201dbb162" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.analytics.events.path}">
 			<http:headers><![CDATA[#[output application/java
 ---
 {
@@ -29,9 +32,29 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"format" : p('anypoint.platform.apis.analytics.events.format')
 }]]]></http:query-params>
 		</http:request>
-		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Analytics - Events, Response Status Code:" ++ attributes.statusCode]' />
+		<error-handler >
+			<on-error-continue enableNotifications="false" logException="false" doc:name="On HTTP 429 Error" doc:id="15d90329-25e5-4fcc-b2f9-931da8f02b58" type="HTTP:TIMEOUT,HTTP:INTERNAL_SERVER_ERROR,HTTP:TOO_MANY_REQUESTS">
+				<set-variable value="#[vars.pendingRetries default (p('anypoint.platform.apis.analytics.retries.max') as Number)]" doc:name="Set pendingRetries" doc:id="5c1f3d03-a954-471c-969d-969b877a48c5" variableName="pendingRetries"/>
+				<choice doc:name="Choice" doc:id="48026431-9648-4735-9620-263244523189" >
+					<when expression="#[vars.pendingRetries &gt; 0]">
+						<ee:transform doc:name="Wait" doc:id="2a5ba013-0fbe-4364-a0dd-28c983fbdbea">
+							<ee:message>
+								<ee:set-payload><![CDATA[payload dw::Runtime::wait (p('anypoint.platform.apis.analytics.retries.wait') as Number)]]></ee:set-payload>
+							</ee:message>
+							<ee:variables >
+								<ee:set-variable variableName="pendingRetries" ><![CDATA[vars.pendingRetries - 1]]></ee:set-variable>
+							</ee:variables>
+						</ee:transform>
+						<flow-ref doc:name="Get Events Flow Reference" doc:id="1de62a92-b7d7-4752-a3d7-c8e595efd12e" name="api-call-analytics-get-events-flow" />
+					</when>
+					<otherwise >
+						<raise-error doc:name="Raise error" doc:id="dcc4040f-12f0-4c6f-9644-32cf13a4da84" type="APP:RETRIES_EXHAUSTED" description="Exchange - Get Assets - Retries were exhausted"/>
+					</otherwise>
+				</choice>
+				<remove-variable doc:name="Remove pendingRetries" doc:id="1fa7fcd9-007b-4e01-a7b1-67314c5ef904" variableName="pendingRetries"/>
+			</on-error-continue>
+		</error-handler>
 	</flow>
-
 	<flow name="api-call-analytics-query-flow" doc:id="9b3e1b21-cf25-4acf-b543-6539891fa08c" maxConcurrency="${anypoint.platform.apis.analytics.maxConcurrency}">
 		<logger level="DEBUG" doc:name="Logger" doc:id="aeda6f47-6889-471c-9163-296ed1791eab" message="Calling Analytics - Query" />
 		<ee:transform doc:name="Build Analytics Enriched Data Request" doc:id="62a96daa-7d08-4d34-8127-04165454dd3a">
@@ -39,8 +62,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-payload resource="dw/anypoint/analytics-query-request.dwl" />
 			</ee:message>
 		</ee:transform>
-		<http:request method="POST" doc:name="Get Analytics Enriched Data Request" doc:id="2021c5c3-4242-4cc9-8a29-bad19ce7af3d"
-			config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.analytics.query.path}" responseTimeout="${anypoint.platform.apis.analytics.query.timeout}">
+		<flow-ref doc:name="Get Enriched Data Flow Reference" doc:id="923a0942-3fa6-40c1-bac9-085a9f7d0da9" name="api-call-analytics-get-enriched-data-flow" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="6b27bd5e-27be-4376-84da-31f328fc8b98" message='#["Analytics - Query, Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+	<flow name="api-call-analytics-get-enriched-data-flow" doc:id="b409a23e-16e0-4e29-bcc5-947d37a6f158" >
+		<http:request method="POST" doc:name="Get Analytics Enriched Data Request" doc:id="2021c5c3-4242-4cc9-8a29-bad19ce7af3d" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.analytics.query.path}" responseTimeout="${anypoint.platform.apis.analytics.query.timeout}">
 			<http:headers><![CDATA[#[output application/java
 ---
 {
@@ -53,8 +79,28 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"envId" : vars.environmentId
 }]]]></http:uri-params>
 		</http:request>
-		<logger level="DEBUG" doc:name="Logger" doc:id="6b27bd5e-27be-4376-84da-31f328fc8b98" message='#["Analytics - Query, Response Status Code:" ++ attributes.statusCode]' />
+		<error-handler >
+			<on-error-continue enableNotifications="false" logException="false" doc:name="On HTTP 429 Error" doc:id="fb4af52a-c1f2-420c-abcc-d8e3332bafd0" type="HTTP:TIMEOUT,HTTP:INTERNAL_SERVER_ERROR,HTTP:TOO_MANY_REQUESTS">
+				<set-variable value="#[vars.pendingRetries default (p('anypoint.platform.apis.analytics.retries.max') as Number)]" doc:name="Set pendingRetries" doc:id="4a2895c6-ceeb-4e7f-9776-04eaa3cbb8ad" variableName="pendingRetries"/>
+				<choice doc:name="Choice" doc:id="04e65d5a-231a-4568-a4da-2481cfc326d8" >
+					<when expression="#[vars.pendingRetries &gt; 0]">
+						<ee:transform doc:name="Wait" doc:id="b9c78702-dceb-4b7a-a574-e1b2c2c31c45">
+							<ee:message>
+								<ee:set-payload><![CDATA[payload dw::Runtime::wait (p('anypoint.platform.apis.analytics.retries.wait') as Number)]]></ee:set-payload>
+							</ee:message>
+							<ee:variables >
+								<ee:set-variable variableName="pendingRetries" ><![CDATA[vars.pendingRetries - 1]]></ee:set-variable>
+							</ee:variables>
+						</ee:transform>
+						<flow-ref doc:name="Get Enriched Data Flow Reference" doc:id="f386de0d-4976-418b-9f8f-d73dc9f55140" name="api-call-analytics-get-enriched-data-flow" />
+					</when>
+					<otherwise >
+						<raise-error doc:name="Raise error" doc:id="7333d3d3-660d-4730-968e-b67db8de2d66" type="APP:RETRIES_EXHAUSTED" description="Exchange - Get Assets - Retries were exhausted"/>
+					</otherwise>
+				</choice>
+				<remove-variable doc:name="Remove pendingRetries" doc:id="2851f161-602e-405d-a21c-f36312465250" variableName="pendingRetries"/>
+			</on-error-continue>
+		</error-handler>
 	</flow>
-
 
 </mule>
