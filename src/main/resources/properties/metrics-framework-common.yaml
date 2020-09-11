@@ -56,6 +56,9 @@ anypoint:
         apiPolicies:
           path: "/apimanager/api/v1/organizations/{orgId}/environments/{envId}/apis/{apiId}/policies"
           enabled: "true"
+          retries:
+            max: "2"
+            wait: "5000"
         automatedPolicies:
           path: "/apimanager/api/v1/organizations/{orgId}/automated-policies"
       apiPlatform:
@@ -71,6 +74,9 @@ anypoint:
           path: "/designcenter/api-designer/projects"
       analytics:
         maxConcurrency: "100"
+        retries:
+          max: "2"
+          wait: "5000"
         events:
           path: "/analytics/1.0/{orgId}/environments/{envId}/events"
           duration: "1d"
@@ -81,7 +87,10 @@ anypoint:
           duration: "30d"
           timeout: "30000"
       exchange:
-        maxConcurrency: "100"
+        maxConcurrency: "1"
+        retries:
+          max: "2"
+          wait: "5000"
         assets:
           path: "/exchange/api/v1/assets"
           limit: "1000"
