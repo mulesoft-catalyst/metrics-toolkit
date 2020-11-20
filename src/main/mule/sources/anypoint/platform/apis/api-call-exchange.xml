@@ -14,12 +14,8 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 				<ee:set-variable resource="dw/anypoint/anypoint-exchange-build-graphql-query.dwl" variableName="graphqlQuery" />
 			</ee:variables>
 		</ee:transform>
-		<flow-ref doc:name="Get Assets Flow Reference" doc:id="cb890266-e926-4610-abd2-8ae428ca2daf" name="api-call-exchange-get-assets-flow" />
-		<set-payload value="#[output application/java --- payload.data.assets]" doc:name="Set Payload - Data Assets" doc:id="536390ec-0bf3-4f0c-b46c-159bc1e6fd51" />
-		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Exchange - Assets, Response Status Code:" ++ attributes.statusCode]' />
-	</flow>
-	<flow name="api-call-exchange-get-assets-flow" doc:id="199136de-bf24-4e49-8820-a1692cbd36d1" >
-		<http:request method="POST" doc:name="Get Assets" doc:id="8bc85d2b-02cc-4aa4-b430-5f59fe7ba99c" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.exchange.graphql.path}">
+		<until-successful maxRetries="${anypoint.platform.apis.exchange.retries.max}" doc:name="Until Successful" doc:id="cbf15f26-56e8-4183-bf2a-aa7c30b693a0" millisBetweenRetries="${anypoint.platform.apis.exchange.retries.wait}">
+			<http:request method="POST" doc:name="Get Assets" doc:id="8bc85d2b-02cc-4aa4-b430-5f59fe7ba99c" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.exchange.graphql.path}">
 			<http:body><![CDATA[#[output application/json
 ---
 {
@@ -30,28 +26,9 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
   operationName: "Platform"
 }]]]></http:body>
 		</http:request>
-		<error-handler >
-			<on-error-continue enableNotifications="false" logException="false" doc:name="On HTTP 429 Error" doc:id="de5b31b6-aae6-4103-811c-7b8866f2c2f1" type="HTTP:TOO_MANY_REQUESTS">
-				<set-variable value="#[vars.pendingRetries default (p('anypoint.platform.apis.exchange.retries.max') as Number)]" doc:name="Set pendingRetries" doc:id="de8cb018-672f-4a6a-974e-084ed103caf9" variableName="pendingRetries"/>
-				<choice doc:name="Choice" doc:id="16357cad-1388-4cfd-aaad-bb38ae9e5c86" >
-					<when expression="#[vars.pendingRetries &gt; 0]">
-						<ee:transform doc:name="Wait" doc:id="d5d2c28f-9884-4239-8b34-b95ceeb2c8e9">
-							<ee:message>
-								<ee:set-payload><![CDATA[payload dw::Runtime::wait (p('anypoint.platform.apis.exchange.retries.wait') as Number)]]></ee:set-payload>
-							</ee:message>
-							<ee:variables >
-								<ee:set-variable variableName="pendingRetries" ><![CDATA[vars.pendingRetries - 1]]></ee:set-variable>
-							</ee:variables>
-						</ee:transform>
-						<flow-ref doc:name="Get Assets Flow Reference" doc:id="47b33c77-08a2-4715-8023-73524a993f0a" name="api-call-exchange-get-assets-flow"/>
-					</when>
-					<otherwise >
-						<raise-error doc:name="Raise error" doc:id="1272eaf1-f5e2-49a2-90c1-6fc5bdb616b7" type="APP:RETRIES_EXHAUSTED" description="Exchange - Get Assets - Retries were exhausted"/>
-					</otherwise>
-				</choice>
-				<remove-variable doc:name="Remove pendingRetries" doc:id="6b690080-8332-4368-842f-716602f5d9ec" variableName="pendingRetries"/>
-			</on-error-continue>
-		</error-handler>
+		</until-successful>
+		<set-payload value="#[output application/java --- payload.data.assets]" doc:name="Set Payload - Data Assets" doc:id="536390ec-0bf3-4f0c-b46c-159bc1e6fd51" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Exchange - Assets, Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 	<flow name="api-call-exchange-asset-dependencies-flow" doc:id="8d61d5dd-a6f3-4ca2-ba1a-4b3026de2910" maxConcurrency="${anypoint.platform.apis.exchange.maxConcurrency}">
 		<logger level="DEBUG" doc:name="Logger" doc:id="3e43ad0e-d15b-4fe9-81ab-4535b69d588f" message="Calling Exchange - Asset dependencies" />
@@ -62,12 +39,8 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 				<ee:set-variable resource="dw/anypoint/anypoint-exchange-build-graphql-dependencies-query.dwl" variableName="graphqlQuery" />
 			</ee:variables>
 		</ee:transform>
-		<flow-ref doc:name="Get Assets Dependencies Flow Reference" doc:id="20a236df-50c5-41f1-8eec-be093a4ad632" name="api-call-exchange-get-assets-dependencies-flow"/>
-		<set-payload value="#[output application/java --- payload.data.asset.dependencies]" doc:name="Set Payload - Data Assets Dependencies" doc:id="51bf83d2-c080-4fb8-9398-e4cee83bc18d" />
-		<logger level="DEBUG" doc:name="Logger" doc:id="6614e1cb-bb54-4e89-b1bb-84630aeae5fa" message='#["Asset dependencies, Response Status Code:" ++ attributes.statusCode]' />
-	</flow>
-	<flow name="api-call-exchange-get-assets-dependencies-flow" doc:id="d45ceb5e-a4e0-4795-8e18-46727f8d3eff" >
-		<http:request method="POST" doc:name="Get Asset Dependencies" doc:id="3ff3648d-aa68-46db-b39a-2b563ce443f3" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.exchange.graphql.path}">
+		<until-successful maxRetries="${anypoint.platform.apis.exchange.retries.max}" doc:name="Until Successful" doc:id="4aed045d-ba0c-42b9-ad39-24196cc8f9bd" millisBetweenRetries="${anypoint.platform.apis.exchange.retries.wait}">
+			<http:request method="POST" doc:name="Get Asset Dependencies" doc:id="3ff3648d-aa68-46db-b39a-2b563ce443f3" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.exchange.graphql.path}">
 			<http:body><![CDATA[#[output application/json
 ---
 {
@@ -78,28 +51,9 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
   operationName: "Platform"
 }]]]></http:body>
 		</http:request>
-		<error-handler >
-			<on-error-continue enableNotifications="false" logException="false" doc:name="On HTTP 429 Error" doc:id="62b4c28e-c943-4a7a-be77-044fb34717a7" type="HTTP:TOO_MANY_REQUESTS">
-				<set-variable value="#[vars.pendingRetries default (p('anypoint.platform.apis.exchange.retries.max') as Number)]" doc:name="Set pendingRetries" doc:id="1dd6012d-780a-4375-8bd4-9031c168105b" variableName="pendingRetries"/>
-				<choice doc:name="Choice" doc:id="3b52c565-6b39-4e7d-84bf-6fedafcb7322" >
-					<when expression="#[vars.pendingRetries &gt; 0]">
-						<ee:transform doc:name="Wait" doc:id="45bdae4d-aeaf-4f08-ab13-276201b4672b">
-							<ee:message>
-								<ee:set-payload><![CDATA[payload dw::Runtime::wait (p('anypoint.platform.apis.exchange.retries.wait') as Number)]]></ee:set-payload>
-							</ee:message>
-							<ee:variables >
-								<ee:set-variable variableName="pendingRetries" ><![CDATA[vars.pendingRetries - 1]]></ee:set-variable>
-							</ee:variables>
-						</ee:transform>
-						<flow-ref doc:name="Get Assets Dependencies Flow Reference" doc:id="6e130641-574c-4e41-9351-394f90b807b8" name="api-call-exchange-get-assets-dependencies-flow"/>
-					</when>
-					<otherwise >
-						<raise-error doc:name="Raise error" doc:id="e354318e-605a-4939-88c7-37f6c97e7fe8" type="APP:RETRIES_EXHAUSTED" description="Exchange - Get Assets - Retries were exhausted"/>
-					</otherwise>
-				</choice>
-				<remove-variable doc:name="Remove pendingRetries" doc:id="f7744d60-ef86-4fdc-bf44-827d09083e50" variableName="pendingRetries"/>
-			</on-error-continue>
-		</error-handler>
+		</until-successful>
+		<set-payload value="#[output application/java --- payload.data.asset.dependencies]" doc:name="Set Payload - Data Assets Dependencies" doc:id="51bf83d2-c080-4fb8-9398-e4cee83bc18d" />
+		<logger level="DEBUG" doc:name="Logger" doc:id="6614e1cb-bb54-4e89-b1bb-84630aeae5fa" message='#["Asset dependencies, Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 
 </mule>
