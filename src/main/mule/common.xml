@@ -36,18 +36,25 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</choice>
 	</flow>
 	
-	<flow name="metrics-framework-common-set-auth-vars-from-properties" doc:id="6e943f88-3e3e-42b0-895a-cc698f44ae6d">
-		<ee:transform doc:name="Set Auth Vars from Properties" doc:id="75450437-8b95-4155-93b5-d517b0dab64c" >
-			<ee:message >
-			</ee:message>
-			<ee:variables >
-				<ee:set-variable resource="dw/common/set-master-org-id-from-props-vars.dwl" variableName="masterOrgId" />
-				<ee:set-variable resource="dw/common/set-auth-mode-from-props-var.dwl" variableName="authMode" />
-				<ee:set-variable resource="dw/common/set-client-id-from-props-var.dwl" variableName="clientId" />
-				<ee:set-variable resource="dw/common/set-client-secret-from-props-var.dwl" variableName="clientSecret" />
-			</ee:variables>
-		</ee:transform>
-	</flow>
+	<flow name="metrics-framework-common-set-auth-vars-from-properties"
+  doc:id="80516443-205a-40a8-a7cf-28c549d1d58a">
+  <ee:transform doc:name="Set Auth Mode" doc:id="e5e4517c-9250-4ea7-82f9-4e3d6f8cc9d2" >
+    <ee:message >
+    </ee:message>
+    <ee:variables >
+      <ee:set-variable resource="dw/common/set-auth-mode-from-props-var.dwl" variableName="authMode" />
+    </ee:variables>
+  </ee:transform>
+  <ee:transform doc:name="Set Auth Vars from Properties" doc:id="cceb97d1-29b0-4534-8d87-54eb388ab0fc" >
+    <ee:message >
+    </ee:message>
+    <ee:variables >
+      <ee:set-variable resource="dw/common/set-master-org-id-from-props-vars.dwl" variableName="masterOrgId" />
+      <ee:set-variable resource="dw/common/set-client-id-from-props-var.dwl" variableName="clientId" />
+      <ee:set-variable resource="dw/common/set-client-secret-from-props-var.dwl" variableName="clientSecret" />
+    </ee:variables>
+  </ee:transform>
+</flow>
 	
 	<flow name="metrics-framework-common-set-pce-gov-cloud-vars" doc:id="d9721c7a-f76e-425d-873d-6bbdeaa536ff" >
 		<set-variable value='#[!(Mule::p("anypoint.platform.host") endsWith ".mulesoft.com")]' doc:name="isPCE" doc:id="70d632bf-ccb9-4ed3-8c60-4503d71b97af" variableName="isPCE" />
