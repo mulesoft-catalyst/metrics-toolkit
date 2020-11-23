@@ -1,5 +1,5 @@
 <form>
-  <label>Metrics Framework - MQ - Production</label>
+  <label>Metrics Accelerator - MQ - Sandbox</label>
   <fieldset submitButton="false">
     <input type="multiselect" token="bgToken" searchWhenChanged="true">
       <label>Business Group</label>
@@ -33,11 +33,11 @@
   </fieldset>
   <row>
     <panel>
-      <title>Anypoint MQ - Production - Queues created - Current Count</title>
+      <title>Anypoint MQ - Sandbox - Queues created - Current Count</title>
       <single>
-        <title>Anypoint MQ - Production - Queues created - Current Count</title>
+        <title>Anypoint MQ - Sandbox - Queues created - Current Count</title>
         <search>
-          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(mqMetrics.stats.summary.production.queues.commonQueues) as total | stats max(total) as "Queues"</query>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(mqMetrics.stats.summary.sandbox.queues.commonQueues) as total | stats max(total) as "Queues"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -49,11 +49,11 @@
       </single>
     </panel>
     <panel>
-      <title>Anypoint MQ - Production - FIFO Queues created - Current Count</title>
+      <title>Anypoint MQ - Sandbox - FIFO Queues created - Current Count</title>
       <single>
-        <title>Anypoint MQ - Production - FIFO Queues created - Current Count</title>
+        <title>Anypoint MQ - Sandbox - FIFO Queues created - Current Count</title>
         <search>
-          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(mqMetrics.stats.summary.production.queues.fifoQueues) as total | stats max(total) as "FIFO Queues"</query>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(mqMetrics.stats.summary.sandbox.queues.fifoQueues) as total | stats max(total) as "FIFO Queues"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -65,11 +65,11 @@
       </single>
     </panel>
     <panel>
-      <title>Anypoint MQ - Production - Exchanges created - Current Count</title>
+      <title>Anypoint MQ - Sandbox - Exchanges created - Current Count</title>
       <single>
-        <title>Anypoint MQ - Production - Exchanges created - Current Count</title>
+        <title>Anypoint MQ - Sandbox - Exchanges created - Current Count</title>
         <search>
-          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(mqMetrics.stats.summary.production.exchanges.exchangeQueues) as total | stats max(total) as "Exchanges"</query>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(mqMetrics.stats.summary.sandbox.exchanges.exchangeQueues) as total | stats max(total) as "Exchanges"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -83,11 +83,11 @@
   </row>
   <row>
     <panel>
-      <title>Anypoint MQ - Production - Transactions - Current</title>
+      <title>Anypoint MQ - Sandbox - Transactions - Current</title>
       <chart>
-        <title>Anypoint MQ - Production - Queues Transactions - Current</title>
+        <title>Anypoint MQ - Sandbox - Queues Transactions - Current</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(mqMetrics.stats.summary.production.queues.messagesSent) as sent, values(mqMetrics.stats.summary.production.queues.messagesAck) as ack, values(mqMetrics.stats.summary.production.queues.messagesInFlight) as inFlight, values(mqMetrics.stats.summary.production.queues.messagesReceived) as received  | stats max(sent) as "Messages Sent", max(ack) as "Ack", max(inFlight) as "In Flight", max(received) as "Received" | transpose</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(mqMetrics.stats.summary.sandbox.queues.messagesSent) as sent, values(mqMetrics.stats.summary.sandbox.queues.messagesAck) as ack, values(mqMetrics.stats.summary.sandbox.queues.messagesInFlight) as inFlight, values(mqMetrics.stats.summary.sandbox.queues.messagesReceived) as received  | stats max(sent) as "Messages Sent", max(ack) as "Ack", max(inFlight) as "In Flight", max(received) as "Received" | transpose</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -98,11 +98,11 @@
       </chart>
     </panel>
     <panel>
-      <title>Anypoint MQ - Production - Usage Growth - Timeline</title>
+      <title>Anypoint MQ - Sandbox - Usage Growth - Timeline</title>
       <chart>
-        <title>Anypoint MQ - Production - Usage Growth - Timeline</title>
+        <title>Anypoint MQ - Sandbox - Usage Growth - Timeline</title>
         <search>
-          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(mqMetrics.stats.summary.production.queues.commonQueues) as "Common Queues", values(mqMetrics.stats.summary.production.queues.fifoQueues) as "FIFO Queues", values(mqMetrics.stats.summary.production.exchanges.exchangeQueues) as "Exchange Queues" by _time, businessGroup</query>
+          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(mqMetrics.stats.summary.sandbox.queues.commonQueues) as "Common Queues", values(mqMetrics.stats.summary.sandbox.queues.fifoQueues) as "FIFO Queues", values(mqMetrics.stats.summary.sandbox.exchanges.exchangeQueues) as "Exchange Queues" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>

@@ -1,5 +1,5 @@
 <form>
-  <label>Metrics Framework - Runtime Manager - Standalone - Production</label>
+  <label>Metrics Accelerator - Runtime Manager - RTF - Capacity</label>
   <fieldset submitButton="false">
     <input type="multiselect" token="bgToken" searchWhenChanged="true">
       <label>Business Group</label>
@@ -33,89 +33,93 @@
   </fieldset>
   <row>
     <panel>
-      <title>Runtime Manager - Production - OnPrem - Servers - Current Count</title>
+      <title>Runtime Manager - RTF - Fabrics Total - Current Count</title>
       <single>
-        <title>Runtime Manager - Production - OnPrem - Servers - Current Count</title>
+        <title>Runtime Manager - RTF - Fabrics Total - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.production.servers) as total | stats max(total) as "Applications"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.capacity.fabrics) as total | stats max(total) as "Fabrics"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
         <option name="drilldown">none</option>
         <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
         <option name="refresh.display">progressbar</option>
-        <option name="underLabel">Servers</option>
+        <option name="underLabel">Fabrics</option>
         <option name="useColors">0</option>
       </single>
     </panel>
     <panel>
-      <title>Runtime Manager - Production - OnPrem - Runtime versions - Current Count</title>
-      <table>
-        <title>Runtime Manager - Production - OnPrem - Runtime versions - Current Count</title>
-        <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$)  | rename runtimeManagerMetrics.hybrid.production.runtimesUsed{} as "Runtime versions" | table "Runtime versions"</query>
-          <earliest>$timeToken.earliest$</earliest>
-          <latest>$timeToken.latest$</latest>
-        </search>
-        <option name="drilldown">none</option>
-      </table>
-    </panel>
-    <panel>
-      <title>Runtime Manager - Production - OnPrem - Clusters - Current Count</title>
+      <title>Runtime Manager - RTF - Workers Total - Current Count</title>
       <single>
-        <title>Runtime Manager - Production - OnPrem - Clusters - Current Count</title>
+        <title>Runtime Manager - RTF - Workers Total - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.production.clusters) as total | stats max(total) as "Applications"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.capacity.workers) as total | stats max(total) as "Workers"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
         <option name="drilldown">none</option>
         <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
         <option name="refresh.display">progressbar</option>
-        <option name="underLabel">Clusters</option>
+        <option name="underLabel">Fabrics</option>
         <option name="useColors">0</option>
       </single>
     </panel>
     <panel>
-      <title>Runtime Manager - Production - OnPrem - Server Groups - Current Count</title>
+      <title>Runtime Manager - RTF - Controllers Total - Current Count</title>
       <single>
-        <title>Runtime Manager - Production - OnPrem - Server Groups - Current Count</title>
+        <title>Runtime Manager - RTF - Controllers Total - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.production.serverGroups) as total | stats max(total) as "Applications"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.capacity.controllers) as total | stats max(total) as "Controllers"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
         <option name="drilldown">none</option>
         <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
         <option name="refresh.display">progressbar</option>
-        <option name="underLabel">Server Groups</option>
+        <option name="underLabel">Fabrics</option>
         <option name="useColors">0</option>
       </single>
     </panel>
   </row>
   <row>
     <panel>
-      <title>Runtime Manager - Production - OnPrem - Applications - Current Count</title>
+      <title>Runtime Manager - RTF - VCores total - Current Count</title>
       <single>
-        <title>Runtime Manager - Production - OnPrem - Applications - Current Count</title>
+        <title>Runtime Manager - RTF - VCores total - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.production.applicationsTotal) as total | stats max(total) as "Applications"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.capacity.coresTotal) as total | stats max(total) as "vCores"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
         <option name="drilldown">none</option>
         <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
         <option name="refresh.display">progressbar</option>
-        <option name="underLabel">Applications</option>
+        <option name="underLabel">vCores</option>
         <option name="useColors">0</option>
       </single>
     </panel>
     <panel>
-      <title>Runtime Manager - Production - OnPrem - Applications by Status - Current</title>
-      <chart>
-        <title>Runtime Manager - Production - OnPrem - Applications by Status - Current</title>
+      <title>Runtime Manager - RTF - Memory total - Current Count</title>
+      <single>
+        <title>Runtime Manager - RTF - Memory total - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.production.applicationsStarted) as started, values(runtimeManagerMetrics.hybrid.production.applicationsStopped) as stopped | stats max(started) as "Started", max(stopped) as "Stopped" | transpose</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.capacity.memoryTotal) as total | stats max(total) as "GBs"</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">GBs</option>
+        <option name="useColors">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Runtime Manager - RTF - Cores by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - RTF - Cores by Status - Current</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.applications.sandbox.coresUsed) as sandboxUsed, values(runtimeManagerMetrics.rtf.applications.production.coresUsed) as productionUsed | stats max(sandboxUsed) as "Sandbox Used", max(productionUsed) as "Production Used" | transpose</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -126,11 +130,11 @@
       </chart>
     </panel>
     <panel>
-      <title>Runtime Manager - Production - OnPrem - Applications by Status - Timeline</title>
+      <title>Runtime Manager - RTF - Cores by Status - Timeline</title>
       <chart>
-        <title>Runtime Manager - Production - OnPrem - Applications by Status - Timeline</title>
+        <title>Runtime Manager - RTF - Cores by Status - Timeline</title>
         <search>
-          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(runtimeManagerMetrics.hybrid.production.applicationsStarted) as "Started", values(runtimeManagerMetrics.hybrid.production.applicationsStopped) as "Stopped" by _time, businessGroup</query>
+          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(runtimeManagerMetrics.rtf.applications.sandbox.coresUsed) as "Sandbox used", values(runtimeManagerMetrics.rtf.applications.production.coresUsed) as "Production Used" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
