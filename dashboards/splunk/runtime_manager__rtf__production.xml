@@ -1,5 +1,5 @@
 <form>
-  <label>Metrics Framework - Runtime Manager - RTF - Sandbox</label>
+  <label>Metrics Accelerator - Runtime Manager - RTF - Production</label>
   <fieldset submitButton="false">
     <input type="multiselect" token="bgToken" searchWhenChanged="true">
       <label>Business Group</label>
@@ -33,11 +33,11 @@
   </fieldset>
   <row>
     <panel>
-      <title>Runtime Manager - RTF - VCores reserved total - Sandbox - Current Count</title>
+      <title>Runtime Manager - RTF - VCores reserved total - Production - Current Count</title>
       <single>
-        <title>Runtime Manager - RTF - VCores reserved total - Sandbox - Current Count</title>
+        <title>Runtime Manager - RTF - VCores reserved total - Production - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.applications.sandbox.coresReserved) as total | stats max(total) as "vcores"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.applications.production.coresReserved) as total | stats max(total) as "vcores"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -49,11 +49,11 @@
       </single>
     </panel>
     <panel>
-      <title>Runtime Manager - RTF - VCores reserved - Sandbox - Timeline</title>
+      <title>Runtime Manager - RTF - VCores reserved - Production - Timeline</title>
       <chart>
-        <title>Runtime Manager - RTF - VCores reserved - Sandbox - Timeline</title>
+        <title>Runtime Manager - RTF - VCores reserved - Production - Timeline</title>
         <search>
-          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(runtimeManagerMetrics.rtf.applications.sandbox.coresReserved) as "vcores reserved" by _time, businessGroup</query>
+          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(runtimeManagerMetrics.rtf.applications.production.coresReserved) as "vcores reserved" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -68,11 +68,11 @@
   </row>
   <row>
     <panel>
-      <title>Runtime Manager - RTF - Memory reserved total - Sandbox - Current Count</title>
+      <title>Runtime Manager - RTF - Memory reserved total - Production - Current Count</title>
       <single>
-        <title>Runtime Manager - RTF - Memory reserved total - Sandbox - Current Count</title>
+        <title>Runtime Manager - RTF - Memory reserved total - Production - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.applications.sandbox.memoryReserved) as total | stats max(total) as "memory"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.applications.production.memoryReserved) as total | stats max(total) as "memory"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -84,11 +84,11 @@
       </single>
     </panel>
     <panel>
-      <title>Runtime Manager - RTF - Memory reserved - Sandbox - Timeline</title>
+      <title>Runtime Manager - RTF - Memory reserved - Production - Timeline</title>
       <chart>
-        <title>Runtime Manager - RTF - Memory reserved - Sandbox - Timeline</title>
+        <title>Runtime Manager - RTF - Memory reserved - Production - Timeline</title>
         <search>
-          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(runtimeManagerMetrics.rtf.applications.sandbox.memoryReserved) as "memory reserved" by _time, businessGroup</query>
+          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(runtimeManagerMetrics.rtf.applications.production.memoryReserved) as "memory reserved" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -103,11 +103,11 @@
   </row>
   <row>
     <panel>
-      <title>Runtime Manager - Sandbox - RTF - Runtime versions used - Current Count</title>
+      <title>Runtime Manager - Production - RTF - Runtime versions used - Current Count</title>
       <single>
-        <title>Runtime Manager - Sandbox - RTF - Runtimes versions used - Current Count</title>
+        <title>Runtime Manager - Production - RTF - Runtimes versions used - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.applications.sandbox.runtimesUsedTotal) as total | stats max(total) as "Runtime versions"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.applications.production.runtimesUsedTotal) as total | stats max(total) as "Runtime versions"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -119,11 +119,11 @@
       </single>
     </panel>
     <panel>
-      <title>Runtime Manager - Sandbox - RTF - Runtime versions - Current</title>
+      <title>Runtime Manager - Production - RTF - Runtime versions - Current</title>
       <table>
-        <title>Runtime Manager - Sandbox - RTF - Runtime versions - Current</title>
+        <title>Runtime Manager - Production - RTF - Runtime versions - Current</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$)  | rename runtimeManagerMetrics.rtf.applications.sandbox.runtimesUsed{} as "Runtime versions" | table "Runtime versions"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$)  | rename runtimeManagerMetrics.rtf.applications.production.runtimesUsed{} as "Runtime versions" | table "Runtime versions"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -131,11 +131,11 @@
       </table>
     </panel>
     <panel>
-      <title>Runtime Manager - Sandbox - RTF - Runtime versions used - Timeline</title>
+      <title>Runtime Manager - Production - RTF - Runtime versions used - Timeline</title>
       <chart>
-        <title>Runtime Manager - Sandbox - RTF - Runtime versions used - Timeline</title>
+        <title>Runtime Manager - Production - RTF - Runtime versions used - Timeline</title>
         <search>
-          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(runtimeManagerMetrics.rtf.applications.sandbox.runtimesUsedTotal) as "Runtime versions" by _time, businessGroup</query>
+          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(runtimeManagerMetrics.rtf.applications.production.runtimesUsedTotal) as "Runtime versions" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -150,11 +150,11 @@
   </row>
   <row>
     <panel>
-      <title>Runtime Manager - Sandbox - RTF - Applications - Current Count</title>
+      <title>Runtime Manager - Production - RTF - Applications - Current Count</title>
       <single>
-        <title>Runtime Manager - Sandbox - RTF - Applications - Current Count</title>
+        <title>Runtime Manager - Production - RTF - Applications - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.applications.sandbox.applicationsTotal) as total | stats max(total) as "Applications"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.applications.production.applicationsTotal) as total | stats max(total) as "Applications"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -166,11 +166,11 @@
       </single>
     </panel>
     <panel>
-      <title>Runtime Manager - Sandbox - RTF - Applications by Status - Current</title>
+      <title>Runtime Manager - Production - RTF - Applications by Status - Current</title>
       <chart>
-        <title>Runtime Manager - Sandbox - RTF - Applications by Status - Current</title>
+        <title>Runtime Manager - Production - RTF - Applications by Status - Current</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.applications.sandbox.applicationsStarted) as started, values(runtimeManagerMetrics.rtf.applications.sandbox.applicationsStopped) as stopped | stats max(started) as "Started", max(stopped) as "Stopped" | transpose</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.rtf.applications.production.applicationsStarted) as started, values(runtimeManagerMetrics.rtf.applications.production.applicationsStopped) as stopped | stats max(started) as "Started", max(stopped) as "Stopped" | transpose</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -181,11 +181,11 @@
       </chart>
     </panel>
     <panel>
-      <title>Runtime Manager - Sandbox - RTF - Applications by Status - Timeline</title>
+      <title>Runtime Manager - Production - RTF - Applications by Status - Timeline</title>
       <chart>
-        <title>Runtime Manager - Sandbox - RTF - Applications by Status - Timeline</title>
+        <title>Runtime Manager - Production - RTF - Applications by Status - Timeline</title>
         <search>
-          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(runtimeManagerMetrics.rtf.applications.sandbox.applicationsStarted) as "Started", values(runtimeManagerMetrics.rtf.applications.sandbox.applicationsStopped) as "Stopped" by _time, businessGroup</query>
+          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(runtimeManagerMetrics.rtf.applications.production.applicationsStarted) as "Started", values(runtimeManagerMetrics.rtf.applications.production.applicationsStopped) as "Stopped" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
