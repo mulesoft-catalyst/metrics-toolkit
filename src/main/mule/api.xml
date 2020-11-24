@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
     <apikit:config name="api-config" api="api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" raml="api.raml" />
-    <flow name="apiFlow" doc:id="21dfe96e-4a3e-4810-8a77-9a84600f1a4b" >
+    <flow name="web-main" doc:id="21dfe96e-4a3e-4810-8a77-9a84600f1a4b" >
 		<http:listener doc:name="Listener" doc:id="a7a27ecf-5e78-414d-a4ff-9b8680b1bac1" config-ref="HTTP_Listener_config" path="/*"/>
 		<http:load-static-resource doc:name="Load static resource" doc:id="7aae6e23-0946-4fd6-a4ce-8459f9f08885" resourceBasePath="${mule.home}/apps/${app.name}/web/"/>
 	</flow>
