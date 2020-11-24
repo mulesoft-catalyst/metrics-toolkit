@@ -37,7 +37,13 @@
 				<extensions>true</extensions>
 				<configuration>
 					<classifier>mule-application</classifier>
-				</configuration>
+				<sharedLibraries>
+                        <sharedLibrary>
+                            <groupId>org.mongodb</groupId>
+                            <artifactId>mongodb-driver-legacy</artifactId>
+                        </sharedLibrary>
+                    </sharedLibraries>
+                </configuration>
 			</plugin>
 			<plugin>
 				<groupId>com.mulesoft.munit.tools</groupId>
@@ -123,7 +129,18 @@
 			<version>${secure-properties.version}</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
-	</dependencies>
+		<dependency>
+            <groupId>com.mulesoft.connectors</groupId>
+            <artifactId>mule-mongodb-connector</artifactId>
+            <version>6.3.0</version>
+            <classifier>mule-plugin</classifier>
+        </dependency>
+    	<dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-legacy</artifactId>
+            <version>4.0.4</version>
+        </dependency>
+    </dependencies>
 
 	<repositories>
 		<repository>

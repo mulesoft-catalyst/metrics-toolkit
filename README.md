@@ -19,6 +19,8 @@ Table of Contents
             * [Properties specific for Splunk](#properties-specific-for-splunk)
          * [ELK steps](#elk-steps)
             * [Properties specific for ELK](#properties-specific-for-elk)
+         * [MongoDB steps](#mongodb-steps)
+            * [Properties specific for MongoDB](#properties-specific-for-mongodb)
       * [Considerations](#considerations)
       * [Some Theory around the Accelerator](#some-theory-around-the-accelerator)
          * [Business Needs](#business-needs)
@@ -62,6 +64,7 @@ The **metrics accelerator** (**formerly metrics framework**) is a Mule applicati
 - **Anypoint Monitoring**: Requires Titanium subscription, dashboard is not provided
 - **Embedded dashboard**: Including an out of the box basic embedded dashboard accessed by running the application offering an UI with a number of metrics obtained
 - **Tableau**: (Not available yet)
+- **MongoDB**
 
 
 ## Available Metrics
@@ -268,7 +271,7 @@ poller.frequency.cron | Defines the exact frequency (using cron-expressions) to 
 poller.frequency.timezone | Defines the time zone in which the cron-expression will be efective | GMT-3
 aggregation.raw | Flag to define the format of the final response **False**: Won’t provide the raw data but final metrics **True**: Will provide raw data to be aggregated outside this asset | false
 collectors | Comma separated set of collectors that should be executed. Default value: all. Possible values available for all deployment models: core (Core Services) ap (Automated Policies) apc (API Clients) apm (API Manager) arm (Standalone Runtimes) dc (Design Center) ex (Exchange). The following collectors are not available for PCE: amq (Anypoint MQ) apma (API Manager Analytics) ch (Cloudhub) rtf (Runtime Fabric) | all
-loader.strategy | In the case of using the poller, this property defines the strategy for loading data in external systems, the options are: **csv, json, logger, splunk, am, elk, tableau** | logger
+loader.strategy | In the case of using the poller, this property defines the strategy for loading data in external systems, the options are: **csv, json, logger, splunk, am, elk, tableau, mongodb** | logger
 anypoint.platform.host | Anypoint Platform Host. Change to eu1.anypoint.mulesoft.com if using the EU Control Plane or to a private host if using PCE | anypoint.mulesoft.com
 auth.mode | Authentication mode. Valid options are: platform-credentials or connected-app-credentials | platform-credentials
 auth.username | Anypoint Platform username. Used when auth.mode is platform-credentials |
@@ -366,6 +369,23 @@ elk.index.benefits | Index for storing Platform benefits | platformbenefits
 2. Use a web browser to access the applications base URL (e.g. if deployed locally, use http://localhost:8081)
 3. Use the "Login" page to enter your Anypoint platform username, password and organization ID
 4. Wait for the dashboard to run the metrics request and once done, navigate through the different metrics taken using the UI
+
+### MONGODB steps
+
+**NOTE:** Data were pushed and tested with Mongodb 4.4.1. Adjustments may be necessary for other versions.
+
+1. In MongoDB you will need to create a Database called `matrixdb` and a Collection called `metrics`.
+2. Set the loader strategy to `mongodb` on the `metrics-framework-{env}.yaml` file, along with the `mongodb.username` and `mongodb.password` parameters in the secure `metrics-framework-{env}.yaml` file
+
+#### Properties specific for MONGODB
+Name | Description | Default Value
+------------ | ------------ | ------------
+mongodb.host | MongoDB host |
+mongodb.port | MongoDB port |
+mongodb.database | Database name |
+mongodb.colleciton | Collection Name |
+mongodb.username | MongoDB user |
+mongodb.password | MongoDB password |
 
 ## Considerations
 
