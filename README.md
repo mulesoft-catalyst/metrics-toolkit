@@ -32,7 +32,7 @@ Table of Contents
       * [Final Notes](#final-notes)
 
 # Metrics Accelerator
-The **metrics accelerator** (**formerly metrics framework**) is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. In addition to the platform metrics, the framework also extends the capabilities to integrate with external applications like Jira, Confluence, Jenkins, Bitbucket and Splunk to gather SDLC metrics. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance for extending this, contact MuleSoft Professional Services
+The **metrics accelerator** (**formerly metrics framework**) is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. In addition to the platform metrics, the accelerator also extends the capabilities to integrate with external applications like Jira, Confluence, Jenkins, Bitbucket and Splunk to gather SDLC metrics. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance for extending this, contact MuleSoft Professional Services
 
 ## Features
 - Compact Mule application (1 single application)
@@ -252,9 +252,9 @@ Splunk | Total Number of Splunk dashboards
 
 ### Properties configurations
 
-- Default configurations defined in `/src/main/resources/properties/metrics-framework.{env}.yaml`:
+- Default configurations defined in `/src/main/resources/properties/app-{env}.yaml`:
 - Make sure to encrypt all sensitive data using the Secure Properties Module: https://docs.mulesoft.com/mule-runtime/4.2/secure-configuration-properties.
-- Default secure config file defined in `/src/main/resources/properties/secure/metrics-framework.{env}.yaml`
+- Default secure config file defined in `/src/main/resources/properties/secure/app-{env}.yaml`
 - Example `mule.key` used and configured as a Global Property under `global.xml` file
 
 
@@ -340,7 +340,7 @@ splunk.index.benefits | Index for storing Platform benefits | platform_benefits
 **NOTE:** Dashboards were created and tested with Kibana 7.6.2, adjustments may be necessary for other versions
 
 1. The accelerator will load data into the `metrics` and `platformbenefits` indexes. Once data is loaded create an index pattern on Kibana for these indexes
-2. Set the loader strategy to `elk` on the `metrics-framework-{env}.yaml` file, along with the `elk.user` and `elk.password` parameters in the secure `metrics-framework-{env}.yaml` file
+2. Set the loader strategy to `elk` on the `app-{env}.yaml` file, along with the `elk.user` and `elk.password` parameters in the secure `app-{env}.yaml` file
 3. To load the dashboards, replace the `<YOUR-INDEX-PATTERN-ID>` occurrences on all of the dashboards provided under `/dashboards/elk` with your index pattern ID. The index pattern ID can be obtained on Kibana under `Management>>Index Patterns`
 4. Log into your Kibana instance, and on the `Management>>Saved Objects` menu, click on import for each dashboard. This will import all dashboards and visualizations
 
