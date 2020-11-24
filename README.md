@@ -60,7 +60,9 @@ The **metrics accelerator** (**formerly metrics framework**) is a Mule applicati
 - **Splunk**: Including an out of the box dashboard with more than 100 charts
 - **ELK**: Including out of the box, basic, Kibana dashboards
 - **Anypoint Monitoring**: Requires Titanium subscription, dashboard is not provided
-- Tableau: (Not available yet)
+- **Embedded dashboard**: Including an out of the box basic embedded dashboard accessed by running the application offering an UI with a number of metrics obtained
+- **Tableau**: (Not available yet)
+
 
 ## Available Metrics
 
@@ -358,6 +360,12 @@ elk.user | Elasticsearch username  |
 elk.password | Elasticsearch password |
 elk.index.metrics | Index for storing Platform operational metrics | metrics
 elk.index.benefits | Index for storing Platform benefits | platformbenefits
+
+### Embedded Dashboard steps
+1. Deploy & Run the application
+2. Use a web browser to access the applications base URL (e.g. if deployed locally, use http://localhost:8081)
+3. Use the "Login" page to enter your Anypoint platform username, password and organization ID
+4. Wait for the dashboard to run the metrics request and once done, navigate through the different metrics taken using the UI
 
 ## Considerations
 
