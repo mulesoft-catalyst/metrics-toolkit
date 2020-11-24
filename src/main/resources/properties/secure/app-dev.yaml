@@ -1,10 +1,10 @@
 auth:
   
-  orgId: "![yqKEWZ57M3XUasumfcwhVykLsfUM6yOEv2oEJ04vxZc=]"
+  orgId: "![MZrkNkhH/Z9wpUqTaXJ/tLmHXPLMtMTAs6/5CfaR4A4bVDlv1ye1FkyxVvHGChry]"
   
   # If auth mode = platform-credentials (ignored, otherwise):
-  username: "![Zjv8nFIUwDlayZ6O7DP31p1zQRfrwfjbkmi5DyNiD38=]"
-  password: "![yqKEWZ57M3XUasumfcwhV35QQl9B5mf5GBon8eY/x8o=]"
+  username: "![qc4UmGG3fNiAg0AG3B4QmQ==]"
+  password: "![8ab35PCP34TwlLOhDylqig==]"
   
   # If auth mode = connected-app-credentials (ignored, otherwise):
   clientId: "![Zjv8nFIUwDlayZ6O7DP31p1zQRfrwfjbkmi5DyNiD38=]"
@@ -17,8 +17,12 @@ splunk:
   token: "![yqKEWZ57M3XUasumfcwhV5A3JMblY6G4MCwHM5j5VuA=]"
   
 elk:
-  user: "user"
-  password: "password"
+  user: "![cClkzNzePN9/3L4Ag8XzsQ==]"
+  password: "![Wj62Co6HX8PVMumYAco+uw==]"
+
+mongodb:
+  username: "![/MYApdJC2Oq9ALH/X9E4rQ==]"
+  password: "![zTQsE6niuuBuS/I4rKfoeA==]"
 
 # SDLC Metrics
 sdlc:
