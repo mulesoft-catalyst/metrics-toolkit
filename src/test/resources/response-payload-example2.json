@@ -1,5 +1,6 @@
 [
   {
+    "date": "2020-11-23T16:09:20.206-03:00",
     "businessGroup": "Fantasy Company",
     "businessGroupId": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
     "coreServicesMetrics": {
@@ -86,7 +87,7 @@
           "apisWithoutContracts": 0,
           "apisWithMoreThanOneConsumer": 0,
           "apisWithOneOrMoreConsumers": 0,
-          "contracts": 0,          
+          "contracts": 0,
           "policiesUsed": [
             
           ],
