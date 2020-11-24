@@ -1,5 +1,5 @@
 <form>
-  <label>Metrics Framework - Design Center</label>
+  <label>Metrics Accelerator - Design Center</label>
   <fieldset submitButton="false">
     <input type="multiselect" token="bgToken" searchWhenChanged="true">
       <label>Business Group</label>
