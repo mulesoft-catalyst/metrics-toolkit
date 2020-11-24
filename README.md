@@ -381,7 +381,6 @@ elk.index.benefits | Index for storing Platform benefits | platformbenefits
 	- Not supported for Private Cloud Edition (**PCE**)
 - **API Manager** metrics:
 	- API Manager metrics available only for accounts with the **API Manager** and Analytics **add-on**
-	- API Manager API allows to retrieve up to 100 assets (APIs) per request call. As of today, the metrics accelerator only supports one request call, therefore there is a limitation that will prevent the metrics accelerator to retrieve stats for an organization that is currently managing +100 APIs
 - Runtime Manager (**CloudHub**) application metrics: 
 	- CloudHub is not supported on Private Cloud Edition (**PCE**)
 - Runtime Manager (**CloudHub**) **networking** metrics - VPCs, VPNs, DLBs and static IPs usage: 
