@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
-	<flow name="api-call-api-manager-apis-flow" doc:id="cb45e4dc-7fd3-476d-aff3-7c0a30556088" maxConcurrency="${anypoint.platform.apis.apiManager.maxConcurrency}">
+	<flow name="api-call-api-manager-apis-flow" doc:id="cb45e4dc-7fd3-476d-aff3-7c0a30556088"
+		maxConcurrency="${anypoint.platform.apis.apiManager.maxConcurrency}">
 		<logger level="DEBUG" doc:name="Logger" doc:id="c04d063d-9f26-41c8-9f2c-efd64bc5a457" message="Calling API Manager - APIs" />
-		<http:request method="GET" doc:name="Get APIs Request" doc:id="ea3a4010-08c1-44e9-b9d4-a82201dbb162" config-ref="HTTP_Request_configuration"
-			path="${anypoint.platform.apis.apiManager.apis.path}">
+		<ee:transform doc:name="offset" doc:id="c13c0763-5f72-41cb-9c03-c99cf11d9b2f">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable resource="dw/anypoint/save-offset-var.dwl" variableName="offset" />
+			</ee:variables>
+		</ee:transform>
+		<http:request method="GET" doc:name="Get APIs Request" doc:id="ea3a4010-08c1-44e9-b9d4-a82201dbb162"
+			config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.apiManager.apis.path}">
 			<http:headers><![CDATA[#[output application/java
 ---
 {
@@ -21,64 +30,86 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"orgId" : vars.orgId,
 	"envId" : vars.environmentId
 }]]]></http:uri-params>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	offset : vars.offset
+}]]]></http:query-params>
 		</http:request>
 		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["API Manager - APIs, Response Status Code:" ++ attributes.statusCode]' />
+		<flow-ref doc:name="Check if need to request more APIs" doc:id="17d7b3ae-ab10-4c81-b45b-adf7df4cb3ad" name="call-paginated-apis-if-required-subflow"/>
 	</flow>
-	
-	<flow name="api-call-api-manager-api-policies-flow" doc:id="392b0852-86a0-4067-bab6-7b5f55855136" maxConcurrency="${anypoint.platform.apis.apiManager.maxConcurrency}">
-		<logger level="DEBUG" doc:name="Logger" doc:id="19b1b41d-e3f3-40bf-a39d-2fbdfc8e2738" message="Calling API Manager - API Policies" />
-		<flow-ref doc:name="Get API Policies Flow Reference" doc:id="68f786bc-35e9-4cfd-82a0-2f381a69e1a9" name="api-call-api-manager-get-api-policies-flow"/>
-		<logger level="DEBUG" doc:name="Logger" doc:id="3099c073-7970-440a-8683-90ecfe96a6d5" message='#["API Manager - API Policies, Response Status Code:" ++ attributes.statusCode]' />
-	</flow>
-	<flow name="api-call-api-manager-get-api-policies-flow" doc:id="b713ffb3-75f8-4b8e-a235-727f9cedd21c" >
-		<http:request method="GET" doc:name="Get API Policies Request" doc:id="d5c85809-9166-498c-babc-e74cd8a8a886" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.apiManager.apiPolicies.path}">
-			<http:headers><![CDATA[#[output application/java
+
+	<sub-flow name="call-paginated-apis-if-required-subflow" doc:id="87bf7e6a-54f1-4633-b6e4-b49585e64576">
+		<ee:transform doc:name="apisTotalObtained" doc:id="37cdff2e-37d7-479e-bfa1-89fed66fc6ae">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable resource="dw/anypoint/save-apis-obtained.dwl" variableName="apisTotalObtained" />
+			</ee:variables>
+		</ee:transform>
+		<choice doc:name="Are there remaining apis?" doc:id="8d99249a-14bd-4c6a-b3fc-21f64f6f342b">
+			<when expression="#[vars.apisTotalObtained != payload.total]">
+				<ee:transform doc:name="aggregatedAPIPayload" doc:id="4b540c7a-f2c7-42de-bf41-fc384ab85f74">
+					<ee:message>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable resource="dw/anypoint/save-aggregated-api-payload-var.dwl" variableName="aggregatedAPIPayload" />
+					</ee:variables>
+				</ee:transform>
+				<set-variable value="#[vars.offset + 100]" doc:name="offset" doc:id="556d0a3f-3cbe-42ee-b5aa-c5dad5f21e10"
+					variableName="offset" />
+				<flow-ref doc:name="Get more apis" doc:id="3431bd02-f793-45a2-92f6-9c4f63b83513" name="api-call-api-manager-apis-flow" />
+			</when>
+			<otherwise>
+				<logger level="DEBUG" doc:name="Log - No remaining APIs" doc:id="d1d3fd6e-9fb2-4f7e-bc66-e7283f0871de" message="No remaining APIs" />
+				<ee:transform doc:name="aggregatedAPIPayload as Payload" doc:id="eec48013-5edc-4835-b445-ed185176c573">
+					<ee:message>
+						<ee:set-payload resource="dw/anypoint/save-aggregated-api-payload-var.dwl" ></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+	</sub-flow>
+
+	<flow name="api-call-api-manager-api-policies-flow" doc:id="392b0852-86a0-4067-bab6-7b5f55855136"
+		maxConcurrency="${anypoint.platform.apis.apiManager.maxConcurrency}">
+		<logger level="DEBUG" doc:name="Log - Call APIM " doc:id="19b1b41d-e3f3-40bf-a39d-2fbdfc8e2738"
+			message="Calling API Manager - API Policies" />
+		<until-successful maxRetries="${anypoint.platform.apis.apiManager.apiPolicies.retries.max}" doc:name="Until Successful"
+			doc:id="bb0f3611-9f0e-43bb-bbc9-efb617ca214e" millisBetweenRetries="${anypoint.platform.apis.apiManager.apiPolicies.retries.wait}">
+			<http:request method="GET" doc:name="Get API Policies Request" doc:id="d5c85809-9166-498c-babc-e74cd8a8a886"
+				config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.apiManager.apiPolicies.path}">
+				<http:headers><![CDATA[#[output application/java
 ---
 {
 	"Authorization" : "Bearer " ++ vars.token
 }]]]></http:headers>
-			<http:uri-params><![CDATA[#[output application/java
+				<http:uri-params><![CDATA[#[output application/java
 ---
 {
 	"orgId" : vars.orgId,
 	"apiId" : vars.apiId,
 	"envId" : vars.environmentId
 }]]]></http:uri-params>
-			<http:query-params><![CDATA[#[output application/java
+				<http:query-params><![CDATA[#[output application/java
 ---
 {
 	"includeProxyTemplate" : true,
 	"includeTlsContexts" : true,
 	"includeValidation" : true
 }]]]></http:query-params>
-		</http:request>
-		<error-handler >
-			<on-error-continue enableNotifications="false" logException="false" doc:name="On HTTP 429/500 Error" doc:id="3cba3d91-87a8-46d1-a51c-4fec21a6637b" type="HTTP:INTERNAL_SERVER_ERROR,HTTP:TOO_MANY_REQUESTS">
-				<set-variable value="#[vars.pendingRetries default (p('anypoint.platform.apis.apiManager.apiPolicies.retries.max') as Number)]" doc:name="Set pendingRetries" doc:id="9310a5c4-eebd-4316-b500-f40fd0c1c066" variableName="pendingRetries"/>
-				<choice doc:name="Choice" doc:id="e2f9d666-453c-47b6-b062-e8e51ff01310" >
-					<when expression="#[vars.pendingRetries &gt; 0]">
-						<ee:transform doc:name="Wait" doc:id="8aa782e9-31f7-4295-b75c-784320844a79">
-							<ee:message>
-								<ee:set-payload><![CDATA[payload dw::Runtime::wait (p('anypoint.platform.apis.apiManager.apiPolicies.retries.wait') as Number)]]></ee:set-payload>
-							</ee:message>
-							<ee:variables >
-								<ee:set-variable variableName="pendingRetries" ><![CDATA[vars.pendingRetries - 1]]></ee:set-variable>
-							</ee:variables>
-						</ee:transform>
-						<flow-ref doc:name="Get API Policies Flow Reference" doc:id="1fad8a3e-09f3-4768-a2b7-7147ea57cf12" name="api-call-api-manager-get-api-policies-flow" />
-					</when>
-					<otherwise >
-						<raise-error doc:name="Raise error" doc:id="f2b6fcb3-3368-4b57-8006-f1ffc1d69e39" type="APP:RETRIES_EXHAUSTED" description="Exchange - Get Assets - Retries were exhausted"/>
-					</otherwise>
-				</choice>
-				<remove-variable doc:name="Remove pendingRetries" doc:id="450af0cc-0853-4f53-b753-c0964fc7ab64" variableName="pendingRetries"/>
-			</on-error-continue>
-		</error-handler>
+			</http:request>
+		</until-successful>
+		<logger level="DEBUG" doc:name="Logger" doc:id="3099c073-7970-440a-8683-90ecfe96a6d5"
+			message='#["API Manager - API Policies, Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
-	<flow name="api-call-api-manager-automated-policies-flow" doc:id="42654c28-a89d-4de6-88ba-dc0fb72281a8" maxConcurrency="${anypoint.platform.apis.apiManager.maxConcurrency}">
-		<logger level="DEBUG" doc:name="Logger" doc:id="72a5e4e6-06fc-40d8-a9c8-b52535a58743" message="Calling API Manager - Automated Policies" />
-		<http:request method="GET" doc:name="Get Automated Policies Request" doc:id="12594095-06f6-4b7a-af6d-5b3150abe1af" config-ref="HTTP_Request_configuration"
-			path="${anypoint.platform.apis.apiManager.automatedPolicies.path}">
+	<flow name="api-call-api-manager-automated-policies-flow" doc:id="42654c28-a89d-4de6-88ba-dc0fb72281a8"
+		maxConcurrency="${anypoint.platform.apis.apiManager.maxConcurrency}">
+		<logger level="DEBUG" doc:name="Logger" doc:id="72a5e4e6-06fc-40d8-a9c8-b52535a58743"
+			message="Calling API Manager - Automated Policies" />
+		<http:request method="GET" doc:name="Get Automated Policies Request" doc:id="12594095-06f6-4b7a-af6d-5b3150abe1af"
+			config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.apiManager.automatedPolicies.path}">
 			<http:headers><![CDATA[#[output application/java
 ---
 {
@@ -89,12 +120,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 {
 	"orgId" : vars.orgId
 }]]]></http:uri-params>
-			<http:query-params ><![CDATA[#[output application/java
+			<http:query-params><![CDATA[#[output application/java
 ---
 {
 	"environmentId" : vars.environmentId
 }]]]></http:query-params>
 		</http:request>
-		<logger level="DEBUG" doc:name="Logger" doc:id="8bea20cb-7931-4eab-a8d2-fc8ab94ec08c" message='#["API Manager - Automated Policies, Response Status Code:" ++ attributes.statusCode]' />
+		<logger level="DEBUG" doc:name="Logger" doc:id="8bea20cb-7931-4eab-a8d2-fc8ab94ec08c"
+			message='#["API Manager - Automated Policies, Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 </mule>
