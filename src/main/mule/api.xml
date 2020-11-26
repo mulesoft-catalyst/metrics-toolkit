@@ -3,7 +3,11 @@
     <apikit:config name="api-config" api="api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" raml="api.raml" />
     <flow name="web-main" doc:id="21dfe96e-4a3e-4810-8a77-9a84600f1a4b" >
 		<http:listener doc:name="Listener" doc:id="a7a27ecf-5e78-414d-a4ff-9b8680b1bac1" config-ref="HTTP_Listener_config" path="/*"/>
-		<http:load-static-resource doc:name="Load static resource" doc:id="7aae6e23-0946-4fd6-a4ce-8459f9f08885" resourceBasePath="${mule.home}/apps/${app.name}/web/"/>
+		<choice doc:name="Choice" doc:id="e720d2e4-713c-4ee1-8f5d-6180e02af532" >
+			<when expression="#[p('embedded.dashboard.enabled')]">
+				<http:load-static-resource doc:name="Load static resource" doc:id="7aae6e23-0946-4fd6-a4ce-8459f9f08885" resourceBasePath="${mule.home}/apps/${app.name}/web/" />
+			</when>
+		</choice>
 	</flow>
 	<flow name="api-main">
         <http:listener config-ref="HTTP_Listener_config" path="/api/*">
