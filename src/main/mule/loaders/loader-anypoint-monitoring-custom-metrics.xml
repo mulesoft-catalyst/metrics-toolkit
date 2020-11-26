@@ -72,15 +72,36 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 					<custom-metrics:facts>
 						<custom-metrics:fact factName="exchange_assets_total" value="#[payload.exchangeMetrics.total]" />
 						<custom-metrics:fact factName="exchange_assets_api_specs" value="#[payload.exchangeMetrics.apiSpecs]" />
-						<custom-metrics:fact factName="exchange_assets_connectors" value="#[payload.exchangeMetrics.connectors]" />
+						<custom-metrics:fact factName="exchange_assets_connectors_m3" value="#[payload.exchangeMetrics.mule3Connectors]" />
 						<custom-metrics:fact factName="exchange_assets_fragments" value="#[payload.exchangeMetrics.fragments]" />
 						<custom-metrics:fact factName="exchange_assets_proxies" value="#[payload.exchangeMetrics.proxies]" />
 						<custom-metrics:fact factName="exchange_assets_extensions" value="#[payload.exchangeMetrics.extensions]" />
-						<custom-metrics:fact factName="exchange_assets_custom" value="#[payload.exchangeMetrics.custom]" />
-						<custom-metrics:fact factName="exchange_assets_satisfaction" value="#[payload.exchangeMetrics.overallSatisfaction]" />
+						<custom-metrics:fact factName="exchange_assets_applications" value="#[payload.exchangeMetrics.applications]" />
+
+						<!-- Custom Assets and Satisfaction not included due to a limitation of 10 max facts in AM custom metrics-->
+						<!-- custom-metrics:fact factName="exchange_assets_custom" value="#[payload.exchangeMetrics.custom]" /-->
+						<!--custom-metrics:fact factName="exchange_assets_satisfaction" value="#[payload.exchangeMetrics.overallSatisfaction]" /-->
+						<custom-metrics:fact factName="exchange_assets_policies" value="#[payload.exchangeMetrics.policies]" />
+						<custom-metrics:fact factName="exchange_assets_soap_apis" value="#[payload.exchangeMetrics.soapApis]" />
 						
 						<custom-metrics:fact factName="api_clients" value="#[payload.apiManagerMetrics.clients]" />
+					</custom-metrics:facts>
+				</custom-metrics:send>
+			</route>
 
+			<route >
+				<custom-metrics:send doc:name="Send Custom Metric - Exchange Reuse Metrics" metricName="platform_exchange_reuse_custom_metric">
+					<custom-metrics:dimensions>
+						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
+					</custom-metrics:dimensions>
+					<custom-metrics:facts>
+						<custom-metrics:fact factName="reuse_fragments" value="#[payload.exchangeMetrics.reuse.fragments]" />
+						<custom-metrics:fact factName="reuse_implemented_apis" value="#[payload.exchangeMetrics.reuse.implementedApis]" />
+						<custom-metrics:fact factName="reuse_managed_sandbox_apis" value="#[payload.exchangeMetrics.reuse.managedSboxApis]" />
+						<custom-metrics:fact factName="reuse_managed_prod_apis" value="#[payload.exchangeMetrics.reuse.managedProdApis]" />
+						<custom-metrics:fact factName="reuse_extensions" value="#[payload.exchangeMetrics.reuse.extensions]" />
+						<custom-metrics:fact factName="reuse_applied_policies_sandbox" value="#[payload.exchangeMetrics.reuse.appliedPoliciesSbox]" />
+						<custom-metrics:fact factName="reuse_applied_policies_prod" value="#[payload.exchangeMetrics.reuse.appliedPoliciesProd]" />
 					</custom-metrics:facts>
 				</custom-metrics:send>
 			</route>
@@ -97,7 +118,11 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 						
 						<custom-metrics:fact factName="ch_networking_vpns_total" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpnsTotal]" />
 						<custom-metrics:fact factName="ch_networking_vpns_available" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpnsAvailable]" />
-						<custom-metrics:fact factName="ch_networking_vpns_used" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpnsUsed]" />							
+						<custom-metrics:fact factName="ch_networking_vpns_used" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpnsUsed]" />
+
+						<custom-metrics:fact factName="ch_networking_dlbs_total" value="#[payload.runtimeManagerMetrics.cloudhub.networking.dlbsTotal]" />
+						<custom-metrics:fact factName="ch_networking_dlbs_available" value="#[payload.runtimeManagerMetrics.cloudhub.networking.dlbsAvailable]" />
+						<custom-metrics:fact factName="ch_networking_dlbs_used" value="#[payload.runtimeManagerMetrics.cloudhub.networking.dlbsUsed]" />
 					</custom-metrics:facts>
 				</custom-metrics:send>
 			</route>
@@ -190,8 +215,8 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
 		
-						<custom-metrics:fact factName="rtf_cores_used" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.coresUsed]" />
-						<custom-metrics:fact factName="rtf_memory_used" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.memoryUsed]" />
+						<custom-metrics:fact factName="rtf_cores_reserved" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.coresReserved]" />
+						<custom-metrics:fact factName="rtf_memory_reserved" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.memoryReserved]" />
 						
 						<custom-metrics:fact factName="rtf_applications_total" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.applicationsTotal]" />
 						<custom-metrics:fact factName="rtf_applications_started" value="#[payload.runtimeManagerMetrics.rtf.applications.sandbox.applicationsStarted]" />
@@ -227,7 +252,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 	<flow name="loader-anypoint-monitoring-production-custom-metrics-flow" doc:id="0a4c3f70-80d3-4ba2-bb0d-4c994ee3c9ee" >
 		<scatter-gather doc:name="Scatter-Gather" doc:id="abeb78d4-2012-475b-8a5f-90049324373b" >
 			<route >
-				<custom-metrics:send doc:name="Send Custom Metric - Sandbox - API Manager Metrics" doc:id="4c948a60-c273-4f1b-9ef6-6471e2a76655" metricName="platform_sandbox_apim_custom_metric">
+				<custom-metrics:send doc:name="Send Custom Metric - production - API Manager Metrics" doc:id="4c948a60-c273-4f1b-9ef6-6471e2a76655" metricName="platform_production_apim_custom_metric">
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
 						<custom-metrics:dimension dimensionName="environmentType" value="production" />
@@ -293,8 +318,8 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
 		
-						<custom-metrics:fact factName="rtf_cores_used" value="#[payload.runtimeManagerMetrics.rtf.applications.production.coresUsed]" />
-						<custom-metrics:fact factName="rtf_memory_used" value="#[payload.runtimeManagerMetrics.rtf.applications.production.memoryUsed]" />
+						<custom-metrics:fact factName="rtf_cores_reserved" value="#[payload.runtimeManagerMetrics.rtf.applications.production.coresReserved]" />
+						<custom-metrics:fact factName="rtf_memory_reserved" value="#[payload.runtimeManagerMetrics.rtf.applications.production.memoryReserved]" />
 						
 						<custom-metrics:fact factName="rtf_applications_total" value="#[payload.runtimeManagerMetrics.rtf.applications.production.applicationsTotal]" />
 						<custom-metrics:fact factName="rtf_applications_started" value="#[payload.runtimeManagerMetrics.rtf.applications.production.applicationsStarted]" />
