@@ -362,10 +362,11 @@ elk.index.metrics | Index for storing Platform operational metrics | metrics
 elk.index.benefits | Index for storing Platform benefits | platformbenefits
 
 ### Embedded Dashboard steps
-1. Deploy & Run the application
-2. Use a web browser to access the applications base URL (e.g. if deployed locally, use http://localhost:8081)
-3. Use the "Login" page to enter your Anypoint platform username, password and organization ID
-4. Wait for the dashboard to run the metrics request and once done, navigate through the different metrics taken using the UI
+1. Enable the dashboard by changing the embedded.dashboard.enabled property to "true"
+2. Deploy & Run the application
+3. Use a web browser to access the applications base URL (e.g. if deployed locally, use http://localhost:8081)
+4. Use the "Login" page to enter your Anypoint platform username, password and organization ID
+5. Wait for the dashboard to run the metrics request and once done, navigate through the different metrics taken using the UI
 
 ## Considerations
 
