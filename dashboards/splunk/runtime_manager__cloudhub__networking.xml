@@ -1,0 +1,96 @@
+<form>
+  <label>Metrics Accelerator - Runtime Manager - CloudHub - Networking</label>
+  <fieldset submitButton="false">
+    <input type="multiselect" token="bgToken" searchWhenChanged="true">
+      <label>Business Group</label>
+      <fieldForLabel>bg</fieldForLabel>
+      <fieldForValue>bg</fieldForValue>
+      <search>
+        <query>index=$platformMetricsIndex$ | stats values(businessGroup) as bg by businessGroup</query>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+      <delimiter>,</delimiter>
+      <valuePrefix>"</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+    </input>
+    <input type="time" token="timeToken">
+      <label>Time range</label>
+      <default>
+        <earliest>0</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="text" token="platformMetricsIndex" depends="$alwaysHide$">
+      <label>Platform Metrics Index</label>
+      <default>metrics</default>
+    </input>
+    <input type="text" token="platformBenefitsIndex" depends="$alwaysHide$">
+      <label>Platform Benefits Index</label>
+      <default>platform_benefits</default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Runtime Manager - CloudHub - VPCs by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - CloudHub - VPCs by Status - Current</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.networking.vpcsAvailable) as available, values(runtimeManagerMetrics.cloudhub.networking.vpcsUsed) as used | stats max(available) as "Available", max(used) as "Used" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Runtime Manager - CloudHub - VPNs by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - CloudHub - VPNs by Status - Current</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.networking.vpnsAvailable) as available, values(runtimeManagerMetrics.cloudhub.networking.vpnsUsed) as used | stats max(available) as "Available", max(used) as "Used" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Runtime Manager - CloudHub - DLBs by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - CloudHub - DLBs by Status - Current</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.networking.dlbsAvailable) as available, values(runtimeManagerMetrics.cloudhub.networking.dlbsUsed) as used | stats max(available) as "Available", max(used) as "Used" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Runtime Manager - CloudHub - Static IPs by Status - Current</title>
+      <chart>
+        <title>Runtime Manager - CloudHub - Static IPs by Status - Current</title>
+        <search>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.networking.staticIPsAvailable) as available, values(runtimeManagerMetrics.cloudhub.networking.staticIPs) as used | stats max(available) as "Available", max(used) as "Used" | transpose</query>
+          <earliest>$timeToken.earliest$</earliest>
+          <latest>$timeToken.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">251</option>
+      </chart>
+    </panel>
+  </row>
+</form>

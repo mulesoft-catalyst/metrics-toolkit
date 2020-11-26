@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.mulesoft</groupId>
-	<artifactId>metrics-framework</artifactId>
-	<version>1.4.1</version>
+	<artifactId>metrics-accelerator</artifactId>
+	<version>1.5.0</version>
 	<packaging>mule-application</packaging>
 
-	<name>metrics-framework</name>
+	<name>metrics-accelerator</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
