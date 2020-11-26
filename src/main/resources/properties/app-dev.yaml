@@ -50,6 +50,9 @@ loader:
 # Default value: "all"
   
 collectors: "all"
+
+embedded.dashboard:
+  enabled: "false"
   
 splunk:
   host: "splunk-metrics.env.services.mulesoft.com"
