@@ -2,7 +2,7 @@ Table of Contents
 =================
 
    * [Table of Contents](#table-of-contents)
-   * [Metrics Framework](#metrics-framework)
+   * [Metrics Accelerator](#metrics-accelerator)
       * [Features](#features)
          * [Modes](#modes)
          * [Loader options](#loader-options)
@@ -20,7 +20,7 @@ Table of Contents
          * [ELK steps](#elk-steps)
             * [Properties specific for ELK](#properties-specific-for-elk)
       * [Considerations](#considerations)
-      * [Some Theory around the Framework](#some-theory-around-the-framework)
+      * [Some Theory around the Accelerator](#some-theory-around-the-accelerator)
          * [Business Needs](#business-needs)
          * [Data Sources](#data-sources)
          * [Measurements](#measurements)
@@ -31,8 +31,8 @@ Table of Contents
             * [Detailed](#detailed)
       * [Final Notes](#final-notes)
 
-# Metrics Framework
-The metrics framework is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. In addition to the platform metrics, the framework also extends the capabilities to integrate with external applications like Jira, Confluence, Jenkins, Bitbucket and Splunk to gather SDLC metrics. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance for extending this, contact MuleSoft Professional Services
+# Metrics Accelerator
+The **metrics accelerator** (**formerly metrics framework**) is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. In addition to the platform metrics, the accelerator also extends the capabilities to integrate with external applications like Jira, Confluence, Jenkins, Bitbucket and Splunk to gather SDLC metrics. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance for extending this, contact MuleSoft Professional Services
 
 ## Features
 - Compact Mule application (1 single application)
@@ -60,7 +60,9 @@ The metrics framework is a Mule application intended to collect, aggregate and l
 - **Splunk**: Including an out of the box dashboard with more than 100 charts
 - **ELK**: Including out of the box, basic, Kibana dashboards
 - **Anypoint Monitoring**: Requires Titanium subscription, dashboard is not provided
-- Tableau: (Not available yet)
+- **Embedded dashboard**: Including an out of the box basic embedded dashboard accessed by running the application offering an UI with a number of metrics obtained
+- **Tableau**: (Not available yet)
+
 
 ## Available Metrics
 
@@ -232,7 +234,7 @@ Splunk | Total Number of Splunk dashboards
 
 ### Steps
 
-1. Clone or download the project from GitHub `git clone git@github.com:mulesoft-catalyst/metrics-framework-m4.git`
+1. Clone or download the project from GitHub `git clone git@github.com:mulesoft-catalyst/metrics-accelerator.git`
 
 2. Adjust the properties, run the project and test it - go to your browser and open `http://localhost:8081/console/`
 
@@ -252,15 +254,15 @@ Splunk | Total Number of Splunk dashboards
 
 ### Properties configurations
 
-- Default configurations defined in `/src/main/resources/properties/metrics-framework.{env}.yaml`:
+- Default configurations defined in `/src/main/resources/properties/app-{env}.yaml`:
 - Make sure to encrypt all sensitive data using the Secure Properties Module: https://docs.mulesoft.com/mule-runtime/4.2/secure-configuration-properties.
-- Default secure config file defined in `/src/main/resources/properties/secure/metrics-framework.{env}.yaml`
+- Default secure config file defined in `/src/main/resources/properties/secure/app-{env}.yaml`
 - Example `mule.key` used and configured as a Global Property under `global.xml` file
 
 
 Name | Description | Default Value
 ------------ | ------------ | ------------
-http.port | The port for exposing the metrics-framework API | 8081
+http.port | The port for exposing the metrics-accelerator API | 8081
 poller.enabled | Property to enable or disable the poller to collect and load metrics in external systems | false
 poller.frequency.cron | Defines the exact frequency (using cron-expressions) to trigger the execution: Recommended to collect metrics once a day | 0 0 0 \* \* ? \*
 poller.frequency.timezone | Defines the time zone in which the cron-expression will be efective | GMT-3
@@ -339,8 +341,8 @@ splunk.index.benefits | Index for storing Platform benefits | platform_benefits
 
 **NOTE:** Dashboards were created and tested with Kibana 7.6.2, adjustments may be necessary for other versions
 
-1. The Framework will load data into the `metrics` and `platformbenefits` indexes. Once data is loaded create an index pattern on Kibana for these indexes
-2. Set the loader strategy to `elk` on the `metrics-framework-{env}.yaml` file, along with the `elk.user` and `elk.password` parameters in the secure `metrics-framework-{env}.yaml` file
+1. The accelerator will load data into the `metrics` and `platformbenefits` indexes. Once data is loaded create an index pattern on Kibana for these indexes
+2. Set the loader strategy to `elk` on the `app-{env}.yaml` file, along with the `elk.user` and `elk.password` parameters in the secure `app-{env}.yaml` file
 3. To load the dashboards, replace the `<YOUR-INDEX-PATTERN-ID>` occurrences on all of the dashboards provided under `/dashboards/elk` with your index pattern ID. The index pattern ID can be obtained on Kibana under `Management>>Index Patterns`
 4. Log into your Kibana instance, and on the `Management>>Saved Objects` menu, click on import for each dashboard. This will import all dashboards and visualizations
 
@@ -359,10 +361,17 @@ elk.password | Elasticsearch password |
 elk.index.metrics | Index for storing Platform operational metrics | metrics
 elk.index.benefits | Index for storing Platform benefits | platformbenefits
 
+### Embedded Dashboard steps
+1. Enable the dashboard by changing the embedded.dashboard.enabled property to "true"
+2. Deploy & Run the application
+3. Use a web browser to access the applications base URL (e.g. if deployed locally, use http://localhost:8081)
+4. Use the "Login" page to enter your Anypoint platform username, password and organization ID
+5. Wait for the dashboard to run the metrics request and once done, navigate through the different metrics taken using the UI
+
 ## Considerations
 
 - This application can be deployed in any Mule Runtime (OnPrem, CloudHub, RTF)
-- The metrics collection will depend on the features available in each account; e.g if the account has the API Manager add-on, the framework will collect and aggregate the metrics related to API Manager, otherwise the values will appear as zeroes; if using PCE, there won't be information about API Analytics
+- The metrics collection will depend on the features available in each account; e.g if the account has the API Manager add-on, the accelerator will collect and aggregate the metrics related to API Manager, otherwise the values will appear as zeroes; if using PCE, there won't be information about API Analytics
 - In order to enable or disable specific collectors, you have to change the property "collectors" if using the poller or add a query parameter "collectors" if using the API, including a CSV string as explained in the properties section
 
 ## Limitations
@@ -373,7 +382,6 @@ elk.index.benefits | Index for storing Platform benefits | platformbenefits
 	- Not supported for Private Cloud Edition (**PCE**)
 - **API Manager** metrics:
 	- API Manager metrics available only for accounts with the **API Manager** and Analytics **add-on**
-	- API Manager API allows to retrieve up to 100 assets (APIs) per request call. As of today, the metrics framework only supports one request call, therefore there is a limitation that will prevent the metrics framework to retrieve stats for an organization that is currently managing +100 APIs
 - Runtime Manager (**CloudHub**) application metrics: 
 	- CloudHub is not supported on Private Cloud Edition (**PCE**)
 - Runtime Manager (**CloudHub**) **networking** metrics - VPCs, VPNs, DLBs and static IPs usage: 
@@ -396,8 +404,8 @@ elk.index.benefits | Index for storing Platform benefits | platformbenefits
 	- Not supported when authenticating with **Connected Apps**
 	- Not supported on **GovCloud**
 
-## Some Theory around the Framework
-The framework is intended to cover the main areas to define and implement metrics using Mule.
+## Some Theory around the Accelerator
+The accelerator is intended to cover the main areas to define and implement metrics using Mule.
 
 ### Business Needs
 

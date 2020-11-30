@@ -1,5 +1,5 @@
 <form>
-  <label>Metrics Framework - Current - Consolidated</label>
+  <label>Metrics Accelerator - Current - Consolidated</label>
   <fieldset submitButton="false">
     <input type="multiselect" token="bgToken" searchWhenChanged="true">
       <label>Business Group</label>

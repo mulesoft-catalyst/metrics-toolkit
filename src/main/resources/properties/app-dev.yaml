@@ -1,5 +1,10 @@
 http:
   port: "8081"
+  private.port: "8091"
+  
+https:
+  port: "8082"
+  private.port: "8092"
   
 poller:
   enabled: "false"
@@ -45,6 +50,9 @@ loader:
 # Default value: "all"
   
 collectors: "all"
+
+embedded.dashboard:
+  enabled: "false"
   
 splunk:
   host: "splunk-metrics.env.services.mulesoft.com"
