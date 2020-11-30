@@ -7,7 +7,7 @@
 		<parallel-foreach doc:name="Parallel For Each" doc:id="1f93fa99-2026-45b6-bcac-29ddb3799db8" collection="#[vars.environments]">
 			<flow-ref doc:name="Set Environment Variables" doc:id="4c6292da-bf95-463f-9380-ded270f160cf" name="collector-commons-set-environment-variables-flow" />
 			<flow-ref doc:name="Get API Manager APIs Flow Reference" doc:id="11e1602e-2ea0-437a-bec5-dd57f011bfb6" name="api-call-api-manager-apis-flow" />
-			<logger level="DEBUG" doc:name="Logger" doc:id="fa4b0ab9-5e90-4305-aaed-c81f6a57d6fe" message="#[payload]" />
+			<logger level="DEBUG" doc:name="Log - Payload - Debug" doc:id="fa4b0ab9-5e90-4305-aaed-c81f6a57d6fe" message="#[payload]" />
 			<set-variable value="#[payload]" doc:name="Set APIs Data Variable" doc:id="fc174afe-615e-469b-8b88-881088f5c733"
 				variableName="apisData" />
 			
@@ -16,12 +16,12 @@
 					variableName="apiId" />
 				<set-variable value="#[payload.assetId]" doc:name="Set API Instance ID Variable" doc:id="4e0d363f-17fb-4c70-8d18-c46618ef6354"
 					variableName="assetId" />
-				<choice doc:name="Choice">
+				<choice doc:name="If policies is enabled">
 					<when expression="#[p('anypoint.platform.apis.apiManager.apiPolicies.enabled') == &quot;true&quot;]">
 						<flow-ref doc:name="Get Policies Flow Reference" doc:id="e6bdf64f-d578-46b6-9eb9-6f2ee0f2a016" name="api-call-api-manager-api-policies-flow" />
 					</when>
 					<otherwise>
-						<logger level="INFO" doc:name="Logger" doc:id="15b5b596-fef7-4c58-8574-13940fd0fc86" message="Policies polling disabled"/>
+						<logger level="INFO" doc:name="Log - no policies" doc:id="15b5b596-fef7-4c58-8574-13940fd0fc86" message="Policies polling disabled"/>
 					</otherwise>					
 				</choice>
 				<set-payload value='#[output application/json --- { id: vars.apiId, artifactId: vars.assetId, policies: payload.policies}]'

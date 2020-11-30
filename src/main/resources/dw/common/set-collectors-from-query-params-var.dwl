@@ -1,6 +1,6 @@
 %dw 2.0
 output application/java
-var collectors = if (isEmpty(attributes.queryParams.collectors)) ["all"] else (attributes.queryParams.collectors as String splitBy ",")
+var collectors = if (isEmpty(attributes.queryParams.collectors)) ["all"] else (((attributes.queryParams.collectors as String) replace /[ ]*,[ ]*/ with ',') splitBy ",")
 ---
 (if (collectors contains "all") 
 ["ap","apc","apm","arm","core","dc","ex","amq","apma","ch","rtf"]
