@@ -5,7 +5,6 @@ var environments = vars.environments
 var entitlements = vars.entitlements
 var errors = vars.errors
 
-
 var cloudHubApps = if (payload[0].payload != null) payload[0].payload.payload else null
 var exchangeAssets = payload[1].payload default []
 var apiManagerApis = if (payload[2].payload != null) payload[2].payload.payload else null
@@ -110,7 +109,6 @@ var policiesAppliedByPolicy = (inProduction) -> (
         )
     )
 )
-
 
 var usableSandBoxVcores = entitlements.vCoresSandbox.assigned - entitlements.vCoresSandbox.reassigned
 var useableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCoresProduction.reassigned													
