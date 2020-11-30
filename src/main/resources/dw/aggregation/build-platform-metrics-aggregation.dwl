@@ -4,7 +4,6 @@ output application/json
 var environments = vars.environments
 var entitlements = vars.entitlements
 var errors = vars.errors
-//var isMaster = vars.isMaster
 
 
 var cloudHubApps = if (payload[0].payload != null) payload[0].payload.payload else null
@@ -114,9 +113,7 @@ var policiesAppliedByPolicy = (inProduction) -> (
 
 
 var usableSandBoxVcores = entitlements.vCoresSandbox.assigned - entitlements.vCoresSandbox.reassigned
-var useableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCoresProduction.reassigned						
-							
-
+var useableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCoresProduction.reassigned													
 ---
 {
 	date: vars.date,
