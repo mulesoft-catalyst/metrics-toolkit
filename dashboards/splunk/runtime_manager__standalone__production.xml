@@ -1,5 +1,5 @@
 <form>
-  <label>Metrics Framework - Runtime Manager - Standalone - Sandbox</label>
+  <label>Metrics Accelerator - Runtime Manager - Standalone - Production</label>
   <fieldset submitButton="false">
     <input type="multiselect" token="bgToken" searchWhenChanged="true">
       <label>Business Group</label>
@@ -31,14 +31,13 @@
       <default>platform_benefits</default>
     </input>
   </fieldset>
-  
   <row>
     <panel>
-      <title>Runtime Manager - Sandbox - OnPrem - Servers - Current Count</title>
+      <title>Runtime Manager - Production - OnPrem - Servers - Current Count</title>
       <single>
-        <title>Runtime Manager - Sandbox - OnPrem - Servers - Current Count</title>
+        <title>Runtime Manager - Production - OnPrem - Servers - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.sandbox.servers) as total | stats max(total) as "Applications"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.production.servers) as total | stats max(total) as "Applications"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -50,11 +49,11 @@
       </single>
     </panel>
     <panel>
-      <title>Runtime Manager - Sandbox - OnPrem - Runtime versions - Current Count</title>
+      <title>Runtime Manager - Production - OnPrem - Runtime versions - Current Count</title>
       <table>
-        <title>Runtime Manager - Sandbox - OnPrem - Runtime versions - Current Count</title>
+        <title>Runtime Manager - Production - OnPrem - Runtime versions - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$)  | rename runtimeManagerMetrics.hybrid.sandbox.runtimesUsed{} as "Runtime versions" | table "Runtime versions"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$)  | rename runtimeManagerMetrics.hybrid.production.runtimesUsed{} as "Runtime versions" | table "Runtime versions"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -62,11 +61,11 @@
       </table>
     </panel>
     <panel>
-      <title>Runtime Manager - Sandbox - OnPrem - Clusters - Current Count</title>
+      <title>Runtime Manager - Production - OnPrem - Clusters - Current Count</title>
       <single>
-        <title>Runtime Manager - Sandbox - OnPrem - Clusters - Current Count</title>
+        <title>Runtime Manager - Production - OnPrem - Clusters - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.sandbox.clusters) as total | stats max(total) as "Applications"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.production.clusters) as total | stats max(total) as "Applications"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -78,11 +77,11 @@
       </single>
     </panel>
     <panel>
-      <title>Runtime Manager - Sandbox - OnPrem - Server Groups - Current Count</title>
+      <title>Runtime Manager - Production - OnPrem - Server Groups - Current Count</title>
       <single>
-        <title>Runtime Manager - Sandbox - OnPrem - Server Groups - Current Count</title>
+        <title>Runtime Manager - Production - OnPrem - Server Groups - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.sandbox.serverGroups) as total | stats max(total) as "Applications"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.production.serverGroups) as total | stats max(total) as "Applications"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -96,11 +95,11 @@
   </row>
   <row>
     <panel>
-      <title>Runtime Manager - Sandbox - OnPrem - Applications - Current Count</title>
+      <title>Runtime Manager - Production - OnPrem - Applications - Current Count</title>
       <single>
-        <title>Runtime Manager - Sandbox - OnPrem - Applications - Current Count</title>
+        <title>Runtime Manager - Production - OnPrem - Applications - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.sandbox.applicationsTotal) as total | stats max(total) as "Applications"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.production.applicationsTotal) as total | stats max(total) as "Applications"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -112,11 +111,11 @@
       </single>
     </panel>
     <panel>
-      <title>Runtime Manager - Sandbox - OnPrem - Applications by Status - Current</title>
+      <title>Runtime Manager - Production - OnPrem - Applications by Status - Current</title>
       <chart>
-        <title>Runtime Manager - Sandbox - OnPrem - Applications by Status - Current</title>
+        <title>Runtime Manager - Production - OnPrem - Applications by Status - Current</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.sandbox.applicationsStarted) as started, values(runtimeManagerMetrics.hybrid.sandbox.applicationsStopped) as stopped | stats max(started) as "Started", max(stopped) as "Stopped" | transpose</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.hybrid.production.applicationsStarted) as started, values(runtimeManagerMetrics.hybrid.production.applicationsStopped) as stopped | stats max(started) as "Started", max(stopped) as "Stopped" | transpose</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -127,11 +126,11 @@
       </chart>
     </panel>
     <panel>
-      <title>Runtime Manager - Sandbox - OnPrem - Applications by Status - Timeline</title>
+      <title>Runtime Manager - Production - OnPrem - Applications by Status - Timeline</title>
       <chart>
-        <title>Runtime Manager - Sandbox - OnPrem - Applications by Status - Timeline</title>
+        <title>Runtime Manager - Production - OnPrem - Applications by Status - Timeline</title>
         <search>
-          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(runtimeManagerMetrics.hybrid.sandbox.applicationsStarted) as "Started", values(runtimeManagerMetrics.hybrid.sandbox.applicationsStopped) as "Stopped" by _time, businessGroup</query>
+          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | chart values(runtimeManagerMetrics.hybrid.production.applicationsStarted) as "Started", values(runtimeManagerMetrics.hybrid.production.applicationsStopped) as "Stopped" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>

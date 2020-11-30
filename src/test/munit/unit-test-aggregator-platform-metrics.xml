@@ -368,7 +368,7 @@ output application/java
 }]]></ee:set-attributes>
 				</ee:message>
 			</ee:transform>
-			<flow-ref doc:name="Flow-ref to get:\platform-metrics:metrics-framework-api-config" doc:id="dcc7d79b-dba8-4939-b541-ded681f566e8" name="get:\platform-metrics:metrics-framework-api-config"/>
+			<flow-ref doc:name="Flow-ref to get:\platform-metrics:api-config" doc:id="dcc7d79b-dba8-4939-b541-ded681f566e8" name="get:\platform-metrics:api-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="697a1e72-fc73-44a9-a51c-2bb32ca5db82" expression='#[[payload[0] - "date"]]' is="#[MunitTools::equalTo(vars.expectedResponse)]" message="The response payload is not the expected" />
