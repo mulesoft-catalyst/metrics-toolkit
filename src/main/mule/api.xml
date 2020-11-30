@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-    <apikit:config name="metrics-framework-api-config" api="metrics-framework-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" raml="metrics-framework-api.raml" />
-    <flow name="metrics-framework-apiFlow" doc:id="21dfe96e-4a3e-4810-8a77-9a84600f1a4b" >
+    <apikit:config name="api-config" api="api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" raml="api.raml" />
+    <flow name="web-main" doc:id="21dfe96e-4a3e-4810-8a77-9a84600f1a4b" >
 		<http:listener doc:name="Listener" doc:id="a7a27ecf-5e78-414d-a4ff-9b8680b1bac1" config-ref="HTTP_Listener_config" path="/*"/>
-		<http:load-static-resource doc:name="Load static resource" doc:id="7aae6e23-0946-4fd6-a4ce-8459f9f08885" resourceBasePath="${mule.home}/apps/${app.name}/web/"/>
+		<choice doc:name="Choice" doc:id="e720d2e4-713c-4ee1-8f5d-6180e02af532" >
+			<when expression="#[p('embedded.dashboard.enabled')]">
+				<http:load-static-resource doc:name="Load static resource" doc:id="7aae6e23-0946-4fd6-a4ce-8459f9f08885" resourceBasePath="${mule.home}/apps/${app.name}/web/" />
+			</when>
+		</choice>
 	</flow>
-	<flow name="metrics-framework-api-main">
+	<flow name="api-main">
         <http:listener config-ref="HTTP_Listener_config" path="/api/*">
             <http:response statusCode="#[vars.httpStatus default 200]" />
             <http:error-response statusCode="#[vars.httpStatus default 500]">
                 <http:body><![CDATA[#[payload]]]></http:body>
             </http:error-response>
         </http:listener>
-        <apikit:router config-ref="metrics-framework-api-config" />
+        <apikit:router config-ref="api-config" />
         <error-handler>
             <on-error-propagate type="APIKIT:BAD_REQUEST">
                 <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="f0eda6c8-1ae6-4505-9698-2d34fb4de78a">
@@ -86,7 +90,7 @@
             </on-error-propagate>
         </error-handler>
     </flow>
-    <flow name="metrics-framework-api-console">
+    <flow name="api-console">
         <http:listener config-ref="HTTP_Listener_config" path="/console/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
                 <http:headers>#[vars.outboundHeaders default {}]</http:headers>
@@ -96,7 +100,7 @@
                 <http:headers>#[vars.outboundHeaders default {}]</http:headers>
             </http:error-response>
         </http:listener>
-        <apikit:console config-ref="metrics-framework-api-config" />
+        <apikit:console config-ref="api-config" />
         <error-handler>
             <on-error-propagate type="APIKIT:NOT_FOUND">
                 <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="89f359e1-73a5-466a-81ec-75564830dc65">
@@ -110,33 +114,33 @@
             </on-error-propagate>
         </error-handler>
     </flow>
-    <flow name="get:\platform-metrics:metrics-framework-api-config">
-        <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="a99d508d-5bd1-4627-88d1-fec6fb4ed7cf" name="metrics-framework-common-set-auth-vars-from-headers" />
-        <flow-ref doc:name="Set Aggregator Details From Query Params Flow Reference" doc:id="526a1967-37bb-499f-a47d-9c469bb3df26" name="metrics-framework-common-set-aggregator-vars-from-query-params"/>
+    <flow name="get:\platform-metrics:api-config">
+        <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="a99d508d-5bd1-4627-88d1-fec6fb4ed7cf" name="common-set-auth-vars-from-headers" />
+        <flow-ref doc:name="Set Aggregator Details From Query Params Flow Reference" doc:id="526a1967-37bb-499f-a47d-9c469bb3df26" name="common-set-aggregator-vars-from-query-params"/>
 		<flow-ref doc:name="Aggregator Master Flow Reference" doc:id="5484cc09-2351-49d6-b728-a0d4b0b0d1b9" name="aggregator-platform-metrics-master-flow" />
     </flow>
-    <flow name="post:\platform-metrics\load:metrics-framework-api-config">
-        <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="e514bd7d-bdbc-4492-844c-b9d4549155f9" name="metrics-framework-common-set-auth-vars-from-headers" />
-        <flow-ref doc:name="Set Loader Details From Payload Flow Reference" doc:id="e6cdbaa6-d042-4dda-ad53-a9bcb88ee768" name="metrics-framework-common-set-loader-vars-from-payload" />
+    <flow name="post:\platform-metrics\load:api-config">
+        <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="e514bd7d-bdbc-4492-844c-b9d4549155f9" name="common-set-auth-vars-from-headers" />
+        <flow-ref doc:name="Set Loader Details From Payload Flow Reference" doc:id="e6cdbaa6-d042-4dda-ad53-a9bcb88ee768" name="common-set-loader-vars-from-payload" />
         <flow-ref doc:name="Loader Flow Reference" doc:id="9b9b2d75-6d61-40ce-bc19-518cbb135eb8" name="loader-router-flow" />
     </flow>
-    <flow name="get:\business-metrics:metrics-framework-api-config">
-        <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="fd377e58-59aa-44cf-ad08-86aab248ef23" name="metrics-framework-common-set-auth-vars-from-headers" />
-        <flow-ref doc:name="Set Benefits Vars From Query Params Flow Reference" doc:id="4f874701-0491-483f-879e-7fcf9bac5243" name="metrics-framework-common-set-benefits-vars-from-query-params" />
+    <flow name="get:\business-metrics:api-config">
+        <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="fd377e58-59aa-44cf-ad08-86aab248ef23" name="common-set-auth-vars-from-headers" />
+        <flow-ref doc:name="Set Benefits Vars From Query Params Flow Reference" doc:id="4f874701-0491-483f-879e-7fcf9bac5243" name="common-set-benefits-vars-from-query-params" />
         <flow-ref doc:name="Aggregator Platform Benefits Flow Reference" doc:id="ab111296-7f07-480b-b76c-c05de17ae188" name="aggregator-platform-benefits-master-flow" />
     </flow>
-    <flow name="post:\business-metrics\load:metrics-framework-api-config">
-        <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="666ad8cc-9088-4d24-8839-f665a9f9deaa" name="metrics-framework-common-set-auth-vars-from-headers" />
-        <flow-ref doc:name="Set Loader Details From Payload Flow Reference" doc:id="ad58af15-9a99-49c8-bee5-24d3eb73ee04" name="metrics-framework-common-set-loader-vars-from-payload" />
-        <flow-ref doc:name="Set Benefits Vars From Payload Flow Reference" doc:id="c3fa4f76-0f14-40cb-9738-1c7011851bfa" name="metrics-framework-common-set-benefits-vars-from-payload" />
+    <flow name="post:\business-metrics\load:api-config">
+        <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="666ad8cc-9088-4d24-8839-f665a9f9deaa" name="common-set-auth-vars-from-headers" />
+        <flow-ref doc:name="Set Loader Details From Payload Flow Reference" doc:id="ad58af15-9a99-49c8-bee5-24d3eb73ee04" name="common-set-loader-vars-from-payload" />
+        <flow-ref doc:name="Set Benefits Vars From Payload Flow Reference" doc:id="c3fa4f76-0f14-40cb-9738-1c7011851bfa" name="common-set-benefits-vars-from-payload" />
         <flow-ref doc:name="Loader Benfits Flow Reference" doc:id="1117cb81-c116-4ad6-b566-36e4f2d5d30e" name="loader-benefits-router-flow" />
     </flow>
-    <flow name="get:\sdlc-metrics:metrics-framework-api-config">
+    <flow name="get:\sdlc-metrics:api-config">
         <set-variable value="#[attributes.queryParams.raw]" doc:name="Set Raw Data flag" doc:id="a9f8c832-6093-465b-b738-bdea7988b782" variableName="rawData" />
 		<flow-ref doc:name="Aggregator SDLC Flow Reference" doc:id="1dcfab3e-3016-4bed-8234-763027f4760a" name="aggregator-sdlc-metrics-main-flow" />
     </flow>
-    <flow name="post:\sdlc-metrics\load:metrics-framework-api-config">
-        <flow-ref doc:name="Set Loader Details From Payload Flow Reference" doc:id="5be122d9-d5e8-4059-b082-2eab2c5c4845" name="metrics-framework-common-set-loader-vars-from-payload" />
+    <flow name="post:\sdlc-metrics\load:api-config">
+        <flow-ref doc:name="Set Loader Details From Payload Flow Reference" doc:id="5be122d9-d5e8-4059-b082-2eab2c5c4845" name="common-set-loader-vars-from-payload" />
 		<flow-ref doc:name="Loader SDLC Flow Reference" doc:id="c84138ab-9d1d-4edf-840e-12d9458584e4" name="loader-sdlc-router-flow" />
     </flow>
 </mule>

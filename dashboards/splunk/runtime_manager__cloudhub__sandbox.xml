@@ -1,5 +1,5 @@
 <form>
-  <label>Metrics Framework - Runtime Manager - CloudHub - Sandbox</label>
+  <label>Metrics Accelerator - Runtime Manager - CloudHub - Sandbox</label>
   <fieldset submitButton="false">
     <input type="multiselect" token="bgToken" searchWhenChanged="true">
       <label>Business Group</label>
