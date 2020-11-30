@@ -7,6 +7,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd">	
 	
+	<mongo:config name="MongoDB_Config" doc:name="MongoDB Config" doc:id="7f70069c-f608-4531-846d-7ff922bad8c9" >
+		<mongo:connection database="${mongodb.database}" username="${secure::mongodb.username}" password="${secure::mongodb.password}" >
+			<mongo:server-addresses >
+				<mongo:server-address host="${mongodb.host}" port="${mongodb.port}"/>
+			</mongo:server-addresses>
+		</mongo:connection>
+	</mongo:config>
 	<flow name="loader-mongodb-main-flow" doc:id="ef10b993-2925-4b83-8b9b-83092f1e3c97">
 		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="4a78f776-bc6c-448e-a1a4-60d400625405" name="aggregator-platform-metrics-master-flow" />
 		<logger level="DEBUG" doc:name="Logger" doc:id="fac7f40c-7e36-4d17-8c08-df196536ed6e" message="#[payload]" />
