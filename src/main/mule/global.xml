@@ -12,8 +12,8 @@ http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mo
 
 	<global-property doc:name="Global Property" doc:id="47ed1533-2eb8-42e1-8c09-f6e3731ced4d" name="mule.env" value="dev" />
 
-	<configuration-properties doc:name="Configuration properties" doc:id="da590b10-a1c1-4979-b015-102664b00221" file="properties/app-${mule.env}.yaml" />
-	<configuration-properties doc:name="Configuration properties" doc:id="31f41c53-3b9c-4d8a-8385-b799a45797b8" file="properties/app-common.yaml" />
+	<configuration-properties doc:name="Configuration properties" doc:id="da590b10-a1c1-4979-b015-102664b00221" file="properties/metrics-framework-${mule.env}.yaml" />
+	<configuration-properties doc:name="Configuration properties" doc:id="31f41c53-3b9c-4d8a-8385-b799a45797b8" file="properties/metrics-framework-common.yaml" />
 
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ef1c0e75-8dda-43df-a738-8d4ed076b92f">
 		<http:listener-connection host="0.0.0.0" port="${http.port}" />
@@ -27,7 +27,7 @@ http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mo
 	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="531fbb42-a194-4a28-80ef-2489631cf60c" enableCookies="false" responseTimeout="${anypoint.platform.responseTimeout}">
 		<http:request-connection host="${anypoint.platform.host}" port="443" protocol="HTTPS" />
 	</http:request-config>
-	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="24678c25-10fb-4f47-941f-d16a779997c5" file="properties/secure/app-${mule.env}.yaml" key="${mule.key}"/>
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="24678c25-10fb-4f47-941f-d16a779997c5" file="properties/secure/metrics-framework-${mule.env}.yaml" key="${mule.key}"/>
 	<global-property doc:name="Global Property" doc:id="27925b96-0977-4ea5-b09e-e417f88b98d0" name="mule.key" value="thisshouldbeakey" />
 	
 		<http:request-config name="HTTP_Jenkins_Request_Config" doc:name="HTTP Jenkins Request configuration" doc:id="ab66b7d4-78fd-4b60-b746-fb2dfc764b60" >
@@ -75,11 +75,4 @@ http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mo
 			</http:authentication>
 		</http:request-connection>
 	</http:request-config>
-	<mongo:config name="MongoDB_Config" doc:name="MongoDB Config" doc:id="c1a77712-a55d-4bc3-ba88-70401defab33" >
-		<mongo:connection database="${mongodb.database}" username="${secure::mongodb.username}" password="${secure::mongodb.password}" >
-			<mongo:server-addresses >
-				<mongo:server-address host="${mongodb.host}" port="${mongodb.port}"/>
-			</mongo:server-addresses>
-		</mongo:connection>
-	</mongo:config>
 </mule>

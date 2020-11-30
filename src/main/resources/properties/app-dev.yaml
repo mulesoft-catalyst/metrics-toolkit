@@ -2,13 +2,13 @@ http:
   port: "8081"
   
 poller:
-  enabled: "true"
+  enabled: "false"
   frequency: 
-    cron: "0 0/1 * 1/1 * ? *" 
+    cron: "0 0 0 * * ? *" 
     #Sample for dev "0 17 * * * ? *" At second :00 of minute :17 of every hour
     #Sample for prod "0 0 0 * * ? *" At 00:00:00am every day
     #https://www.freeformatter.com/cron-expression-generator-quartz.html
-    timezone: "GMT+1"
+    timezone: "GMT-3"
 auth:
   mode: "platform-credentials" # valid options are: platform-credentials or connected-app-credentials
   
@@ -16,7 +16,7 @@ aggregation:
   raw: "false"
   
 loader:
-  strategy: "mongodb"
+  strategy: "logger"
 
 # Enabled Collectors
 #
@@ -44,7 +44,7 @@ loader:
 
 # Default value: "all"
   
-collectors: "core,rma"
+collectors: "all"
   
 splunk:
   host: "splunk-metrics.env.services.mulesoft.com"
@@ -57,13 +57,13 @@ splunk:
     benefits: "platform_benefits"
 
 mongodb:
-  host: "127.0.0.1"
+  host: "localhost"
   port: "27017"
   database: "matrixdb"
   collection: "metrics"
             
 elk:
-  host: "15.222.233.194"
+  host: "localhost"
   port: "9200"
   protocol: "HTTP"
   index:
