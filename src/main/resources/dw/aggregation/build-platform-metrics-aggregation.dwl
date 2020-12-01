@@ -110,8 +110,8 @@ var policiesAppliedByPolicy = (inProduction) -> (
     )
 )
 
-var usableSandBoxVcores = entitlements.vCoresSandbox.assigned - entitlements.vCoresSandbox.reassigned
-var useableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCoresProduction.reassigned													
+var usableSandboxVcores = entitlements.vCoresSandbox.assigned - entitlements.vCoresSandbox.reassigned
+var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCoresProduction.reassigned													
 ---
 {
 	date: vars.date,
@@ -238,8 +238,8 @@ var useableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vC
 			
 			applications:{
 				production: {
-					vcoresTotal: useableProdVcores,
-					vcoresAvailable: useableProdVcores - sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
+					vcoresTotal: usableProdVcores,
+					vcoresAvailable: usableProdVcores - sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
 					vcoresUsed: sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
 					applicationsTotal: sizeOf(flatten(getProdData(cloudHubApps) default []) default []),
 					applicationsStarted: sizeOf(flatten(getProdData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default []),
@@ -248,8 +248,8 @@ var useableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vC
 					runtimesUsedTotal: sizeOf(flatten(getProdData(cloudHubApps) default []).muleVersion.version distinctBy ($) default [])
 				},
 				sandbox:{
-					vcoresTotal: usableSandBoxVcores,
-					vcoresAvailable: usableSandBoxVcores - sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
+					vcoresTotal: usableSandboxVcores,
+					vcoresAvailable: usableSandboxVcores - sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
 					vcoresUsed: sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
 					applicationsTotal: sizeOf(flatten(getSandboxData(cloudHubApps) default []) default []),
 					applicationsStarted: sizeOf(flatten(getSandboxData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default []),
