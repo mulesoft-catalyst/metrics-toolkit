@@ -4,6 +4,7 @@ output application/json
 var reducedOrg = (org) -> {
     id: org.id,
     name: org.name,
+    isMaster: org.isMaster,
     entitlements: org.entitlements
 }
 

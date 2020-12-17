@@ -7,6 +7,7 @@ var errors = vars.errors
 var date = vars.date
 var orgName = vars.orgName
 var orgId = vars.orgId
+var isMaster = vars.isMaster
 
 var cloudHubApps = payload[0].payload.payload
 var exchangeAssets = payload[1].payload
@@ -30,6 +31,7 @@ var mq = payload[10].payload.payload
 	date: date,
 	businessGroup: orgName,
 	businessGroupId: orgId,
+	isMaster: isMaster,
 	coreServicesData: {
 		entitlements: entitlements,
 		users: members.data,

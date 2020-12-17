@@ -47,6 +47,8 @@ var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","authentication"]
 
 var notGeneratedAssets = if (exchangeAssets is Array) (exchangeAssets filter($."isGenerated" == false)) else []
+var unratedAssets = notGeneratedAssets filter ($."numberOfRates" == 0)
+var ratedAssets = notGeneratedAssets filter ($."numberOfRates" > 0)
 var assetsByType = (assetType) -> notGeneratedAssets filter($."type" == assetType)
 var countAssetType = (assetType) -> sizeOf(assetsByType(assetType))
 
@@ -114,6 +116,7 @@ var policiesAppliedByPolicy = (inProduction) -> (
 	date: vars.date,
 	businessGroup: vars.orgName,
 	businessGroupId: vars.orgId,
+	isMaster: vars.isMaster,
 	coreServicesMetrics: {
 		users: {
 			total: sizeOf(members.data default []),
@@ -148,7 +151,9 @@ var policiesAppliedByPolicy = (inProduction) -> (
             extensions: countAssetType("extension"),
             applications: countAssetType("app"),
 		    custom: countAssetType("custom"),
-		    overallSatisfaction: if (sizeOf(notGeneratedAssets) > 0) ((notGeneratedAssets.rating reduce ($ + $$) default 0) / sizeOf(notGeneratedAssets)) else 0,
+		    overallSatisfaction: if (sizeOf(ratedAssets) > 0) ((ratedAssets.rating reduce ($ + $$) default 0) / sizeOf(ratedAssets)) else 0,
+		    unratedAssets: sizeOf(unratedAssets),
+		    ratedAssets: sizeOf(ratedAssets),
         reuse: {
             // Avg of times a Fragment is imported by an API Spec
             fragments: assetReuseAvg("rest-api","raml-fragment"),
