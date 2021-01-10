@@ -265,6 +265,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<when expression='#[Mule::p("anypoint.platform.apis.arm.apps.enabled") == "true"]'>
 						<flow-ref doc:name="collector-arm-apps-metrics-parallel-flow" doc:id="7d054ece-8e5c-4541-a339-c17b06b34f05" name="collector-arm-apps-metrics-parallel-flow" />
 					</when>
+					<otherwise >
+						<logger level="INFO" doc:name="Logger" doc:id="75b6a914-b56b-40f3-867a-996303389769" message="ARM:Applications not enabled"/>
+					</otherwise>
 				</choice>
 			</route>	
 		</scatter-gather>
@@ -281,7 +284,8 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 						<flow-ref doc:name="Coreservices Usage Flow Reference" doc:id="01f684db-614f-416a-bd90-1f74a954b70d" name="collector-usage-metrics-flow" />
 					</when>
 					<otherwise >
-						<logger level="INFO" doc:name="Logger" doc:id="f12c10d3-016a-42c7-afe4-315e9d239491" category="Coresercices::Usage not supported when authentication mode is connected-app-credentials"/>
+						<logger level="INFO" doc:name="Logger" doc:id="f12c10d3-016a-42c7-afe4-315e9d239491"
+							message="Coreservices::Usage not supported when authentication mode is connected-app-credentials"/>
 					</otherwise>
 				</choice>
 			</route>
@@ -291,7 +295,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 						<flow-ref doc:name="collector-rolegroups-metrics" doc:id="c446c3a8-f5c2-4d31-a6f6-0bf45f9825b4" name="collector-rolegroups-metrics" />
 					</when>
 					<otherwise >
-						<logger level="INFO" doc:name="Logger" doc:id="f92e6e11-460d-4964-909c-3b6a7d667676" category="Coresercices::RoleGroups not supported when authentication mode is connected-app-credentials"/>
+						<logger level="INFO" doc:name="Logger" doc:id="f92e6e11-460d-4964-909c-3b6a7d667676"
+							message='#[if (Mule::p("anypoint.platform.apis.coreservices.rolegroups.enabled") != "true")
+  "Coreservices::RoleGroups not enabled"
+else
+  "Coreservices::RoleGroups not supported when authentication mode is connected-app-credentials"]'/>
 					</otherwise>
 				</choice> 
 			</route> 
