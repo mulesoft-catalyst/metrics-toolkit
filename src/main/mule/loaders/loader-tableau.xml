@@ -14,17 +14,24 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 	<flow name="loader-tableau-main-flow" doc:id="ef10b993-2925-4b83-8b9b-83092f1e3c97">
 		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="bb826e60-6bea-4a12-a0be-1c141c2cebf5" name="aggregator-platform-metrics-master-flow"/>
 		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="ccd36d50-13d9-4a70-92da-e2995971f2a8" variableName="event" />
+		<set-variable value="platform_metrics" doc:name="metricsGroup" doc:id="a0429ff3-e923-4fd2-90ff-dd09e3d366ff" variableName="metricsGroup"/>
 		<flow-ref doc:name="Write File" doc:id="49686a00-7828-402d-8c2c-7d191bf7cd80" name="loader-tableau-write-file-flow"/>
 	</flow>
 	
 	<flow name="loader-benefits-tableau-main-flow" doc:id="2dce9f09-a984-4f90-bb48-1e7338fafcee">
 		<flow-ref doc:name="Aggregate Platform Benefits Flow Reference" doc:id="26ed389e-c750-4eb1-97fc-26640b1061b8" name="aggregator-platform-benefits-master-flow"/>
 		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="877016db-65ad-45b0-8fc4-de67b8263c36" variableName="event" />
+		<set-variable value="platform_benefits" doc:name="metricsGroup" doc:id="4455c2b4-8d6f-48e7-a892-192fcb968598" variableName="metricsGroup" />
 		<flow-ref doc:name="Write File" doc:id="f287638f-0244-422f-a654-e3e56943c24c" name="loader-tableau-write-file-flow"/>
 	</flow>
 	<flow name="loader-tableau-write-file-flow" doc:id="148b7ba0-0210-4da9-8318-5fc04a3a8f50" >
 		<logger level="INFO" doc:name="Logger" doc:id="ac7f69c4-9e07-4ac3-bb5a-fc3f96963c6d" message="Generating Tableau File"/>
-		<file:write doc:name="Write" doc:id="307c8daa-8a03-4f65-8c22-50002c55e5dd" config-ref="File_Config" path="#[vars.loaderDetails.path]" />
+		<file:write doc:name="Write" doc:id="307c8daa-8a03-4f65-8c22-50002c55e5dd" config-ref="File_Config" path="#[vars.loaderDetails.outputDir as String
+++ &quot;/&quot;
+++ vars.metricsGroup as String
+++ (if (vars.rawData == &quot;true&quot;) &quot;_raw_&quot; else &quot;_agg_&quot;)
+++ ((vars.date as DateTime) as String {format: 'yyyyMMddHHmmssSSS'})
+++ &quot;.json&quot;]" />
 		<ee:transform doc:name="Build Loader Response" doc:id="85b1b538-d50f-4718-bc35-182ce1d3b4d4" >
 			<ee:message >
 				<ee:set-payload resource="dw/loader/loader-success-response.dwl" />

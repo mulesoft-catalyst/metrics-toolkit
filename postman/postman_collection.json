@@ -273,6 +273,53 @@
 			"response": []
 		},
 		{
+			"name": "POST Platform Metrics - Load - Tableau Strategy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-ANYPNT-USERNAME",
+						"type": "text",
+						"value": "changeMe"
+					},
+					{
+						"key": "X-ANYPNT-PASSWORD",
+						"type": "text",
+						"value": "changeMe"
+					},
+					{
+						"key": "X-ANYPNT-ORG-ID",
+						"type": "text",
+						"value": "changeMe"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"tableau\",\n\t\t\"rawData\": \"false\",\n\t\t\"outputDir\": \"/opt/metrics-accelerator/data\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/platform-metrics/load",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"platform-metrics",
+						"load"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "POST Platform Metrics - Load - CSV Strategy",
 			"request": {
 				"method": "POST",
