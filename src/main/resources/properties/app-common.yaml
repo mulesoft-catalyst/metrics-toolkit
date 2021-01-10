@@ -32,7 +32,7 @@ anypoint:
         apps:
           path: "/cloudhub/api/v2/applications"
       arm:
-        maxConcurrency: "100"
+        maxConcurrency: "3"
         apps:
           path: "/hybrid/api/v1/applications"
         servers:
