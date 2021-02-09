@@ -1,4 +1,4 @@
 %dw 2.0
 output application/java
 ---
-vars.loaderDetails.rawData
+payload.loaderDetails.rawData
