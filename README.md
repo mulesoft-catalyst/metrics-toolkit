@@ -19,6 +19,7 @@ Table of Contents
             * [Properties specific for Splunk](#properties-specific-for-splunk)
          * [ELK steps](#elk-steps)
             * [Properties specific for ELK](#properties-specific-for-elk)
+         * [Tableau steps](#tableau-steps)            
       * [Considerations](#considerations)
       * [Some Theory around the Accelerator](#some-theory-around-the-accelerator)
          * [Business Needs](#business-needs)
@@ -61,7 +62,7 @@ The **metrics accelerator** (**formerly metrics framework**) is a Mule applicati
 - **ELK**: Including out of the box, basic, Kibana dashboards
 - **Anypoint Monitoring**: Requires Titanium subscription, dashboard is not provided
 - **Embedded dashboard**: Including an out of the box basic embedded dashboard accessed by running the application offering an UI with a number of metrics obtained
-- **Tableau**: (Not available yet)
+- **Tableau**: including out of the box a current consolidated platform metrics dashboard.
 
 
 ## Available Metrics
@@ -242,6 +243,7 @@ Splunk | Total Number of Splunk dashboards
   - Platform Metrics:
   	- GET Platform Metrics: retrieves plaform metrics
   	- POST Platform Metrics - Load - Splunk Strategy: used to load platform metrics to Splunk. For more information, see [Splunk steps](#splunk-steps)
+  	- POST Platform Metrics - Load - Tableau Strategy: used to load platform metrics to Tableau. For more information, see [Tableau steps](#tableau-steps)
   	- POST Platform Metrics - Load - CSV Strategy: returns platform metrics in CSV format.
   	- POST Platform Metrics - Load - JSON Strategy: returns business metrics in JSON format.
   
@@ -360,6 +362,52 @@ elk.user | Elasticsearch username  |
 elk.password | Elasticsearch password |
 elk.index.metrics | Index for storing Platform operational metrics | metrics
 elk.index.benefits | Index for storing Platform benefits | platformbenefits
+
+### Tableau steps
+ 
+Tableau Dashboards use a JSON File Data Source, which is configured to load data from all JSON files present in a given directory, each JSON file representing a Platform Metrics snapshot.
+
+Metrics Accelerator provides the following approaches to generated those files:
+- Using Tableau Strategy (poller or API): this option can only be used if Tableau Desktop can can access the filesystem where Metrics Accelerator is running (**cannot be used for CloudHub or Runtime Fabric, since Tableau Desktop won't be able to access Mule Runtime local filesystem**).
+- Using the Get Platform Metrics API operation (check _GET Platform Metrics_ request provided in the Postman collection): suitable if Metrics Accelerator is running on CloudHub or Runtime Fabric, or if you don't have access to Mule Runtime local filesystem.
+
+To learn more about Tableau, follow the official documentation: https://www.tableau.com/support/help
+
+**NOTES:**
+- Tableau Dashboard Data Source will only use JSON files which has the following naming pattern: **platform_metrics_agg_\*.json**
+- Tableau Dashboard Data Source will only be able to use JSON files containing aggregated data. Thus, Tableau won't be able to render dashboards if JSON files contain raw data (check [Properties Configuration Section](properties_configurations) for futher details.
+
+#### Generating JSON Files Using Poller or API Loader Tableau Strategy
+
+When using the Tableau Strategy, Metrics Accelerator will create the JSON files in the directory defined by  `tableau.outputDir` property (poller) or by `loaderDetails.outputDir` provided in the request (API).
+
+Check _POST Platform Metrics - Load - Tableau Strategy_ Postman collection request if using the API Loader.
+
+***IMPORTANT:*** Make sure `aggregation.raw` property (poller) or `loaderDetails.rawData` (API) is set to ***false***
+
+#### Generating JSON Files Using Get Platform Metrics API operation
+
+1. Use JSON loader strategy via API (check  POST Platform Metrics - Load - JSON Strategy in the provided Postman collection)
+2. Save the response content as a JSON file in the directory of your choice. All files must be in the same directory and must respect the naming convention (**platform_metrics_agg_yyyyMMddHHmmssSSS.json**)
+
+***IMPORTANT:*** Make sure the query parameter `raw` is set to ***false***
+
+#### Visualizing Dashboards in Tableau Desktop
+
+1. Before opening a workbook in Tableau Desktop, make sure that you have at least one JSON file available.
+2. Make a copy of the desired workbook provided under `/dashboards/tableau`.
+3. After copying the workbook, open it in Tableau Desktop. 
+4. When prompted, edit workbook connection. Select one of the available JSON files and click Ok.
+
+#### Properties specific for Tableau
+Name | Description | Default Value
+------------ | ------------ | ------------
+tableau.outputDir | Directory where JSON files will be written to. |
+
+#### File name pattern by workbook
+Workbook | File Name Pattern 
+------------ | ------------ 
+current_consolidated | platform_metrics_agg_*.json |
 
 ### Embedded Dashboard steps
 1. Enable the dashboard by changing the embedded.dashboard.enabled property to "true"
