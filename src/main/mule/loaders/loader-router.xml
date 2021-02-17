@@ -48,7 +48,7 @@
 				<flow-ref doc:name="loader-benefits-json-main-flow" doc:id="efea80f1-d2d7-4bf9-940a-2a4bac41e93a" name="loader-benefits-json-main-flow"/>
 			</when>
 			<when expression="#[vars.loaderDetails.strategy == 'elk']">
-				<flow-ref doc:name="loader-elk-main-flow" doc:id="c9706c9c-e85e-417c-a87d-90531ee0afda" name="loader-benefits-elk-main-flow"/>
+				<flow-ref doc:name="loader-benefits-elk-main-flow" doc:id="c9706c9c-e85e-417c-a87d-90531ee0afda" name="loader-benefits-elk-main-flow"/>
 			</when>			
 			<otherwise >
 				<flow-ref doc:name="loader-default-flow" doc:id="52ba5200-2a44-4e16-83a1-76125f24fef9" name="loader-default-flow"/>
