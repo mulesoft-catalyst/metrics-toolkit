@@ -73,7 +73,7 @@ elk:
     benefits: "platformbenefits"     
 
 tableau:
-  path: "/test-tableau.json"
+  outputDir: "./data"
 
 # SDLC Metrics
 sdlc:
