@@ -24,6 +24,9 @@
 			<when expression="#[vars.loaderDetails.strategy == 'elk']">
 				<flow-ref doc:name="loader-elk-main-flow" doc:id="7bf1f286-f84d-4b0e-b0b3-f0fa96d57c10" name="loader-elk-main-flow"/>
 			</when>
+			<when expression="#[vars.loaderDetails.strategy == 'mongodb']">
+				<flow-ref doc:name="loader-mongodb-main-flow" doc:id="dede2ca2-1eb1-4513-8156-899bc44c188b" name="loader-mongodb-main-flow"/>
+			</when>
 			<otherwise >
 				<flow-ref doc:name="loader-default-flow" doc:id="173ea082-922f-4f69-b9f3-55f9246f0291" name="loader-default-flow"/>
 			</otherwise>
@@ -49,7 +52,10 @@
 			</when>
 			<when expression="#[vars.loaderDetails.strategy == 'elk']">
 				<flow-ref doc:name="loader-benefits-elk-main-flow" doc:id="c9706c9c-e85e-417c-a87d-90531ee0afda" name="loader-benefits-elk-main-flow"/>
-			</when>			
+			</when>		
+			<when expression="#[vars.loaderDetails.strategy == 'mongodb']">
+				<flow-ref doc:name="loader-benefits-mongodb-main-flow" doc:id="f38adc86-dd16-4e59-937c-cb78927defe2" name="loader-benefits-mongodb-main-flow"/>
+			</when>		
 			<otherwise >
 				<flow-ref doc:name="loader-default-flow" doc:id="52ba5200-2a44-4e16-83a1-76125f24fef9" name="loader-benefits-flow"/>
 			</otherwise>
@@ -75,7 +81,10 @@
 			</when>
 			<when expression="#[vars.loaderDetails.strategy == 'elk']">
 				<logger level="WARN" doc:name="Logger" doc:id="f3f1563c-9e2a-4f4b-8730-f40860b81b1a" message="ELK Loader for SDLC not implemented"/>
-			</when>			
+			</when>		
+			<when expression="#[vars.loaderDetails.strategy == 'mongodb']">
+				<logger level="WARN" doc:name="Logger" doc:id="2a1b7852-8faf-47fa-98a6-03a833730881" message="MongoDB Loader for SDLC not implemented"/>
+			</when>		
 			<otherwise >
 				<flow-ref doc:name="loader-sdlc-flow" doc:id="c8083744-2396-4acb-b877-99f7fe64bfec" name="loader-sdlc-flow" />
 			</otherwise>
