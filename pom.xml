@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.mulesoft</groupId>
-	<artifactId>metrics-framework</artifactId>
+	<artifactId>metrics-accelerator</artifactId>
 	<version>1.5.0</version>
 	<packaging>mule-application</packaging>
 
