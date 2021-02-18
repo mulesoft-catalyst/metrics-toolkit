@@ -17,22 +17,25 @@ http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mo
 	<flow name="loader-mongodb-main-flow" doc:id="ef10b993-2925-4b83-8b9b-83092f1e3c97">
 		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="4a78f776-bc6c-448e-a1a4-60d400625405" name="aggregator-platform-metrics-master-flow" />
 		<logger level="DEBUG" doc:name="Logger" doc:id="fac7f40c-7e36-4d17-8c08-df196536ed6e" message="#[payload]" />
-		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="0f44c986-4495-4ca5-8db5-fc539ce2f26d" variableName="event" />
-		<flow-ref doc:name="ELK Flow Reference" doc:id="ab2afc39-8e58-4878-85af-9973911f547c" name="mongodb-loader-flow" />
+		<ee:transform doc:name="Build MongoDB Insert" doc:id="90ff5c6b-cc62-4cc0-813b-146dd11e2c4f">
+			<ee:message>
+				<ee:set-payload resource="dw/loader/loader-mongodb-build-metrics-structure.dwl" />
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="MongoDB Flow Reference" doc:id="ab2afc39-8e58-4878-85af-9973911f547c" name="loader-mongodb-loader-flow" />
 		</flow>
 	
 	<flow name="loader-benefits-mongodb-main-flow" doc:id="994a4062-ea71-4212-8017-bb1afeff4ade">
 		<flow-ref doc:name="Aggregate Platform Benefits Flow Reference" doc:id="da93546f-96c4-48ab-8787-ba1cad43efbe" name="aggregator-platform-benefits-master-flow"/>
 		<logger level="DEBUG" doc:name="Logger" doc:id="ff5189f5-84fa-4fbb-9b02-034a2cf09a62" message="#[payload]" />
-		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="b41f1e53-dcfb-4051-835f-5a940a9ffa37" variableName="event" />
-		<flow-ref doc:name="ELK Flow Reference" doc:id="1904fc24-d853-4327-9ab9-bd448efe8835" name="elk-loader-flow" />
-	</flow>
-	<flow name="mongodb-loader-flow" doc:id="25af15cd-3600-4c54-9bbc-7ff34b691a88" >
-		<ee:transform doc:name="Build MongoDB Insert" doc:id="5d244fb2-4857-465b-bfa9-a1b043c53a80" >
-			<ee:message >
-				<ee:set-payload resource="dw/loader/loader-mongodb-build-structure.dwl" />
+		<ee:transform doc:name="Build MongoDB Insert" doc:id="5d244fb2-4857-465b-bfa9-a1b043c53a80">
+			<ee:message>
+				<ee:set-payload resource="dw/loader/loader-mongodb-build-benefits-structure.dwl" />
 			</ee:message>
 		</ee:transform>
+		<flow-ref doc:name="MongoDB Flow Reference" doc:id="1904fc24-d853-4327-9ab9-bd448efe8835" name="loader-mongodb-loader-flow" />
+	</flow>
+	<flow name="loader-mongodb-loader-flow" doc:id="25af15cd-3600-4c54-9bbc-7ff34b691a88" >
 		<mongo:remove-documents collectionName="${mongodb.collection}" doc:name="Remove old values" doc:id="751c4994-ede3-4df6-be1e-25ae9deefe9c" config-ref="MongoDB_Config" target="result_remove">
 		</mongo:remove-documents>
 		<mongo:insert-documents collectionName="${mongodb.collection}" doc:name="Insert new values" doc:id="277b8334-d581-4924-a2b0-998ee36bbc2a" config-ref="MongoDB_Config" />
