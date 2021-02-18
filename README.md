@@ -62,7 +62,7 @@ The **metrics accelerator** (**formerly metrics framework**) is a Mule applicati
 - **ELK**: Including out of the box, basic, Kibana dashboards
 - **Anypoint Monitoring**: Requires Titanium subscription, dashboard is not provided
 - **Embedded dashboard**: Including an out of the box basic embedded dashboard accessed by running the application offering an UI with a number of metrics obtained
-- **Tableau**: including out of the box a current consolidated platform metrics dashboard.
+- **Tableau**: including an out of the box dashboard with current consolidated platform metrics
 
 
 ## Available Metrics
@@ -314,6 +314,9 @@ sdlc.splunk.port | Splunk server port |
 sdlc.splunk.path | Context url of the [Splunk REST API](https://docs.splunk.com/Documentation/Splunk/8.0.3/RESTTUT/RESTandCloud)  |
 sdlc.splunk.user | Authorized Splunk user to access REST APIs |
 sdlc.splunk.password | Password to access REST APIs |
+
+**NOTE:** Please note that each external system collector should be self-contained, it means that all associated configuration must be part of the Mule configuration file itself and must not be externalized inside the `global.xml`
+
 
 ### Splunk steps
 
