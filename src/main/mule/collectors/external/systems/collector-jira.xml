@@ -7,6 +7,13 @@
 	xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+    <http:request-config name="HTTP_Jira_Request_Config" doc:name="HTTP Jira Request configuration" doc:id="54022fed-9ade-49a9-b09b-79c32812cfd3" >
+		<http:request-connection protocol="HTTPS" host="${sdlc.jira.host}" port="${sdlc.jira.port}" >
+			<http:authentication >
+				<http:basic-authentication username="${secure::sdlc.jira.user}" password="${secure::sdlc.jira.token}" />
+			</http:authentication>
+		</http:request-connection>
+	</http:request-config>
 	<flow name="collector-jira-metrics-stories-flow" doc:id="138c01ae-fcbf-417f-814a-bccb5add66b8">
 		<choice doc:name="Choice" doc:id="619483d9-4fc6-4030-bec2-def625acbbd5" >
 			<when expression="#[p('sdlc.jira.enabled') == &quot;true&quot;]">
