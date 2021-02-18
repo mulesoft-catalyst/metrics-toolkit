@@ -16,7 +16,7 @@ poller:
     timezone: "GMT-3"
 auth:
   mode: "platform-credentials" # valid options are: platform-credentials or connected-app-credentials
-
+  
 aggregation:
   raw: "false"
   
@@ -63,7 +63,13 @@ splunk:
   index:
     metrics: "metrics"
     benefits: "platform_benefits"
-    
+
+mongodb:
+  host: "localhost"
+  port: "27017"
+  database: "matrixdb"
+  collection: "metrics"
+            
 elk:
   host: "localhost"
   port: "9200"
