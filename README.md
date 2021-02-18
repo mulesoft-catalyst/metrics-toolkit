@@ -423,10 +423,10 @@ current_consolidated | platform_metrics_agg_*.json |
 
 ### MONGODB steps
 
-**NOTE:** Data were pushed and tested with Mongodb 4.4.1. Adjustments may be necessary for other versions.
+**NOTE:** Data was pushed and tested with Mongodb 4.4.1. Adjustments may be necessary for other versions.
 
 1. In MongoDB you will need to create a Database called `matrixdb` and a Collection called `metrics`.
-2. Set the loader strategy to `mongodb` on the `metrics-framework-{env}.yaml` file, along with the `mongodb.username` and `mongodb.password` parameters in the secure `metrics-framework-{env}.yaml` file
+2. Set the loader strategy to `mongodb` on the `app-{env}.yaml` file, along with the `mongodb.username` and `mongodb.password` parameters in the secure `app-{env}.yaml` file
 
 #### Properties specific for MONGODB
 Name | Description | Default Value
