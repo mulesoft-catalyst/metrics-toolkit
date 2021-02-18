@@ -20,6 +20,10 @@ elk:
   user: "user"
   password: "password"
 
+mongodb:
+  username: "![/MYApdJC2Oq9ALH/X9E4rQ==]"
+  password: "![zTQsE6niuuBuS/I4rKfoeA==]"
+
 # SDLC Metrics
 sdlc:
   confluence:
