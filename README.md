@@ -427,6 +427,8 @@ current_consolidated | platform_metrics_agg_*.json |
 
 1. In MongoDB you will need to create a Database called `matrixdb` and a Collection called `metrics`.
 2. Set the loader strategy to `mongodb` on the `app-{env}.yaml` file, along with the `mongodb.username` and `mongodb.password` parameters in the secure `app-{env}.yaml` file
+3. Uncomment 2 sections from the pom.xml (dependencies and shared library)
+4. Rename the file src/main/mule/loaders/loader-mongodb.disabled to src/main/mule/loaders/loader-mongodb.xml
 
 #### Properties specific for MONGODB
 Name | Description | Default Value
