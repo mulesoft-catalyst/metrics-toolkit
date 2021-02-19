@@ -40,7 +40,7 @@
 				<configuration>
 					<classifier>mule-application</classifier>
 					<sharedLibraries>
-						<!-- Uncomment the following shared library is MongoDB loader is needed -->
+						<!-- Uncomment the following shared library if MongoDB loader is needed -->
 						<!-- 
                         <sharedLibrary>
                             <groupId>org.mongodb</groupId>
@@ -135,7 +135,7 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		
-		<!-- Enable the following 2 Dependencies if MongoDB loader is needed -->
+		<!-- Uncomment the following 2 Dependencies if MongoDB loader is needed -->
 		<!-- 
 		<dependency>
             <groupId>com.mulesoft.connectors</groupId>
