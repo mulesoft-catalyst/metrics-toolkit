@@ -39,11 +39,14 @@
 				<extensions>true</extensions>
 				<configuration>
 					<classifier>mule-application</classifier>
-				<sharedLibraries>
+					<sharedLibraries>
+						<!-- Uncomment the following shared library is MongoDB loader is needed -->
+						<!-- 
                         <sharedLibrary>
                             <groupId>org.mongodb</groupId>
                             <artifactId>mongodb-driver-legacy</artifactId>
                         </sharedLibrary>
+                         -->
                     </sharedLibraries>
                 </configuration>
 			</plugin>
@@ -131,6 +134,9 @@
 			<version>${secure-properties.version}</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
+		
+		<!-- Enable the following 2 Dependencies if MongoDB loader is needed -->
+		<!-- 
 		<dependency>
             <groupId>com.mulesoft.connectors</groupId>
             <artifactId>mule-mongodb-connector</artifactId>
@@ -142,6 +148,7 @@
             <artifactId>mongodb-driver-legacy</artifactId>
             <version>${mongodb-driver-legacy.version}</version>
         </dependency>
+         -->
     </dependencies>
 
 	<repositories>
