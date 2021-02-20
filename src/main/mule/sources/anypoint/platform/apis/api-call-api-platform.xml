@@ -40,8 +40,9 @@ var pageLimit = (Mule::p('anypoint.platform.apis.apiPlatform.clients.limit') as 
 ((1 to ceil((vars.apiClientsResponsePayload."total" default 0)/pageLimit)) - 1 default [])]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="4fe0e979-f9be-46be-b475-97cee57a21e1" message="limit #[Mule::p('anypoint.platform.apis.apiPlatform.clients.limit')] offset p('anypoint.platform.apis.apiPlatform.clients.offset')"/>
+		<logger level="INFO" doc:name="Logger" doc:id="a927b0b5-6a81-4dc2-ad26-f0dae36df167" message="API Platform - Clients - first call performed, limit:#[Mule::p('anypoint.platform.apis.apiPlatform.clients.limit')] - offset:#[Mule::p('anypoint.platform.apis.apiPlatform.clients.offset')] - extra pages to iterate:#[sizeOf(vars.apiClientsPages default []) default 0]  " />
 		<foreach doc:name="For Each" doc:id="0268328b-51dc-4934-83e6-174f243d52cf" collection="#[vars.apiClientsPages]">
+			<logger level="INFO" doc:name="Logger" doc:id="4fe0e979-f9be-46be-b475-97cee57a21e1" message="API Platform - Clients - pagination, current extra page:#[vars.counter] - total extra pages:#[sizeOf(vars.apiClientsPages default []) default 0] " />
 			<http:request method="GET" doc:name="Additional API Clients Request" doc:id="e1b11283-7ae6-4aa7-842f-b08fe8c2f07e" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.apiPlatform.clients.path}" >
 				<http:body ><![CDATA[#[null]]]></http:body>
 				<http:headers ><![CDATA[#[output application/java
