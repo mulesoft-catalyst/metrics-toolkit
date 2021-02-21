@@ -66,27 +66,34 @@
 		<choice doc:name="Choice" doc:id="fecd31fc-8de2-495e-ac87-de8f3c7b4878" >
 			<when expression="#[vars.loaderDetails.strategy == 'am']" >
 				<logger level="WARN" doc:name="Logger" doc:id="d59e2709-6dcd-4228-91c9-01420b999e85" message="AM Loader for SDLC not implemented"/>
+				<set-payload value='#[{message: "Not Implemented"}]' doc:name="Set Payload" doc:id="3d1763fd-f51d-4705-ab3d-9f769470ebd5" />
 			</when>
 			<when expression="#[vars.loaderDetails.strategy == 'splunk']" >
-				<logger level="WARN" doc:name="Logger" doc:id="4b0769be-7776-4a38-8fc4-994e830c3310" message="Splunk Loader for SDLC not implemented"/>
+				<logger level="WARN" doc:name="Logger" doc:id="18ad03f3-7703-4060-84cf-3cdb8b47e634" message="Splunk Loader for SDLC not implemented"/>
+				<set-payload value='#[{message: "Not Implemented"}]' doc:name="Set Payload" doc:id="071fcdc3-d4c0-41c6-a99a-2fae2aeafac7" />
 			</when>
 			<when expression="#[vars.loaderDetails.strategy == 'tableau']" >
 				<logger level="WARN" doc:name="Logger" doc:id="ed713140-a11a-491a-a475-35d617ba6134" message="Tableau Loader for SDLC not implemented"/>
+				<set-payload value='#[{message: "Not Implemented"}]' doc:name="Set Payload" doc:id="145a8f1d-3dec-4e76-a815-39819d338af2" />
 			</when>
 			<when expression="#[vars.loaderDetails.strategy == 'csv']">
 				<logger level="WARN" doc:name="Logger" doc:id="56dc8800-d271-43a9-9d42-0d3e6acc533c" message="CSV Loader for SDLC not implemented"/>
+				<set-payload value='#[{message: "Not Implemented"}]' doc:name="Set Payload" doc:id="3b04cee7-906b-4e56-8f8a-72aead5f9acd" />
 			</when>
 			<when expression="#[vars.loaderDetails.strategy == 'json']">
 				<logger level="WARN" doc:name="Logger" doc:id="392fae7b-0830-4c54-b0b6-68902c024b59" message="JSON Loader for SDLC not implemented"/>
+				<set-payload value='#[{message: "Not Implemented"}]' doc:name="Set Payload" doc:id="45a698a1-99c9-472b-b6c2-45cddc82c0b9" />
 			</when>
 			<when expression="#[vars.loaderDetails.strategy == 'elk']">
 				<logger level="WARN" doc:name="Logger" doc:id="f3f1563c-9e2a-4f4b-8730-f40860b81b1a" message="ELK Loader for SDLC not implemented"/>
+				<set-payload value='#[{message: "Not Implemented"}]' doc:name="Set Payload" doc:id="40dd5833-44f6-4dc6-867f-ec68cba78e44" />
 			</when>		
 			<when expression="#[vars.loaderDetails.strategy == 'mongodb']">
 				<logger level="WARN" doc:name="Logger" doc:id="2a1b7852-8faf-47fa-98a6-03a833730881" message="MongoDB Loader for SDLC not implemented"/>
+				<set-payload value='#[{message: "Not Implemented"}]' doc:name="Set Payload" doc:id="9b2ff6d7-66a9-492b-bcb9-2b775cf759e2" />
 			</when>		
 			<otherwise >
-				<flow-ref doc:name="loader-sdlc-flow" doc:id="c8083744-2396-4acb-b877-99f7fe64bfec" name="loader-sdlc-flow" />
+				<set-payload value='#[{message: "Not Implemented"}]' doc:name="Set Payload" doc:id="90d1f067-3c15-4681-ad5e-c74c81daa366" />
 			</otherwise>
 		</choice>
 	</flow>

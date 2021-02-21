@@ -37,10 +37,4 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 			</ee:message>
 		</ee:transform>
 	</flow>
-	<flow name="loader-tableau-common-vars-flow" doc:id="e9b543a7-725a-4a01-b38d-03387ee9f214">
-		<set-variable value="#[vars.loaderDetails.tableau]" doc:name="Set Loader Details Variable" doc:id="319ec7d8-a1c1-48a2-aaa0-03697efde624"
-			variableName="loaderDetails" />
-		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="6140a5cc-419d-42d6-8196-9414b227579a"
-			variableName="event" />
-	</flow>
 </mule>

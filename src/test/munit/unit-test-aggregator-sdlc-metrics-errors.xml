@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<munit:config name="unit-test-aggregator-sdlc-metrics-errors.xml" />
+	<munit:before-test name="unit-test-aggregator-sdlc-metrics-errors-before-test" doc:id="68c0cb88-d1ed-4574-8395-91da7748fb72" >
+		<munit-tools:mock-when doc:name="Mock when - GET Bitbucket Repositories" doc:id="032ca361-399d-40c5-ae68-f41dd5950585" processor="http:request">
+			<munit-tools:with-attributes >
+				<munit-tools:with-attribute whereValue="GET Repositories" attributeName="doc:name" />
+			</munit-tools:with-attributes>
+			<munit-tools:then-return >
+				<munit-tools:payload value="#[null]" />
+				<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+			</munit-tools:then-return>
+		</munit-tools:mock-when>
+		<munit-tools:mock-when doc:name="Mock when - GET Confluence Pages" doc:id="d8d0683b-f93c-47b0-8f6d-1023a36ff5da" processor="http:request">
+			<munit-tools:with-attributes >
+				<munit-tools:with-attribute whereValue="GET Pages" attributeName="doc:name" />
+			</munit-tools:with-attributes>
+			<munit-tools:then-return >
+				<munit-tools:payload value="#[null]" />
+				<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+			</munit-tools:then-return>
+		</munit-tools:mock-when>
+		<munit-tools:mock-when doc:name="Mock when - GET Jenkins Jobs" doc:id="3376e9f2-fec8-48bb-926c-6fcceea07202" processor="http:request">
+			<munit-tools:with-attributes >
+				<munit-tools:with-attribute whereValue="Get Jobs" attributeName="doc:name" />
+			</munit-tools:with-attributes>
+			<munit-tools:then-return >
+				<munit-tools:payload value="#[null]" />
+				<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+			</munit-tools:then-return>
+		</munit-tools:mock-when>
+		<munit-tools:mock-when doc:name="Mock when - GET JIRA Backlog Items" doc:id="f964b857-5f45-4fca-8677-dad96a5d6313" processor="http:request">
+			<munit-tools:with-attributes >
+				<munit-tools:with-attribute whereValue="GET Backlog Items" attributeName="doc:name" />
+			</munit-tools:with-attributes>
+			<munit-tools:then-return >
+				<munit-tools:payload value="#[null]" />
+				<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+			</munit-tools:then-return>
+		</munit-tools:mock-when>
+		<munit-tools:mock-when doc:name="Mock when - GET JIRA Stories Items" doc:id="6e372788-94c6-4de3-8236-eabf0c7b1ca2" processor="http:request">
+			<munit-tools:with-attributes >
+				<munit-tools:with-attribute whereValue="GET Stories" attributeName="doc:name" />
+			</munit-tools:with-attributes>
+			<munit-tools:then-return >
+				<munit-tools:payload value="#[null]" />
+				<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+			</munit-tools:then-return>
+		</munit-tools:mock-when>
+		<munit-tools:mock-when doc:name="Mock when - GET Splunk Dashboards" doc:id="da6d953f-1f0b-4db1-889d-ba335755b5c5" processor="http:request">
+			<munit-tools:with-attributes >
+				<munit-tools:with-attribute whereValue="Get-Splunk-DashboardCount" attributeName="doc:name" />
+			</munit-tools:with-attributes>
+			<munit-tools:then-return >
+				<munit-tools:payload value="#[null]" />
+				<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+			</munit-tools:then-return>
+		</munit-tools:mock-when>
+	</munit:before-test>
+	
+	<munit:after-test name="unit-test-aggregator-sdlc-metrics-errors-after-test" doc:id="124052b8-a14e-4301-a454-624d44e3a99f" >
+		<remove-variable doc:name="Remove Variable" doc:id="5f4304d8-bd2e-446c-94cc-8a9adf895fa2" variableName="expectedResponse"/>
+	</munit:after-test>
+	
+	<munit:test name="get-sdlc-metrics-errors-test" doc:id="10bb476e-e48f-417d-8c95-d699fdf8bbc2" description="Test">
+		<munit:execution >
+			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-get-sdlc-metrics-errors.json')]" doc:name="Set Expected Response Payload" doc:id="376dd8f7-65c9-4533-8a3f-db95f88b0fc4" variableName="expectedResponse" mimeType="application/json" />
+			<ee:transform doc:name="Mock SDLC Details" doc:id="98115359-4ee8-4e14-b6a1-2a427c3b99a8" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable resource="dw/mock-sdlc-details-enabled.dwl" variableName="sdlcDetails" />
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="Flow-ref to aggregator-sdlc-metrics-main-flow" doc:id="dcc7d79b-dba8-4939-b541-ded681f566e8" name="aggregator-sdlc-metrics-main-flow"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="be9103dc-78c8-4c04-ba5f-cf7a80281178" message="#[payload]"/>
+			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="697a1e72-fc73-44a9-a51c-2bb32ca5db82" expression='#[payload - "date"]' is='#[MunitTools::equalTo((vars.expectedResponse - "date"))]' message="The response payload is not the expected" />
+		</munit:validation>
+	</munit:test>
+
+</mule>
