@@ -7,7 +7,7 @@
 		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
-	<munit:config name="api-call-coreservices-test-suite.xml" />
+	<munit:config name="unit-test-api-call-coreservices.xml" />
 	<munit:test name="api-call-coreservices-login-flow-test" doc:id="4129ef87-ee7a-4c0f-9fa5-c499da27b000" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Post Login Request" doc:id="2a118f5d-04b2-4cb8-9ef7-2424fa2debf5" processor="http:request">

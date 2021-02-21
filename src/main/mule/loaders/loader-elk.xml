@@ -36,13 +36,18 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 				<ee:set-payload resource="dw/loader/loader-elk-build-structure.dwl" />
 			</ee:message>
 		</ee:transform>
-		<http:request method="POST" doc:name="Build HTTP Request" doc:id="f98fcdf0-fd8f-4b2c-b027-90473c432fc5" config-ref="HTTP_ELK_Request_configuration" path="#['/$(vars.index)/_bulk']">
+		<http:request method="POST" doc:name="Build ELK HTTP Request" doc:id="f98fcdf0-fd8f-4b2c-b027-90473c432fc5" config-ref="HTTP_ELK_Request_configuration" path="#['/$(vars.index)/_bulk']">
 			<http:headers ><![CDATA[#[output application/java
 ---
 {
 	"Content-Type" : "application/json"
 }]]]></http:headers>
 		</http:request>
+		<ee:transform doc:name="Build Loader Response" doc:id="b90314f2-83e8-476a-a76b-2d749131a238" >
+			<ee:message >
+				<ee:set-payload resource="dw/loader/loader-success-response.dwl" />
+			</ee:message>
+		</ee:transform>
 	</flow>
 	
 
