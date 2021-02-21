@@ -8,10 +8,10 @@
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<munit:config name="aggregator-platform-metrics.xml" />
-	<munit:test name="get-platform-metrics-test" doc:id="10bb476e-e48f-417d-8c95-d699fdf8bbc2" description="Test">
-		<munit:behavior>
-			<munit-tools:mock-when doc:name="Mock when POST login request" doc:id="c2183793-32d9-4c41-bab8-b1c3ce0b3dd7"
+	<munit:config name="unit-test-aggregator-platform-metrics.xml" />
+	<munit:before-test name="unit-test-aggregator-platform-metrics-before-test" doc:id="68c0cb88-d1ed-4574-8395-91da7748fb72" >
+			<set-variable value="#[MunitTools::getResourceAsString('response-payload-example.json')]" doc:name="Set Expected Response Payload" doc:id="4c267c4a-708e-4848-aa4d-f98e3d90df41" variableName="expectedResponse" mimeType="application/json" />
+		<munit-tools:mock-when doc:name="Mock when POST login request" doc:id="f258d0ab-e579-475e-ae29-7f87c3b6a4a3"
 				processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Post Login Request" attributeName="doc:name" />
@@ -19,12 +19,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit-tools:then-return>
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-coreservices/post-login-response.json')]" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when Get Hierarchy Request" doc:id="5d94f7ee-26b4-4e9a-b77e-5457fbeb99fa"
+			<munit-tools:mock-when doc:name="Mock when Get Hierarchy Request" doc:id="40da75a5-ff9c-4757-a222-0c5dc4b49083"
 				processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get Hierarchy Request" attributeName="doc:name" />
@@ -33,12 +31,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-coreservices/get-hierarchy-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when Get Environments Request" doc:id="d695c052-a941-4be0-a7fc-56af5c4ed31f"
+			<munit-tools:mock-when doc:name="Mock when Get Environments Request" doc:id="3f6cbfaa-caaa-437e-b652-213e5346013a"
 				processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get Environments Request" attributeName="doc:name" />
@@ -47,12 +43,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-coreservices/get-environments-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when Get Applications Request" doc:id="d571babf-7c16-401f-bbd0-386d7f90d5f0"
+			<munit-tools:mock-when doc:name="Mock when Get Applications Request" doc:id="eda0e31e-5a3d-4573-b67b-2c00b1df7ddd"
 				processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get Applications Request" attributeName="doc:name" />
@@ -61,12 +55,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-cloudhub/get-applications-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when Get Assets Request" doc:id="40397920-b0e9-49da-b9e1-b564d49e4468"
+			<munit-tools:mock-when doc:name="Mock when Get Assets Request" doc:id="0d401a56-4c1a-44ed-8150-a923fa8e3c09"
 				processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get Assets" attributeName="doc:name" />
@@ -75,13 +67,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-exchange/get-assets-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 			<munit-tools:mock-when doc:name="Mock when Get Asset Dependencies Request"
-				doc:id="c01af08a-07c5-48e8-b1a2-07dad34a2f90" processor="http:request">
+				doc:id="a836c834-bb52-4866-83dc-52a48ec2a769" processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get Asset Dependencies" attributeName="doc:name" />
 				</munit-tools:with-attributes>
@@ -89,12 +79,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-exchange/get-asset-dependencies-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when Get APIs Request" doc:id="ccfff5dd-c5dc-414a-8271-0be2eaec2336"
+			<munit-tools:mock-when doc:name="Mock when Get APIs Request" doc:id="03869220-5dfc-4215-8f4f-a290db1f342a"
 				processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get APIs Request" attributeName="doc:name" />
@@ -103,12 +91,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-api-manager/get-apis-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when Get API Policies Request" doc:id="e53f55e0-b71c-44d9-afbd-707ea8213293"
+			<munit-tools:mock-when doc:name="Mock when Get API Policies Request" doc:id="7b1d7bc6-48f0-4428-8d3c-7ed212d65b8b"
 				processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get API Policies Request" attributeName="doc:name" />
@@ -117,12 +103,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-api-manager/get-api-policies-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when Get Members Request" doc:id="73b42c29-9b46-4b2b-b095-d1bad3176f2b"
+			<munit-tools:mock-when doc:name="Mock when Get Members Request" doc:id="e1df640b-1a7f-4b05-8035-e16d6dcb4217"
 				processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get Members Request" attributeName="doc:name" />
@@ -131,12 +115,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-coreservices/get-members-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when Get Usage Request" doc:id="9995e959-92a3-44b2-aa9b-19fe7f4eb1fc"
+			<munit-tools:mock-when doc:name="Mock when Get Usage Request" doc:id="ef8056c1-642b-4fe1-8341-cefe0468cb34"
 				processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get Usage Request" attributeName="doc:name" />
@@ -145,12 +127,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-coreservices/get-usage-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when Get Projects Request" doc:id="4a9fb747-61ee-4dca-81a7-5c042e5a2fb2"
+			<munit-tools:mock-when doc:name="Mock when Get Projects Request" doc:id="66473cff-38b7-427b-ab8e-dd6e7d7c82a0"
 				processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get Projects Request" attributeName="doc:name" />
@@ -159,27 +139,36 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-design-center/get-projects-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when Get API Clients Request" doc:id="b086e08d-c696-41ac-bf64-05215d09807b"
+			<munit-tools:mock-when doc:name="Mock when Get Initial API Clients Request" doc:id="cb69ed94-574b-484f-8324-32ad6609cd08"
 				processor="http:request">
 				<munit-tools:with-attributes>
-					<munit-tools:with-attribute whereValue="Get API Clients Request" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Get Initial API Clients Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-api-platform/get-api-clients-response.json')]" mediaType="application/json" />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
+					<munit-tools:variables >
+						<munit-tools:variable key="apiClientsResponsePayload" value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-api-platform/get-api-clients-response.json')]" mediaType="application/json" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get Additional API Clients Request" doc:id="b257388d-8f14-4da0-b451-4475f89e772b"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Additional API Clients Request" attributeName="doc:name" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return>
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-api-platform/get-api-clients-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 			<munit-tools:mock-when doc:name="Mock when Get API Manager Automated Policies Request"
-				doc:id="165bca49-4b6e-4c53-abf6-e35ece8fa22d" processor="http:request">
+				doc:id="a5e8af98-7195-4b64-add4-f2b75e3b5105" processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get Automated Policies Request" attributeName="doc:name" />
 				</munit-tools:with-attributes>
@@ -187,13 +176,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-api-manager/get-automated-policies-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 			<munit-tools:mock-when doc:name="Mock when ARM Get Deployments Request"
-				doc:id="0dd03075-7e70-40dd-acbd-fe32f70a9142" processor="http:request">
+				doc:id="bf129e7d-da9b-49d6-8415-9829e66d1d80" processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get Deployments Request" attributeName="doc:name" />
 				</munit-tools:with-attributes>
@@ -201,13 +188,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-arm/get-deployments-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 			<munit-tools:mock-when doc:name="Mock when ARM Get Deployment Details"
-				doc:id="7937ac4b-babe-4cca-83b0-c7d49c09dead" processor="http:request">
+				doc:id="6c1ed886-77ba-4927-9d16-0f44bcba46ad" processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get Deployment Details Request" attributeName="doc:name" />
 				</munit-tools:with-attributes>
@@ -215,12 +200,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-arm/get-deployment-details-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when ARM Get Servers" doc:id="42aa589b-8188-44cb-a64d-26a512120f8d"
+			<munit-tools:mock-when doc:name="Mock when ARM Get Servers" doc:id="97eecc60-2165-4edd-9580-3e2cc6ac397d"
 				processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get Servers Request" attributeName="doc:name" />
@@ -229,12 +212,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-arm/get-servers-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when ARM Get Clusters" doc:id="7016a38d-8b6d-490b-ae3d-d45f68beecb9"
+			<munit-tools:mock-when doc:name="Mock when ARM Get Clusters" doc:id="dcfb4e6a-d3a7-45f1-9b01-452f2172ac28"
 				processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get Clusters Request" attributeName="doc:name" />
@@ -243,12 +224,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-arm/get-clusters-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when ARM Get Server Groups" doc:id="b457d5be-6e01-4164-a04b-072a7043d008"
+			<munit-tools:mock-when doc:name="Mock when ARM Get Server Groups" doc:id="8335916b-5732-45ad-82e8-ad58f1697a70"
 				processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get Clusters Request" attributeName="doc:name" />
@@ -257,26 +236,22 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-arm/get-server-groups-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when RTF Get Projects Request" doc:id="e9a6d5fb-d5cd-464f-8b7b-7e84a7d7d014"
+			<munit-tools:mock-when doc:name="Mock when RTF Get Fabrics Request" doc:id="f2882c7c-6465-4572-b492-2505fbf42824"
 				processor="http:request">
 				<munit-tools:with-attributes>
-					<munit-tools:with-attribute whereValue="Get Projects Request" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Get Fabrics Request" attributeName="doc:name" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return>
 					<munit-tools:payload
-						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-runtime-fabric/get-projects-response.json')]"
+						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-runtime-fabric/get-fabrics-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when Get Analytics Events" doc:id="3b651f95-4738-45fa-88a3-3400c31c7908"
+			<munit-tools:mock-when doc:name="Mock when Get Analytics Events" doc:id="0aeb6f6b-3d8a-4f2b-a65b-ba1193f5a02b"
 				processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get Analytics Enriched Data Request" attributeName="doc:name" />
@@ -285,93 +260,137 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:payload
 						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-analytics/get-events-response.json')]"
 						mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when Get MQ Regions" doc:id="7dc1580b-5248-48c8-b203-85c0053bb82b"
+			<munit-tools:mock-when doc:name="Mock when Get MQ Regions" doc:id="a6feafb3-f3c6-45e9-bd6d-df5ec9ef559f"
 				processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Get Regions Request" attributeName="doc:name" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
 					<munit-tools:payload value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-mq/get-regions-response.json')]" mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when Get MQ Destinations" doc:id="dc0440a8-a24e-4f87-ae5b-8ab05a5d8416" processor="http:request">
+			<munit-tools:mock-when doc:name="Mock when Get MQ Destinations" doc:id="172c5ade-eb73-4cb9-b97f-aace841b15ac" processor="http:request">
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="Get Destinations Request" attributeName="doc:name" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
 					<munit-tools:payload value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-mq/get-destinations-response.json')]" mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when Get MQ Queue Stats" doc:id="da0a8345-7417-4661-bee1-eea261ce2ba5" processor="http:request">
+			<munit-tools:mock-when doc:name="Mock when Get MQ Queue Stats" doc:id="f508147c-9c9d-4637-b4c5-8f0dfc5a7189" processor="http:request">
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="Get Queue Stats Request" attributeName="doc:name" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
 					<munit-tools:payload value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-mq/get-queue-stats-response.json')]" mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when Get MQ Exchange Stats" doc:id="da8ad32f-8e50-42df-b415-b4048ae7901b" processor="http:request">
+			<munit-tools:mock-when doc:name="Mock when Get MQ Exchange Stats" doc:id="eb604630-a17a-4ab6-a0de-81f2ca59b212" processor="http:request">
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="Get Exchange Stats Request" attributeName="doc:name" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
 					<munit-tools:payload value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-mq/get-exchange-stats-response.json')]" mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-			<munit-tools:mock-when doc:name="Mock when Get RoleGroups" doc:id="1a87c303-aedb-4a21-8e0b-d8e3b02de874" processor="http:request" >
+			<munit-tools:mock-when doc:name="Mock when Get RoleGroups" doc:id="b5ca8e0d-2e3d-4ddc-b874-f5c91e623cfb" processor="http:request" >
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="Get RoleGroups Request" attributeName="doc:name" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
 					<munit-tools:payload value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-coreservices/get-role-groups.json')]" mediaType="application/json" />
-					<munit-tools:attributes value='#[{
- "statusCode": 200
- }]' />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
-		</munit:behavior>
+	</munit:before-test>
+	
+	<munit:after-test name="unit-test-aggregator-platform-metrics-after-test" doc:id="124052b8-a14e-4301-a454-624d44e3a99f" >
+		<remove-variable doc:name="Remove Variable" doc:id="5f4304d8-bd2e-446c-94cc-8a9adf895fa2" variableName="expectedResponse"/>
+	</munit:after-test>
+	
+	<munit:test name="get-platform-metrics-test" doc:id="10bb476e-e48f-417d-8c95-d699fdf8bbc2" description="Test">
 		<munit:execution >
-			<set-variable value="#[MunitTools::getResourceAsString('response-payload-example.json')]" doc:name="Set Expected Response Payload" doc:id="4c267c4a-708e-4848-aa4d-f98e3d90df41" variableName="expectedResponse" mimeType="application/json"/>
 			<ee:transform doc:name="Set Mocked Attributes" doc:id="5ce998a4-7d6f-41fd-91de-a8b0d9fbadf3" >
 				<ee:message >
-					<ee:set-attributes ><![CDATA[%dw 2.0
-output application/java
----
-{
-	headers: {
-		"X-ANYPNT-ORG-ID": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
-		"X-ANYPNT-USERNAME": "mthemule",
-		"X-ANYPNT-PASSWORD": "ThisIsASuperSecureMockedPassword",
-		"Authorization": "",
-		
-	},
-	queryParams: {
-		raw: false
-	}
-}]]></ee:set-attributes>
+					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
 				</ee:message>
 			</ee:transform>
 			<flow-ref doc:name="Flow-ref to get:\platform-metrics:api-config" doc:id="dcc7d79b-dba8-4939-b541-ded681f566e8" name="get:\platform-metrics:api-config"/>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="697a1e72-fc73-44a9-a51c-2bb32ca5db82" expression='#[[payload[0] - "date"]]' is="#[MunitTools::equalTo(vars.expectedResponse)]" message="The response payload is not the expected" />
+			<logger level="INFO" doc:name="Logger" doc:id="0c6b693b-1f00-4654-bf84-50c373f46e97" message="#[payload]"/>
+			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="697a1e72-fc73-44a9-a51c-2bb32ca5db82" expression='#[payload map ($ - "date")]' is='#[MunitTools::equalTo(vars.expectedResponse map ($ - "date"))]' message="The response payload is not the expected" />
+		</munit:validation>
+	</munit:test>
+	
+	<munit:test name="get-platform-metrics-connected-apps-test" doc:id="67b6219d-3c4b-4cec-8b4b-725ba823d102" description="Test">
+		<munit:execution >
+			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-get-platform-metrics-connected-apps.json')]" doc:name="Set Expected Response Payload" doc:id="6dacde1f-422b-4e0b-84d1-0b411e7f5d44" variableName="expectedResponse" mimeType="application/json" />
+			<ee:transform doc:name="Set Mocked Attributes" doc:id="b796dbcd-0872-4af7-9368-f8f4d08521a9" >
+				<ee:message >
+					<ee:set-attributes resource="dw/mock-platform-metrics-call-attributes-connected-app.dwl" />
+				</ee:message>
+			</ee:transform>
+			<flow-ref doc:name="Flow-ref to get:\platform-metrics:api-config" doc:id="7899a6fe-492c-40d3-a9d1-c94d03f60ecb" name="get:\platform-metrics:api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="91e2e9c6-7607-4998-8656-3e8254b13e86" message="#[payload]"/>
+			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="4dd7fc8c-09ae-4bdf-b22b-afda2eb926fa" expression='#[payload map ($ - "date")]' is='#[MunitTools::equalTo(vars.expectedResponse map ($ - "date"))]' message="The response payload is not the expected" />
+		</munit:validation>
+	</munit:test>
+	
+	<munit:test name="get-platform-metrics-collectors-params-dc-test" doc:id="8dffe6ce-cfd2-4122-bcda-da319905eda9" description="Test">
+		<munit:execution >
+			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-get-platform-metrics-collectors-dc.json')]" doc:name="Set Expected Response Payload" doc:id="6ec1f821-c3d6-4257-a94e-2fa5a785207d" variableName="expectedResponse" mimeType="application/json" />
+			<ee:transform doc:name="Set Mocked Attributes" doc:id="dfb8458d-858f-41ae-a463-a48351ac21ff" >
+				<ee:message >
+					<ee:set-attributes resource="dw/mock-platform-metrics-call-attributes-collectors-dc.dwl" />
+				</ee:message>
+			</ee:transform>
+			<flow-ref doc:name="Flow-ref to get:\platform-metrics:api-config" doc:id="b28e029e-2b64-4abb-9201-a9bdc43abf76" name="get:\platform-metrics:api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="4488e95d-12d4-4249-b77f-63c478de4dd1" message="#[payload]"/>
+			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="fcb894c1-2122-4510-8b7e-9d8e748dd71d" expression='#[payload map ($ - "date")]' is='#[MunitTools::equalTo(vars.expectedResponse map ($ - "date"))]' message="The response payload is not the expected" />
+		</munit:validation>
+	</munit:test>
+	
+	<munit:test name="get-platform-metrics-baisc-auth-and-collectors-params-ch-test" doc:id="f41f25e0-8b13-442a-b0ed-2ed7ef394c01" description="Test">
+		<munit:execution >
+			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-get-platform-metrics-collectors-ch.json')]" doc:name="Set Expected Response Payload" doc:id="a956383d-2b96-49f9-90e2-f28139d2d5b8" variableName="expectedResponse" mimeType="application/json" />
+			<ee:transform doc:name="Set Mocked Attributes" doc:id="5c8bf56e-fd75-4280-a0d1-750149728ea2" >
+				<ee:message >
+					<ee:set-attributes resource="dw/mock-platform-metrics-call-attributes-collectors-ch.dwl" />
+				</ee:message>
+			</ee:transform>
+			<flow-ref doc:name="Flow-ref to get:\platform-metrics:api-config" doc:id="a64e59ac-a7d5-4eff-8248-545024d9348e" name="get:\platform-metrics:api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="4a31e4f1-1177-4bf2-9daa-262e490cdec0" message="#[payload]"/>
+			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="7ff9e9bb-3d62-4429-b077-ba92b6430c7c" expression='#[payload map ($ - "date")]' is='#[MunitTools::equalTo(vars.expectedResponse map ($ - "date"))]' message="The response payload is not the expected" />
+		</munit:validation>
+	</munit:test>
+	
+	<munit:test name="get-platform-metrics-raw-test" doc:id="dda50c49-7770-4ad1-aa75-ec875d627e24" description="Test">
+		<munit:execution >
+			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-get-platform-metrics-raw.json')]" doc:name="Set Expected Response Payload" doc:id="4dc216f7-9702-434d-9e24-3c2ad3c4c925" variableName="expectedResponse" mimeType="application/json" />
+			<ee:transform doc:name="Set Mocked Attributes" doc:id="25103aeb-ad5e-47e3-a6ab-82c8a207348a" >
+				<ee:message >
+					<ee:set-attributes resource="dw/mock-platform-metrics-call-attributes-raw.dwl" />
+				</ee:message>
+			</ee:transform>
+			<flow-ref doc:name="Flow-ref to get:\platform-metrics:api-config" doc:id="561bbabd-3aa1-458b-82d0-5e27f8ab2916" name="get:\platform-metrics:api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="f715e489-a694-400c-877c-8705c62d252a" message="#[payload]"/>
+			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="d24890b0-90ef-4cdd-b3f7-c9c63fccdfcf" expression='#[payload map ($ - "date")]' is='#[MunitTools::equalTo(vars.expectedResponse map ($ - "date"))]' message="The response payload is not the expected" />
 		</munit:validation>
 	</munit:test>
 

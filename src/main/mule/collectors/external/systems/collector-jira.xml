@@ -16,7 +16,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</http:request-config>
 	<flow name="collector-jira-metrics-stories-flow" doc:id="138c01ae-fcbf-417f-814a-bccb5add66b8">
 		<choice doc:name="Choice" doc:id="619483d9-4fc6-4030-bec2-def625acbbd5" >
-			<when expression="#[p('sdlc.jira.enabled') == &quot;true&quot;]">
+			<when expression='#[vars.sdlcDetails.jira.enabled == "true"]'>
 				<scatter-gather doc:name="Scatter-Gather" doc:id="f8b3c308-a777-430d-8072-1bace9ef8630" >
 					<route >
 						<flow-ref doc:name="api-call-jira-metrics-stories-flow" doc:id="e56f4aee-a46c-4de9-9a7d-f6125467814f" name="api-call-jira-metrics-stories-flow" />

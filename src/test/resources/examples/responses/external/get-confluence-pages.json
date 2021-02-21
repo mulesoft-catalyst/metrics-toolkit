@@ -1,0 +1,11 @@
+{
+  "results": [],
+  "limit": 25,
+  "size": 25,
+  "_links": {
+    "base": "<url>",
+    "context": "<url>",
+    "next": "/rest/api/content/search?cql=type=page&limit=25&cursor=raNDoMsTRiNg",
+    "self": "<url>"
+  }
+}

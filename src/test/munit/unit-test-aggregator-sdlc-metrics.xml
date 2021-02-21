@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<munit:config name="unit-test-aggregator-sdlc-metrics.xml" />
+	<munit:before-test name="unit-test-aggregator-sdlc-metrics-before-test" doc:id="68c0cb88-d1ed-4574-8395-91da7748fb72" >
+		<munit-tools:mock-when doc:name="Mock when - GET Bitbucket Repositories" doc:id="032ca361-399d-40c5-ae68-f41dd5950585" processor="http:request">
+			<munit-tools:with-attributes >
+				<munit-tools:with-attribute whereValue="GET Repositories" attributeName="doc:name" />
+			</munit-tools:with-attributes>
+			<munit-tools:then-return >
+				<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/external/get-bitbucket-repositories.json')]" mediaType="application/json" />
+				<munit-tools:attributes value='#[{"statusCode": 200}]' />
+			</munit-tools:then-return>
+		</munit-tools:mock-when>
+		<munit-tools:mock-when doc:name="Mock when - GET Confluence Pages" doc:id="d8d0683b-f93c-47b0-8f6d-1023a36ff5da" processor="http:request">
+			<munit-tools:with-attributes >
+				<munit-tools:with-attribute whereValue="GET Pages" attributeName="doc:name" />
+			</munit-tools:with-attributes>
+			<munit-tools:then-return >
+				<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/external/get-confluence-pages.json')]" mediaType="application/json" />
+				<munit-tools:attributes value='#[{"statusCode": 200}]' />
+			</munit-tools:then-return>
+		</munit-tools:mock-when>
+		<munit-tools:mock-when doc:name="Mock when - GET Jenkins Jobs" doc:id="3376e9f2-fec8-48bb-926c-6fcceea07202" processor="http:request">
+			<munit-tools:with-attributes >
+				<munit-tools:with-attribute whereValue="Get Jobs" attributeName="doc:name" />
+			</munit-tools:with-attributes>
+			<munit-tools:then-return >
+				<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/external/get-jenkins-jobs.json')]" mediaType="application/json" />
+				<munit-tools:attributes value='#[{"statusCode": 200}]' />
+			</munit-tools:then-return>
+		</munit-tools:mock-when>
+		<munit-tools:mock-when doc:name="Mock when - GET JIRA Backlog Items" doc:id="f964b857-5f45-4fca-8677-dad96a5d6313" processor="http:request">
+			<munit-tools:with-attributes >
+				<munit-tools:with-attribute whereValue="GET Backlog Items" attributeName="doc:name" />
+			</munit-tools:with-attributes>
+			<munit-tools:then-return >
+				<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/external/get-jira-backlog-items.json')]" mediaType="application/json" />
+				<munit-tools:attributes value='#[{"statusCode": 200}]' />
+			</munit-tools:then-return>
+		</munit-tools:mock-when>
+		<munit-tools:mock-when doc:name="Mock when - GET JIRA Stories Items" doc:id="6e372788-94c6-4de3-8236-eabf0c7b1ca2" processor="http:request">
+			<munit-tools:with-attributes >
+				<munit-tools:with-attribute whereValue="GET Stories" attributeName="doc:name" />
+			</munit-tools:with-attributes>
+			<munit-tools:then-return >
+				<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/external/get-jira-stories.json')]" mediaType="application/json" />
+				<munit-tools:attributes value='#[{"statusCode": 200}]' />
+			</munit-tools:then-return>
+		</munit-tools:mock-when>
+		<munit-tools:mock-when doc:name="Mock when - GET Splunk Dashboards" doc:id="da6d953f-1f0b-4db1-889d-ba335755b5c5" processor="http:request">
+			<munit-tools:with-attributes >
+				<munit-tools:with-attribute whereValue="Get-Splunk-DashboardCount" attributeName="doc:name" />
+			</munit-tools:with-attributes>
+			<munit-tools:then-return >
+				<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/external/get-splunk-dashboards.json')]" mediaType="application/json" />
+				<munit-tools:attributes value='#[{"statusCode": 200}]' />
+			</munit-tools:then-return>
+		</munit-tools:mock-when>
+	</munit:before-test>
+	
+	<munit:after-test name="unit-test-aggregator-sdlc-metrics-after-test" doc:id="124052b8-a14e-4301-a454-624d44e3a99f" >
+		<remove-variable doc:name="Remove Variable" doc:id="5f4304d8-bd2e-446c-94cc-8a9adf895fa2" variableName="expectedResponse"/>
+	</munit:after-test>
+	
+	<munit:test name="get-sdlc-metrics-test" doc:id="10bb476e-e48f-417d-8c95-d699fdf8bbc2" description="Test">
+		<munit:execution >
+			<ee:transform doc:name="Set Mocked Attributes" doc:id="5ce998a4-7d6f-41fd-91de-a8b0d9fbadf3" >
+				<ee:message >
+					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-get-sdlc-metrics.json')]" doc:name="Set Expected Response Payload" doc:id="c337c8ac-34b5-4e4e-af8a-7c6774fabfd0" variableName="expectedResponse" mimeType="application/json" />
+			<ee:transform doc:name="Mock SDLC Details" doc:id="6d5dc317-706c-4564-9ae9-824c624599a9" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable resource="dw/mock-sdlc-details-enabled.dwl" variableName="sdlcDetails" />
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="Flow-ref to aggregator-sdlc-metrics-main-flow" doc:id="dcc7d79b-dba8-4939-b541-ded681f566e8" name="aggregator-sdlc-metrics-main-flow"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="be9103dc-78c8-4c04-ba5f-cf7a80281178" message="#[payload]"/>
+			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="697a1e72-fc73-44a9-a51c-2bb32ca5db82" expression='#[payload - "date"]' is='#[MunitTools::equalTo((vars.expectedResponse - "date"))]' message="The response payload is not the expected" />
+		</munit:validation>
+	</munit:test>
+	
+	<munit:test name="get-sdlc-metrics-empty-test" doc:id="b0f9a908-8f2b-488f-be6c-d782835a7157" description="Test">
+		<munit:execution >
+			<ee:transform doc:name="Set Mocked Attributes" doc:id="061f0d74-ff8e-4701-b780-c16222591b83" >
+				<ee:message >
+					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-get-sdlc-empty-metrics.json')]" doc:name="Set Expected Response Payload" doc:id="53f03967-bd0e-44e8-bac5-6cd8e7a78b41" variableName="expectedResponse" mimeType="application/json" />
+			<flow-ref doc:name="Flow-ref to get:\sdlc-metrics:api-config" doc:id="677f5ad0-d6cf-4f27-9e2c-9b4c7aa148c1" name="get:\sdlc-metrics:api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="66e9605b-8bf5-4ed2-bf22-a512bd7adfd4" message="#[payload]"/>
+			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="a5df64be-4e3f-496b-90cb-7cfc3590c7be" expression='#[payload - "date"]' is='#[MunitTools::equalTo((vars.expectedResponse - "date"))]' message="The response payload is not the expected" />
+		</munit:validation>
+	</munit:test>
+	
+	<munit:test name="get-sdlc-metrics-raw-test" doc:id="0696be58-7058-402f-9d41-ed5a7ac45bd6" description="Test">
+		<munit:execution >
+			<ee:transform doc:name="Set Mocked Attributes" doc:id="5f0b296c-1e23-4624-ad58-818b8eb3ee9d" >
+				<ee:message >
+					<ee:set-attributes resource="dw/mock-sdlc-call-attributes-raw.dwl" />
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-get-sdlc-raw-empty-metrics.json')]" doc:name="Set Expected Response Payload" doc:id="073ce8c8-7ad2-43c9-bf30-349a609666f4" variableName="expectedResponse" mimeType="application/json" />
+			<flow-ref doc:name="Flow-ref to get:\sdlc-metrics:api-config" doc:id="3f345f00-8767-4b10-b4f7-fa7939c6e435" name="get:\sdlc-metrics:api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="76f27879-c24c-4b33-bcd8-d67e6d85fd5a" message="#[payload]"/>
+			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="5855fc16-0fe0-4f2d-ab45-90e62c624bee" expression='#[payload - "date"]' is='#[MunitTools::equalTo((vars.expectedResponse - "date"))]' message="The response payload is not the expected" />
+		</munit:validation>
+	</munit:test>
+
+</mule>
