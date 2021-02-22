@@ -88,7 +88,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<flow-ref doc:name="Flow-ref to aggregator-sdlc-metrics-main-flow" doc:id="dcc7d79b-dba8-4939-b541-ded681f566e8" name="aggregator-sdlc-metrics-main-flow"/>
 		</munit:execution>
 		<munit:validation >
-			<logger level="INFO" doc:name="Logger" doc:id="be9103dc-78c8-4c04-ba5f-cf7a80281178" message="#[payload]"/>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="697a1e72-fc73-44a9-a51c-2bb32ca5db82" expression='#[payload - "date"]' is='#[MunitTools::equalTo((vars.expectedResponse - "date"))]' message="The response payload is not the expected" />
 		</munit:validation>
 	</munit:test>
@@ -104,7 +103,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<flow-ref doc:name="Flow-ref to get:\sdlc-metrics:api-config" doc:id="677f5ad0-d6cf-4f27-9e2c-9b4c7aa148c1" name="get:\sdlc-metrics:api-config"/>
 		</munit:execution>
 		<munit:validation >
-			<logger level="INFO" doc:name="Logger" doc:id="66e9605b-8bf5-4ed2-bf22-a512bd7adfd4" message="#[payload]"/>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="a5df64be-4e3f-496b-90cb-7cfc3590c7be" expression='#[payload - "date"]' is='#[MunitTools::equalTo((vars.expectedResponse - "date"))]' message="The response payload is not the expected" />
 		</munit:validation>
 	</munit:test>
@@ -120,7 +118,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<flow-ref doc:name="Flow-ref to get:\sdlc-metrics:api-config" doc:id="3f345f00-8767-4b10-b4f7-fa7939c6e435" name="get:\sdlc-metrics:api-config"/>
 		</munit:execution>
 		<munit:validation >
-			<logger level="INFO" doc:name="Logger" doc:id="76f27879-c24c-4b33-bcd8-d67e6d85fd5a" message="#[payload]"/>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="5855fc16-0fe0-4f2d-ab45-90e62c624bee" expression='#[payload - "date"]' is='#[MunitTools::equalTo((vars.expectedResponse - "date"))]' message="The response payload is not the expected" />
 		</munit:validation>
 	</munit:test>

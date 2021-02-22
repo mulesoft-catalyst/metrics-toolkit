@@ -10,9 +10,18 @@
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<munit:config name="unit-test-poller.xml" />
 	
-	<munit:test name="execute-poller-enabled-bad-login-test" doc:id="10bb476e-e48f-417d-8c95-d699fdf8bbc2" description="Test" expectedErrorType="MULE:COMPOSITE_ROUTING">
+	<munit:test name="execute-poller-disabled-test" doc:id="fafcd100-6633-485a-aa8c-72f2a94ecfe4" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to poller-flow" doc:id="1277c8e0-c926-4234-acd1-953c9ed53353" name="poller-flow"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="7e57d744-c7e2-482b-8bc9-a861680bebfb" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	
+	<munit:test name="execute-poller-enabled-bad-login-test" doc:id="272c5831-dd39-487c-b7d5-8e44fac9426c" description="Test" expectedErrorType="MULE:COMPOSITE_ROUTING">
 		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mock when POST login request" doc:id="21b986cf-5d7e-41f3-93ce-b7dafe5ad172" processor="http:request">
+			<munit-tools:mock-when doc:name="Mock when POST login request" doc:id="faf410af-5370-409e-b5ff-c02d22af426a" processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Post Login Request" attributeName="doc:name" />
 				</munit-tools:with-attributes>
@@ -23,19 +32,45 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to poller-main-flow" doc:id="dcc7d79b-dba8-4939-b541-ded681f566e8" name="poller-main-flow"/>
+			<ee:transform doc:name="Mock Poller Details" doc:id="a07c762e-22bc-44b0-95c0-b0726f8ffdd8" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable resource="dw/mock-poller-details-general-enabled.dwl" variableName="pollerDetails" />
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="Flow-ref to poller-main-flow" doc:id="827154c7-b4bf-4377-a1be-9070e6a359fa" name="poller-main-flow"/>
 		</munit:execution>
 		<munit:validation>
-			<munit-tools:assert-that doc:name="Assert that" doc:id="9c97efa5-3087-4689-bc6a-0b6493cd2f5f" expression="#[payload]" is="#[MunitTools::nullValue()]"/>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="bbb174e0-cbfb-4307-88d1-fa5d2f745784" expression="#[payload]" is="#[MunitTools::nullValue()]"/>
 		</munit:validation>
 	</munit:test>
 	
-	<munit:test name="execute-poller-disabled-test" doc:id="fafcd100-6633-485a-aa8c-72f2a94ecfe4" description="Test">
+	<munit:test name="execute-poller-enabled-sdlc-test" doc:id="739f3009-015e-4676-95fd-f64ed9af021a" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when loader-router-flow" doc:id="c5de8c5a-2148-4721-8459-e932f1f8e79d" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="loader-router-flow" attributeName="name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[null]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			
+		</munit:behavior>
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to poller-flow" doc:id="1277c8e0-c926-4234-acd1-953c9ed53353" name="poller-flow"/>
+			<ee:transform doc:name="Mock Poller Details" doc:id="17c0cc7d-fb34-4d15-99a4-b910fc8f4b51" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable resource="dw/mock-poller-details-sdlc-enabled.dwl" variableName="pollerDetails" />
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="Flow-ref to poller-main-flow" doc:id="3b5554b0-c96f-450a-ba85-910f67a48717" name="poller-main-flow"/>
 		</munit:execution>
 		<munit:validation>
-			<munit-tools:assert-that doc:name="Assert that" doc:id="7e57d744-c7e2-482b-8bc9-a861680bebfb" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+			<munit-tools:assert-that doc:name="Assert that loader-router was not executed" doc:id="40474a9c-52a3-4e4e-8eb5-50ba509e316a" expression="#[payload[0].payload]" is="#[MunitTools::nullValue()]"/>
+			<munit-tools:assert-that doc:name="Assert that sdlc-loader was executed and returned not implemented" doc:id="b0909c17-4710-41eb-8a38-58718f25d503" expression="#[payload[1].payload.message]" is="#[MunitTools::equalTo('Not Implemented')]"/>
 		</munit:validation>
 	</munit:test>
 
