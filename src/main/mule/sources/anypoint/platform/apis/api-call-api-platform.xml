@@ -8,8 +8,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 
 	<flow name="api-call-api-platform-clients-flow" doc:id="cb45e4dc-7fd3-476d-aff3-7c0a30556088" maxConcurrency="${anypoint.platform.apis.apiPlatform.maxConcurrency}">
 		<logger level="DEBUG" doc:name="Logger" doc:id="c04d063d-9f26-41c8-9f2c-efd64bc5a457" message="Calling API Platform - Clients" />
-		<http:request method="GET" doc:name="Get API Clients Request" doc:id="ea3a4010-08c1-44e9-b9d4-a82201dbb162" config-ref="HTTP_Request_configuration"
-			path="${anypoint.platform.apis.apiPlatform.clients.path}">
+		<http:request method="GET" doc:name="Get Initial API Clients Request" doc:id="ea3a4010-08c1-44e9-b9d4-a82201dbb162" config-ref="HTTP_Request_configuration"
+			path="${anypoint.platform.apis.apiPlatform.clients.path}" target="apiClientsResponsePayload">
+			<http:body ><![CDATA[#[null]]]></http:body>
 			<http:headers><![CDATA[#[output application/java
 ---
 {
@@ -28,6 +29,62 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"targetAdminSite" : p('anypoint.platform.apis.apiPlatform.clients.targetAdminSite')
 }]]]></http:query-params>
 		</http:request>
+		<ee:transform doc:name="Get number of API Clients Pages" doc:id="22c75968-ad73-48dc-a94e-3f41253842e0" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="apiClientsPages" ><![CDATA[%dw 2.0
+output application/java
+var pageLimit = (Mule::p('anypoint.platform.apis.apiPlatform.clients.limit') as Number default 100)
+---
+((1 to ceil((vars.apiClientsResponsePayload."total" default 0)/pageLimit)) - 1 default [])]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="a927b0b5-6a81-4dc2-ad26-f0dae36df167" message="API Platform - Clients - first call performed, limit:#[Mule::p('anypoint.platform.apis.apiPlatform.clients.limit')] - offset:#[Mule::p('anypoint.platform.apis.apiPlatform.clients.offset')] - extra pages to iterate:#[sizeOf(vars.apiClientsPages default []) default 0]  " />
+		<foreach doc:name="For Each" doc:id="0268328b-51dc-4934-83e6-174f243d52cf" collection="#[vars.apiClientsPages]">
+			<logger level="INFO" doc:name="Logger" doc:id="4fe0e979-f9be-46be-b475-97cee57a21e1" message="API Platform - Clients - pagination, current extra page:#[vars.counter] - total extra pages:#[sizeOf(vars.apiClientsPages default []) default 0] " />
+			<http:request method="GET" doc:name="Additional API Clients Request" doc:id="e1b11283-7ae6-4aa7-842f-b08fe8c2f07e" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.apiPlatform.clients.path}" >
+				<http:body ><![CDATA[#[null]]]></http:body>
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.token
+}]]]></http:headers>
+				<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"orgId" : vars.orgId
+}]]]></http:uri-params>
+				<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"offset" : vars.counter * (Mule::p('anypoint.platform.apis.apiPlatform.clients.limit') as Number) ,
+	"limit" : Mule::p('anypoint.platform.apis.apiPlatform.clients.limit'),
+	"targetAdminSite" : Mule::p('anypoint.platform.apis.apiPlatform.clients.targetAdminSite')
+}]]]></http:query-params>
+			</http:request>
+			<ee:transform doc:name="Aggregate API Clients Results" doc:id="2b84ae90-47d8-467a-9924-9413c01df060" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="apiClientsResponsePayload" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	applications: (payload.applications ++ vars.apiClientsResponsePayload.applications default null),
+	total: payload.total default null
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</foreach>
+		<ee:transform doc:name="Set Aggregation to Payload" doc:id="e4f8afea-a321-46ff-8a2c-bed5eef7e470" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+vars.apiClientsResponsePayload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["API Platform - Clients, Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 

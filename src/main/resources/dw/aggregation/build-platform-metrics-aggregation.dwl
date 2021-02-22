@@ -47,6 +47,7 @@ var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","authentication"]
 
 var notGeneratedAssets = if (exchangeAssets is Array) (exchangeAssets filter($."isGenerated" == false)) else []
+var ratedAssets = notGeneratedAssets filter ($."numberOfRates" > 0)
 var assetsByType = (assetType) -> notGeneratedAssets filter($."type" == assetType)
 var countAssetType = (assetType) -> sizeOf(assetsByType(assetType))
 
@@ -109,6 +110,9 @@ var policiesAppliedByPolicy = (inProduction) -> (
         )
     )
 )
+
+var usableSandboxVcores = entitlements.vCoresSandbox.assigned - entitlements.vCoresSandbox.reassigned
+var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCoresProduction.reassigned													
 ---
 {
 	date: vars.date,
@@ -148,7 +152,7 @@ var policiesAppliedByPolicy = (inProduction) -> (
             extensions: countAssetType("extension"),
             applications: countAssetType("app"),
 		    custom: countAssetType("custom"),
-		    overallSatisfaction: if (sizeOf(notGeneratedAssets) > 0) ((notGeneratedAssets.rating reduce ($ + $$) default 0) / sizeOf(notGeneratedAssets)) else 0,
+		    overallSatisfaction: if (sizeOf(ratedAssets) > 0) ((ratedAssets.rating reduce ($ + $$) default 0) / sizeOf(ratedAssets)) else 0,
         reuse: {
             // Avg of times a Fragment is imported by an API Spec
             fragments: assetReuseAvg("rest-api","raml-fragment"),
@@ -235,8 +239,8 @@ var policiesAppliedByPolicy = (inProduction) -> (
 			
 			applications:{
 				production: {
-					vcoresTotal: entitlements.vCoresProduction.assigned,
-					vcoresAvailable: (entitlements.vCoresProduction.assigned as Number) - sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
+					vcoresTotal: usableProdVcores,
+					vcoresAvailable: usableProdVcores - sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
 					vcoresUsed: sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
 					applicationsTotal: sizeOf(flatten(getProdData(cloudHubApps) default []) default []),
 					applicationsStarted: sizeOf(flatten(getProdData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default []),
@@ -245,8 +249,8 @@ var policiesAppliedByPolicy = (inProduction) -> (
 					runtimesUsedTotal: sizeOf(flatten(getProdData(cloudHubApps) default []).muleVersion.version distinctBy ($) default [])
 				},
 				sandbox:{
-					vcoresTotal: entitlements.vCoresSandbox.assigned,
-					vcoresAvailable: (entitlements.vCoresSandbox.assigned as Number) - sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
+					vcoresTotal: usableSandboxVcores,
+					vcoresAvailable: usableSandboxVcores - sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
 					vcoresUsed: sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
 					applicationsTotal: sizeOf(flatten(getSandboxData(cloudHubApps) default []) default []),
 					applicationsStarted: sizeOf(flatten(getSandboxData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default []),
