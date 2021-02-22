@@ -54,7 +54,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit-tools:then-return >
 					<munit-tools:payload value="#[null]" />
 					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
-					
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 			<munit-tools:mock-when doc:name="Mock when Get Assets Request" doc:id="27443ebc-d6f0-4950-bb51-94739803750a"
@@ -310,6 +309,33 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="697a1e72-fc73-44a9-a51c-2bb32ca5db82" expression='#[payload map ($ - "date")]' is='#[MunitTools::equalTo(vars.expectedResponse map ($ - "date"))]' message="The response payload is not the expected" />
+		</munit:validation>
+	</munit:test>
+	
+	<munit:test name="unit-test-aggregator-platform-metrics-environment-errors-test" doc:id="f856a16c-a79b-469f-ab92-362462e6ef36" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when Get Environments Request" doc:id="e5e67d72-a986-4aac-88c1-7a08c2818050"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Environments Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-payload-empty-metrics.json')]" doc:name="Set Expected Response Payload" doc:id="a05718e0-b7f3-43f2-9dba-d7f007f1b7f4" variableName="expectedResponse" mimeType="application/json" />
+			<ee:transform doc:name="Set Mocked Attributes" doc:id="d47b658a-7f06-4e9f-8065-ea6eeaf9d579" >
+				<ee:message >
+					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
+				</ee:message>
+			</ee:transform>
+			<flow-ref doc:name="Flow-ref to get:\platform-metrics:api-config" doc:id="e32223d6-1049-4265-bded-f2bd40dbfecd" name="get:\platform-metrics:api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="198ee48a-61f4-4baa-be23-c7c0c2d05840" expression='#[payload map ($ - "date")]' is='#[MunitTools::equalTo(vars.expectedResponse map ($ - "date"))]' message="The response payload is not the expected" />
 		</munit:validation>
 	</munit:test>
 
