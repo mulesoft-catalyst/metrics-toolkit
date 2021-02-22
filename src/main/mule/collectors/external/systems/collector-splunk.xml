@@ -21,7 +21,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</http:request-config>
 	<flow name="collector-splunk-metrics-flow" doc:id="351c3c39-31ca-41be-9295-0b61acee7813">
 		<choice doc:name="Choice" doc:id="acadc85f-3c3b-4a20-b8da-9850a93e72e3" >
-			<when expression="#[p('sdlc.splunk.enabled') == &quot;true&quot;]">
+			<when expression='#[vars.sdlcDetails.splunk.enabled == "true"]'>
 				<flow-ref doc:name="api-call-splunk-apps-flow" doc:id="bb19f521-5129-4861-b03a-6beae805b23d" name="api-call-splunk-apps-flow" />
 			</when>
 			<otherwise >
