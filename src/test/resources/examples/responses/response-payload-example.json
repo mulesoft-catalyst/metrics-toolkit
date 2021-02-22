@@ -46,7 +46,7 @@
       }
     },
     "apiManagerMetrics": {
-      "clients": 2,
+      "clients": 4,
       "apis": {
         "production": {
           "total": 0,

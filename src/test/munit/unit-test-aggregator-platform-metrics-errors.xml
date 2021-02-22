@@ -10,15 +10,15 @@
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<munit:config name="unit-test-aggregator-platform-metrics-errors.xml" />
 	<munit:before-test name="unit-test-aggregator-platform-metrics-errors-before-test" doc:id="558df002-52bc-4ac5-aacd-cbf1bff48c7f" >
-			<set-variable value="#[MunitTools::getResourceAsString('response-payload-with-errors-example.json')]" doc:name="Set Expected Response Payload" doc:id="4c267c4a-708e-4848-aa4d-f98e3d90df41" variableName="expectedResponse" mimeType="application/json" />
-		<munit-tools:mock-when doc:name="Mock when POST login request" doc:id="deff6d19-8617-4eef-a863-9ac670f3d3ec"
+			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-payload-with-errors-example.json')]" doc:name="Set Expected Response Payload" doc:id="4c267c4a-708e-4848-aa4d-f98e3d90df41" variableName="expectedResponse" mimeType="application/json" />
+			<munit-tools:mock-when doc:name="Mock when POST login request" doc:id="deff6d19-8617-4eef-a863-9ac670f3d3ec"
 				processor="http:request">
 				<munit-tools:with-attributes>
 					<munit-tools:with-attribute whereValue="Post Login Request" attributeName="doc:name" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return>
 					<munit-tools:payload
-						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-coreservices/post-login-response.json')]" />
+						value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/coreservices/post-login-response.json')]" />
 					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
@@ -29,7 +29,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</munit-tools:with-attributes>
 				<munit-tools:then-return>
 					<munit-tools:payload
-						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-coreservices/get-hierarchy-response.json')]"
+						value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/coreservices/get-hierarchy-response.json')]"
 						mediaType="application/json" />
 					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
@@ -41,7 +41,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</munit-tools:with-attributes>
 				<munit-tools:then-return>
 					<munit-tools:payload
-						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-coreservices/get-environments-response.json')]"
+						value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/coreservices/get-environments-response.json')]"
 						mediaType="application/json" />
 					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
@@ -309,7 +309,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<flow-ref doc:name="Flow-ref to get:\platform-metrics:api-config" doc:id="dcc7d79b-dba8-4939-b541-ded681f566e8" name="get:\platform-metrics:api-config"/>
 		</munit:execution>
 		<munit:validation >
-			<logger level="INFO" doc:name="Logger" doc:id="31eb8aeb-3514-4a65-96ef-da188ee7c965" message="#[payload]"/>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="697a1e72-fc73-44a9-a51c-2bb32ca5db82" expression='#[payload map ($ - "date")]' is='#[MunitTools::equalTo(vars.expectedResponse map ($ - "date"))]' message="The response payload is not the expected" />
 		</munit:validation>
 	</munit:test>

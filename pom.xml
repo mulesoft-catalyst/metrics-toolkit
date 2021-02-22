@@ -95,12 +95,7 @@
       						<!-- Ignoring the following flows since they are not used - keeping them as references -->
       						<ignoreFlow>api-call-coreservices-login-cache-flow</ignoreFlow>
       						<ignoreFlow>api-call-analytics-events-flow</ignoreFlow>
-  						</ignoreFlows>
-  						<ignoreFiles>
-  							<!-- 
-	  						<ignoreFile>poller.xml</ignoreFile>
-	  						 -->
-  						</ignoreFiles>
+  						</ignoreFlows> 						
 					</coverage>
 				</configuration>
 			</plugin>
