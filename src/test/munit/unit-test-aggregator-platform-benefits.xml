@@ -18,7 +18,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</munit-tools:with-attributes>
 				<munit-tools:then-return>
 					<munit-tools:payload
-						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-coreservices/post-login-response.json')]" />
+						value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/coreservices/post-login-response.json')]" />
 					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
@@ -29,7 +29,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</munit-tools:with-attributes>
 				<munit-tools:then-return>
 					<munit-tools:payload
-						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-coreservices/get-hierarchy-response.json')]"
+						value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/coreservices/get-hierarchy-response.json')]"
 						mediaType="application/json" />
 					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
@@ -41,7 +41,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</munit-tools:with-attributes>
 				<munit-tools:then-return>
 					<munit-tools:payload
-						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-coreservices/get-environments-response.json')]"
+						value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/coreservices/get-environments-response.json')]"
 						mediaType="application/json" />
 					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
@@ -53,7 +53,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</munit-tools:with-attributes>
 				<munit-tools:then-return>
 					<munit-tools:payload
-						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-cloudhub/get-applications-response.json')]"
+						value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/cloudhub/get-applications-response.json')]"
 						mediaType="application/json" />
 					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
@@ -65,7 +65,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</munit-tools:with-attributes>
 				<munit-tools:then-return>
 					<munit-tools:payload
-						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-api-manager/get-apis-response.json')]"
+						value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/apimanager/get-apis-response.json')]"
 						mediaType="application/json" />
 					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
@@ -77,7 +77,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</munit-tools:with-attributes>
 				<munit-tools:then-return>
 					<munit-tools:payload
-						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-api-manager/get-api-policies-response.json')]"
+						value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/apimanager/get-api-policies-response.json')]"
 						mediaType="application/json" />
 					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
@@ -89,7 +89,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</munit-tools:with-attributes>
 				<munit-tools:then-return>
 					<munit-tools:payload
-						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-arm/get-deployments-response.json')]"
+						value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/arm/get-deployments-response.json')]"
 						mediaType="application/json" />
 					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
@@ -101,7 +101,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</munit-tools:with-attributes>
 				<munit-tools:then-return>
 					<munit-tools:payload
-						value="#[MunitTools::getResourceAsString('sources.anypoint.platform.apis.examples/api-call-arm/get-deployment-details-response.json')]"
+						value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/arm/get-deployment-details-response.json')]"
 						mediaType="application/json" />
 					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>

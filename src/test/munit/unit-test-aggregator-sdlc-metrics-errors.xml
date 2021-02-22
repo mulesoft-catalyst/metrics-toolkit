@@ -83,7 +83,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<flow-ref doc:name="Flow-ref to aggregator-sdlc-metrics-main-flow" doc:id="dcc7d79b-dba8-4939-b541-ded681f566e8" name="aggregator-sdlc-metrics-main-flow"/>
 		</munit:execution>
 		<munit:validation >
-			<logger level="INFO" doc:name="Logger" doc:id="be9103dc-78c8-4c04-ba5f-cf7a80281178" message="#[payload]"/>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="697a1e72-fc73-44a9-a51c-2bb32ca5db82" expression='#[payload - "date"]' is='#[MunitTools::equalTo((vars.expectedResponse - "date"))]' message="The response payload is not the expected" />
 		</munit:validation>
 	</munit:test>

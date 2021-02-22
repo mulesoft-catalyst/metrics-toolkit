@@ -11,58 +11,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<munit:config name="unit-test-loader-sdlc-router.xml" />
 	<munit:before-test name="unit-test-loader-sdlc-router-before-test" doc:id="ec3377a0-dbd0-4e79-9c93-b53b17bab7f6" >
 		<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-post-sdlc-metrics-not-implemented.json')]" doc:name="Set Expected Response Payload" doc:id="4834527b-8e75-48f6-a094-9633ea95ee69" variableName="expectedResponse" mimeType="application/json" />
-		<munit-tools:mock-when doc:name="Mock when - GET Bitbucket Repositories" doc:id="370dcba4-78a7-4b10-a5ab-c81d01af3210" processor="http:request">
+		<munit-tools:mock-when doc:name="Mock when Aggregate SDLC Flow Reference" doc:id="0c299254-1318-4fda-bc32-1ddcff8925c1" processor="flow-ref">
 			<munit-tools:with-attributes >
-				<munit-tools:with-attribute whereValue="GET Repositories" attributeName="doc:name" />
+				<munit-tools:with-attribute whereValue="aggregator-sdlc-metrics-main-flow" attributeName="name" />
 			</munit-tools:with-attributes>
 			<munit-tools:then-return >
-				<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/external/get-bitbucket-repositories.json')]" mediaType="application/json" />
-				<munit-tools:attributes value='#[{"statusCode": 200}]' />
-			</munit-tools:then-return>
-		</munit-tools:mock-when>
-		<munit-tools:mock-when doc:name="Mock when - GET Confluence Pages" doc:id="57e4fece-b83c-4622-b5e6-e3e6a32937f7" processor="http:request">
-			<munit-tools:with-attributes >
-				<munit-tools:with-attribute whereValue="GET Pages" attributeName="doc:name" />
-			</munit-tools:with-attributes>
-			<munit-tools:then-return >
-				<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/external/get-confluence-pages.json')]" mediaType="application/json" />
-				<munit-tools:attributes value='#[{"statusCode": 200}]' />
-			</munit-tools:then-return>
-		</munit-tools:mock-when>
-		<munit-tools:mock-when doc:name="Mock when - GET Jenkins Jobs" doc:id="aad97459-436c-42f9-8a6b-a8c85bff31e2" processor="http:request">
-			<munit-tools:with-attributes >
-				<munit-tools:with-attribute whereValue="Get Jobs" attributeName="doc:name" />
-			</munit-tools:with-attributes>
-			<munit-tools:then-return >
-				<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/external/get-jenkins-jobs.json')]" mediaType="application/json" />
-				<munit-tools:attributes value='#[{"statusCode": 200}]' />
-			</munit-tools:then-return>
-		</munit-tools:mock-when>
-		<munit-tools:mock-when doc:name="Mock when - GET JIRA Backlog Items" doc:id="6d0212d2-8f90-4c4b-a2c7-cbb503f81ac1" processor="http:request">
-			<munit-tools:with-attributes >
-				<munit-tools:with-attribute whereValue="GET Backlog Items" attributeName="doc:name" />
-			</munit-tools:with-attributes>
-			<munit-tools:then-return >
-				<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/external/get-jira-backlog-items.json')]" mediaType="application/json" />
-				<munit-tools:attributes value='#[{"statusCode": 200}]' />
-			</munit-tools:then-return>
-		</munit-tools:mock-when>
-		<munit-tools:mock-when doc:name="Mock when - GET JIRA Stories Items" doc:id="77322121-ad66-4f89-919d-2e7337d895ee" processor="http:request">
-			<munit-tools:with-attributes >
-				<munit-tools:with-attribute whereValue="GET Stories" attributeName="doc:name" />
-			</munit-tools:with-attributes>
-			<munit-tools:then-return >
-				<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/external/get-jira-stories.json')]" mediaType="application/json" />
-				<munit-tools:attributes value='#[{"statusCode": 200}]' />
-			</munit-tools:then-return>
-		</munit-tools:mock-when>
-		<munit-tools:mock-when doc:name="Mock when - GET Splunk Dashboards" doc:id="500d5215-cba9-420b-8f61-ba41d2b472cf" processor="http:request">
-			<munit-tools:with-attributes >
-				<munit-tools:with-attribute whereValue="Get-Splunk-DashboardCount" attributeName="doc:name" />
-			</munit-tools:with-attributes>
-			<munit-tools:then-return >
-				<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/external/get-splunk-dashboards.json')]" mediaType="application/json" />
-				<munit-tools:attributes value='#[{"statusCode": 200}]' />
+				<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/response-get-sdlc-metrics.json')]" />
 			</munit-tools:then-return>
 		</munit-tools:mock-when>
 	</munit:before-test>
