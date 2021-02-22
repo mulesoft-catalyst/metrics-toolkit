@@ -244,7 +244,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</munit:validation>
 	</munit:test>
 	
-	<munit:test name="loader-platform-benefits-router-csv-test" doc:id="73e4478f-5c91-4773-baf3-77b8f1ea40ad" description="Test" ignore="true">
+	<munit:test name="z-loader-platform-benefits-router-csv-test" doc:id="73e4478f-5c91-4773-baf3-77b8f1ea40ad" description="Test">
 		<munit:execution >
 			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-post-platform-benefits-csv.csv')]" doc:name="Set Expected CSV Response Payload" doc:id="e910a5f0-0535-4ba7-8add-1b9a06b9f923" variableName="expectedCsvResponse" mimeType="application/csv"/>
 			<ee:transform doc:name="Mock Attributes and Payload" doc:id="1f135daa-7cd4-43e4-bda3-30ec6d2cd55c" >
