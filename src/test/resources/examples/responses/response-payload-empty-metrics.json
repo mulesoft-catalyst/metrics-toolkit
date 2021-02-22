@@ -1,0 +1,214 @@
+[
+  {
+    "date": "2021-02-21T23:46:38.443-08:00",
+    "businessGroup": "Fantasy Company",
+    "businessGroupId": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+    "coreServicesMetrics": {
+      "users": {
+        "total": 0,
+        "activeMembers": 0,
+        "inactiveMembers": 0,
+        "activeMembersLast60Days": 0,
+        "activeMembersLast30Days": 0
+      },
+      "environments": {
+        "total": 0,
+        "production": 0,
+        "sandbox": 0
+      }
+    },
+    "designCenterMetrics": {
+      "total": 0,
+      "apiSpecs": 0,
+      "fragments": 0,
+      "flowDesignerApps": 0
+    },
+    "exchangeMetrics": {
+      "total": 0,
+      "apiSpecs": 0,
+      "fragments": 0,
+      "proxies": 0,
+      "soapApis": 0,
+      "policies": 0,
+      "mule3Connectors": 0,
+      "extensions": 0,
+      "applications": 0,
+      "custom": 0,
+      "overallSatisfaction": 0,
+      "reuse": {
+        "fragments": 0,
+        "implementedApis": 0,
+        "managedSboxApis": 0,
+        "managedProdApis": 0,
+        "extensions": 0,
+        "appliedPoliciesSbox": 0,
+        "appliedPoliciesProd": 0
+      }
+    },
+    "apiManagerMetrics": {
+      "clients": 0,
+      "apis": {
+        "production": {
+          "total": 0,
+          "active": 0,
+          "inactive": 0,
+          "apiInstances": 0,
+          "apiVersions": 0,
+          "apisWithPolicies": 0,
+          "apisWithoutPolicies": 0,
+          "apisWithSecurity": 0,
+          "apisWithoutSecurity": 0,
+          "apisWithContracts": 0,
+          "apisWithoutContracts": 0,
+          "apisWithMoreThanOneConsumer": 0,
+          "apisWithOneOrMoreConsumers": 0,
+          "contracts": 0,
+          "policiesUsed": [
+            
+          ],
+          "policiesUsedTotal": 0,
+          "automatedPoliciesUsed": [
+            
+          ],
+          "automatedPoliciesUsedTotal": 0,
+          "transactions": 0
+        },
+        "sandbox": {
+          "total": 0,
+          "active": 0,
+          "inactive": 0,
+          "apiInstances": 0,
+          "apiVersions": 0,
+          "apisWithPolicies": 0,
+          "apisWithoutPolicies": 0,
+          "apisWithSecurity": 0,
+          "apisWithoutSecurity": 0,
+          "apisWithContracts": 0,
+          "apisWithoutContracts": 0,
+          "apisWithMoreThanOneConsumer": 0,
+          "apisWithOneOrMoreConsumers": 0,
+          "contracts": 0,
+          "policiesUsed": [
+            
+          ],
+          "policiesUsedTotal": 0,
+          "automatedPoliciesUsed": [
+            
+          ],
+          "automatedPoliciesUsedTotal": 0,
+          "transactions": 0
+        }
+      }
+    },
+    "runtimeManagerMetrics": {
+      "cloudhub": {
+        "networking": {
+          "vpcsTotal": 0,
+          "vpcsAvailable": 0,
+          "vpcsUsed": 0,
+          "vpnsTotal": 0,
+          "vpnsAvailable": 0,
+          "vpnsUsed": 0,
+          "dlbsTotal": 0,
+          "dlbsAvailable": 0,
+          "dlbsUsed": 0,
+          "staticIPsTotal": 0,
+          "staticIPsAvailable": 0,
+          "staticIPsUsed": 0
+        },
+        "applications": {
+          "production": {
+            "vcoresTotal": 0,
+            "vcoresAvailable": 0,
+            "vcoresUsed": 0,
+            "applicationsTotal": 0,
+            "applicationsStarted": 0,
+            "applicationsStopped": 0,
+            "runtimesUsed": [
+              
+            ],
+            "runtimesUsedTotal": 0
+          },
+          "sandbox": {
+            "vcoresTotal": 0,
+            "vcoresAvailable": 0,
+            "vcoresUsed": 0,
+            "applicationsTotal": 0,
+            "applicationsStarted": 0,
+            "applicationsStopped": 0,
+            "runtimesUsed": [
+              
+            ],
+            "runtimesUsedTotal": 0
+          }
+        }
+      },
+      "rtf": {
+        "capacity": {
+          "fabrics": 0,
+          "workers": 0,
+          "controllers": 0,
+          "coresTotal": 0,
+          "memoryTotal": 0,
+          "coresPerFabric": 0,
+          "memoryPerFabric": 0
+        },
+        "applications": {
+          "production": {
+            "coresUsed": 0,
+            "coresReserved": 0,
+            "memoryUsed": 0,
+            "applicationsTotal": 0,
+            "applicationsStarted": 0,
+            "applicationsStopped": 0,
+            "runtimesUsed": [
+              
+            ],
+            "runtimesUsedTotal": 0
+          },
+          "sandbox": {
+            "coresUsed": 0,
+            "coresReserved": 0,
+            "memoryUsed": 0,
+            "applicationsTotal": 0,
+            "applicationsStarted": 0,
+            "applicationsStopped": 0,
+            "runtimesUsed": [
+              
+            ],
+            "runtimesUsedTotal": 0
+          }
+        }
+      },
+      "hybrid": {
+        "production": {
+          "servers": 0,
+          "clusters": 0,
+          "serverGroups": 0,
+          "applicationsTotal": 0,
+          "applicationsStarted": 0,
+          "applicationsStopped": 0,
+          "runtimesUsed": [
+            
+          ],
+          "runtimesUsedTotal": 0
+        },
+        "sandbox": {
+          "servers": 0,
+          "clusters": 0,
+          "serverGroups": 0,
+          "applicationsTotal": 0,
+          "applicationsStarted": 0,
+          "applicationsStopped": 0,
+          "runtimesUsed": [
+            
+          ],
+          "runtimesUsedTotal": 0
+        }
+      }
+    },
+    "errors": [
+      ""
+    ]
+  }
+]
