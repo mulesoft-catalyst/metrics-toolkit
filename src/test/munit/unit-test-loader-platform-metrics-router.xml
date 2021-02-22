@@ -447,7 +447,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</munit:validation>
 	</munit:test>
 	
-	<munit:test name="loader-platform-metrics-router-csv-test" doc:id="73e4478f-5c91-4773-baf3-77b8f1ea40ad" description="Test" ignore="true">
+	<munit:test name="z-loader-platform-metrics-router-csv-test" doc:id="73e4478f-5c91-4773-baf3-77b8f1ea40ad" description="Test">
 		<munit:execution >
 			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/loaders/response-loader-csv-payload-example.csv')]" doc:name="Set Expected Response Payload" doc:id="e910a5f0-0535-4ba7-8add-1b9a06b9f923" variableName="expectedCsvResponse" mimeType="application/csv"/>
 			<ee:transform doc:name="Mock Attributes and Payload" doc:id="1f135daa-7cd4-43e4-bda3-30ec6d2cd55c" >
@@ -475,7 +475,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="3b9c510e-266e-4516-9c1f-5d2c59e81ff1" name="post:\platform-metrics\load:api-config"/>
 		</munit:execution>
 		<munit:validation >
-			<logger level="INFO" doc:name="Logger" doc:id="e5ed0abc-bef5-4262-aa8d-512b3aeece5f" message="#[payload]"/>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="a6b8b3f1-aa58-4984-a58b-47ef54dff2aa" expression='#[payload map ($ - "date")]' is='#[MunitTools::equalTo(vars.expectedJsonResponse map ($ - "date"))]' message="The response payload is not the expected" />
 		</munit:validation>
 	</munit:test>
