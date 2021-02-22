@@ -78,7 +78,7 @@
       						<ignoreFlow>api-console</ignoreFlow>
       						<ignoreFlow>web-main</ignoreFlow>
       						
-      						<!-- Ignoring the following flow 2 flows since they were never implemented properly, 
+      						<!-- Ignoring the following 2 flows since they were never implemented properly, 
       						they are not currently used but keeping them for future enhancements -->
       						<ignoreFlow>loader-sdlc-flow</ignoreFlow>
       						<ignoreFlow>loader-sdlc-splunk-hec-main-flow</ignoreFlow>
