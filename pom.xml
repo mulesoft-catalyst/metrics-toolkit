@@ -73,7 +73,7 @@
 						</formats>
 						<ignoreFlows>
 							<!-- Ignoring the entry points, main listener, console, 
-							embedded dashboard listener and poller -->     						
+							embedded dashboard listener -->     						
       						<ignoreFlow>api-main</ignoreFlow>
       						<ignoreFlow>api-console</ignoreFlow>
       						<ignoreFlow>web-main</ignoreFlow>
