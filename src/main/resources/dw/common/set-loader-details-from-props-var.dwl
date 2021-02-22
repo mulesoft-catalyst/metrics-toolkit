@@ -17,7 +17,7 @@ var strategy = p('loader.strategy')
 			sourceType: p('splunk.source.type')
   		}
   		case "tableau" -> tableau: {
-  			path: p('tableau.path')
+  			outputDir: p('tableau.outputDir')
   		}
   		case "elk" -> elk: {
   			host: p('elk.host'),

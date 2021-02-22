@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<munit:config name="unit-test-aggregator-platform-metrics-errors.xml" />
+	<munit:before-test name="unit-test-aggregator-platform-metrics-errors-before-test" doc:id="558df002-52bc-4ac5-aacd-cbf1bff48c7f" >
+			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-payload-with-errors-example.json')]" doc:name="Set Expected Response Payload" doc:id="4c267c4a-708e-4848-aa4d-f98e3d90df41" variableName="expectedResponse" mimeType="application/json" />
+			<munit-tools:mock-when doc:name="Mock when POST login request" doc:id="deff6d19-8617-4eef-a863-9ac670f3d3ec"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Post Login Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload
+						value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/coreservices/post-login-response.json')]" />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get Hierarchy Request" doc:id="9502bff0-9753-485a-9da9-7927778eb399"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Hierarchy Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload
+						value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/coreservices/get-hierarchy-response.json')]"
+						mediaType="application/json" />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get Environments Request" doc:id="3b223d6b-160b-4e69-853b-ef60ef3a0f0d"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Environments Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload
+						value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/coreservices/get-environments-response.json')]"
+						mediaType="application/json" />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get Applications Request" doc:id="6ae4cda6-878a-47f2-8c94-4cdb17ab0cac"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Applications Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get Assets Request" doc:id="27443ebc-d6f0-4950-bb51-94739803750a"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Assets" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get Asset Dependencies Request"
+				doc:id="7027cdf2-33ec-4eef-9153-970d67069d7c" processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Asset Dependencies" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get APIs Request" doc:id="59efd23c-c451-4969-87ca-23a036308e4e"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get APIs Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get API Policies Request" doc:id="25cc4689-b4b2-4ab7-af2a-a296e8ed2353"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get API Policies Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get Members Request" doc:id="0fd941a8-9458-45ab-a549-aa3de51a455e"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Members Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get Usage Request" doc:id="2ffcf575-4c49-4626-89a7-3b49ba9f775a"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Usage Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get Projects Request" doc:id="92c63a18-371d-4220-8f3f-1b24240ce780"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Projects Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get Initial API Clients Request" doc:id="b728aacd-1c92-45bb-bbae-b4677e25fea7"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Initial API Clients Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get Additional API Clients Request" doc:id="40df04f6-f6e3-405c-89d8-3ec3701a11c8"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Additional API Clients Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get API Manager Automated Policies Request"
+				doc:id="25e484e5-32fa-49e2-9983-1e04fdd42092" processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Automated Policies Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when ARM Get Deployments Request"
+				doc:id="eb75a9f6-821d-4816-aa36-ebfd6448d24d" processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Deployments Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when ARM Get Deployment Details"
+				doc:id="a5f4c225-daa0-458e-82b6-740252e401a2" processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Deployment Details Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when ARM Get Servers" doc:id="2b5e0ed9-0518-4625-979b-911d689517cd"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Servers Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when ARM Get Clusters" doc:id="96b80bbe-1e75-42c2-a4be-c4e291a2d5d3"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Clusters Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when ARM Get Server Groups" doc:id="14227fa3-c5e7-420b-8ef6-026dd0a8b5d9"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Clusters Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when RTF Get Fabrics Request" doc:id="69cff7bf-8f92-4a32-9a24-1f9c33ce6c2e"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Fabrics Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get Analytics Events" doc:id="8143626a-4c1a-416e-9111-1cdda429b367"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Analytics Enriched Data Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get MQ Regions" doc:id="c70db7fe-61a4-4c3f-bd0a-ca0b0b576ce4"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Regions Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get MQ Destinations" doc:id="10db8ad0-755f-40fd-9b52-0e2757452430" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get Destinations Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get MQ Queue Stats" doc:id="9349cd19-f57e-4ba9-86d8-e84859126a8b" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get Queue Stats Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get MQ Exchange Stats" doc:id="1fa46281-f0ca-4f2b-b0fe-1ac25b11a8a0" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get Exchange Stats Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get RoleGroups" doc:id="5e7de0b4-c26a-496e-842e-c1e08215a9c4" processor="http:request" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get RoleGroups Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+					
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+	</munit:before-test>
+	<munit:after-test name="unit-test-aggregator-platform-metrics-errors-after-test" doc:id="d6a0610d-2cf2-4841-bffc-b15d1abd1ed2" >
+		<remove-variable doc:name="Remove Variable" doc:id="d35092c1-87d9-44ae-a7f8-f4ab38c37e22" variableName="expectedResponse"/>
+	</munit:after-test>
+	<munit:test name="unit-test-aggregator-platform-metrics-errors-test" doc:id="10bb476e-e48f-417d-8c95-d699fdf8bbc2" description="Test">
+		<munit:execution >
+			<ee:transform doc:name="Set Mocked Attributes" doc:id="5ce998a4-7d6f-41fd-91de-a8b0d9fbadf3" >
+				<ee:message >
+					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
+				</ee:message>
+			</ee:transform>
+			<flow-ref doc:name="Flow-ref to get:\platform-metrics:api-config" doc:id="dcc7d79b-dba8-4939-b541-ded681f566e8" name="get:\platform-metrics:api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="697a1e72-fc73-44a9-a51c-2bb32ca5db82" expression='#[payload map ($ - "date")]' is='#[MunitTools::equalTo(vars.expectedResponse map ($ - "date"))]' message="The response payload is not the expected" />
+		</munit:validation>
+	</munit:test>
+	
+	<munit:test name="unit-test-aggregator-platform-metrics-environment-errors-test" doc:id="f856a16c-a79b-469f-ab92-362462e6ef36" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when Get Environments Request" doc:id="e5e67d72-a986-4aac-88c1-7a08c2818050"
+				processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Environments Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[null]" />
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-payload-empty-metrics.json')]" doc:name="Set Expected Response Payload" doc:id="a05718e0-b7f3-43f2-9dba-d7f007f1b7f4" variableName="expectedResponse" mimeType="application/json" />
+			<ee:transform doc:name="Set Mocked Attributes" doc:id="d47b658a-7f06-4e9f-8065-ea6eeaf9d579" >
+				<ee:message >
+					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
+				</ee:message>
+			</ee:transform>
+			<flow-ref doc:name="Flow-ref to get:\platform-metrics:api-config" doc:id="e32223d6-1049-4265-bded-f2bd40dbfecd" name="get:\platform-metrics:api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="198ee48a-61f4-4baa-be23-c7c0c2d05840" expression='#[payload map ($ - "date")]' is='#[MunitTools::equalTo(vars.expectedResponse map ($ - "date"))]' message="The response payload is not the expected" />
+		</munit:validation>
+	</munit:test>
+
+</mule>
