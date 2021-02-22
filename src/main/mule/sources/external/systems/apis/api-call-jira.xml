@@ -37,7 +37,7 @@ output application/json
 vars.outputPayload default [] ++ payload.issues]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
-				<set-variable value="#[output application/java --- if(sizeOf(payload.issues)&gt;0) vars.counter else 0]" doc:name="Update Counter" doc:id="e9cdb6dd-932f-47d7-9818-ec116fb4d41e" variableName="counter" />
+				<set-variable value="#[output application/java --- if(sizeOf(payload.issues)&gt;0) 0 else vars.counter]" doc:name="Update Counter" doc:id="e9cdb6dd-932f-47d7-9818-ec116fb4d41e" variableName="counter" />
 				<set-variable value="#[output application/java --- p('sdlc.jira.path') ++ &quot;&amp;startAt=&quot; ++ payload.startAt + payload.maxResults]" doc:name="Update Path" doc:id="55a39139-eb43-424d-bd6e-fa78c721e5f0" variableName="path" />
 				<flow-ref doc:name="recursive-call-jira-metrics-stories-flow" doc:id="e6f26c02-e07c-49a5-af74-31a9376f0e27" name="recursive-call-jira-metrics-stories-flow" />
 			</when>

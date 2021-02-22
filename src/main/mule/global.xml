@@ -1,77 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
-	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" 
+    xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd 
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
 http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
 http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
-
+	
 	<global-property doc:name="Global Property" doc:id="47ed1533-2eb8-42e1-8c09-f6e3731ced4d" name="mule.env" value="dev" />
-
 	<configuration-properties doc:name="Configuration properties" doc:id="da590b10-a1c1-4979-b015-102664b00221" file="properties/app-${mule.env}.yaml" />
 	<configuration-properties doc:name="Configuration properties" doc:id="31f41c53-3b9c-4d8a-8385-b799a45797b8" file="properties/app-common.yaml" />
-
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ef1c0e75-8dda-43df-a738-8d4ed076b92f">
 		<http:listener-connection host="0.0.0.0" port="${http.port}" />
 	</http:listener-config>
-
 	<ee:object-store-caching-strategy name="Caching_Strategy" doc:name="Caching Strategy" doc:id="b611514f-83b0-421a-84ae-34a1de9f18c7">
 		<os:private-object-store alias="cache-os" maxEntries="${cache.token.maxEntries}" entryTtl="${cache.token.ttl}"
 			expirationInterval="${cache.token.expirationInterval}" entryTtlUnit="MINUTES" />
 	</ee:object-store-caching-strategy>
-
 	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="531fbb42-a194-4a28-80ef-2489631cf60c" enableCookies="false" responseTimeout="${anypoint.platform.responseTimeout}">
 		<http:request-connection host="${anypoint.platform.host}" port="443" protocol="HTTPS" />
 	</http:request-config>
 	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="24678c25-10fb-4f47-941f-d16a779997c5" file="properties/secure/app-${mule.env}.yaml" key="${mule.key}"/>
 	<global-property doc:name="Global Property" doc:id="27925b96-0977-4ea5-b09e-e417f88b98d0" name="mule.key" value="thisshouldbeakey" />
-	
-		<http:request-config name="HTTP_Jenkins_Request_Config" doc:name="HTTP Jenkins Request configuration" doc:id="ab66b7d4-78fd-4b60-b746-fb2dfc764b60" >
-		<http:request-connection host="${sdlc.jenkins.host}" protocol="HTTPS" port="${sdlc.jenkins.port}">
-			<tls:context >
-				<tls:trust-store insecure="true" />
-			</tls:context>
-			<http:authentication >
-				<http:basic-authentication username="${secure::sdlc.jenkins.user}" password="${secure::sdlc.jenkins.token}" />
-			</http:authentication>
-		</http:request-connection>
-	</http:request-config>
-	
-	<http:request-config name="HTTP_Jira_Request_Config" doc:name="HTTP Jira Request configuration" doc:id="f61ea374-5193-4e95-b60a-e67b8768c663" >
-		<http:request-connection protocol="HTTPS" host="${sdlc.jira.host}" port="${sdlc.jira.port}" >
-			<http:authentication >
-				<http:basic-authentication username="${secure::sdlc.jira.user}" password="${secure::sdlc.jira.token}" />
-			</http:authentication>
-		</http:request-connection>
-	</http:request-config>
-	
-	<http:request-config name="HTTP_Bitbucket_Request_Config" doc:name="HTTP Bitbucket Request configuration" doc:id="39eff687-0cd5-4c45-bc18-b29bf456fb7a" >
-		<http:request-connection protocol="HTTPS" host="${sdlc.bitbucket.host}" port="${sdlc.bitbucket.port}" >
-			<http:authentication >
-				<http:basic-authentication username="${secure::sdlc.bitbucket.user}" password="${secure::sdlc.bitbucket.token}" />
-			</http:authentication>
-		</http:request-connection>
-	</http:request-config>
-	
-	<http:request-config name="HTTP_Confluence_Request_Config" doc:name="HTTP Confluence Request configuration" doc:id="43ec4ee0-455b-4483-8b45-788111713899" >
-		<http:request-connection protocol="HTTPS" host="${sdlc.confluence.host}" port="${sdlc.confluence.port}" >
-			<http:authentication >
-				<http:basic-authentication username="${secure::sdlc.confluence.user}" password="${secure::sdlc.confluence.token}" />
-			</http:authentication>
-		</http:request-connection>
-	</http:request-config>
-	
-	<http:request-config name="HTTP_Splunk_Request_Config" doc:name="HTTP Splunk Request configuration" doc:id="ffe0e333-17e9-44b0-ae53-8972341232f1" >
-		<http:request-connection protocol="HTTPS" host="${sdlc.splunk.host}" port="${sdlc.splunk.port}" >
-			<tls:context >
-				<tls:trust-store insecure="true" />
-			</tls:context>
-			<http:authentication >
-				<http:basic-authentication username="${secure::sdlc.splunk.user}" password="${secure::sdlc.splunk.password}" />
-			</http:authentication>
-		</http:request-connection>
-	</http:request-config>
 </mule>
