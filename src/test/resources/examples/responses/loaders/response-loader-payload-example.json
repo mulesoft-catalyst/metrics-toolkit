@@ -1,0 +1,11 @@
+{
+  "message": "Events loaded successfully",
+  "errors": [
+    {
+      "businessGroup": "Fantasy Company",
+      "errors": [
+        
+      ]
+    }
+  ]
+}

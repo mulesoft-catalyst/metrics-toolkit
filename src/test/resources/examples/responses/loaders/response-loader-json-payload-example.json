@@ -1,0 +1,1154 @@
+[
+  {
+    "name": "Users Total",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Access Management",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Active Users",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Access Management",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Inactive Users",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Access Management",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Active Users Last 60 days",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Access Management",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Active Users Last 30 days",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Access Management",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Environments Total",
+    "value": 4,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Access Management",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Environments Production Total",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Access Management",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Environments Sandbox Total",
+    "value": 3,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Access Management",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Design Center Assets Total",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Design Center",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Design Center API Specs Total",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Design Center",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Design Center Fragments Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Design Center",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Design Center Flow Designer Apps Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Design Center",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Exchange Assets Total",
+    "value": 3,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Exchange",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Exchange API Specs Total",
+    "value": 2,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Exchange",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Exchange Connectors Total",
+    "value": null,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Exchange",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Exchange Fragments Total",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Exchange",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Exchange HTTP Proxies Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Exchange",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Exchange Extensions Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Exchange",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Exchange Custom Assets Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Exchange",
+    "environmentType": "NA"
+  },
+  {
+    "name": "Exchange Overall Satisfaction",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Exchange",
+    "environmentType": "NA"
+  },
+  {
+    "name": "API Manager Client Applications Total",
+    "value": 4,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "NA"
+  },
+  {
+    "name": "API Manager API Specs Managed Total",
+    "value": 2,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager API Instances Total",
+    "value": 4,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager API Instances Active Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager API Instances Inactive Total",
+    "value": 4,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager API Instances Versions Total",
+    "value": 2,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager API Instances With Policies Total",
+    "value": 4,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager API Instances Without Policies Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager API Instances With Security Policies Total",
+    "value": 4,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager API Instances Without Security Policies Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager API Instances With Contracts Total",
+    "value": 4,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager API Instances Without Contracts Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager API Instances With More Than One Consumer Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager API Instances With One or More Consumers Total",
+    "value": 4,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager API Contracts Total",
+    "value": 4,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager Policies Used",
+    "value": "client-id-enforcement",
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager Policies Used Total",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager Automated Policies Used",
+    "value": "",
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager Automated Policies Used Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Analytics Transactions Last 30 days Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Analytics",
+    "environmentType": "Production"
+  },
+  {
+    "name": "API Manager API Specs Managed Total",
+    "value": 6,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager API Instances Total",
+    "value": 12,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager API Instances Active Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager API Instances Inactive Total",
+    "value": 12,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager API Instances Versions Total",
+    "value": 2,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager API Instances With Policies Total",
+    "value": 12,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager API Instances Without Policies Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager API Instances With Security Policies Total",
+    "value": 12,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager API Instances Without Security Policies Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager API Instances With Contracts Total",
+    "value": 12,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager API Instances Without Contracts Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager API Instances With More Than One Consumer Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager API Instances With One or More Consumers Total",
+    "value": 12,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager API Contracts Total",
+    "value": 12,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager Policies Used",
+    "value": "client-id-enforcement",
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager Policies Used Total",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager Automated Policies Used",
+    "value": "",
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Manager Automated Policies Used Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Manager",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "API Analytics Transactions Last 30 days Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "API Analytics",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "CloudHub VPCs Total",
+    "value": 4,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "NA"
+  },
+  {
+    "name": "CloudHub VPCs Available Total",
+    "value": 2,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "NA"
+  },
+  {
+    "name": "CloudHub VPCs Used Total",
+    "value": 2,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "NA"
+  },
+  {
+    "name": "CloudHub VPNs Total",
+    "value": 6,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "NA"
+  },
+  {
+    "name": "CloudHub VPNs Available Total",
+    "value": 2,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "NA"
+  },
+  {
+    "name": "CloudHub VPNs Used Total",
+    "value": 4,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "NA"
+  },
+  {
+    "name": "CloudHub DLBs Total",
+    "value": 4,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "NA"
+  },
+  {
+    "name": "CloudHub DLBs Available Total",
+    "value": 2,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "NA"
+  },
+  {
+    "name": "CloudHub DLBs Used Total",
+    "value": 2,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "NA"
+  },
+  {
+    "name": "CloudHub Static IPs Total",
+    "value": 26,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "NA"
+  },
+  {
+    "name": "CloudHub Static IPs Available Total",
+    "value": 5,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "NA"
+  },
+  {
+    "name": "CloudHub Static IPs Used Total",
+    "value": 21,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "NA"
+  },
+  {
+    "name": "CloudHub vCores Total",
+    "value": 13,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "Production"
+  },
+  {
+    "name": "CloudHub vCores Available Total",
+    "value": 12.9,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "Production"
+  },
+  {
+    "name": "CloudHub vCores Used Total",
+    "value": 0.1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "Production"
+  },
+  {
+    "name": "CloudHub Applications Total",
+    "value": 2,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "Production"
+  },
+  {
+    "name": "CloudHub Applications Started Total",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "Production"
+  },
+  {
+    "name": "CloudHub Applications Stopped Total",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "Production"
+  },
+  {
+    "name": "CloudHub Runtime Versions Used",
+    "value": "4.1.5 4.2.1",
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "Production"
+  },
+  {
+    "name": "CloudHub Runtime Versions Used Total",
+    "value": null,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "Production"
+  },
+  {
+    "name": "CloudHub vCores Total",
+    "value": 47,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "CloudHub vCores Available Total",
+    "value": 46.7,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "CloudHub vCores Used Total",
+    "value": 0.3,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "CloudHub Applications Total",
+    "value": 6,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "CloudHub Applications Started Total",
+    "value": 3,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "CloudHub Applications Stopped Total",
+    "value": 3,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "CloudHub Runtime Versions Used",
+    "value": "4.1.5 4.2.1",
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "CloudHub Runtime Versions Used Total",
+    "value": 2,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - CloudHub",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "RTF Fabrics Total",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "NA"
+  },
+  {
+    "name": "RTF Workers Total",
+    "value": 3,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "NA"
+  },
+  {
+    "name": "RTF Controllers Total",
+    "value": 3,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "NA"
+  },
+  {
+    "name": "RTF Cores Total",
+    "value": 16.65,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "NA"
+  },
+  {
+    "name": "RTF Memory Total",
+    "value": 94.476,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "NA"
+  },
+  {
+    "name": "RTF Cores Per Fabric Average",
+    "value": 16.65,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "NA"
+  },
+  {
+    "name": "RTF Memory Per Fabric Average",
+    "value": 94.476,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "NA"
+  },
+  {
+    "name": "RTF Cores Used Total",
+    "value": null,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "Production"
+  },
+  {
+    "name": "RTF Cores Reserved Total",
+    "value": 0.4,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "Production"
+  },
+  {
+    "name": "RTF Memory Used Total",
+    "value": null,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "Production"
+  },
+  {
+    "name": "RTF Applications Total",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "Production"
+  },
+  {
+    "name": "RTF Applications Started Total",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "Production"
+  },
+  {
+    "name": "RTF Applications Stopped Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "Production"
+  },
+  {
+    "name": "RTF Runtime Versions Used",
+    "value": "4.2.1:v1.2.19",
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "Production"
+  },
+  {
+    "name": "RTF Runtime Versions Used Total",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "Production"
+  },
+  {
+    "name": "RTF Cores Used Total",
+    "value": null,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "RTF Cores Reserved Total",
+    "value": 1.2,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "RTF Memory Used Total",
+    "value": null,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "RTF Applications Total",
+    "value": 3,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "RTF Applications Started Total",
+    "value": 3,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "RTF Applications Stopped Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "RTF Runtime Versions Used",
+    "value": "4.2.1:v1.2.19",
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "RTF Runtime Versions Used Total",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - RTF",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Standalone Mule Servers Total",
+    "value": 4,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - ARM",
+    "environmentType": "Production"
+  },
+  {
+    "name": "Standalone Mule Clusters Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - ARM",
+    "environmentType": "Production"
+  },
+  {
+    "name": "Standalone Mule Server Groups Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - ARM",
+    "environmentType": "Production"
+  },
+  {
+    "name": "Standalone Mule Applications Total",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - ARM",
+    "environmentType": "Production"
+  },
+  {
+    "name": "Standalone Mule Applications Started Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - ARM",
+    "environmentType": "Production"
+  },
+  {
+    "name": "Standalone Mule Applications Stopped Total",
+    "value": 1,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - ARM",
+    "environmentType": "Production"
+  },
+  {
+    "name": "Standalone Mule Runtime Versions",
+    "value": "4.2.0 4.1.4 4.1.5",
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - ARM",
+    "environmentType": "Production"
+  },
+  {
+    "name": "Standalone Mule Runtime Versions Total",
+    "value": 3,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - ARM",
+    "environmentType": "Production"
+  },
+  {
+    "name": "Standalone Mule Servers Total",
+    "value": 12,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - ARM",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Standalone Mule Clusters Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - ARM",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Standalone Mule Server Groups Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - ARM",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Standalone Mule Applications Total",
+    "value": 3,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - ARM",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Standalone Mule Applications Started Total",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - ARM",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Standalone Mule Applications Stopped Total",
+    "value": 3,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - ARM",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Standalone Mule Runtime Versions",
+    "value": "4.2.0 4.1.4 4.1.5",
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - ARM",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Standalone Mule Runtime Versions Total",
+    "value": 3,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Runtime Manager - ARM",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Total Queues",
+    "value": 21,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Total FIFO Queues",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Total Exchanges",
+    "value": null,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Queues - Total Messages Sent",
+    "value": 2058,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Queues - Total Messages Received",
+    "value": 2058,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Queues - Total Messages ACK",
+    "value": 2058,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Queues - Total Messages In Flight",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Exchanges - Total Messages Published",
+    "value": 1008,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Exchanges - Total Messages Delivered",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Total Queues",
+    "value": 7,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Production"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Total FIFO Queues",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Production"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Total Exchanges",
+    "value": null,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Production"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Queues - Total Messages Sent",
+    "value": 686,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Production"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Queues - Total Messages Received",
+    "value": 686,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Production"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Queues - Total Messages ACK",
+    "value": 686,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Production"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Queues - Total Messages In Flight",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Production"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Exchanges - Total Messages Published",
+    "value": 336,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Production"
+  },
+  {
+    "name": "Anypoint MQ - Summary - Exchanges - Total Messages Delivered",
+    "value": 0,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-21T23:02:29.563-08:00",
+    "group": "Anypoint MQ",
+    "environmentType": "Production"
+  }
+]

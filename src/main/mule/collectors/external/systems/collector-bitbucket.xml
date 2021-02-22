@@ -15,7 +15,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	</http:request-config>
 	<flow name="collector-bitbucket-metrics-flow" doc:id="9c738c99-3e9c-46ac-a3a6-1944640f0cb0">
 		<choice doc:name="Choice" doc:id="b20a44d7-1115-4fc9-ac60-942a567a3456" >
-			<when expression="#[p('sdlc.bitbucket.enabled') == &quot;true&quot;]">
+			<when expression='#[vars.sdlcDetails.bitbucket.enabled == "true"]'>
 				<flow-ref doc:name="api-call-bitbucket-app-flow" doc:id="0e7895e6-7894-418e-8d0d-8b1203a586f0" name="api-call-bitbucket-app-flow" />
 			</when>
 			<otherwise >

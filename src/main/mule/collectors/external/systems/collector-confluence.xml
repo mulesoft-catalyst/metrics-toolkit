@@ -16,7 +16,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</http:request-config>
 	<flow name="collector-confluence-metrics-flow" doc:id="2eb78f1c-917e-4f91-a345-e305670e7963">
 		<choice doc:name="Choice" doc:id="8a567c3a-7fd2-448e-ae59-5f3b519e3ef2" >
-			<when expression="#[p('sdlc.confluence.enabled') == &quot;true&quot;]">
+			<when expression='#[vars.sdlcDetails.confluence.enabled == "true"]'>
 				<flow-ref doc:name="api-call-confluence-apps-flow" doc:id="38122f36-b606-4052-9d67-f2853edc73aa" name="api-call-confluence-apps-flow" />
 			</when>
 			<otherwise >

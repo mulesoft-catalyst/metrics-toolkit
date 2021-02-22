@@ -1,0 +1,99 @@
+{
+   "applications":[
+      {
+         "audit":{
+            "created":{
+
+            },
+            "updated":{
+
+            }
+         },
+         "masterOrganizationId": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+         "id":251162,
+         "name":"test-client",
+         "description":null,
+         "coreServicesId":"1c9a2f8b035a4ad6a02b145645998071",
+         "url":null,
+         "clientId":"1c9a2f8b035a4ad6a02c145645998071",
+         "clientSecret":"4151D01B73544055bbAdc2ACB9Da88c9",
+         "grantTypes":[
+
+         ],
+         "redirectUri":[
+
+         ],
+         "owner":"Max Themule",
+         "email":"Max.Themule@mulesoft.com",
+         "owners":[
+            {
+               "id":"8c153e19-1373-4480-bf17-6ccfdc0b3eee",
+               "createdAt":"2018-04-10T18:24:12.978Z",
+               "updatedAt":"2019-12-09T19:09:36.742Z",
+               "organizationId":"977baaaa-36ba-4021-84d5-45bae78e0ee2",
+               "firstName":"Max",
+               "lastName":"Themule",
+               "email": "Max.Themule@mulesoft.com",
+               "phoneNumber":"111-111-1111",
+               "idprovider_id":"https://sts.windows.net/ce6ec000-1cfa-49c2-a24f-7db63c8a9a52/:example-company-with-sso.anypoint.mulesoft.com",
+               "username":"mthemule",
+               "enabled":true,
+               "deleted":false,
+               "lastLogin":"2019-12-09T19:09:00.000Z",
+               "type":"host",
+               "roles":[
+                  "cc43e20e-c04b-4c86-a29e-49ac7e7f8b58"
+               ]
+            }
+         ]
+      },
+      {
+         "audit":{
+            "created":{
+
+            },
+            "updated":{
+
+            }
+         },
+         "masterOrganizationId":"877baaaa-36ba-4021-82d5-45bae78e0fe2",
+         "id":260248,
+         "name":"proc-emp-lifecycleevent-sub-api-tst",
+         "description":null,
+         "coreServicesId":"f1fe88f87c104fdeab417dffe776d1b0",
+         "url":null,
+         "clientId":"f1fe88f87c104fdeab417dffe776d1b0",
+         "clientSecret":"68357F81c8364582a15d16afDbaf5CB0",
+         "grantTypes":[
+
+         ],
+         "redirectUri":[
+
+         ],
+         "owner":"Max Themule",
+         "email":"Max.Themule@mulesoft.com",
+         "owners":[
+            {
+               "id":"8c153e19-1373-4480-bf17-6ccfdc0b3eee",
+               "createdAt":"2018-04-10T18:24:12.978Z",
+               "updatedAt":"2019-12-09T19:09:36.742Z",
+               "organizationId":"977baaaa-36ba-4021-84d5-45bae78e0ee2",
+               "firstName":"Max",
+               "lastName":"Themule",
+               "email":"Max.Themule@mulesoft.com",
+               "phoneNumber":"111-111-1111",
+               "idprovider_id":"https://sts.windows.net/ce6ec000-1cfa-49c2-a24f-7db63c8a9a52/:example-company-with-sso.anypoint.mulesoft.com",
+               "username":"mthemule",
+               "enabled":true,
+               "deleted":false,
+               "lastLogin":"2019-12-09T19:09:00.000Z",
+               "type":"host",
+               "roles":[
+                  "cc43e20e-c04b-4c86-a29e-49ac7e7f8b58"
+               ]
+            }
+         ]
+      }
+   ],
+   "total":263
+}
