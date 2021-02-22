@@ -49,24 +49,24 @@
       "clients": 0,
       "apis": {
         "production": {
-          "total": 0,
+          "total": 2,
           "active": 0,
-          "inactive": 0,
-          "apiInstances": 0,
-          "apiVersions": 0,
-          "apisWithPolicies": 0,
+          "inactive": 4,
+          "apiInstances": 4,
+          "apiVersions": 2,
+          "apisWithPolicies": 4,
           "apisWithoutPolicies": 0,
-          "apisWithSecurity": 0,
+          "apisWithSecurity": 4,
           "apisWithoutSecurity": 0,
-          "apisWithContracts": 0,
+          "apisWithContracts": 4,
           "apisWithoutContracts": 0,
           "apisWithMoreThanOneConsumer": 0,
-          "apisWithOneOrMoreConsumers": 0,
-          "contracts": 0,
+          "apisWithOneOrMoreConsumers": 4,
+          "contracts": 4,
           "policiesUsed": [
-            
+            "client-id-enforcement"
           ],
-          "policiesUsedTotal": 0,
+          "policiesUsedTotal": 1,
           "automatedPoliciesUsed": [
             
           ],
@@ -74,24 +74,24 @@
           "transactions": 0
         },
         "sandbox": {
-          "total": 0,
+          "total": 6,
           "active": 0,
-          "inactive": 0,
-          "apiInstances": 0,
-          "apiVersions": 0,
-          "apisWithPolicies": 0,
+          "inactive": 12,
+          "apiInstances": 12,
+          "apiVersions": 2,
+          "apisWithPolicies": 12,
           "apisWithoutPolicies": 0,
-          "apisWithSecurity": 0,
+          "apisWithSecurity": 12,
           "apisWithoutSecurity": 0,
-          "apisWithContracts": 0,
+          "apisWithContracts": 12,
           "apisWithoutContracts": 0,
           "apisWithMoreThanOneConsumer": 0,
-          "apisWithOneOrMoreConsumers": 0,
-          "contracts": 0,
+          "apisWithOneOrMoreConsumers": 12,
+          "contracts": 12,
           "policiesUsed": [
-            
+            "client-id-enforcement"
           ],
-          "policiesUsedTotal": 0,
+          "policiesUsedTotal": 1,
           "automatedPoliciesUsed": [
             
           ],
