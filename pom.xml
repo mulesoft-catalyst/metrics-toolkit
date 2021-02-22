@@ -71,6 +71,31 @@
 						<formats>
 							<format>html</format>
 						</formats>
+						<ignoreFlows>
+							<!-- Ignoring the entry points, main listener, console, 
+							embedded dashboard listener -->     						
+      						<ignoreFlow>api-main</ignoreFlow>
+      						<ignoreFlow>api-console</ignoreFlow>
+      						<ignoreFlow>web-main</ignoreFlow>
+      						
+      						<!-- Ignoring the following 2 flows since they were never implemented properly, 
+      						they are not currently used but keeping them for future enhancements -->
+      						<ignoreFlow>loader-sdlc-flow</ignoreFlow>
+      						<ignoreFlow>loader-sdlc-splunk-hec-main-flow</ignoreFlow>
+
+      						<!-- Ignoring the following 2 flows since they are not used by ARM aggregations (ARM v2 is used instead), 
+      						keeping for reference but both will be removed in the future -->
+      						<ignoreFlow>api-call-arm-apps-flow</ignoreFlow>
+      						<ignoreFlow>collector-arm-apps-metrics-parallel-flow</ignoreFlow>
+      						
+      						<!-- Ignoring roles groups since it is not used by default - keeping it for future improvements -->
+      						<ignoreFlow>collector-rolegroups-metrics</ignoreFlow>
+      						<ignoreFlow>api-call-coreservices-rolegroups</ignoreFlow>
+      						
+      						<!-- Ignoring the following flows since they are not used - keeping them as references -->
+      						<ignoreFlow>api-call-coreservices-login-cache-flow</ignoreFlow>
+      						<ignoreFlow>api-call-analytics-events-flow</ignoreFlow>
+  						</ignoreFlows> 						
 					</coverage>
 				</configuration>
 			</plugin>
