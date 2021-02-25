@@ -216,6 +216,21 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 							</otherwise>
 						</choice>
 					</route>
+					<route >
+						<choice doc:name="If collectors contains OSv2" doc:id="088c6587-0c35-49e8-abd2-ca81958c4222" >
+							<when expression='#[vars.collectors as Array contains "osv2"]'>
+								<flow-ref doc:name="Get OSv2 Metrics" doc:id="e2b27342-7e6f-46c8-bd35-41464b3130b7" name="collector-osv2-metrics-parallel-flow" />
+							</when>
+							<otherwise >
+								<logger level="INFO" doc:name="Log - No OSv2" doc:id="d8f6289f-0136-4804-94bb-17f21f829bf8" message="OSv2 Metrics won't be collected: collector not enabled or not supported for the platform deployment model or authentication mode." />
+								<ee:transform doc:name="Set Null Response" doc:id="8039cd3b-cc2b-4450-98b1-20edba578404" >
+									<ee:message >
+										<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
+									</ee:message>
+								</ee:transform>
+							</otherwise>
+						</choice>
+					</route>
 				</scatter-gather>
 				<choice doc:name="If rawData is needed" doc:id="a97772ac-5115-4717-ab5e-333822e3841b">
 					<when expression="#[vars.rawData]">

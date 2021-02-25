@@ -309,6 +309,15 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit-tools:attributes value='#[{"statusCode": 200}]' />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
+		<munit-tools:mock-when doc:name="Mock when Get OSv2 Request" doc:id="8a60d023-8c85-4140-9b87-94b07b7a15de" processor="http:request">
+			<munit-tools:with-attributes >
+				<munit-tools:with-attribute whereValue="Get OSv2 Stats Request" attributeName="doc:name" />
+			</munit-tools:with-attributes>
+			<munit-tools:then-return >
+				<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/osv2/get-osv2-stats-response.json')]" mediaType="application/json" />
+				<munit-tools:attributes value='#[{"statusCode": 200}]' />
+			</munit-tools:then-return>
+		</munit-tools:mock-when>
 	</munit:before-test>
 	
 	<munit:after-test name="unit-test-aggregator-platform-metrics-after-test" doc:id="124052b8-a14e-4301-a454-624d44e3a99f" >
