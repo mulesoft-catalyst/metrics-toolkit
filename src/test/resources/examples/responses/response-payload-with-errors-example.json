@@ -257,6 +257,16 @@
         }
       }
     },
+    "osV2Metrics": {
+      "stats": {
+        "production": {
+          "requestCount": 0
+        },
+        "sandbox": {
+          "requestCount": 0
+        }
+      }
+    },
     "errors": [
       "Exception(s) were found for route(s): \n\t0: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t1: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t2: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t3: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: ",
       [

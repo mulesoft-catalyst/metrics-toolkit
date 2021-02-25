@@ -1150,5 +1150,21 @@
     "date": "2021-02-21T23:02:29.563-08:00",
     "group": "Anypoint MQ",
     "environmentType": "Production"
+  },
+  {
+    "name": "OSv2 - Request count",
+    "value": 312081,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-24T11:05:06.356489-03:00",
+    "group": "ObjectStore V2",
+    "environmentType": "Sandbox"
+  },
+  {
+    "name": "OSv2 - Request count",
+    "value": 104027,
+    "businessGroup": "Fantasy Company",
+    "date": "2021-02-24T11:05:06.356489-03:00",
+    "group": "ObjectStore V2",
+    "environmentType": "Production"
   }
 ]
