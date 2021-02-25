@@ -340,9 +340,12 @@ splunk.port | HEC port | 8088
 splunk.protocol | HEC endpoint protocol: HTTPS or HTTP | HTTP
 splunk.token | HEC token  |
 splunk.source | HEC source | metrics-source
-splunk.source.type | Source Type | _json
+splunk.source.type | Source Type | _json (*)
 splunk.index.metrics | Index for storing Platform operational metrics | metrics
 splunk.index.benefits | Index for storing Platform benefits | platform_benefits
+
+
+> (*): Please note that by default, "Source Types" are created with a limit of 3000 characters. It is very likely that the Metrics Accelerator JSON event exceeds this limit. In order to solve that, you need to add a new property "TRUNCATE" in the Advanced configuration of the specific Source Type. For example: TRUNCATE = 10000 
 
 ### ELK steps
 

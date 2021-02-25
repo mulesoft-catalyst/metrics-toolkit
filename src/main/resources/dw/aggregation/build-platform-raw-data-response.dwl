@@ -25,6 +25,7 @@ var armServerGroups = payload[7].payload[3].payload.payload
 var rtf = payload[8].payload
 var analyticsQueryResult = payload[9].payload.payload
 var mq = payload[10].payload.payload
+var osv2 = payload[11].payload.payload
 ---
 {
 	date: date,
@@ -55,5 +56,6 @@ var mq = payload[10].payload.payload
 		armServerGroups: armServerGroups
 	},
 	mqMetrics: mq,
+	osV2Metrics: osv2,
 	errors: errors		
 }
