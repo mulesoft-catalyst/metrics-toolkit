@@ -1,6 +1,6 @@
 [
   {
-  	"date": "2020-11-23T16:09:20.206-03:00",
+    "date": "2020-11-23T16:09:20.206-03:00",
     "businessGroup": "Fantasy Company",
     "businessGroupId": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
     "coreServicesMetrics": {
@@ -273,7 +273,13 @@
         "'until-successful' retries exhausted. Last exception message was: "
       ],
       [
-        "Exception(s) were found for route(s): \n\t0: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t1: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t2: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t3: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: "
+        "Exception(s) were found for route(s): \n\t0: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t1: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t2: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t3: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: ",
+        [
+          ""
+        ],
+        [
+          "Exception(s) were found for route(s): \n\t0: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t1: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t2: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t3: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: "
+        ]
       ],
       [
         "",
@@ -283,12 +289,6 @@
       ],
       [
         ""
-      ],
-      [
-        ""
-      ],
-      [
-        "Exception(s) were found for route(s): \n\t0: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t1: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t2: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t3: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: "
       ],
       [
         "Exception(s) were found for route(s): \n\t0: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t1: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t2: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t3: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: ",
