@@ -20,6 +20,7 @@ var armServerGroups = if (payload[7].payload != null) payload[7].payload[3].payl
 var rtf = payload[8].payload default []
 var analyticsQueryResult = if (payload[9].payload != null) payload[9].payload.payload else null
 var mq = if (payload[10].payload != null) payload[10].payload.payload else null
+var osv2 = if (payload[11].payload != null) payload[11].payload.payload else null
 
 var RTF_TARGET_TYPE = 'MC'
 var RTF_MI = "Mi"
@@ -387,6 +388,12 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 				sandbox: (getSandboxData(mq)[0] default [])
 			}
 			
+		},
+	},
+	osV2Metrics: {
+		stats: {
+			production: { requestCount: sum(flatten(getProdData(osv2)).objectStoreRequestCount default [0])}, 
+			sandbox: { requestCount: sum(flatten(getSandboxData(osv2)).objectStoreRequestCount default [0])}
 		}
 	},
 	errors: errors	
