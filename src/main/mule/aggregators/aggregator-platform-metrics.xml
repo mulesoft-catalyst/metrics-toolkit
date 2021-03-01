@@ -4,8 +4,7 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd"
->
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
 	<flow name="aggregator-platform-metrics-master-flow" doc:id="b44a5537-b4b2-48d6-be10-5966f49ef8dc">
 		<ee:transform doc:name="Set Date and Error Variables" doc:id="26ecdac1-0e42-4650-b40a-48522207d021">
@@ -87,7 +86,20 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 						</choice>
 					</route>
 					<route>
-						<flow-ref doc:name="Get API Manager Grouped Metrics" doc:id="d7c6430e-1440-46de-afd0-82b379d65ad2" name="aggregator-platform-metrics-api-manager-flow" />
+						<choice doc:name="If collectors contains apm" doc:id="6e9676bf-b83f-4264-8917-58988d6dcbb5">
+							<when expression='#[vars.collectors as Array contains "apm"]'>
+								<flow-ref doc:name="Get API Manager Grouped Metrics" doc:id="7d3f4740-47e1-4ad5-b87e-1c5869903a28" name="aggregator-platform-metrics-api-manager-flow" />
+							</when>
+							<otherwise>
+								<logger level="INFO" doc:name="Log - No apim" doc:id="5fd82505-f624-402c-8867-bb038048e5a5"
+									message="API Manager Metrics won't be collected: collector not enabled or not supported for the platform deployment model or authentication mode." />
+								<ee:transform doc:name="Set Null Response" doc:id="0f0e9f55-2eee-488b-8787-75e44d3e5804">
+									<ee:message>
+										<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
+									</ee:message>
+								</ee:transform>
+							</otherwise>
+						</choice>
 					</route>
 					<route>
 						<choice doc:name="If collectors contain core" doc:id="41d460bc-09c8-4045-bb73-de630301d5a4">
@@ -234,20 +246,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<flow name="aggregator-platform-metrics-api-manager-flow" doc:id="fbab39e1-734b-4b08-b0bd-6ebe7f240094">
 		<scatter-gather doc:name="Scatter-Gather" doc:id="a282e27e-5d6c-45e8-a2a6-586673fcb6db">
 			<route>
-				<choice doc:name="If collectors contains apm" doc:id="e16abb60-11ec-4de2-997e-19e09364be5c">
-					<when expression='#[vars.collectors as Array contains "apm"]'>
-						<flow-ref doc:name="Get API Manager Metrics" doc:id="4d840b08-9543-42de-b751-76fa5e832868" name="collector-apim-parallel-flow" />
-					</when>
-					<otherwise>
-						<logger level="INFO" doc:name="Log - No apim" doc:id="01442687-83b4-49e8-8252-6967b84cb28f"
-							message="API Manager Metrics won't be collected: collector not enabled or not supported for the platform deployment model or authentication mode." />
-						<ee:transform doc:name="Set Null Response" doc:id="112a0d84-2387-4a09-afa8-a1207470d944">
-							<ee:message>
-								<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
-							</ee:message>
-						</ee:transform>
-					</otherwise>
-				</choice>
+				<flow-ref doc:name="Get API Manager Metrics" doc:id="c8933d1a-9a80-4007-a320-7adb5a4dbddd" name="collector-apim-parallel-flow" />
 			</route>
 			<route>
 				<choice doc:name="If collectors contains apc" doc:id="818aecc9-5135-4c2c-bbd2-c167efe4bf11">
