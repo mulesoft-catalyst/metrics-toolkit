@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd"
+>
+
 	<flow name="aggregator-platform-metrics-master-flow" doc:id="b44a5537-b4b2-48d6-be10-5966f49ef8dc">
 		<ee:transform doc:name="Set Date and Error Variables" doc:id="26ecdac1-0e42-4650-b40a-48522207d021">
 			<ee:message>
@@ -39,13 +42,15 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</parallel-foreach>
 		<set-payload value="#[output application/json --- payload.payload]" doc:name="Set Final Payload" doc:id="4de1289b-f761-496c-b966-670bce6484ac" />
 	</flow>
+
 	<flow name="aggregator-platform-metrics-org-flow" doc:id="f52652d1-3952-4ab0-9d4b-20c69530e30a">
 		<try doc:name="Try" doc:id="f8f78884-8266-4dc7-bf74-dd37bd8dab8b">
 			<flow-ref doc:name="CoreServices - Get Environments" doc:id="a65ee492-ea7b-4018-9096-08aff5fa21d4" name="api-call-coreservices-environments-flow"
 				target="environments" targetValue='#[payload.data filter ($."type" != "design")]' />
 			<error-handler>
 				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue"
-					doc:id="79728178-b45e-42a4-ae95-4b3b4272d759">
+					doc:id="79728178-b45e-42a4-ae95-4b3b4272d759"
+				>
 					<logger level="INFO" doc:name="Logger" doc:id="82d2d1ef-4e3c-4b25-9a09-27312f8350fc" message="Getting environments failed" />
 					<set-variable value="#[vars.errors + error.description]" doc:name="Set Variable" doc:id="fbe03c01-d12f-4e5d-8f94-35c2d1fe98fe"
 						variableName="errors" />
@@ -236,6 +241,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</otherwise>
 		</choice>
 	</flow>
+
 	<flow name="aggregator-platform-metrics-api-manager-flow" doc:id="fbab39e1-734b-4b08-b0bd-6ebe7f240094">
 		<scatter-gather doc:name="Scatter-Gather" doc:id="a282e27e-5d6c-45e8-a2a6-586673fcb6db">
 			<route>
@@ -319,6 +325,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</route>
 		</scatter-gather>
 	</flow>
+
 	<flow name="aggregator-platform-metrics-coreservices-flow" doc:id="bde4eda9-b9d9-4766-a35d-ea9406fabdb1">
 		<scatter-gather doc:name="Scatter-Gather" doc:id="5d665955-1a16-4517-89e1-5b01aa144803">
 			<route>
@@ -338,7 +345,8 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<route>
 				<choice doc:name="Choice" doc:id="e7e17024-2ea6-4e76-baa2-2f4ae8bc1c35">
 					<when
-						expression="#[Mule::p(&quot;anypoint.platform.apis.coreservices.rolegroups.enabled&quot;) == &quot;true&quot; and vars.authMode != 'connected-app-credentials']">
+						expression="#[Mule::p(&quot;anypoint.platform.apis.coreservices.rolegroups.enabled&quot;) == &quot;true&quot; and vars.authMode != 'connected-app-credentials']"
+					>
 						<flow-ref doc:name="collector-rolegroups-metrics" doc:id="c446c3a8-f5c2-4d31-a6f6-0bf45f9825b4" name="collector-rolegroups-metrics" />
 					</when>
 					<otherwise>
@@ -352,4 +360,5 @@ else
 			</route>
 		</scatter-gather>
 	</flow>
+
 </mule>
