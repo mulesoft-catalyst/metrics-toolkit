@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-
 	<flow name="aggregator-platform-metrics-master-flow" doc:id="b44a5537-b4b2-48d6-be10-5966f49ef8dc">
 		<ee:transform doc:name="Set Date and Error Variables" doc:id="26ecdac1-0e42-4650-b40a-48522207d021">
 			<ee:message>
@@ -16,10 +14,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-variable resource="dw/aggregation/set-errors-var.dwl" variableName="errors" />
 			</ee:variables>
 		</ee:transform>
-		<flow-ref doc:name="Get Token Flow Reference" doc:id="675f99f2-d682-4162-9702-5da306885ba1"
-			name="api-call-coreservices-login-flow" target="token" targetValue="payload.access_token" />
-		<flow-ref doc:name="CoreServices - Get Organizations" doc:id="1f5906b9-2afa-4fc3-98e3-b11f8320e06f"
-			name="api-call-coreservices-organizations-flow" />
+		<flow-ref doc:name="Get Token Flow Reference" doc:id="675f99f2-d682-4162-9702-5da306885ba1" name="api-call-coreservices-login-flow" target="token"
+			targetValue="payload.access_token" />
+		<flow-ref doc:name="CoreServices - Get Organizations" doc:id="1f5906b9-2afa-4fc3-98e3-b11f8320e06f" name="api-call-coreservices-organizations-flow" />
 		<ee:transform doc:name="Build Organizations including master org" doc:id="75e24a85-7cf4-4d19-9d58-d2b677f89993">
 			<ee:message>
 				<ee:set-payload resource="dw/aggregation/build-orgs-aggregation.dwl" />
@@ -40,20 +37,18 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<flow-ref doc:name="Aggregator Organization Flow Reference" doc:id="97a715ab-2afc-47ee-9969-65d0c170cb4f"
 				name="aggregator-platform-metrics-org-flow" />
 		</parallel-foreach>
-		<set-payload value="#[output application/json --- payload.payload]" doc:name="Set Final Payload"
-			doc:id="4de1289b-f761-496c-b966-670bce6484ac" />
+		<set-payload value="#[output application/json --- payload.payload]" doc:name="Set Final Payload" doc:id="4de1289b-f761-496c-b966-670bce6484ac" />
 	</flow>
-
 	<flow name="aggregator-platform-metrics-org-flow" doc:id="f52652d1-3952-4ab0-9d4b-20c69530e30a">
 		<try doc:name="Try" doc:id="f8f78884-8266-4dc7-bf74-dd37bd8dab8b">
-			<flow-ref doc:name="CoreServices - Get Environments" doc:id="a65ee492-ea7b-4018-9096-08aff5fa21d4"
-				name="api-call-coreservices-environments-flow" target="environments" targetValue='#[payload.data filter ($."type" != "design")]' />
+			<flow-ref doc:name="CoreServices - Get Environments" doc:id="a65ee492-ea7b-4018-9096-08aff5fa21d4" name="api-call-coreservices-environments-flow"
+				target="environments" targetValue='#[payload.data filter ($."type" != "design")]' />
 			<error-handler>
 				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue"
 					doc:id="79728178-b45e-42a4-ae95-4b3b4272d759">
 					<logger level="INFO" doc:name="Logger" doc:id="82d2d1ef-4e3c-4b25-9a09-27312f8350fc" message="Getting environments failed" />
-					<set-variable value="#[vars.errors + error.description]" doc:name="Set Variable"
-						doc:id="fbe03c01-d12f-4e5d-8f94-35c2d1fe98fe" variableName="errors" />
+					<set-variable value="#[vars.errors + error.description]" doc:name="Set Variable" doc:id="fbe03c01-d12f-4e5d-8f94-35c2d1fe98fe"
+						variableName="errors" />
 				</on-error-continue>
 			</error-handler>
 		</try>
@@ -80,8 +75,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<route>
 						<choice doc:name="If collectors contains ex" doc:id="c2affb6c-a28e-467e-bd9d-f11ce386b45f">
 							<when expression='#[vars.collectors as Array contains "ex"]'>
-								<flow-ref doc:name="Get Exchange Assets" doc:id="9983e278-1c7d-4b63-84ac-8c148bdb2711"
-									name="collector-exchange-metrics-flow" />
+								<flow-ref doc:name="Get Exchange Assets" doc:id="9983e278-1c7d-4b63-84ac-8c148bdb2711" name="collector-exchange-metrics-flow" />
 							</when>
 							<otherwise>
 								<logger level="INFO" doc:name="Log - No exchange" doc:id="ecaa93ea-d2e8-4c80-81b1-f021d286623a"
@@ -118,8 +112,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<route>
 						<choice doc:name="If collectors contains dc" doc:id="90dd01a9-cfd6-4fbe-b03b-32e4d26b6331">
 							<when expression='#[vars.collectors as Array contains "dc"]'>
-								<flow-ref doc:name="Get Design Center Projects" doc:id="f0ddec9e-176f-4f39-af14-728444fce2d2"
-									name="collector-design-center-metrics-flow" />
+								<flow-ref doc:name="Get Design Center Projects" doc:id="f0ddec9e-176f-4f39-af14-728444fce2d2" name="collector-design-center-metrics-flow" />
 							</when>
 							<otherwise>
 								<logger level="INFO" doc:name="Log - No DC" doc:id="a91ccede-f24f-4394-aca9-5cf94b9740cd"
@@ -135,8 +128,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<route>
 						<choice doc:name="If collectors contains arm" doc:id="90201985-eda8-4fd6-ad59-25f72622fb48">
 							<when expression='#[vars.collectors as Array contains "arm"]'>
-								<flow-ref doc:name="Get ARM Metrics " doc:id="27879996-a1c7-4ab0-9b2d-8c4f60d1e6a3"
-									name="aggregator-platform-metrics-arm-flow" />
+								<flow-ref doc:name="Get ARM Metrics " doc:id="27879996-a1c7-4ab0-9b2d-8c4f60d1e6a3" name="aggregator-platform-metrics-arm-flow" />
 							</when>
 							<otherwise>
 								<logger level="INFO" doc:name="Log - No arm" doc:id="9c72e831-0873-4787-9ce2-b021799b246c"
@@ -152,8 +144,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<route>
 						<choice doc:name="If collectors contains rtf" doc:id="764297d0-c282-4943-8cfb-6b2ae0cae9f0">
 							<when expression='#[vars.collectors as Array contains "rtf"]'>
-								<flow-ref doc:name="Get RTF Fabrics Metrics" doc:id="51eaeb21-1453-4654-baa2-a721f989c244"
-									name="collector-rtf-fabrics-metrics-flow" />
+								<flow-ref doc:name="Get RTF Fabrics Metrics" doc:id="51eaeb21-1453-4654-baa2-a721f989c244" name="collector-rtf-fabrics-metrics-flow" />
 							</when>
 							<otherwise>
 								<logger level="INFO" doc:name="Log - No rtf" doc:id="5cdd8955-390d-4e52-9ca5-78bbdb63b40f"
@@ -202,8 +193,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<route>
 						<choice doc:name="If collectors contains OSv2" doc:id="088c6587-0c35-49e8-abd2-ca81958c4222">
 							<when expression='#[vars.collectors as Array contains "osv2"]'>
-								<flow-ref doc:name="Get OSv2 Metrics" doc:id="e2b27342-7e6f-46c8-bd35-41464b3130b7"
-									name="collector-osv2-metrics-parallel-flow" />
+								<flow-ref doc:name="Get OSv2 Metrics" doc:id="e2b27342-7e6f-46c8-bd35-41464b3130b7" name="collector-osv2-metrics-parallel-flow" />
 							</when>
 							<otherwise>
 								<logger level="INFO" doc:name="Log - No OSv2" doc:id="d8f6289f-0136-4804-94bb-17f21f829bf8"
@@ -246,14 +236,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</otherwise>
 		</choice>
 	</flow>
-
 	<flow name="aggregator-platform-metrics-api-manager-flow" doc:id="fbab39e1-734b-4b08-b0bd-6ebe7f240094">
 		<scatter-gather doc:name="Scatter-Gather" doc:id="a282e27e-5d6c-45e8-a2a6-586673fcb6db">
 			<route>
 				<choice doc:name="If collectors contains apm" doc:id="e16abb60-11ec-4de2-997e-19e09364be5c">
 					<when expression='#[vars.collectors as Array contains "apm"]'>
-						<flow-ref doc:name="Get API Manager Metrics" doc:id="4d840b08-9543-42de-b751-76fa5e832868"
-							name="collector-apim-parallel-flow" />
+						<flow-ref doc:name="Get API Manager Metrics" doc:id="4d840b08-9543-42de-b751-76fa5e832868" name="collector-apim-parallel-flow" />
 					</when>
 					<otherwise>
 						<logger level="INFO" doc:name="Log - No apim" doc:id="01442687-83b4-49e8-8252-6967b84cb28f"
@@ -285,8 +273,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<route>
 				<choice doc:name="If collectors contains ap" doc:id="56416826-505e-4a9a-b515-088612cbd107">
 					<when expression='#[vars.collectors as Array contains "ap"]'>
-						<flow-ref doc:name="Get Automated Policies" doc:id="c86a35bd-2ecc-45f8-9aaa-3ff96dd43c7f"
-							name="collector-apim-automated-policies-metrics-flow" />
+						<flow-ref doc:name="Get Automated Policies" doc:id="c86a35bd-2ecc-45f8-9aaa-3ff96dd43c7f" name="collector-apim-automated-policies-metrics-flow" />
 					</when>
 					<otherwise>
 						<logger level="INFO" doc:name="Log - No policies" doc:id="9aca8bd6-43fb-4106-af17-5f82c47a35aa"
@@ -332,18 +319,15 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</route>
 		</scatter-gather>
 	</flow>
-
 	<flow name="aggregator-platform-metrics-coreservices-flow" doc:id="bde4eda9-b9d9-4766-a35d-ea9406fabdb1">
 		<scatter-gather doc:name="Scatter-Gather" doc:id="5d665955-1a16-4517-89e1-5b01aa144803">
 			<route>
-				<flow-ref doc:name="Coreservices Members Flow Reference" doc:id="37203d4e-f12a-4bda-be3e-0035c046af72"
-					name="collector-members-metrics-flow" />
+				<flow-ref doc:name="Coreservices Members Flow Reference" doc:id="37203d4e-f12a-4bda-be3e-0035c046af72" name="collector-members-metrics-flow" />
 			</route>
 			<route>
 				<choice doc:name="Choice" doc:id="c17848cc-fcea-4870-af79-75c1f9ed8fe4">
 					<when expression="#[vars.authMode != 'connected-app-credentials']">
-						<flow-ref doc:name="Coreservices Usage Flow Reference" doc:id="01f684db-614f-416a-bd90-1f74a954b70d"
-							name="collector-usage-metrics-flow" />
+						<flow-ref doc:name="Coreservices Usage Flow Reference" doc:id="01f684db-614f-416a-bd90-1f74a954b70d" name="collector-usage-metrics-flow" />
 					</when>
 					<otherwise>
 						<logger level="INFO" doc:name="Logger" doc:id="f12c10d3-016a-42c7-afe4-315e9d239491"
@@ -355,8 +339,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<choice doc:name="Choice" doc:id="e7e17024-2ea6-4e76-baa2-2f4ae8bc1c35">
 					<when
 						expression="#[Mule::p(&quot;anypoint.platform.apis.coreservices.rolegroups.enabled&quot;) == &quot;true&quot; and vars.authMode != 'connected-app-credentials']">
-						<flow-ref doc:name="collector-rolegroups-metrics" doc:id="c446c3a8-f5c2-4d31-a6f6-0bf45f9825b4"
-							name="collector-rolegroups-metrics" />
+						<flow-ref doc:name="collector-rolegroups-metrics" doc:id="c446c3a8-f5c2-4d31-a6f6-0bf45f9825b4" name="collector-rolegroups-metrics" />
 					</when>
 					<otherwise>
 						<logger level="INFO" doc:name="Logger" doc:id="f92e6e11-460d-4964-909c-3b6a7d667676"
@@ -369,5 +352,4 @@ else
 			</route>
 		</scatter-gather>
 	</flow>
-
 </mule>
