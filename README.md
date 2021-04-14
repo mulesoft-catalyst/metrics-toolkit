@@ -481,6 +481,7 @@ mongodb.password | MongoDB password |
 	- Not supported on **GovCloud**
 - **OSv2** metrics: 
   - Not supported on Private Cloud Edition (**PCE**)
+  - Not supported when authenticating with **Connected Apps**
 
 ## Some Theory around the Accelerator
 The accelerator is intended to cover the main areas to define and implement metrics using Mule.
