@@ -217,7 +217,27 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 				automatedPoliciesUsed: flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default [],
 				automatedPoliciesUsedTotal: sizeOf(flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default []),
 				transactions: sum(flatten(flatten(getSandboxData(analyticsQueryResult).response default [])."api_id" default [])..count default []) //last x days on the period collected
-			}	
+			},
+			details: apiManagerApis map {
+				environmentName: $.environment,
+				environmentType: if ($.isProduction) "Production" else "Sandbox",
+				managedApisTotal: $.data.total,
+				apiInstancesActive: if (not isEmpty(flatten(flatten($.data.assets).apis default []).lastActiveDate)) sizeOf(flatten(flatten($.data.assets).apis default []).lastActiveDate filter ($!=null and ($ >= now() -|P1D|)) default []) else 0,
+				apiInstancesInactive: if (not isEmpty(flatten(flatten($.data.assets).apis default []).lastActiveDate)) sizeOf(flatten(flatten($.data.assets).apis default []).lastActiveDate filter ($==null or ($ < now() -|P1D|)) default []) else 0,
+				apiInstancesTotal: sum(flatten($.data.assets).totalApis default []), 
+				apiInstancesVersions: sizeOf(flatten(flatten($.data.assets).apis default []).productVersion distinctBy $ default []),
+				apiInstancesWithPolicies: sizeOf(flatten($.details default []) [?(sizeOf($.policies default []) > 0)] default []),
+				apiInstancesWithoutPolicies: sizeOf(flatten($.details default []) [?(sizeOf($.policies default []) == 0)] default []),
+				apiInstancesWithSecurity: sizeOf((flatten((flatten($.details) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []),
+				apiInstancesWithoutSecurity: sizeOf(flatten($.details default [])) - sizeOf((flatten((flatten($.details) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []), 
+				apiInstancesWithContracts: sizeOf(flatten(flatten($.data.assets).apis default []).activeContractsCount filter ($ > 0) default []),
+				apiInstancesWithoutContracts: sizeOf(flatten(flatten($.data.assets).apis default []).activeContractsCount filter ($ == 0) default []),
+				apiInstancesWithMoreThanOneConsumer: sizeOf(flatten(flatten($.data.assets).apis default []).activeContractsCount filter ($ > 1) default []),
+				apiInstancesWithOneOrMoreConsumers: sizeOf(flatten(flatten($.data.assets).apis default []).activeContractsCount filter ($ > 0) default []),
+				apiInstancesContracts: sum(flatten(flatten($.data.assets).apis default []).activeContractsCount default []),				
+				policiesUsed: flatten(flatten($.details default []).policies default []).template.assetId  distinctBy $ default [],
+				policiesUsedTotal: sizeOf(flatten(flatten($.details default []).policies default []).template.assetId  distinctBy $ default [])
+			} 	
 		}	
 	},
 	runtimeManagerMetrics: {
@@ -257,6 +277,17 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 					applicationsStopped: sizeOf(flatten(getSandboxData(cloudHubApps) default []) filter ($.status != APP_STATUS_STARTED) default []),
 					runtimesUsed: flatten(getSandboxData(cloudHubApps) default []).muleVersion.version distinctBy ($) default[],
 					runtimesUsedTotal: sizeOf(flatten(getSandboxData(cloudHubApps) default []).muleVersion.version distinctBy ($) default [])
+				},
+				details: cloudHubApps map {
+					environmentName: $.environment,
+					environmentType: if ($.isProduction) "Production" else "Sandbox",
+					vcoresUsed: sum((flatten($.data default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
+					applicationsTotal: sizeOf(flatten($.data default []) default []),
+					applicationsStarted: sizeOf(flatten($.data default []) filter ($.status == APP_STATUS_STARTED) default []),
+					applicationsStopped: sizeOf(flatten($.data default []) filter ($.status != APP_STATUS_STARTED) default []),
+					runtimesUsed: flatten($.data default []).muleVersion.version distinctBy ($) default[],
+					runtimesUsedTotal: sizeOf(flatten($.data default []).muleVersion.version distinctBy ($) default [])	
+					
 				}
 			}
 		},
