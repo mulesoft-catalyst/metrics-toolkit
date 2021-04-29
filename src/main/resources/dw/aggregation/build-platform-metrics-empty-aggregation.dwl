@@ -82,8 +82,8 @@ var errors = vars.errors
 				policiesUsedTotal: 0,
 				automatedPoliciesUsed: [],
 				automatedPoliciesUsedTotal: 0,
-				transactions: 0 //last x days on the period collected
-			
+				transactions: 0, //last x days on the period collected
+				details: []
 			},
 			sandbox: {
 				total: 0,
@@ -104,7 +104,8 @@ var errors = vars.errors
 				policiesUsedTotal: 0,
 				automatedPoliciesUsed: [],
 				automatedPoliciesUsedTotal: 0,
-				transactions: 0 //last x days on the period collected
+				transactions: 0, //last x days on the period collected
+				details: []
 			}	
 		}	
 	},
@@ -134,7 +135,8 @@ var errors = vars.errors
 					applicationsStarted: 0,
 					applicationsStopped: 0,
 					runtimesUsed: [],
-					runtimesUsedTotal: 0
+					runtimesUsedTotal: 0,
+					details: []
 				},
 				sandbox:{
 					vcoresTotal: 0,
@@ -144,7 +146,8 @@ var errors = vars.errors
 					applicationsStarted: 0,
 					applicationsStopped: 0,
 					runtimesUsed: [],
-					runtimesUsedTotal: 0
+					runtimesUsedTotal: 0,
+					details: []
 				}
 			}
 		},
@@ -170,8 +173,9 @@ var errors = vars.errors
 					applicationsStarted: 0,
 					applicationsStopped: 0,
 					runtimesUsed: [],
-					runtimesUsedTotal: 0
-
+					runtimesUsedTotal: 0,
+					details: []
+					
 					
 				},
 				sandbox:{
@@ -185,7 +189,8 @@ var errors = vars.errors
 					applicationsStarted: 0,
 					applicationsStopped: 0,
 					runtimesUsed: [],
-					runtimesUsedTotal: 0
+					runtimesUsedTotal: 0,
+					details: []
 				}	
 			}
 		},
@@ -198,7 +203,8 @@ var errors = vars.errors
 				applicationsStarted: 0,
 				applicationsStopped: 0,
 				runtimesUsed: [],
-				runtimesUsedTotal: 0
+				runtimesUsedTotal: 0,
+				details: []
 			},
 			sandbox:{
 				servers: 0,
@@ -208,7 +214,8 @@ var errors = vars.errors
 				applicationsStarted: 0,
 				applicationsStopped: 0,
 				runtimesUsed: [],
-				runtimesUsedTotal: 0
+				runtimesUsedTotal: 0,
+				details: []
 			}
 		}
 		
