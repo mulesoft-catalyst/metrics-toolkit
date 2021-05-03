@@ -345,6 +345,8 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:message >
 					<ee:set-attributes resource="dw/mock-platform-metrics-call-attributes-connected-app.dwl" />
 				</ee:message>
+				<ee:variables >
+				</ee:variables>
 			</ee:transform>
 			<flow-ref doc:name="Flow-ref to get:\platform-metrics:api-config" doc:id="7899a6fe-492c-40d3-a9d1-c94d03f60ecb" name="get:\platform-metrics:api-config"/>
 		</munit:execution>
@@ -360,6 +362,8 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:message >
 					<ee:set-attributes resource="dw/mock-platform-metrics-call-attributes-collectors-dc.dwl" />
 				</ee:message>
+				<ee:variables >
+				</ee:variables>
 			</ee:transform>
 			<flow-ref doc:name="Flow-ref to get:\platform-metrics:api-config" doc:id="b28e029e-2b64-4abb-9201-a9bdc43abf76" name="get:\platform-metrics:api-config"/>
 		</munit:execution>
