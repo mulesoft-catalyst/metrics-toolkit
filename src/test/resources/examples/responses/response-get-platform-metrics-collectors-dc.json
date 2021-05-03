@@ -296,10 +296,16 @@
     "osV2Metrics": {
       "stats": {
         "production": {
-          "requestCount": 0
+          "requestCount": 0,
+          "details": [
+            
+          ]
         },
         "sandbox": {
-          "requestCount": 0
+          "requestCount": 0,
+          "details": [
+            
+          ]
         }
       }
     },
