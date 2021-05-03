@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="api-call-osv2-stats-flow" doc:id="85ccc0f0-03cb-4654-8015-9f0d6af9399f"
+		maxConcurrency="${anypoint.platform.apis.cloudhub.maxConcurrency}">
+		<logger level="DEBUG" doc:name="Log OSv2 Stats Start" doc:id="276eff08-104d-489a-9674-42aec3d676e4" message="Calling OSv2 - Stats" />
+		<http:request method="GET" doc:name="Get OSv2 Stats Request" doc:id="cecc913e-f597-4028-a404-f915215a9c8b"
+			config-ref="HTTP_OSv2_Request_configuration" path="${anypoint.platform.apis.osv2.stats.path}" sendBodyMode="NEVER">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"X-ANYPNT-ENV-ID" : vars.environmentId,
+	"Authorization" : "Bearer " ++ vars.token
+}]]]></http:headers>
+			<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"orgId" : vars.orgId,
+	"envId" : vars.environmentId
+}]]]></http:uri-params>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	period : p("anypoint.platform.apis.osv2.period"),
+	startDate: (now() - |P1D|) as String {format: "yyyy-MM-dd'T'00:00:00.000'Z'"},
+	endDate: now() as String {format: "yyyy-MM-dd'T'00:00:00.000'Z'"}
+}]]]></http:query-params>
+		</http:request>
+		<logger level="DEBUG" doc:name="Log OSv2 Stats Response" doc:id="b71071b8-9118-41dc-bb35-6a94c94d6427"
+			message='#["OSv2 - Stats, Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+
+</mule>
