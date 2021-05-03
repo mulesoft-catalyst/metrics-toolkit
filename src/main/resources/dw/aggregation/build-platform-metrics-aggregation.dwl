@@ -47,6 +47,10 @@ var sandboxApis=getSandboxData(apiManagerApis)
 var sandboxApisAssets=sandboxApis.assets
 var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 
+var armServersByEnv = (armServers groupBy ($.environment)) mapObject { ($$): $.data }
+var armClustersByEnv = (armClusters groupBy ($.environment)) mapObject { ($$): $.data }
+var armServerGroupsByEnv = (armServerGroups groupBy ($.environment)) mapObject { ($$): $.data }
+
 var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","authentication"]
 
 var notGeneratedAssets = if (exchangeAssets is Array) (exchangeAssets filter($."isGenerated" == false)) else []
@@ -454,6 +458,9 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 				details: armApps filter ($.isProduction) map ((item, index) -> {
 					environmentName: item.environment,
 					environmentType: ENV_TYPE_PROD,
+					servers: sizeOf(flatten(armServersByEnv[item.environment].data default []) default []),
+					clusters: sizeOf(flatten(armClustersByEnv[item.environment].data default []) default []),
+					serverGroups: sizeOf(flatten(armServerGroupsByEnv[item.environment].data default []) default []),
 					applicationsTotal: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default []),
 					applicationsStarted: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status == APP_STATUS_STARTED) default []),
 					applicationsStopped: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status != APP_STATUS_STARTED) default []),
@@ -471,6 +478,9 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 				details: armApps filter (not $.isProduction) map ((item, index) -> {
 					environmentName: item.environment,
 					environmentType: ENV_TYPE_SANDBOX,
+					servers: sizeOf(flatten(armServersByEnv[item.environment].data default []) default []),
+					clusters: sizeOf(flatten(armClustersByEnv[item.environment].data default []) default []),
+					serverGroups: sizeOf(flatten(armServerGroupsByEnv[item.environment].data default []) default []),
 					applicationsTotal: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default []),
 					applicationsStarted: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status == APP_STATUS_STARTED) default []),
 					applicationsStopped: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status != APP_STATUS_STARTED) default []),
