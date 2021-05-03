@@ -296,10 +296,34 @@
     "osV2Metrics": {
       "stats": {
         "production": {
-          "requestCount": 0
+          "requestCount": 0,
+          "details": [
+	          {
+	            "environmentName": "Production",
+	            "environmentType": "Production",
+	            "requestCount": 0
+	          }
+	        ]
         },
         "sandbox": {
-          "requestCount": 0
+          "requestCount": 0,
+          "details": [
+	          {
+	            "environmentName": "Development",
+	            "environmentType": "Sandbox",
+	            "requestCount": 0
+	          },
+	          {
+	            "environmentName": "Staging",
+	            "environmentType": "Sandbox",
+	            "requestCount": 0
+	          },
+	          {
+	            "environmentName": "Test",
+	            "environmentType": "Sandbox",
+	            "requestCount": 0
+	          }
+	        ]
         }
       }
     },
