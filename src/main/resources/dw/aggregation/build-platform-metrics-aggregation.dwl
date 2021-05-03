@@ -556,8 +556,22 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 	},
 	osV2Metrics: {
 		stats: {
-			production: { requestCount: sum(flatten(getProdData(osv2)).objectStoreRequestCount default [0])}, 
-			sandbox: { requestCount: sum(flatten(getSandboxData(osv2)).objectStoreRequestCount default [0])}
+			production: { 
+				requestCount: sum(flatten(getProdData(osv2)).objectStoreRequestCount default [0]),
+				details: osv2 filter ($.isProduction) map ((item, index) -> {
+							environmentName: item.environment,
+							environmentType: ENV_TYPE_PROD,
+							requestCount: sum(flatten(item.data).objectStoreRequestCount default [0])
+						}) default []
+			}, 
+			sandbox: { 
+				requestCount: sum(flatten(getSandboxData(osv2)).objectStoreRequestCount default [0]),
+				details: osv2 filter (not $.isProduction) map ((item, index) -> {
+							environmentName: item.environment,
+							environmentType: ENV_TYPE_SANDBOX,
+							requestCount: sum(flatten(item.data).objectStoreRequestCount default [0])
+						}) default []
+			}
 		}
 	},
 	errors: errors	
