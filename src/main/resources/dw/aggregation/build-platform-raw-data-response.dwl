@@ -10,21 +10,22 @@ var orgId = vars.orgId
 
 var cloudHubApps = payload[0].payload.payload
 var exchangeAssets = payload[1].payload
-var apiManagerApis = payload[2].payload.payload
+var apiManagerApis = payload[2].payload[0].payload
+var apiClients = payload[2].payload[1].applications
+var apiAutomatedPolicies = payload[2].payload[2].payload
 var members = payload[3].payload[0].payload
 //var rolegroups = payload[3].payload[2].payload.data
 var usage = payload[3].payload[1].payload
 var designCenterProjects = payload[4].payload
-var apiClients = payload[5].payload.applications
-var apiAutomatedPolicies = payload[6].payload.payload
-var armDeployments = payload[7].payload[0].payload.payload
-var armServers = payload[7].payload[1].payload.payload
-var armClusters = payload[7].payload[2].payload.payload
-var armServerGroups = payload[7].payload[3].payload.payload
+var armDeployments = payload[5].payload[0].payload.payload
+var armServers = payload[5].payload[1].payload.payload
+var armClusters = payload[5].payload[2].payload.payload
+var armServerGroups = payload[5].payload[3].payload.payload
 //var armApps = payload[7].payload[4].payload.payload
-var rtf = payload[8].payload
-var analyticsQueryResult = payload[9].payload.payload
-var mq = payload[10].payload.payload
+var rtf = payload[6].payload
+var analyticsQueryResult = payload[7].payload.payload
+var mq = payload[8].payload.payload
+var osv2 = payload[9].payload.payload
 ---
 {
 	date: date,
@@ -55,5 +56,6 @@ var mq = payload[10].payload.payload
 		armServerGroups: armServerGroups
 	},
 	mqMetrics: mq,
+	osV2Metrics: osv2,
 	errors: errors		
 }

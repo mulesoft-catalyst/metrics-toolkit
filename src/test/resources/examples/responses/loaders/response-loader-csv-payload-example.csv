@@ -143,3 +143,5 @@ Anypoint MQ - Summary - Queues - Total Messages ACK,686,Fantasy Company,2021-02-
 Anypoint MQ - Summary - Queues - Total Messages In Flight,0,Fantasy Company,2021-02-21T23:05:37.668-08:00,Anypoint MQ,Production
 Anypoint MQ - Summary - Exchanges - Total Messages Published,336,Fantasy Company,2021-02-21T23:05:37.668-08:00,Anypoint MQ,Production
 Anypoint MQ - Summary - Exchanges - Total Messages Delivered,0,Fantasy Company,2021-02-21T23:05:37.668-08:00,Anypoint MQ,Production
+OSv2 - Request count,312081,Fantasy Company,2021-02-21T23:05:37.668-08:00,ObjectStore V2,Sandbox
+OSv2 - Request count,104027,Fantasy Company,2021-02-21T23:05:37.668-08:00,ObjectStore V2,Production
