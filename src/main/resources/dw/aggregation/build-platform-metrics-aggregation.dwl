@@ -47,9 +47,7 @@ var sandboxApis=getSandboxData(apiManagerApis)
 var sandboxApisAssets=sandboxApis.assets
 var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 
-var armServersByEnv = (armServers groupBy ($.environment)) mapObject { ($$): $.data }
-var armClustersByEnv = (armClusters groupBy ($.environment)) mapObject { ($$): $.data }
-var armServerGroupsByEnv = (armServerGroups groupBy ($.environment)) mapObject { ($$): $.data }
+var groupedArrayByEnvironment = (arr) ->  ( (arr groupBy ($.environment)) mapObject { ($$): $.data } )
 
 var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","authentication"]
 
@@ -205,22 +203,25 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 				details: apiManagerApis filter ($.isProduction) map ((item, index) -> {
 					environmentName: item.environment,
 					environmentType: ENV_TYPE_PROD,
-					managedApisTotal: item.data.total,
-					apiInstancesActive: if (not isEmpty(flatten(flatten(item.data.assets).apis default []).lastActiveDate)) sizeOf(flatten(flatten(item.data.assets).apis default []).lastActiveDate filter ($!=null and ($ >= now() -|P1D|)) default []) else 0,
-					apiInstancesInactive: if (not isEmpty(flatten(flatten(item.data.assets).apis default []).lastActiveDate)) sizeOf(flatten(flatten(item.data.assets).apis default []).lastActiveDate filter ($==null or ($ < now() -|P1D|)) default []) else 0,
-					apiInstancesTotal: sum(flatten(item.data.assets).totalApis default []), 
-					apiInstancesVersions: sizeOf(flatten(flatten(item.data.assets).apis default []).productVersion distinctBy $ default []),
-					apiInstancesWithPolicies: sizeOf(flatten(item.details default []) [?(sizeOf($.policies default []) > 0)] default []),
-					apiInstancesWithoutPolicies: sizeOf(flatten(item.details default []) [?(sizeOf($.policies default []) == 0)] default []),
-					apiInstancesWithSecurity: sizeOf((flatten((flatten(item.details) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []),
-					apiInstancesWithoutSecurity: sizeOf(flatten(item.details default [])) - sizeOf((flatten((flatten(item.details) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []), 
-					apiInstancesWithContracts: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 0) default []),
-					apiInstancesWithoutContracts: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ == 0) default []),
-					apiInstancesWithMoreThanOneConsumer: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 1) default []),
-					apiInstancesWithOneOrMoreConsumers: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 0) default []),
-					apiInstancesContracts: sum(flatten(flatten(item.data.assets).apis default []).activeContractsCount default []),				
+					total: item.data.total,
+					active: if (not isEmpty(flatten(flatten(item.data.assets).apis default []).lastActiveDate)) sizeOf(flatten(flatten(item.data.assets).apis default []).lastActiveDate filter ($!=null and ($ >= now() -|P1D|)) default []) else 0,
+					inactive: if (not isEmpty(flatten(flatten(item.data.assets).apis default []).lastActiveDate)) sizeOf(flatten(flatten(item.data.assets).apis default []).lastActiveDate filter ($==null or ($ < now() -|P1D|)) default []) else 0,
+					apiInstances: sum(flatten(item.data.assets).totalApis default []), 
+					apiVersions: sizeOf(flatten(flatten(item.data.assets).apis default []).productVersion distinctBy $ default []),
+					apisWithPolicies: sizeOf(flatten(item.details default []) [?(sizeOf($.policies default []) > 0)] default []),
+					apisWithoutPolicies: sizeOf(flatten(item.details default []) [?(sizeOf($.policies default []) == 0)] default []),
+					apisWithSecurity: sizeOf((flatten((flatten(item.details) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []),
+					apisWithoutSecurity: sizeOf(flatten(item.details default [])) - sizeOf((flatten((flatten(item.details) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []), 
+					apisWithContracts: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 0) default []),
+					apisWithoutContracts: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ == 0) default []),
+					apisWithMoreThanOneConsumer: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 1) default []),
+					apisWithOneOrMoreConsumers: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 0) default []),
+					contracts: sum(flatten(flatten(item.data.assets).apis default []).activeContractsCount default []),				
 					policiesUsed: flatten(flatten(item.details default []).policies default []).template.assetId  distinctBy $ default [],
-					policiesUsedTotal: sizeOf(flatten(flatten(item.details default []).policies default []).template.assetId  distinctBy $ default [])
+					policiesUsedTotal: sizeOf(flatten(flatten(item.details default []).policies default []).template.assetId  distinctBy $ default []),
+					automatedPoliciesUsed: flatten(groupedArrayByEnvironment(apiAutomatedPolicies default [])[item.environment].automatedPolicies default []).assetId distinctBy ($) default [],
+					automatedPoliciesUsedTotal: sizeOf(flatten(groupedArrayByEnvironment(apiAutomatedPolicies default [])[item.environment].automatedPolicies default []).assetId distinctBy ($) default []),
+					transactions: sum(flatten(flatten(groupedArrayByEnvironment(analyticsQueryResult)[item.environment].response default [])."api_id" default [])..count default []), //last x days on the period collected
 				}) default []
 			},
 			sandbox: {
@@ -246,22 +247,25 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 				details: apiManagerApis filter (not $.isProduction) map ((item, index) -> {
 					environmentName: item.environment,
 					environmentType: ENV_TYPE_SANDBOX,
-					managedApisTotal: item.data.total,
-					apiInstancesActive: if (not isEmpty(flatten(flatten(item.data.assets).apis default []).lastActiveDate)) sizeOf(flatten(flatten(item.data.assets).apis default []).lastActiveDate filter ($!=null and ($ >= now() -|P1D|)) default []) else 0,
-					apiInstancesInactive: if (not isEmpty(flatten(flatten(item.data.assets).apis default []).lastActiveDate)) sizeOf(flatten(flatten(item.data.assets).apis default []).lastActiveDate filter ($==null or ($ < now() -|P1D|)) default []) else 0,
-					apiInstancesTotal: sum(flatten(item.data.assets).totalApis default []), 
-					apiInstancesVersions: sizeOf(flatten(flatten(item.data.assets).apis default []).productVersion distinctBy $ default []),
-					apiInstancesWithPolicies: sizeOf(flatten(item.details default []) [?(sizeOf($.policies default []) > 0)] default []),
-					apiInstancesWithoutPolicies: sizeOf(flatten(item.details default []) [?(sizeOf($.policies default []) == 0)] default []),
-					apiInstancesWithSecurity: sizeOf((flatten((flatten(item.details) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []),
-					apiInstancesWithoutSecurity: sizeOf(flatten(item.details default [])) - sizeOf((flatten((flatten(item.details) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []), 
-					apiInstancesWithContracts: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 0) default []),
-					apiInstancesWithoutContracts: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ == 0) default []),
-					apiInstancesWithMoreThanOneConsumer: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 1) default []),
-					apiInstancesWithOneOrMoreConsumers: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 0) default []),
-					apiInstancesContracts: sum(flatten(flatten(item.data.assets).apis default []).activeContractsCount default []),				
+					total: item.data.total,
+					active: if (not isEmpty(flatten(flatten(item.data.assets).apis default []).lastActiveDate)) sizeOf(flatten(flatten(item.data.assets).apis default []).lastActiveDate filter ($!=null and ($ >= now() -|P1D|)) default []) else 0,
+					inactive: if (not isEmpty(flatten(flatten(item.data.assets).apis default []).lastActiveDate)) sizeOf(flatten(flatten(item.data.assets).apis default []).lastActiveDate filter ($==null or ($ < now() -|P1D|)) default []) else 0,
+					apiInstances: sum(flatten(item.data.assets).totalApis default []), 
+					apiVersions: sizeOf(flatten(flatten(item.data.assets).apis default []).productVersion distinctBy $ default []),
+					apisWithPolicies: sizeOf(flatten(item.details default []) [?(sizeOf($.policies default []) > 0)] default []),
+					apisWithoutPolicies: sizeOf(flatten(item.details default []) [?(sizeOf($.policies default []) == 0)] default []),
+					apisWithSecurity: sizeOf((flatten((flatten(item.details) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []),
+					apisWithoutSecurity: sizeOf(flatten(item.details default [])) - sizeOf((flatten((flatten(item.details) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []), 
+					apisWithContracts: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 0) default []),
+					apisWithoutContracts: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ == 0) default []),
+					apisWithMoreThanOneConsumer: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 1) default []),
+					apisWithOneOrMoreConsumers: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 0) default []),
+					contracts: sum(flatten(flatten(item.data.assets).apis default []).activeContractsCount default []),				
 					policiesUsed: flatten(flatten(item.details default []).policies default []).template.assetId  distinctBy $ default [],
-					policiesUsedTotal: sizeOf(flatten(flatten(item.details default []).policies default []).template.assetId  distinctBy $ default [])
+					policiesUsedTotal: sizeOf(flatten(flatten(item.details default []).policies default []).template.assetId  distinctBy $ default []),
+					automatedPoliciesUsed: flatten(groupedArrayByEnvironment(apiAutomatedPolicies default [])[item.environment].automatedPolicies default []).assetId distinctBy ($) default [],
+					automatedPoliciesUsedTotal: sizeOf(flatten(groupedArrayByEnvironment(apiAutomatedPolicies default [])[item.environment].automatedPolicies default []).assetId distinctBy ($) default []),
+					transactions: sum(flatten(flatten(groupedArrayByEnvironment(analyticsQueryResult)[item.environment].response default [])."api_id" default [])..count default []), //last x days on the period collected
 				}) default []	
 			}
 		}	
@@ -458,12 +462,14 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 				details: armApps filter ($.isProduction) map ((item, index) -> {
 					environmentName: item.environment,
 					environmentType: ENV_TYPE_PROD,
-					servers: sizeOf(flatten(armServersByEnv[item.environment].data default []) default []),
-					clusters: sizeOf(flatten(armClustersByEnv[item.environment].data default []) default []),
-					serverGroups: sizeOf(flatten(armServerGroupsByEnv[item.environment].data default []) default []),
+					servers: sizeOf(flatten(groupedArrayByEnvironment(armServers)[item.environment].data default []) default []),
+					clusters: sizeOf(flatten(groupedArrayByEnvironment(armClusters)[item.environment].data default []) default []),
+					serverGroups: sizeOf(flatten(groupedArrayByEnvironment(armServerGroups)[item.environment].data default []) default []),
 					applicationsTotal: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default []),
 					applicationsStarted: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status == APP_STATUS_STARTED) default []),
 					applicationsStopped: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status != APP_STATUS_STARTED) default []),
+					runtimesUsed: flatten(groupedArrayByEnvironment(armServers)[item.environment].data default []).muleVersion distinctBy $ default [],
+					runtimesUsedTotal: sizeOf(flatten(groupedArrayByEnvironment(armServers)[item.environment].data default []).muleVersion distinctBy $ default []),
 				}) default []
 			},
 			sandbox:{
@@ -478,12 +484,14 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 				details: armApps filter (not $.isProduction) map ((item, index) -> {
 					environmentName: item.environment,
 					environmentType: ENV_TYPE_SANDBOX,
-					servers: sizeOf(flatten(armServersByEnv[item.environment].data default []) default []),
-					clusters: sizeOf(flatten(armClustersByEnv[item.environment].data default []) default []),
-					serverGroups: sizeOf(flatten(armServerGroupsByEnv[item.environment].data default []) default []),
+					servers: sizeOf(flatten(groupedArrayByEnvironment(armServers)[item.environment].data default []) default []),
+					clusters: sizeOf(flatten(groupedArrayByEnvironment(armClusters)[item.environment].data default []) default []),
+					serverGroups: sizeOf(flatten(groupedArrayByEnvironment(armServerGroups)[item.environment].data default []) default []),
 					applicationsTotal: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default []),
 					applicationsStarted: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status == APP_STATUS_STARTED) default []),
 					applicationsStopped: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status != APP_STATUS_STARTED) default []),
+					runtimesUsed: flatten(groupedArrayByEnvironment(armServers)[item.environment].data default []).muleVersion distinctBy $ default [],
+					runtimesUsedTotal: sizeOf(flatten(groupedArrayByEnvironment(armServers)[item.environment].data default []).muleVersion distinctBy $ default []),
 				}) default []
 			}
 		}
