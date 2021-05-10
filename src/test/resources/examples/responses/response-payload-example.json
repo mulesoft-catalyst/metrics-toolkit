@@ -1,6 +1,6 @@
 [
   {
-    "date": "2021-02-21T05:50:50.038-08:00",
+    "date": "2021-05-07T16:10:03.48-07:00",
     "businessGroup": "Fantasy Company",
     "businessGroupId": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
     "coreServicesMetrics": {
@@ -71,7 +71,36 @@
             
           ],
           "automatedPoliciesUsedTotal": 0,
-          "transactions": 0
+          "transactions": 0,
+          "details": [
+            {
+              "environmentName": "Production",
+              "environmentType": "Production",
+              "total": 2,
+              "active": 0,
+              "inactive": 4,
+              "apiInstances": 4,
+              "apiVersions": 2,
+              "apisWithPolicies": 4,
+              "apisWithoutPolicies": 0,
+              "apisWithSecurity": 4,
+              "apisWithoutSecurity": 0,
+              "apisWithContracts": 4,
+              "apisWithoutContracts": 0,
+              "apisWithMoreThanOneConsumer": 0,
+              "apisWithOneOrMoreConsumers": 4,
+              "contracts": 4,
+              "policiesUsed": [
+                "client-id-enforcement"
+              ],
+              "policiesUsedTotal": 1,
+              "automatedPoliciesUsed": [
+                
+              ],
+              "automatedPoliciesUsedTotal": 0,
+              "transactions": 0
+            }
+          ]
         },
         "sandbox": {
           "total": 6,
@@ -96,7 +125,90 @@
             
           ],
           "automatedPoliciesUsedTotal": 0,
-          "transactions": 0
+          "transactions": 0,
+          "details": [
+            {
+              "environmentName": "Development",
+              "environmentType": "Sandbox",
+              "total": 2,
+              "active": 0,
+              "inactive": 4,
+              "apiInstances": 4,
+              "apiVersions": 2,
+              "apisWithPolicies": 4,
+              "apisWithoutPolicies": 0,
+              "apisWithSecurity": 4,
+              "apisWithoutSecurity": 0,
+              "apisWithContracts": 4,
+              "apisWithoutContracts": 0,
+              "apisWithMoreThanOneConsumer": 0,
+              "apisWithOneOrMoreConsumers": 4,
+              "contracts": 4,
+              "policiesUsed": [
+                "client-id-enforcement"
+              ],
+              "policiesUsedTotal": 1,
+              "automatedPoliciesUsed": [
+                
+              ],
+              "automatedPoliciesUsedTotal": 0,
+              "transactions": 0
+            },
+            {
+              "environmentName": "Staging",
+              "environmentType": "Sandbox",
+              "total": 2,
+              "active": 0,
+              "inactive": 4,
+              "apiInstances": 4,
+              "apiVersions": 2,
+              "apisWithPolicies": 4,
+              "apisWithoutPolicies": 0,
+              "apisWithSecurity": 4,
+              "apisWithoutSecurity": 0,
+              "apisWithContracts": 4,
+              "apisWithoutContracts": 0,
+              "apisWithMoreThanOneConsumer": 0,
+              "apisWithOneOrMoreConsumers": 4,
+              "contracts": 4,
+              "policiesUsed": [
+                "client-id-enforcement"
+              ],
+              "policiesUsedTotal": 1,
+              "automatedPoliciesUsed": [
+                
+              ],
+              "automatedPoliciesUsedTotal": 0,
+              "transactions": 0
+            },
+            {
+              "environmentName": "Test",
+              "environmentType": "Sandbox",
+              "total": 2,
+              "active": 0,
+              "inactive": 4,
+              "apiInstances": 4,
+              "apiVersions": 2,
+              "apisWithPolicies": 4,
+              "apisWithoutPolicies": 0,
+              "apisWithSecurity": 4,
+              "apisWithoutSecurity": 0,
+              "apisWithContracts": 4,
+              "apisWithoutContracts": 0,
+              "apisWithMoreThanOneConsumer": 0,
+              "apisWithOneOrMoreConsumers": 4,
+              "contracts": 4,
+              "policiesUsed": [
+                "client-id-enforcement"
+              ],
+              "policiesUsedTotal": 1,
+              "automatedPoliciesUsed": [
+                
+              ],
+              "automatedPoliciesUsedTotal": 0,
+              "transactions": 0
+            }
+          ]
         }
       }
     },
@@ -128,7 +240,22 @@
               "4.1.5",
               "4.2.1"
             ],
-            "runtimesUsedTotal": 2
+            "runtimesUsedTotal": 2,
+            "details": [
+              {
+                "environmentName": "Production",
+                "environmentType": "Production",
+                "vcoresUsed": 0.1,
+                "applicationsTotal": 2,
+                "applicationsStarted": 1,
+                "applicationsStopped": 1,
+                "runtimesUsed": [
+                  "4.1.5",
+                  "4.2.1"
+                ],
+                "runtimesUsedTotal": 2
+              }
+            ]
           },
           "sandbox": {
             "vcoresTotal": 47,
@@ -141,7 +268,48 @@
               "4.1.5",
               "4.2.1"
             ],
-            "runtimesUsedTotal": 2
+            "runtimesUsedTotal": 2,
+            "details": [
+              {
+                "environmentName": "Development",
+                "environmentType": "Sandbox",
+                "vcoresUsed": 0.1,
+                "applicationsTotal": 2,
+                "applicationsStarted": 1,
+                "applicationsStopped": 1,
+                "runtimesUsed": [
+                  "4.1.5",
+                  "4.2.1"
+                ],
+                "runtimesUsedTotal": 2
+              },
+              {
+                "environmentName": "Staging",
+                "environmentType": "Sandbox",
+                "vcoresUsed": 0.1,
+                "applicationsTotal": 2,
+                "applicationsStarted": 1,
+                "applicationsStopped": 1,
+                "runtimesUsed": [
+                  "4.1.5",
+                  "4.2.1"
+                ],
+                "runtimesUsedTotal": 2
+              },
+              {
+                "environmentName": "Test",
+                "environmentType": "Sandbox",
+                "vcoresUsed": 0.1,
+                "applicationsTotal": 2,
+                "applicationsStarted": 1,
+                "applicationsStopped": 1,
+                "runtimesUsed": [
+                  "4.1.5",
+                  "4.2.1"
+                ],
+                "runtimesUsedTotal": 2
+              }
+            ]
           }
         }
       },
@@ -169,7 +337,26 @@
             "runtimesUsed": [
               "4.2.1:v1.2.19"
             ],
-            "runtimesUsedTotal": 1
+            "runtimesUsedTotal": 1,
+            "details": [
+              {
+                "environmentName": "Production",
+                "environmentType": "Production",
+                "coresReserved": 0.4,
+                "coresReservedA": 0.0,
+                "coresReservedB": 0.4,
+                "memoryReserved": 2.0,
+                "memoryReservedA": 0.0,
+                "memoryReservedB": 2.0,
+                "applicationsTotal": 1,
+                "applicationsStarted": 1,
+                "applicationsStopped": 0,
+                "runtimesUsed": [
+                  "4.2.1:v1.2.19"
+                ],
+                "runtimesUsedTotal": 1
+              }
+            ]
           },
           "sandbox": {
             "coresReserved": 1.2,
@@ -184,14 +371,67 @@
             "runtimesUsed": [
               "4.2.1:v1.2.19"
             ],
-            "runtimesUsedTotal": 1
+            "runtimesUsedTotal": 1,
+            "details": [
+              {
+                "environmentName": "Development",
+                "environmentType": "Sandbox",
+                "coresReserved": 0.4,
+                "coresReservedA": 0.0,
+                "coresReservedB": 0.4,
+                "memoryReserved": 2.0,
+                "memoryReservedA": 0.0,
+                "memoryReservedB": 2.0,
+                "applicationsTotal": 1,
+                "applicationsStarted": 1,
+                "applicationsStopped": 0,
+                "runtimesUsed": [
+                  "4.2.1:v1.2.19"
+                ],
+                "runtimesUsedTotal": 1
+              },
+              {
+                "environmentName": "Staging",
+                "environmentType": "Sandbox",
+                "coresReserved": 0.4,
+                "coresReservedA": 0.0,
+                "coresReservedB": 0.4,
+                "memoryReserved": 2.0,
+                "memoryReservedA": 0.0,
+                "memoryReservedB": 2.0,
+                "applicationsTotal": 1,
+                "applicationsStarted": 1,
+                "applicationsStopped": 0,
+                "runtimesUsed": [
+                  "4.2.1:v1.2.19"
+                ],
+                "runtimesUsedTotal": 1
+              },
+              {
+                "environmentName": "Test",
+                "environmentType": "Sandbox",
+                "coresReserved": 0.4,
+                "coresReservedA": 0.0,
+                "coresReservedB": 0.4,
+                "memoryReserved": 2.0,
+                "memoryReservedA": 0.0,
+                "memoryReservedB": 2.0,
+                "applicationsTotal": 1,
+                "applicationsStarted": 1,
+                "applicationsStopped": 0,
+                "runtimesUsed": [
+                  "4.2.1:v1.2.19"
+                ],
+                "runtimesUsedTotal": 1
+              }
+            ]
           }
         }
       },
       "hybrid": {
         "production": {
           "servers": 4,
-          "clusters": 0,
+          "clusters": 2,
           "serverGroups": 0,
           "applicationsTotal": 1,
           "applicationsStarted": 0,
@@ -201,11 +441,29 @@
             "4.1.4",
             "4.1.5"
           ],
-          "runtimesUsedTotal": 3
+          "runtimesUsedTotal": 3,
+          "details": [
+            {
+              "environmentName": "Production",
+              "environmentType": "Production",
+              "servers": 4,
+              "clusters": 2,
+              "serverGroups": 0,
+              "applicationsTotal": 1,
+              "applicationsStarted": 0,
+              "applicationsStopped": 1,
+              "runtimesUsed": [
+                "4.2.0",
+                "4.1.4",
+                "4.1.5"
+              ],
+              "runtimesUsedTotal": 3
+            }
+          ]
         },
         "sandbox": {
           "servers": 12,
-          "clusters": 0,
+          "clusters": 6,
           "serverGroups": 0,
           "applicationsTotal": 3,
           "applicationsStarted": 0,
@@ -215,7 +473,57 @@
             "4.1.4",
             "4.1.5"
           ],
-          "runtimesUsedTotal": 3
+          "runtimesUsedTotal": 3,
+          "details": [
+            {
+              "environmentName": "Development",
+              "environmentType": "Sandbox",
+              "servers": 4,
+              "clusters": 2,
+              "serverGroups": 0,
+              "applicationsTotal": 1,
+              "applicationsStarted": 0,
+              "applicationsStopped": 1,
+              "runtimesUsed": [
+                "4.2.0",
+                "4.1.4",
+                "4.1.5"
+              ],
+              "runtimesUsedTotal": 3
+            },
+            {
+              "environmentName": "Staging",
+              "environmentType": "Sandbox",
+              "servers": 4,
+              "clusters": 2,
+              "serverGroups": 0,
+              "applicationsTotal": 1,
+              "applicationsStarted": 0,
+              "applicationsStopped": 1,
+              "runtimesUsed": [
+                "4.2.0",
+                "4.1.4",
+                "4.1.5"
+              ],
+              "runtimesUsedTotal": 3
+            },
+            {
+              "environmentName": "Test",
+              "environmentType": "Sandbox",
+              "servers": 4,
+              "clusters": 2,
+              "serverGroups": 0,
+              "applicationsTotal": 1,
+              "applicationsStarted": 0,
+              "applicationsStopped": 1,
+              "runtimesUsed": [
+                "4.2.0",
+                "4.1.4",
+                "4.1.5"
+              ],
+              "runtimesUsedTotal": 3
+            }
+          ]
         }
       }
     },
@@ -229,12 +537,33 @@
               "messagesInFlight": 0,
               "messagesSent": 686,
               "messagesReceived": 686,
-              "messagesAck": 686
+              "messagesAck": 686,
+              "details": [
+                {
+                  "environmentName": "Production",
+                  "environmentType": "Production",
+                  "commonQueues": 7,
+                  "fifoQueues": 0,
+                  "messagesInFlight": 0,
+                  "messagesSent": 686,
+                  "messagesReceived": 686,
+                  "messagesAck": 686
+                }
+              ]
             },
             "exchanges": {
               "exchangeQueues": 7,
               "messagesPublished": 336,
-              "messagesDelivered": 0
+              "messagesDelivered": 0,
+              "details": [
+                {
+                  "environmentName": "Production",
+                  "environmentType": "Production",
+                  "exchangeQueues": 7,
+                  "messagesPublished": 336,
+                  "messagesDelivered": 0
+                }
+              ]
             }
           },
           "sandbox": {
@@ -244,12 +573,67 @@
               "messagesInFlight": 0,
               "messagesSent": 2058,
               "messagesReceived": 2058,
-              "messagesAck": 2058
+              "messagesAck": 2058,
+              "details": [
+                {
+                  "environmentName": "Development",
+                  "environmentType": "Sandbox",
+                  "commonQueues": 7,
+                  "fifoQueues": 0,
+                  "messagesInFlight": 0,
+                  "messagesSent": 686,
+                  "messagesReceived": 686,
+                  "messagesAck": 686
+                },
+                {
+                  "environmentName": "Staging",
+                  "environmentType": "Sandbox",
+                  "commonQueues": 7,
+                  "fifoQueues": 0,
+                  "messagesInFlight": 0,
+                  "messagesSent": 686,
+                  "messagesReceived": 686,
+                  "messagesAck": 686
+                },
+                {
+                  "environmentName": "Test",
+                  "environmentType": "Sandbox",
+                  "commonQueues": 7,
+                  "fifoQueues": 0,
+                  "messagesInFlight": 0,
+                  "messagesSent": 686,
+                  "messagesReceived": 686,
+                  "messagesAck": 686
+                }
+              ]
             },
             "exchanges": {
               "exchangeQueues": 21,
               "messagesPublished": 1008,
-              "messagesDelivered": 0
+              "messagesDelivered": 0,
+              "details": [
+                {
+                  "environmentName": "Development",
+                  "environmentType": "Sandbox",
+                  "exchangeQueues": 7,
+                  "messagesPublished": 336,
+                  "messagesDelivered": 0
+                },
+                {
+                  "environmentName": "Staging",
+                  "environmentType": "Sandbox",
+                  "exchangeQueues": 7,
+                  "messagesPublished": 336,
+                  "messagesDelivered": 0
+                },
+                {
+                  "environmentName": "Test",
+                  "environmentType": "Sandbox",
+                  "exchangeQueues": 7,
+                  "messagesPublished": 336,
+                  "messagesDelivered": 0
+                }
+              ]
             }
           }
         },

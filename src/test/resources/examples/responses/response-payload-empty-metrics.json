@@ -71,7 +71,10 @@
             
           ],
           "automatedPoliciesUsedTotal": 0,
-          "transactions": 0
+          "transactions": 0,
+          "details": [
+            
+          ]
         },
         "sandbox": {
           "total": 0,
@@ -96,7 +99,10 @@
             
           ],
           "automatedPoliciesUsedTotal": 0,
-          "transactions": 0
+          "transactions": 0,
+          "details": [
+            
+          ]
         }
       }
     },
@@ -127,7 +133,10 @@
             "runtimesUsed": [
               
             ],
-            "runtimesUsedTotal": 0
+            "runtimesUsedTotal": 0,
+            "details": [
+            
+          	]
           },
           "sandbox": {
             "vcoresTotal": 0,
@@ -139,7 +148,10 @@
             "runtimesUsed": [
               
             ],
-            "runtimesUsedTotal": 0
+            "runtimesUsedTotal": 0,
+            "details": [
+            
+          	]
           }
         }
       },
@@ -164,7 +176,10 @@
             "runtimesUsed": [
               
             ],
-            "runtimesUsedTotal": 0
+            "runtimesUsedTotal": 0,
+            "details": [
+            
+          	]
           },
           "sandbox": {
             "coresUsed": 0,
@@ -176,7 +191,10 @@
             "runtimesUsed": [
               
             ],
-            "runtimesUsedTotal": 0
+            "runtimesUsedTotal": 0,
+            "details": [
+            
+          	]
           }
         }
       },
@@ -191,7 +209,10 @@
           "runtimesUsed": [
             
           ],
-          "runtimesUsedTotal": 0
+          "runtimesUsedTotal": 0,
+          "details": [
+            
+          ]
         },
         "sandbox": {
           "servers": 0,
@@ -203,7 +224,10 @@
           "runtimesUsed": [
             
           ],
-          "runtimesUsedTotal": 0
+          "runtimesUsedTotal": 0,
+          "details": [
+            
+          ]
         }
       }
     },
