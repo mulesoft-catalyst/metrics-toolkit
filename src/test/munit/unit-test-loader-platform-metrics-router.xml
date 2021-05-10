@@ -230,7 +230,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<munit-tools:mock-when doc:name="Mock when ARM Get Server Groups" doc:id="3a067eaa-8e11-424c-8820-f629d7fd2698"
 				processor="http:request">
 				<munit-tools:with-attributes>
-					<munit-tools:with-attribute whereValue="Get Clusters Request" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Get Server Groups Request" attributeName="doc:name" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return>
 					<munit-tools:payload
