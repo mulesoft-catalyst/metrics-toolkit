@@ -586,33 +586,15 @@
     "osV2Metrics": {
       "stats": {
         "production": {
-          "requestCount": 104027,
+          "requestCount": 0,
           "details": [
-	            {
-	              "environmentName": "Production",
-	              "environmentType": "Production",
-	              "requestCount": 104027
-	            }
+	            
 	     	]
 	     },
         "sandbox": {
-          "requestCount": 312081,
+          "requestCount": 0,
           "details":[
-	            {
-	              "environmentName": "Development",
-	              "environmentType": "Sandbox",
-	              "requestCount": 104027
-	            },
-	            {
-	              "environmentName": "Staging",
-	              "environmentType": "Sandbox",
-	              "requestCount": 104027
-	            },
-	            {
-	              "environmentName": "Test",
-	              "environmentType": "Sandbox",
-	              "requestCount": 104027
-	            }
+	            
 			]
 		}
       }
