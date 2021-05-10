@@ -110,7 +110,7 @@ RTF Applications Stopped Total,0,Fantasy Company,2021-02-21T23:05:37.668-08:00,R
 RTF Runtime Versions Used,4.2.1:v1.2.19,Fantasy Company,2021-02-21T23:05:37.668-08:00,Runtime Manager - RTF,Sandbox
 RTF Runtime Versions Used Total,1,Fantasy Company,2021-02-21T23:05:37.668-08:00,Runtime Manager - RTF,Sandbox
 Standalone Mule Servers Total,4,Fantasy Company,2021-02-21T23:05:37.668-08:00,Runtime Manager - ARM,Production
-Standalone Mule Clusters Total,0,Fantasy Company,2021-02-21T23:05:37.668-08:00,Runtime Manager - ARM,Production
+Standalone Mule Clusters Total,2,Fantasy Company,2021-02-21T23:05:37.668-08:00,Runtime Manager - ARM,Production
 Standalone Mule Server Groups Total,0,Fantasy Company,2021-02-21T23:05:37.668-08:00,Runtime Manager - ARM,Production
 Standalone Mule Applications Total,1,Fantasy Company,2021-02-21T23:05:37.668-08:00,Runtime Manager - ARM,Production
 Standalone Mule Applications Started Total,0,Fantasy Company,2021-02-21T23:05:37.668-08:00,Runtime Manager - ARM,Production
@@ -118,7 +118,7 @@ Standalone Mule Applications Stopped Total,1,Fantasy Company,2021-02-21T23:05:37
 Standalone Mule Runtime Versions,4.2.0 4.1.4 4.1.5,Fantasy Company,2021-02-21T23:05:37.668-08:00,Runtime Manager - ARM,Production
 Standalone Mule Runtime Versions Total,3,Fantasy Company,2021-02-21T23:05:37.668-08:00,Runtime Manager - ARM,Production
 Standalone Mule Servers Total,12,Fantasy Company,2021-02-21T23:05:37.668-08:00,Runtime Manager - ARM,Sandbox
-Standalone Mule Clusters Total,0,Fantasy Company,2021-02-21T23:05:37.668-08:00,Runtime Manager - ARM,Sandbox
+Standalone Mule Clusters Total,6,Fantasy Company,2021-02-21T23:05:37.668-08:00,Runtime Manager - ARM,Sandbox
 Standalone Mule Server Groups Total,0,Fantasy Company,2021-02-21T23:05:37.668-08:00,Runtime Manager - ARM,Sandbox
 Standalone Mule Applications Total,3,Fantasy Company,2021-02-21T23:05:37.668-08:00,Runtime Manager - ARM,Sandbox
 Standalone Mule Applications Started Total,0,Fantasy Company,2021-02-21T23:05:37.668-08:00,Runtime Manager - ARM,Sandbox
