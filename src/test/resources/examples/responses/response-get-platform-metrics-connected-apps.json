@@ -1,6 +1,6 @@
 [
   {
-    "date": "2021-04-29T12:44:49.804-07:00",
+    "date": "2021-05-07T16:10:03.976-07:00",
     "businessGroup": "Fantasy Company",
     "businessGroupId": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
     "coreServicesMetrics": {
@@ -76,24 +76,29 @@
             {
               "environmentName": "Production",
               "environmentType": "Production",
-              "managedApisTotal": 2,
-              "apiInstancesActive": 0,
-              "apiInstancesInactive": 4,
-              "apiInstancesTotal": 4,
-              "apiInstancesVersions": 2,
-              "apiInstancesWithPolicies": 4,
-              "apiInstancesWithoutPolicies": 0,
-              "apiInstancesWithSecurity": 4,
-              "apiInstancesWithoutSecurity": 0,
-              "apiInstancesWithContracts": 4,
-              "apiInstancesWithoutContracts": 0,
-              "apiInstancesWithMoreThanOneConsumer": 0,
-              "apiInstancesWithOneOrMoreConsumers": 4,
-              "apiInstancesContracts": 4,
+              "total": 2,
+              "active": 0,
+              "inactive": 4,
+              "apiInstances": 4,
+              "apiVersions": 2,
+              "apisWithPolicies": 4,
+              "apisWithoutPolicies": 0,
+              "apisWithSecurity": 4,
+              "apisWithoutSecurity": 0,
+              "apisWithContracts": 4,
+              "apisWithoutContracts": 0,
+              "apisWithMoreThanOneConsumer": 0,
+              "apisWithOneOrMoreConsumers": 4,
+              "contracts": 4,
               "policiesUsed": [
                 "client-id-enforcement"
               ],
-              "policiesUsedTotal": 1
+              "policiesUsedTotal": 1,
+              "automatedPoliciesUsed": [
+                
+              ],
+              "automatedPoliciesUsedTotal": 0,
+              "transactions": 0
             }
           ]
         },
@@ -125,68 +130,83 @@
             {
               "environmentName": "Development",
               "environmentType": "Sandbox",
-              "managedApisTotal": 2,
-              "apiInstancesActive": 0,
-              "apiInstancesInactive": 4,
-              "apiInstancesTotal": 4,
-              "apiInstancesVersions": 2,
-              "apiInstancesWithPolicies": 4,
-              "apiInstancesWithoutPolicies": 0,
-              "apiInstancesWithSecurity": 4,
-              "apiInstancesWithoutSecurity": 0,
-              "apiInstancesWithContracts": 4,
-              "apiInstancesWithoutContracts": 0,
-              "apiInstancesWithMoreThanOneConsumer": 0,
-              "apiInstancesWithOneOrMoreConsumers": 4,
-              "apiInstancesContracts": 4,
+              "total": 2,
+              "active": 0,
+              "inactive": 4,
+              "apiInstances": 4,
+              "apiVersions": 2,
+              "apisWithPolicies": 4,
+              "apisWithoutPolicies": 0,
+              "apisWithSecurity": 4,
+              "apisWithoutSecurity": 0,
+              "apisWithContracts": 4,
+              "apisWithoutContracts": 0,
+              "apisWithMoreThanOneConsumer": 0,
+              "apisWithOneOrMoreConsumers": 4,
+              "contracts": 4,
               "policiesUsed": [
                 "client-id-enforcement"
               ],
-              "policiesUsedTotal": 1
+              "policiesUsedTotal": 1,
+              "automatedPoliciesUsed": [
+                
+              ],
+              "automatedPoliciesUsedTotal": 0,
+              "transactions": 0
             },
             {
               "environmentName": "Staging",
               "environmentType": "Sandbox",
-              "managedApisTotal": 2,
-              "apiInstancesActive": 0,
-              "apiInstancesInactive": 4,
-              "apiInstancesTotal": 4,
-              "apiInstancesVersions": 2,
-              "apiInstancesWithPolicies": 4,
-              "apiInstancesWithoutPolicies": 0,
-              "apiInstancesWithSecurity": 4,
-              "apiInstancesWithoutSecurity": 0,
-              "apiInstancesWithContracts": 4,
-              "apiInstancesWithoutContracts": 0,
-              "apiInstancesWithMoreThanOneConsumer": 0,
-              "apiInstancesWithOneOrMoreConsumers": 4,
-              "apiInstancesContracts": 4,
+              "total": 2,
+              "active": 0,
+              "inactive": 4,
+              "apiInstances": 4,
+              "apiVersions": 2,
+              "apisWithPolicies": 4,
+              "apisWithoutPolicies": 0,
+              "apisWithSecurity": 4,
+              "apisWithoutSecurity": 0,
+              "apisWithContracts": 4,
+              "apisWithoutContracts": 0,
+              "apisWithMoreThanOneConsumer": 0,
+              "apisWithOneOrMoreConsumers": 4,
+              "contracts": 4,
               "policiesUsed": [
                 "client-id-enforcement"
               ],
-              "policiesUsedTotal": 1
+              "policiesUsedTotal": 1,
+              "automatedPoliciesUsed": [
+                
+              ],
+              "automatedPoliciesUsedTotal": 0,
+              "transactions": 0
             },
             {
               "environmentName": "Test",
               "environmentType": "Sandbox",
-              "managedApisTotal": 2,
-              "apiInstancesActive": 0,
-              "apiInstancesInactive": 4,
-              "apiInstancesTotal": 4,
-              "apiInstancesVersions": 2,
-              "apiInstancesWithPolicies": 4,
-              "apiInstancesWithoutPolicies": 0,
-              "apiInstancesWithSecurity": 4,
-              "apiInstancesWithoutSecurity": 0,
-              "apiInstancesWithContracts": 4,
-              "apiInstancesWithoutContracts": 0,
-              "apiInstancesWithMoreThanOneConsumer": 0,
-              "apiInstancesWithOneOrMoreConsumers": 4,
-              "apiInstancesContracts": 4,
+              "total": 2,
+              "active": 0,
+              "inactive": 4,
+              "apiInstances": 4,
+              "apiVersions": 2,
+              "apisWithPolicies": 4,
+              "apisWithoutPolicies": 0,
+              "apisWithSecurity": 4,
+              "apisWithoutSecurity": 0,
+              "apisWithContracts": 4,
+              "apisWithoutContracts": 0,
+              "apisWithMoreThanOneConsumer": 0,
+              "apisWithOneOrMoreConsumers": 4,
+              "contracts": 4,
               "policiesUsed": [
                 "client-id-enforcement"
               ],
-              "policiesUsedTotal": 1
+              "policiesUsedTotal": 1,
+              "automatedPoliciesUsed": [
+                
+              ],
+              "automatedPoliciesUsedTotal": 0,
+              "transactions": 0
             }
           ]
         }
@@ -411,7 +431,7 @@
       "hybrid": {
         "production": {
           "servers": 4,
-          "clusters": 0,
+          "clusters": 2,
           "serverGroups": 0,
           "applicationsTotal": 1,
           "applicationsStarted": 0,
@@ -426,15 +446,24 @@
             {
               "environmentName": "Production",
               "environmentType": "Production",
+              "servers": 4,
+              "clusters": 2,
+              "serverGroups": 0,
               "applicationsTotal": 1,
               "applicationsStarted": 0,
-              "applicationsStopped": 1
+              "applicationsStopped": 1,
+              "runtimesUsed": [
+                "4.2.0",
+                "4.1.4",
+                "4.1.5"
+              ],
+              "runtimesUsedTotal": 3
             }
           ]
         },
         "sandbox": {
           "servers": 12,
-          "clusters": 0,
+          "clusters": 6,
           "serverGroups": 0,
           "applicationsTotal": 3,
           "applicationsStarted": 0,
@@ -449,23 +478,50 @@
             {
               "environmentName": "Development",
               "environmentType": "Sandbox",
+              "servers": 4,
+              "clusters": 2,
+              "serverGroups": 0,
               "applicationsTotal": 1,
               "applicationsStarted": 0,
-              "applicationsStopped": 1
+              "applicationsStopped": 1,
+              "runtimesUsed": [
+                "4.2.0",
+                "4.1.4",
+                "4.1.5"
+              ],
+              "runtimesUsedTotal": 3
             },
             {
               "environmentName": "Staging",
               "environmentType": "Sandbox",
+              "servers": 4,
+              "clusters": 2,
+              "serverGroups": 0,
               "applicationsTotal": 1,
               "applicationsStarted": 0,
-              "applicationsStopped": 1
+              "applicationsStopped": 1,
+              "runtimesUsed": [
+                "4.2.0",
+                "4.1.4",
+                "4.1.5"
+              ],
+              "runtimesUsedTotal": 3
             },
             {
               "environmentName": "Test",
               "environmentType": "Sandbox",
+              "servers": 4,
+              "clusters": 2,
+              "serverGroups": 0,
               "applicationsTotal": 1,
               "applicationsStarted": 0,
-              "applicationsStopped": 1
+              "applicationsStopped": 1,
+              "runtimesUsed": [
+                "4.2.0",
+                "4.1.4",
+                "4.1.5"
+              ],
+              "runtimesUsedTotal": 3
             }
           ]
         }

@@ -889,7 +889,7 @@
   },
   {
     "name": "Standalone Mule Clusters Total",
-    "value": 0,
+    "value": 2,
     "businessGroup": "Fantasy Company",
     "date": "2021-02-21T23:02:29.563-08:00",
     "group": "Runtime Manager - ARM",
@@ -953,7 +953,7 @@
   },
   {
     "name": "Standalone Mule Clusters Total",
-    "value": 0,
+    "value": 6,
     "businessGroup": "Fantasy Company",
     "date": "2021-02-21T23:02:29.563-08:00",
     "group": "Runtime Manager - ARM",
