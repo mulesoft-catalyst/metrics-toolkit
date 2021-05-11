@@ -1,6 +1,6 @@
 [
   {
-    "date": "2021-02-21T04:09:16.703-08:00",
+    "date": "2021-04-29T12:44:48.871-07:00",
     "businessGroup": "Fantasy Company",
     "businessGroupId": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
     "coreServicesMetrics": {
@@ -71,7 +71,10 @@
             
           ],
           "automatedPoliciesUsedTotal": 0,
-          "transactions": 0
+          "transactions": 0,
+          "details": [
+            
+          ]
         },
         "sandbox": {
           "total": 0,
@@ -96,7 +99,10 @@
             
           ],
           "automatedPoliciesUsedTotal": 0,
-          "transactions": 0
+          "transactions": 0,
+          "details": [
+            
+          ]
         }
       }
     },
@@ -128,7 +134,22 @@
               "4.1.5",
               "4.2.1"
             ],
-            "runtimesUsedTotal": 2
+            "runtimesUsedTotal": 2,
+            "details": [
+              {
+                "environmentName": "Production",
+                "environmentType": "Production",
+                "vcoresUsed": 0.1,
+                "applicationsTotal": 2,
+                "applicationsStarted": 1,
+                "applicationsStopped": 1,
+                "runtimesUsed": [
+                  "4.1.5",
+                  "4.2.1"
+                ],
+                "runtimesUsedTotal": 2
+              }
+            ]
           },
           "sandbox": {
             "vcoresTotal": 47,
@@ -141,7 +162,48 @@
               "4.1.5",
               "4.2.1"
             ],
-            "runtimesUsedTotal": 2
+            "runtimesUsedTotal": 2,
+            "details": [
+              {
+                "environmentName": "Development",
+                "environmentType": "Sandbox",
+                "vcoresUsed": 0.1,
+                "applicationsTotal": 2,
+                "applicationsStarted": 1,
+                "applicationsStopped": 1,
+                "runtimesUsed": [
+                  "4.1.5",
+                  "4.2.1"
+                ],
+                "runtimesUsedTotal": 2
+              },
+              {
+                "environmentName": "Staging",
+                "environmentType": "Sandbox",
+                "vcoresUsed": 0.1,
+                "applicationsTotal": 2,
+                "applicationsStarted": 1,
+                "applicationsStopped": 1,
+                "runtimesUsed": [
+                  "4.1.5",
+                  "4.2.1"
+                ],
+                "runtimesUsedTotal": 2
+              },
+              {
+                "environmentName": "Test",
+                "environmentType": "Sandbox",
+                "vcoresUsed": 0.1,
+                "applicationsTotal": 2,
+                "applicationsStarted": 1,
+                "applicationsStopped": 1,
+                "runtimesUsed": [
+                  "4.1.5",
+                  "4.2.1"
+                ],
+                "runtimesUsedTotal": 2
+              }
+            ]
           }
         }
       },
@@ -169,7 +231,10 @@
             "runtimesUsed": [
               
             ],
-            "runtimesUsedTotal": 0
+            "runtimesUsedTotal": 0,
+            "details": [
+              
+            ]
           },
           "sandbox": {
             "coresReserved": 0.0,
@@ -184,7 +249,10 @@
             "runtimesUsed": [
               
             ],
-            "runtimesUsedTotal": 0
+            "runtimesUsedTotal": 0,
+            "details": [
+              
+            ]
           }
         }
       },
@@ -199,7 +267,10 @@
           "runtimesUsed": [
             
           ],
-          "runtimesUsedTotal": 0
+          "runtimesUsedTotal": 0,
+          "details": [
+            
+          ]
         },
         "sandbox": {
           "servers": 0,
@@ -211,7 +282,10 @@
           "runtimesUsed": [
             
           ],
-          "runtimesUsedTotal": 0
+          "runtimesUsedTotal": 0,
+          "details": [
+            
+          ]
         }
       }
     },
@@ -225,12 +299,18 @@
               "messagesInFlight": 0,
               "messagesSent": 0,
               "messagesReceived": 0,
-              "messagesAck": 0
+              "messagesAck": 0,
+              "details": [
+                
+              ]
             },
             "exchanges": {
               "exchangeQueues": 0,
               "messagesPublished": 0,
-              "messagesDelivered": 0
+              "messagesDelivered": 0,
+              "details": [
+                
+              ]
             }
           },
           "sandbox": {
@@ -240,12 +320,18 @@
               "messagesInFlight": 0,
               "messagesSent": 0,
               "messagesReceived": 0,
-              "messagesAck": 0
+              "messagesAck": 0,
+              "details": [
+                
+              ]
             },
             "exchanges": {
               "exchangeQueues": 0,
               "messagesPublished": 0,
-              "messagesDelivered": 0
+              "messagesDelivered": 0,
+              "details": [
+                
+              ]
             }
           }
         },
@@ -254,6 +340,22 @@
             
           ],
           "sandbox": [
+            
+          ]
+        }
+      }
+    },
+    "osV2Metrics": {
+      "stats": {
+        "production": {
+          "requestCount": 0,
+          "details": [
+            
+          ]
+        },
+        "sandbox": {
+          "requestCount": 0,
+          "details": [
             
           ]
         }
