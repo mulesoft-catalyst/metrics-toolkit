@@ -171,6 +171,7 @@ MQ | Queues ACK Messages total | BG, Environment, Region |
 MQ | Exchanges total | BG, Environment, Region |
 MQ | Exchanges Published Messages total | BG, Environment, Region |
 MQ | Exchanges Delivered Messages total | BG, Environment, Region |
+OSv2 | ObjectStore V2 Request Count | BG, Environment |
 
 ### Platform Benefits
 
@@ -271,7 +272,7 @@ poller.enabled | Property to enable or disable the poller to collect and load me
 poller.frequency.cron | Defines the exact frequency (using cron-expressions) to trigger the execution: Recommended to collect metrics once a day | 0 0 0 \* \* ? \*
 poller.frequency.timezone | Defines the time zone in which the cron-expression will be efective | GMT-3
 aggregation.raw | Flag to define the format of the final response **False**: Won’t provide the raw data but final metrics **True**: Will provide raw data to be aggregated outside this asset | false
-collectors | Comma separated set of collectors that should be executed. Default value: all. Possible values available for all deployment models: core (Core Services) ap (Automated Policies) apc (API Clients) apm (API Manager) arm (Standalone Runtimes) dc (Design Center) ex (Exchange). The following collectors are not available for PCE: amq (Anypoint MQ) apma (API Manager Analytics) ch (Cloudhub) rtf (Runtime Fabric) | all
+collectors | Comma separated set of collectors that should be executed. Default value: all. Possible values available for all deployment models: core (Core Services) ap (Automated Policies) apc (API Clients) apm (API Manager) arm (Standalone Runtimes) dc (Design Center) ex (Exchange). The following collectors are not available for PCE: amq (Anypoint MQ) apma (API Manager Analytics) ch (Cloudhub) rtf (Runtime Fabric) | osv2 (Object Store V2) | all
 loader.strategy | In the case of using the poller, this property defines the strategy for loading data in external systems, the options are: **csv, json, logger, splunk, am, elk, tableau, mongodb** | logger
 anypoint.platform.host | Anypoint Platform Host. Change to eu1.anypoint.mulesoft.com if using the EU Control Plane or to a private host if using PCE | anypoint.mulesoft.com
 auth.mode | Authentication mode. Valid options are: platform-credentials or connected-app-credentials | platform-credentials
@@ -340,9 +341,12 @@ splunk.port | HEC port | 8088
 splunk.protocol | HEC endpoint protocol: HTTPS or HTTP | HTTP
 splunk.token | HEC token  |
 splunk.source | HEC source | metrics-source
-splunk.source.type | Source Type | _json
+splunk.source.type | Source Type | _json (*)
 splunk.index.metrics | Index for storing Platform operational metrics | metrics
 splunk.index.benefits | Index for storing Platform benefits | platform_benefits
+
+
+> (*): Please note that by default, "Source Types" are created with a limit of 3000 characters. It is very likely that the Metrics Accelerator JSON event exceeds this limit. In order to solve that, you need to add a new property "TRUNCATE" in the Advanced configuration of the specific Source Type. For example: TRUNCATE = 10000 
 
 ### ELK steps
 
@@ -475,6 +479,9 @@ mongodb.password | MongoDB password |
 	- Not supported on Private Cloud Edition (**PCE**)
 	- Not supported when authenticating with **Connected Apps**
 	- Not supported on **GovCloud**
+- **OSv2** metrics: 
+  - Not supported on Private Cloud Edition (**PCE**)
+  - Not supported when authenticating with **Connected Apps**
 
 ## Some Theory around the Accelerator
 The accelerator is intended to cover the main areas to define and implement metrics using Mule.
