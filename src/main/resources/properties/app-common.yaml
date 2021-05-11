@@ -108,6 +108,12 @@ anypoint:
           path: "/mq/stats/api/v1/organizations/{orgId}/environments/{envId}/regions/{regionId}/queues/{queueId}"
         exchanges:
           path: "/mq/stats/api/v1/organizations/{orgId}/environments/{envId}/regions/{regionId}/exchanges/{exchangeId}"
+      osv2:
+        maxConcurrency: "100"
+        period: "1day"
+        host: "object-store-stats.anypoint.mulesoft.com"
+        stats:
+          path: "/api/v1/organizations/{orgId}/environments/{envId}"
             
 
 cache:

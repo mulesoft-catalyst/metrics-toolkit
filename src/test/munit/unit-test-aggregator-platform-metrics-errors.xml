@@ -213,7 +213,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<munit-tools:mock-when doc:name="Mock when ARM Get Server Groups" doc:id="14227fa3-c5e7-420b-8ef6-026dd0a8b5d9"
 				processor="http:request">
 				<munit-tools:with-attributes>
-					<munit-tools:with-attribute whereValue="Get Clusters Request" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Get Server Groups Request" attributeName="doc:name" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return>
 					<munit-tools:payload value="#[null]" />
@@ -294,6 +294,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
+		<munit-tools:mock-when doc:name="Mock when Get OSv2 Request" doc:id="eace2ef4-0e50-474c-b5c7-29d7af3da618" processor="http:request">
+			<munit-tools:with-attributes >
+				<munit-tools:with-attribute whereValue="Get OSv2 Stats Request" attributeName="doc:name" />
+			</munit-tools:with-attributes>
+			<munit-tools:then-return >
+				<munit-tools:payload value="#[null]" />
+			</munit-tools:then-return>
+		</munit-tools:mock-when>
 	</munit:before-test>
 	<munit:after-test name="unit-test-aggregator-platform-metrics-errors-after-test" doc:id="d6a0610d-2cf2-4841-bffc-b15d1abd1ed2" >
 		<remove-variable doc:name="Remove Variable" doc:id="d35092c1-87d9-44ae-a7f8-f4ab38c37e22" variableName="expectedResponse"/>

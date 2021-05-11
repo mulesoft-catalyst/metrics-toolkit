@@ -82,8 +82,8 @@ var errors = vars.errors
 				policiesUsedTotal: 0,
 				automatedPoliciesUsed: [],
 				automatedPoliciesUsedTotal: 0,
-				transactions: 0 //last x days on the period collected
-			
+				transactions: 0, //last x days on the period collected
+				details: []
 			},
 			sandbox: {
 				total: 0,
@@ -104,7 +104,8 @@ var errors = vars.errors
 				policiesUsedTotal: 0,
 				automatedPoliciesUsed: [],
 				automatedPoliciesUsedTotal: 0,
-				transactions: 0 //last x days on the period collected
+				transactions: 0, //last x days on the period collected
+				details: []
 			}	
 		}	
 	},
@@ -134,7 +135,8 @@ var errors = vars.errors
 					applicationsStarted: 0,
 					applicationsStopped: 0,
 					runtimesUsed: [],
-					runtimesUsedTotal: 0
+					runtimesUsedTotal: 0,
+					details: []
 				},
 				sandbox:{
 					vcoresTotal: 0,
@@ -144,7 +146,8 @@ var errors = vars.errors
 					applicationsStarted: 0,
 					applicationsStopped: 0,
 					runtimesUsed: [],
-					runtimesUsedTotal: 0
+					runtimesUsedTotal: 0,
+					details: []
 				}
 			}
 		},
@@ -170,8 +173,9 @@ var errors = vars.errors
 					applicationsStarted: 0,
 					applicationsStopped: 0,
 					runtimesUsed: [],
-					runtimesUsedTotal: 0
-
+					runtimesUsedTotal: 0,
+					details: []
+					
 					
 				},
 				sandbox:{
@@ -185,7 +189,8 @@ var errors = vars.errors
 					applicationsStarted: 0,
 					applicationsStopped: 0,
 					runtimesUsed: [],
-					runtimesUsedTotal: 0
+					runtimesUsedTotal: 0,
+					details: []
 				}	
 			}
 		},
@@ -198,7 +203,8 @@ var errors = vars.errors
 				applicationsStarted: 0,
 				applicationsStopped: 0,
 				runtimesUsed: [],
-				runtimesUsedTotal: 0
+				runtimesUsedTotal: 0,
+				details: []
 			},
 			sandbox:{
 				servers: 0,
@@ -208,10 +214,292 @@ var errors = vars.errors
 				applicationsStarted: 0,
 				applicationsStopped: 0,
 				runtimesUsed: [],
-				runtimesUsedTotal: 0
+				runtimesUsedTotal: 0,
+				details: []
 			}
-		}
-		
+		}	
 	},
+	"mqMetrics": {
+        "stats": {
+            "summary": {
+                "production": {
+                    "queues": {
+                        "commonQueues": 0,
+                        "fifoQueues": 0,
+                        "messagesInFlight": 0,
+                        "messagesSent": 0,
+                        "messagesReceived": 0,
+                        "messagesAck": 0,
+                        "details": []
+                    },
+                    "exchanges": {
+                        "exchangeQueues": 0,
+                        "messagesPublished": 0,
+                        "messagesDelivered": 0,
+                        "details": []
+                    }
+                },
+                "sandbox": {
+                    "queues": {
+                        "commonQueues": 0,
+                        "fifoQueues": 0,
+                        "messagesInFlight": 0,
+                        "messagesSent": 0,
+                        "messagesReceived": 0,
+                        "messagesAck": 0,
+                        "details": []
+                    },
+                    "exchanges": {
+                        "exchangeQueues": 0,
+                        "messagesPublished": 0,
+                        "messagesDelivered": 0,
+                        "details": []
+                    }
+                }
+            },
+            "byRegion": {
+                "production": [
+                    {
+                        "id": "us-east-1",
+                        "queues": {
+                            "commonQueues": 0,
+                            "fifoQueues": 0,
+                            "messagesInFlight": 0,
+                            "messagesSent": 0,
+                            "messagesReceived": 0,
+                            "messagesAck": 0
+                        },
+                        "exchanges": {
+                            "exchangeQueues": 0,
+                            "messagesPublished": 0,
+                            "messagesDelivered": 0
+                        }
+                    },
+                    {
+                        "id": "us-west-2",
+                        "queues": {
+                            "commonQueues": 0,
+                            "fifoQueues": 0,
+                            "messagesInFlight": 0,
+                            "messagesSent": 0,
+                            "messagesReceived": 0,
+                            "messagesAck": 0
+                        },
+                        "exchanges": {
+                            "exchangeQueues": 0,
+                            "messagesPublished": 0,
+                            "messagesDelivered": 0
+                        }
+                    },
+                    {
+                        "id": "ca-central-1",
+                        "queues": {
+                            "commonQueues": 0,
+                            "fifoQueues": 0,
+                            "messagesInFlight": 0,
+                            "messagesSent": 0,
+                            "messagesReceived": 0,
+                            "messagesAck": 0
+                        },
+                        "exchanges": {
+                            "exchangeQueues": 0,
+                            "messagesPublished": 0,
+                            "messagesDelivered": 0
+                        }
+                    },
+                    {
+                        "id": "eu-west-1",
+                        "queues": {
+                            "commonQueues": 0,
+                            "fifoQueues": 0,
+                            "messagesInFlight": 0,
+                            "messagesSent": 0,
+                            "messagesReceived": 0,
+                            "messagesAck": 0
+                        },
+                        "exchanges": {
+                            "exchangeQueues": 0,
+                            "messagesPublished": 0,
+                            "messagesDelivered": 0
+                        }
+                    },
+                    {
+                        "id": "eu-west-2",
+                        "queues": {
+                            "commonQueues": 0,
+                            "fifoQueues": 0,
+                            "messagesInFlight": 0,
+                            "messagesSent": 0,
+                            "messagesReceived": 0,
+                            "messagesAck": 0
+                        },
+                        "exchanges": {
+                            "exchangeQueues": 0,
+                            "messagesPublished": 0,
+                            "messagesDelivered": 0
+                        }
+                    },
+                    {
+                        "id": "ap-southeast-1",
+                        "queues": {
+                            "commonQueues": 0,
+                            "fifoQueues": 0,
+                            "messagesInFlight": 0,
+                            "messagesSent": 0,
+                            "messagesReceived": 0,
+                            "messagesAck": 0
+                        },
+                        "exchanges": {
+                            "exchangeQueues": 0,
+                            "messagesPublished": 0,
+                            "messagesDelivered": 0
+                        }
+                    },
+                    {
+                        "id": "ap-southeast-2",
+                        "queues": {
+                            "commonQueues": 0,
+                            "fifoQueues": 0,
+                            "messagesInFlight": 0,
+                            "messagesSent": 0,
+                            "messagesReceived": 0,
+                            "messagesAck": 0
+                        },
+                        "exchanges": {
+                            "exchangeQueues": 0,
+                            "messagesPublished": 0,
+                            "messagesDelivered": 0
+                        }
+                    }
+                ],
+                "sandbox": [
+                    {
+                        "id": "us-east-1",
+                        "queues": {
+                            "commonQueues": 0,
+                            "fifoQueues": 0,
+                            "messagesInFlight": 0,
+                            "messagesSent": 0,
+                            "messagesReceived": 0,
+                            "messagesAck": 0
+                        },
+                        "exchanges": {
+                            "exchangeQueues": 0,
+                            "messagesPublished": 0,
+                            "messagesDelivered": 0
+                        }
+                    },
+                    {
+                        "id": "us-west-2",
+                        "queues": {
+                            "commonQueues": 0,
+                            "fifoQueues": 0,
+                            "messagesInFlight": 0,
+                            "messagesSent": 0,
+                            "messagesReceived": 0,
+                            "messagesAck": 0
+                        },
+                        "exchanges": {
+                            "exchangeQueues": 0,
+                            "messagesPublished": 0,
+                            "messagesDelivered": 0
+                        }
+                    },
+                    {
+                        "id": "ca-central-1",
+                        "queues": {
+                            "commonQueues": 0,
+                            "fifoQueues": 0,
+                            "messagesInFlight": 0,
+                            "messagesSent": 0,
+                            "messagesReceived": 0,
+                            "messagesAck": 0
+                        },
+                        "exchanges": {
+                            "exchangeQueues": 0,
+                            "messagesPublished": 0,
+                            "messagesDelivered": 0
+                        }
+                    },
+                    {
+                        "id": "eu-west-1",
+                        "queues": {
+                            "commonQueues": 0,
+                            "fifoQueues": 0,
+                            "messagesInFlight": 0,
+                            "messagesSent": 0,
+                            "messagesReceived": 0,
+                            "messagesAck": 0
+                        },
+                        "exchanges": {
+                            "exchangeQueues": 0,
+                            "messagesPublished": 0,
+                            "messagesDelivered": 0
+                        }
+                    },
+                    {
+                        "id": "eu-west-2",
+                        "queues": {
+                            "commonQueues": 0,
+                            "fifoQueues": 0,
+                            "messagesInFlight": 0,
+                            "messagesSent": 0,
+                            "messagesReceived": 0,
+                            "messagesAck": 0
+                        },
+                        "exchanges": {
+                            "exchangeQueues": 0,
+                            "messagesPublished": 0,
+                            "messagesDelivered": 0
+                        }
+                    },
+                    {
+                        "id": "ap-southeast-1",
+                        "queues": {
+                            "commonQueues": 0,
+                            "fifoQueues": 0,
+                            "messagesInFlight": 0,
+                            "messagesSent": 0,
+                            "messagesReceived": 0,
+                            "messagesAck": 0
+                        },
+                        "exchanges": {
+                            "exchangeQueues": 0,
+                            "messagesPublished": 0,
+                            "messagesDelivered": 0
+                        }
+                    },
+                    {
+                        "id": "ap-southeast-2",
+                        "queues": {
+                            "commonQueues": 0,
+                            "fifoQueues": 0,
+                            "messagesInFlight": 0,
+                            "messagesSent": 0,
+                            "messagesReceived": 0,
+                            "messagesAck": 0
+                        },
+                        "exchanges": {
+                            "exchangeQueues": 0,
+                            "messagesPublished": 0,
+                            "messagesDelivered": 0
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "osV2Metrics": {
+        "stats": {
+            "production": {
+                "requestCount": 0,
+                "details": []
+            },
+            "sandbox": {
+                "requestCount": 0,
+                "details": []
+            }
+        }
+    },
 	errors: errors	
 }
