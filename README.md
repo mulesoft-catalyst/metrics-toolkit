@@ -217,7 +217,7 @@ Splunk | Total Number of Splunk dashboards
 - Mule Runtime 4.2.2 or above
 - All deployments models are supported: CloudHub, OnPrem hosted Runtimes, Runtime Fabric
 - Anypoint Platform credentials, that can be:
-  - Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data
+  - Anypoint Platform user with the Organization Administrator role in the master organization and CloudHub Admin role (or specific permissions - see connected app section) in all environments of all Sub Orgs you want to collect data
   - A Connected App (client credentials) with the following scopes (make sure to include all Sub Orgs and all environments you want to collect data):
     - Design Center
       - Design Center Developer
