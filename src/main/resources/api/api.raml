@@ -63,6 +63,8 @@ securitySchemes:
               - core: Core Services
               - dc: Design Center
               - ex: Exchange
+              - amq: Anypoint MQ
+              - osv2: ObjectStore V2
               
             Not available for PCE deployment model:
               - amq: Anypoint MQ
@@ -74,7 +76,7 @@ securitySchemes:
            
         required: false
         type: string
-        pattern: ^all|([ap|apc|apm|arm|core|dc|ex|amq|apma|ch|rtf]+([,[ap|apc|apm|arm|core|dc|ex|amq|apma|ch|rtf]])*)$  
+        pattern: ^all|([ap|apc|apm|arm|core|dc|ex|amq|apma|ch|rtf|osv2]+([,[ap|apc|apm|arm|core|dc|ex|amq|apma|ch|rtf|osv2]])*)$  
       raw:
         description: "Provide raw data"
         type: boolean
