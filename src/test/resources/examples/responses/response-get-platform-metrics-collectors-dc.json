@@ -293,6 +293,22 @@
         }
       }
     },
+    "osV2Metrics": {
+      "stats": {
+        "production": {
+          "requestCount": 0,
+          "details": [
+            
+          ]
+        },
+        "sandbox": {
+          "requestCount": 0,
+          "details": [
+            
+          ]
+        }
+      }
+    },
     "errors": [
       
     ]
