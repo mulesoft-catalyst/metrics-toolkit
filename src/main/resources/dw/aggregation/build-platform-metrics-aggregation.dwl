@@ -7,19 +7,20 @@ var errors = vars.errors
 
 var cloudHubApps = if (payload[0].payload != null) payload[0].payload.payload else null
 var exchangeAssets = payload[1].payload default []
-var apiManagerApis = if (payload[2].payload != null) payload[2].payload.payload else null
+var apiManagerApis = if (payload[2].payload != null) payload[2].payload[0].payload.payload else null
+var apiClients = if (payload[2].payload != null) payload[2].payload[1].payload.applications else null
+var apiAutomatedPolicies = if (payload[2].payload != null) payload[2].payload[2].payload.payload else null
 var members = if (payload[3].payload != null) payload[3].payload[0].payload else null
 var usage = if (payload[3].payload != null) payload[3].payload[1].payload else null
 var designCenterProjects = payload[4].payload default []
-var apiClients = if (payload[5].payload != null) payload[5].payload.applications else null
-var apiAutomatedPolicies = if (payload[6].payload != null) payload[6].payload.payload else null
-var armApps = if (payload[7].payload != null) payload[7].payload[0].payload.payload else null
-var armServers = if (payload[7].payload != null) payload[7].payload[1].payload.payload else null
-var armClusters = if (payload[7].payload != null) payload[7].payload[2].payload.payload else null
-var armServerGroups = if (payload[7].payload != null) payload[7].payload[3].payload.payload else null
-var rtf = payload[8].payload default []
-var analyticsQueryResult = if (payload[9].payload != null) payload[9].payload.payload else null
-var mq = if (payload[10].payload != null) payload[10].payload.payload else null
+var armApps = if (payload[5].payload != null) payload[5].payload[0].payload.payload else null
+var armServers = if (payload[5].payload != null) payload[5].payload[1].payload.payload else null
+var armClusters = if (payload[5].payload != null) payload[5].payload[2].payload.payload else null
+var armServerGroups = if (payload[5].payload != null) payload[5].payload[3].payload.payload else null
+var rtf = payload[6].payload default []
+var analyticsQueryResult = if (payload[7].payload != null) payload[7].payload.payload else null
+var mq = if (payload[8].payload != null) payload[8].payload.payload else null
+var osv2 = if (payload[9].payload != null) payload[9].payload.payload else null
 
 var RTF_TARGET_TYPE = 'MC'
 var RTF_MI = "Mi"
@@ -569,6 +570,26 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 				sandbox: (getSandboxData(mq)[0] default [])
 			}
 			
+		},
+	},
+	osV2Metrics: {
+		stats: {
+			production: { 
+				requestCount: sum(flatten(getProdData(osv2)).objectStoreRequestCount default [0]),
+				details: osv2 filter ($.isProduction) map ((item, index) -> {
+							environmentName: item.environment,
+							environmentType: ENV_TYPE_PROD,
+							requestCount: sum(flatten(item.data).objectStoreRequestCount default [0])
+						}) default []
+			}, 
+			sandbox: { 
+				requestCount: sum(flatten(getSandboxData(osv2)).objectStoreRequestCount default [0]),
+				details: osv2 filter (not $.isProduction) map ((item, index) -> {
+							environmentName: item.environment,
+							environmentType: ENV_TYPE_SANDBOX,
+							requestCount: sum(flatten(item.data).objectStoreRequestCount default [0])
+						}) default []
+			}
 		}
 	},
 	errors: errors	
