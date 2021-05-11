@@ -67,6 +67,10 @@ The **metrics accelerator** (**formerly metrics framework**) is a Mule applicati
 - **Tableau**: including an out of the box dashboard with current consolidated platform metrics
 - **MongoDB**
 
+**NOTES:** 
+- some adjustments in Metrics Accelerator implementation may be required if the loader does not work as expected for your specific scenario.
+- By default, CSV loader output uses comma as the separator char. In order to change the CSV output format, modify the output options in `loader-csv-build-structure.dwl` and/or `loader-csv-build-benefits-structure.dwl` located under `src/main/resources/dw/loader` directory. For more information about CSV output formatting options, check [MuleSoft's official documentation](https://docs.mulesoft.com/mule-runtime/latest/dataweave-formats-csv).
+
 ## Available Metrics
 
 ### Platform Metrics
