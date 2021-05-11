@@ -41,6 +41,7 @@ loader:
 #  - apma: API Manager Analytics                                          
 #  - ch: CloudHub   
 #  - rtf: Runtime Fabric
+#  - osv2: Object Store V2
 
 # Not available for GovCloud:
 #  - apma: API Manager Analytics                                          

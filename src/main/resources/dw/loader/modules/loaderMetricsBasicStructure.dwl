@@ -8,6 +8,7 @@ var runtimeManagerCH = "Runtime Manager - CloudHub"
 var runtimeManagerHybrid = "Runtime Manager - ARM"
 var runtimeManagerRTF = "Runtime Manager - RTF"
 var mq= "Anypoint MQ"
+var osv2 = "ObjectStore V2"
 
 var envSandbox = "Sandbox"
 var envProduction = "Production"
@@ -626,6 +627,16 @@ flatten (payload map ((event, eventIndex) -> ([
     {
        name: "Anypoint MQ - Summary - Exchanges - Total Messages Delivered", value: event.mqMetrics.stats.summary.production.exchanges.messagesDelivered,
        businessGroup: event.businessGroup, date: event.date, group: mq, environmentType: envProduction
+    },
+    //OSv2 - Sandbox
+    {
+       name: "OSv2 - Request count", value: event.osV2Metrics.stats.sandbox.requestCount,
+       businessGroup: event.businessGroup, date: event.date, group: osv2, environmentType: envSandbox
+    },
+    //OSv2 - Production
+    {
+       name: "OSv2 - Request count", value: event.osV2Metrics.stats.production.requestCount,
+       businessGroup: event.businessGroup, date: event.date, group: osv2, environmentType: envProduction
     },
    ])
 ))
