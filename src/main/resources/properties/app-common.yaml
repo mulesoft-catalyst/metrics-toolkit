@@ -99,8 +99,9 @@ anypoint:
           limit: "250"
       mq:
         maxConcurrency: "100"
-        period: "8640"
+        period: "86400"
         regions:
+          list: "us-east-1,us-west-2"
           path: "/mq/admin/api/v1/organizations/{orgId}/environments/{envId}/regions"
         destinations:
           path: "/mq/admin/api/v1/organizations/{orgId}/environments/{envId}/regions/{regionId}/destinations"

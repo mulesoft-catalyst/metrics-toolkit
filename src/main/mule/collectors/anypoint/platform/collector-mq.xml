@@ -9,11 +9,23 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			collection="#[vars.environments]">
 			<flow-ref doc:name="Set Environment Variables" doc:id="9644c416-b1d8-407d-8b95-14e2f8287915"
 				name="collector-commons-set-environment-variables-flow" />
-			<flow-ref doc:name="Get MQ Regions" doc:id="427f0c08-b92f-450a-ad79-44453796e830" name="api-call-mq-regions-flow" />
-			<set-variable value="#[payload]" doc:name="Set regions variable" doc:id="2aebccbc-eead-4d6b-9912-1b84712136e0"
-				variableName="regions" />
+<!-- 			<flow-ref doc:name="Get MQ Regions" doc:id="427f0c08-b92f-450a-ad79-44453796e830" name="api-call-mq-regions-flow" /> -->
+			
+<ee:transform doc:name="get the regions list" doc:id="c2486424-9d00-4faa-b00f-05cfd4db4d40" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="regions" ><![CDATA[%dw 2.0
+output application/java
+---
+p('anypoint.platform.apis.mq.regions.list') splitBy ","]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+	
+			<logger level="DEBUG" doc:name="Logger" doc:id="6d5412f9-c19b-42fc-8d51-d2017158604f" message="MQ regions list - #[vars.regions]" />			
+			
 			<parallel-foreach doc:name="For Each Region" doc:id="e478a4ed-2013-4efe-88c4-c41da99a0121" collection="#[vars.regions]">
-				<set-variable value="#[payload.regionId]" doc:name="Set Region ID Variable" doc:id="33bd3f00-7bfb-4f36-ba65-8f3fca361ab3"
+				<set-variable value="#[payload]" doc:name="Set Region ID Variable" doc:id="33bd3f00-7bfb-4f36-ba65-8f3fca361ab3"
 					variableName="regionId" />
 				<flow-ref doc:name="Get MQ Destinations " doc:id="fc489e38-65f9-4404-ac15-0d8523bb1be8" name="api-call-mq-destinations-flow" />
 				<ee:transform doc:name="Collect different destinations" doc:id="ecf1a3a7-adfa-4120-915a-1c2241f0c079">
