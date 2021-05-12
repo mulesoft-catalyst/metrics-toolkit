@@ -37,7 +37,7 @@
       <single>
         <title>ObjectStore V2 - Production - Current Count</title>
         <search>
-          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(osv2Metrics.stats.production.requestCount) as total | stats max(total) as "Request count"</query>
+          <query>index=metrics | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(osV2Metrics.stats.production.requestCount) as total | stats max(total) as "Request count"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -53,9 +53,9 @@
     <panel>
       <title>ObjectStore V2 - Production - Usage Growth - Timeline</title>
       <chart>
-        <title>ObjectStore V3 - Production - Usage Growth - Timeline</title>
+        <title>ObjectStore V2 - Production - Usage Growth - Timeline</title>
         <search>
-          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | search osv2Metrics.stats.production.requestCount &gt; 0 | chart values(osv2Metrics.stats.production.requestCount) as "Request count" by _time, businessGroup</query>
+          <query>index=$platformMetricsIndex$ | search businessGroup IN ($bgToken$) | search osV2Metrics.stats.production.requestCount &gt; 0 | chart values(osV2Metrics.stats.production.requestCount) as "Request count" by _time, businessGroup</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
