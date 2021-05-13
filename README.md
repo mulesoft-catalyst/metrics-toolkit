@@ -37,6 +37,7 @@ Table of Contents
 # Metrics Accelerator
 The **metrics accelerator** (**formerly metrics framework**) is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. In addition to the platform metrics, the accelerator also extends the capabilities to integrate with external applications like Jira, Confluence, Jenkins, Bitbucket and Splunk to gather SDLC metrics. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance on extending this application, contact your MuleSoft Customer Success representative or MuleSoft Professional Services
 
+
 ## Features
 - Compact Mule application (1 single application)
 - Provides more than 100 metrics from 3 complementary domains:
@@ -217,7 +218,7 @@ Splunk | Total Number of Splunk dashboards
 - Mule Runtime 4.2.2 or above
 - All deployments models are supported: CloudHub, OnPrem hosted Runtimes, Runtime Fabric
 - Anypoint Platform credentials, that can be:
-  - Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data
+  - Anypoint Platform user with the Organization Administrator role in the master organization and CloudHub Admin role (or specific permissions - see connected app section) in all environments of all Sub Orgs you want to collect data
   - A Connected App (client credentials) with the following scopes (make sure to include all Sub Orgs and all environments you want to collect data):
     - Design Center
       - Design Center Developer
