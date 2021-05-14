@@ -35,7 +35,7 @@ Table of Contents
       * [Final Notes](#final-notes)
 
 # Metrics Accelerator
-The **metrics accelerator** (**formerly metrics framework**) is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. In addition to the platform metrics, the accelerator also extends the capabilities to integrate with external applications like Jira, Confluence, Jenkins, Bitbucket and Splunk to gather SDLC metrics. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance for extending this, contact your Mulesoft Customer Success representative or MuleSoft Professional Services
+The **metrics accelerator** (**formerly metrics framework**) is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. In addition to the platform metrics, the accelerator also extends the capabilities to integrate with external applications like Jira, Confluence, Jenkins, Bitbucket and Splunk to gather SDLC metrics. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance on extending this application, contact your MuleSoft Customer Success representative or MuleSoft Professional Services
 
 ## Features
 - Compact Mule application (1 single application)
@@ -350,7 +350,7 @@ splunk.index.metrics | Index for storing Platform operational metrics | metrics
 splunk.index.benefits | Index for storing Platform benefits | platform_benefits
 
 
-> (*): Please note that by default, "Source Types" are created with a limit of 3000 characters. It is very likely that the Metrics Accelerator JSON event exceeds this limit. In order to solve that, you need to add a new property "TRUNCATE" in the Advanced configuration of the specific Source Type. For example: TRUNCATE = 10000 
+> (*): Please note that by default, "Source Types" are created with a limit of 3000 characters. The Metrics Accelerator JSON event might exceed this limit. In order to solve that, you must increase this limit adding a new property "TRUNCATE" in the Advanced configuration of the specific Source Type. For example: TRUNCATE = 40000. Depending of the size of your organization, in terms of Business Groups, environments and number of applications and APIs in each environment, this value can be higher.
 
 ### ELK steps
 
