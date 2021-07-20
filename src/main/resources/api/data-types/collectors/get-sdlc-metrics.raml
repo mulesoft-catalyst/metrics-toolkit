@@ -1,0 +1,66 @@
+#%RAML 1.0 DataType
+displayName: SDLC Metrics Datatype
+description: Models the metrics extracted from SDLC systems
+properties:
+  date:
+    type: datetime
+  sdlcMetrics: 
+    type: object
+    properties:
+      bitBucketMetrics: 
+        type: object
+        properties:
+          totalRepositories:
+            type: integer  
+      confluenceMetrics: 
+        type: object
+        properties:
+          totalPages:
+            type: integer
+          totalPagesCreatedInLast30Days:
+            type: integer
+          totalPagesUpdatedInLast30Days:
+            type: integer
+          topContributorsInLast30Days: 
+            type: object        
+      jenkinsMetrics: 
+        type: object
+        properties:
+          totalJobs?:
+            type: string
+            required: false
+          totalFailedJobs?:
+            type: string 
+            required: false 
+          totalSuccessJobs?:
+            type: integer 
+            required: false 
+          totalUnexecutedJobs?:
+            type: integer 
+            required: false
+      jiraMetrics: 
+        type: object
+        properties:
+          totalJiraTasksInBacklog:
+            type: integer
+          totalJiraTasksInSprint:
+            type: integer  
+          totalJiraTasksByType: 
+            type: object
+            properties:
+              Task:
+                type: integer
+              Sub-task:
+                type: integer
+          totalJiraTasksByStatus?:
+            type: string
+            required: false
+      splunkMetrics: 
+        type: object
+        properties:
+          totalDashboards:
+            type: array
+            items: string
+example: !include ../../examples/collectors/responses/get-sdlc-metrics.json
+    
+  

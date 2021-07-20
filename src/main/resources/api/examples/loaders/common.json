@@ -1,0 +1,7 @@
+{
+	"collectors": ["all"],
+	"loaderDetails": {
+		"strategy": "json",
+		"rawData": "false"
+	}
+}

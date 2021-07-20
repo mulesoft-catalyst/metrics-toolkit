@@ -335,7 +335,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
 				</ee:message>
 			</ee:transform>
-			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="7fc11a37-43af-46d3-a46f-231b1b03b006" name="post:\platform-metrics\load:api-config"/>
+			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="7fc11a37-43af-46d3-a46f-231b1b03b006" name="post:\platform-metrics\load:application\json:api-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="6c6a3cb3-518c-41fd-934f-e058e1289ce0" expression='#[payload]' is="#[MunitTools::equalTo(vars.expectedResponse)]" message="The response payload is not the expected" />
@@ -360,7 +360,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
 				</ee:message>
 			</ee:transform>
-			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="2821023b-42ef-4be5-87be-81b6b2643a4e" name="post:\platform-metrics\load:api-config"/>
+			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="2821023b-42ef-4be5-87be-81b6b2643a4e" name="post:\platform-metrics\load:application\json:api-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="9d88244c-7fbd-4a51-ae98-e725044e3d67" expression='#[payload]' is="#[MunitTools::equalTo(vars.expectedResponse)]" message="The response payload is not the expected" />
@@ -385,7 +385,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
 				</ee:message>
 			</ee:transform>
-			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="d4555c2d-c0cc-4971-8a06-f5616a3cf1fa" name="post:\platform-metrics\load:api-config"/>
+			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="d4555c2d-c0cc-4971-8a06-f5616a3cf1fa" name="post:\platform-metrics\load:application\json:api-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="f0a60f4a-3630-482d-bc12-f16621b02623" expression='#[payload]' is="#[MunitTools::equalTo(vars.expectedResponse)]" message="The response payload is not the expected" />
@@ -410,7 +410,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
 				</ee:message>
 			</ee:transform>
-			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="3cd861c3-99f5-43e5-8eac-38f1304e0ef6" name="post:\platform-metrics\load:api-config"/>
+			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="3cd861c3-99f5-43e5-8eac-38f1304e0ef6" name="post:\platform-metrics\load:application\json:api-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="843348bb-47d3-4da8-8735-5a60eaa41ae6" expression='#[payload]' is="#[MunitTools::equalTo(vars.expectedResponse)]" message="The response payload is not the expected" />
@@ -435,7 +435,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
 				</ee:message>
 			</ee:transform>
-			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="e1ae5bd9-983e-4933-b278-1d26684e2783" name="post:\platform-metrics\load:api-config"/>
+			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="e1ae5bd9-983e-4933-b278-1d26684e2783" name="post:\platform-metrics\load:application\json:api-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="a878b43b-b192-414e-9142-fb755d3e8c74" expression='#[payload]' is="#[MunitTools::equalTo(vars.expectedResponse)]" message="The response payload is not the expected" />
@@ -450,7 +450,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
 				</ee:message>
 			</ee:transform>
-			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="457877c3-9ba0-4bc9-a01d-c1742de6042e" name="post:\platform-metrics\load:api-config"/>
+			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="457877c3-9ba0-4bc9-a01d-c1742de6042e" name="post:\platform-metrics\load:application\json:api-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="8d909d8c-0e76-41af-9868-d29546e153f5" expression='#[payload]' is="#[MunitTools::equalTo(vars.expectedResponse)]" message="The response payload is not the expected" />
@@ -466,7 +466,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
 				</ee:message>
 			</ee:transform>
-			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="3e3ea9b2-5cfc-421d-aafb-6236b6117af2" name="post:\platform-metrics\load:api-config"/>
+			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="3e3ea9b2-5cfc-421d-aafb-6236b6117af2" name="post:\platform-metrics\load:application\json:api-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="a906bf55-616a-4015-bc48-ba7b5a48563b" expression='#[payload map ($ - "date")]' is='#[MunitTools::equalTo(vars.expectedCsvResponse map ($ - "date"))]' message="The response payload is not the expected" />
@@ -482,7 +482,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
 				</ee:message>
 			</ee:transform>
-			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="d553356e-73a1-4182-9d94-c6450871aea2" name="post:\platform-metrics\load:api-config"/>
+			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="d553356e-73a1-4182-9d94-c6450871aea2" name="post:\platform-metrics\load:application\json:api-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="308936d6-f3e4-4801-b79f-1bac9c934cd0" expression='#[payload map ($ - "date")]' is='#[MunitTools::equalTo(vars.expectedJsonResponse map ($ - "date"))]' message="The response payload is not the expected" />
@@ -497,7 +497,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
 				</ee:message>
 			</ee:transform>
-			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="ffab454f-41b3-486e-a011-4b633ff507dc" name="post:\platform-metrics\load:api-config"/>
+			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="ffab454f-41b3-486e-a011-4b633ff507dc" name="post:\platform-metrics\load:application\json:api-config"/>
 		</munit:execution>
 	</munit:test>
 </mule>
