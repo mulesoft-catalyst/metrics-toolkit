@@ -1,0 +1,12 @@
+{
+    "date": "2021-02-20T20:57:35.395-08:00",
+    "businessGroup": "Fantasy Company",
+    "developerProductivity": 200.0,
+    "savingFromAPIReuse": 0,
+    "savingFromMaintenanceProductivity": 3200,
+    "savingFromReuseInMaintenance": 0,
+    "totalSavings": 3200,
+    "errors": [
+      
+    ]
+}

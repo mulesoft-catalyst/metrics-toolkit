@@ -1,0 +1,42 @@
+#%RAML 1.0 DataType
+displayName: Anypoint Core Services Datatype
+description: This datatype models the metrics obtained from the core services
+properties:
+  users:
+    type: object
+    properties:
+      total: 
+        type: integer
+        displayName: Users Total
+        description: Counts the total users, by BG
+      activeMembers:
+        type: integer
+        displayName: Active Users	
+        description: Counts the total active users, by BG
+      inactiveMembers:
+        type: integer
+        displayName: Inactive Users	
+        description: Counts the total inactive users, by BG
+      activeMembersLast60Days:
+        type: integer
+        displayName: Active Users Last 60 days	
+        description: Counts the total active users in the last 60 days, by BG
+      activeMembersLast30Days:
+        type: integer
+        displayName: Active Users Last 30 days	
+        description: Counts the total active users in the last 30 days, by BG
+  environments:
+    type: object
+    properties:
+      total:
+        type: integer
+        displayName: Environments	Total
+        description: Counts the total environements, by BG
+      production:
+        type: integer
+        displayName: Environments Production Total	
+        description: Counts the total production environements, by BG
+      sandbox:
+        type: integer
+        displayName: Environments Sandbox Total	
+        description: Counts the total sandboxes environements, by BG

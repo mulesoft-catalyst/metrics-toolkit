@@ -1,0 +1,15 @@
+#%RAML 1.0 DataType
+displayName: Object Store V2 Datatype
+description: Models the collected metrics for OSv2
+properties:
+  stats:
+    type: object
+    properties:
+      production:
+        type: !include environment.raml
+        displayName: Production Environment
+        description: Provides details around how OSv2 was used in Production environments
+      sandbox:
+        type: !include environment.raml
+        displayName: Sandbox Environment
+        description: Provides details around how OSv2 was used in Sandbox environments

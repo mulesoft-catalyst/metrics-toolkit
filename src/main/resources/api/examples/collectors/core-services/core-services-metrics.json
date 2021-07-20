@@ -1,0 +1,14 @@
+{
+      "users": {
+        "total": 1,
+        "activeMembers": 1,
+        "inactiveMembers": 0,
+        "activeMembersLast60Days": 0,
+        "activeMembersLast30Days": 0
+      },
+      "environments": {
+        "total": 4,
+        "production": 1,
+        "sandbox": 3
+      }
+}
