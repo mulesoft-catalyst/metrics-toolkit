@@ -2,7 +2,7 @@
 import * from dw::util::Values
 output application/java
 ---
-if (aggregatedAPIPayload == null) 
+if (vars.aggregatedAPIPayload == null) 
 	payload
 else 
-	(aggregatedAPIPayload update  "assets" with ({([aggregatedAPIPayload.assets,payload.assets])}))
+	(vars.aggregatedAPIPayload update  "assets" with ({([vars.aggregatedAPIPayload.assets,payload.assets])}))
