@@ -1,8 +1,8 @@
 #%RAML 1.0 DataType
-displayName: Common Loader Strategy
-description: Models a Common Loader Strategy, like json or csv
+displayName: ELK Loader Strategy
+description: Models a ELK Loader Strategy
 properties:
-  collectors: 
+  collectors:
     description: | 
               Comma separated set of collectors that should be executed. Possible values are:
             
@@ -23,17 +23,27 @@ properties:
     type: array
     items: string
     default: ["all"]    
-    required: false
+    required: false    
   loaderDetails:
     type: object
     properties:
       strategy:
         type: string
-      rawData:  
+      rawData:
         type: string
-        required: false
-examples: 
-  json: !include ../../examples/loaders/json.json
-  csv: !include ../../examples/loaders/csv.json
-  am: !include ../../examples/loaders/am.json
-  mongodb: !include ../../examples/loaders/mongodb.json
+      elk:
+        type: object
+        properties: 
+          host:
+            type: string
+          port:
+            type: string
+          user:
+            type: string
+          password: 
+            type: string 
+          platformMetricsIndex: 
+            type: string 
+          platformBenefitsIndex: 
+            type: string 
+example: !include ../../examples/loaders/elk.json            
