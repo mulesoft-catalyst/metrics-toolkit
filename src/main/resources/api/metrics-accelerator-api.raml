@@ -25,6 +25,7 @@ types:
   common: !include data-types/loaders/common.raml    
   splunk: !include data-types/loaders/splunk.raml
   tableau: !include data-types/loaders/tableau.raml
+  elk: !include data-types/loaders/elk.raml
 
 /platform-metrics:
   displayName: Platform Metrics
@@ -52,12 +53,12 @@ types:
       description: This endpoint allows to load metrics using one of the available strategies.  
       body:
         application/json:
-          type: common | splunk | tableau
+          type: common | splunk | tableau | elk
       responses:
         201:
           body:
             application/json:
-              type: common | splunk | tableau
+              type: common | splunk | tableau | elk
               
     
 /business-metrics:
