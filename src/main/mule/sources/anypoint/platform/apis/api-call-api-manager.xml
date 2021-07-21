@@ -57,7 +57,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 						<ee:set-variable resource="dw/anypoint/save-aggregated-api-payload-var.dwl" variableName="aggregatedAPIPayload" />
 					</ee:variables>
 				</ee:transform>
-				<set-variable value="#[vars.offset + 100]" doc:name="offset" doc:id="556d0a3f-3cbe-42ee-b5aa-c5dad5f21e10"
+				<set-variable value="#[vars.offset + Mule::p('anypoint.platform.apis.apiManager.apiDefaultOffset')]" doc:name="offset" doc:id="556d0a3f-3cbe-42ee-b5aa-c5dad5f21e10"
 					variableName="offset" />
 				<flow-ref doc:name="Get more apis" doc:id="3431bd02-f793-45a2-92f6-9c4f63b83513" name="api-call-api-manager-apis-flow" />
 			</when>
