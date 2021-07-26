@@ -6,16 +6,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
-	<http:request-config name="HTTP_Bitbucket_Request_Config" doc:name="HTTP Bitbucket Request configuration" doc:id="3846262a-03b6-4f28-bfa2-f7f914197f34" >
-		<http:request-connection protocol="HTTPS" host="${sdlc.bitbucket.host}" port="${sdlc.bitbucket.port}" >
-			<http:authentication >
-				<http:basic-authentication username="${secure::sdlc.bitbucket.user}" password="${secure::sdlc.bitbucket.token}" />
-			</http:authentication>
-		</http:request-connection>
-	</http:request-config>
 	<flow name="collector-bitbucket-metrics-flow" doc:id="9c738c99-3e9c-46ac-a3a6-1944640f0cb0">
 		<choice doc:name="Choice" doc:id="b20a44d7-1115-4fc9-ac60-942a567a3456" >
-			<when expression='#[vars.sdlcDetails.bitbucket.enabled == "true"]'>
+			<when expression="#[p('sdlc.bitbucket.enabled') == &quot;true&quot;]">
 				<flow-ref doc:name="api-call-bitbucket-app-flow" doc:id="0e7895e6-7894-418e-8d0d-8b1203a586f0" name="api-call-bitbucket-app-flow" />
 			</when>
 			<otherwise >

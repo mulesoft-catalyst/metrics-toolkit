@@ -1,49 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 	<flow name="poller-flow" doc:id="e1266183-c6b3-477b-9ded-da55dd9032fa" >
 		<scheduler doc:name="Scheduler" doc:id="bb3cd2a8-90a1-4492-a52d-322485a0f93c" disallowConcurrentExecution="true">
 			<scheduling-strategy >
 				<cron expression="${poller.frequency.cron}" timeZone="${poller.frequency.timezone}"/>
 			</scheduling-strategy>
 		</scheduler>
-		<ee:transform doc:name="Set Poller Details" doc:id="b68fd709-c763-4ecb-b163-ba60ed3e72ea" >
-			<ee:message >
-			</ee:message>
-			<ee:variables >
-				<ee:set-variable resource="dw/poller/set-poller-details-vat.dwl" variableName="pollerDetails" />
-			</ee:variables>
-		</ee:transform>
-		<flow-ref doc:name="poller-main-flow" doc:id="dbff7810-ecfb-4be7-84a3-0171747aae8d" name="poller-main-flow"/>
-		
-	</flow>
-	<flow name="poller-main-flow" doc:id="064decf2-07b4-4c90-9021-fa3886f4251e" >
-		<choice doc:name="Choice" doc:id="63baf667-d196-41d3-a67d-06df1dbc9f52" >
-			<when expression='#[vars.pollerDetails.generalPollerEnabled == "true"]'>
-				<flow-ref doc:name="Set Auth Vars from Properties Flow Reference" doc:id="596e18f8-877c-4fb3-91f0-53df0a411bee" name="common-set-auth-vars-from-properties" />
-				<flow-ref doc:name="Set Loader Details From Properties Flow Reference" doc:id="0e8dba24-5164-4f28-aefe-6f3f609d2e77" name="common-set-loader-vars-from-properties" />
-				<scatter-gather doc:name="Scatter-Gather" doc:id="60e64dc9-861d-45b6-9fc4-cba76e36e651" >
+		<choice doc:name="Choice" doc:id="e5805079-479d-4523-b8f3-3b6a4a3c8246" >
+			<when expression="#[p('poller.enabled') == &quot;true&quot;]">
+				<flow-ref doc:name="Set Auth Vars from Properties Flow Reference" doc:id="fe3a2c56-7824-4cf5-b65f-8e9d45ae857b" name="common-set-auth-vars-from-properties" />
+				<flow-ref doc:name="Set Loader Details From Properties Flow Reference" doc:id="648cd66c-3fd0-4a41-92af-427be248dced" name="common-set-loader-vars-from-properties" />
+								<scatter-gather doc:name="Scatter-Gather" doc:id="15bf5dbe-534c-413e-aac5-2ee0ed373a98" >
 					<route >
-						<flow-ref doc:name="Loader Router Platform Flow Reference" doc:id="37716978-fcc0-47d3-98f7-8256faa5faf3" name="loader-router-flow" />
+						<flow-ref doc:name="Loader Router Platform Flow Reference" doc:id="3305fb66-3716-4bea-a2f8-d319778deb2a" name="loader-router-flow" />
 					</route>
 					<route >
-						<choice doc:name="Choice" doc:id="9361572d-0756-4d9c-80fe-d5d0fc776a3f" >
-							<when expression='#[vars.pollerDetails.sdlcPollerEnabled == "true"]'>
-								<flow-ref doc:name="Set SDLC Details" doc:id="57ddfa2b-2d37-4598-958e-753d11d9dbd6" name="common-set-sdlc-details"/>
-								<flow-ref doc:name="Loader Router SDLC Flow Reference" doc:id="a82cb6c4-5b15-4b32-8ce4-29ad5c9d2544" name="loader-sdlc-router-flow" />
+						<choice doc:name="Choice" doc:id="4dacb9be-368b-441a-9eca-0062b413ed2d" >
+							<when expression="#[p('sdlc.poller.enabled') == &quot;true&quot;]">
+								<flow-ref doc:name="Loader Router SDLC Flow Reference" doc:id="92948a09-fda9-438a-990c-06e518835583" name="loader-sdlc-router-flow" />
 							</when>
 							<otherwise >
-								<logger level="INFO" doc:name="Logger" doc:id="866ae385-b0dc-4901-bd53-b0a77e7db20a" message="SDLC Poller disabled"/>
+								<logger level="INFO" doc:name="Logger" doc:id="26ddbca7-f531-4bc8-83a8-706073770b1d" message="SDLC Poller disabled"/>
 							</otherwise>
 						</choice>
 					</route>
 				</scatter-gather>
 			</when>
 			<otherwise >
-				<logger level="INFO" doc:name="Logger" doc:id="2153c3c6-6089-48bb-89c3-be5bec3eae65" message="Main Poller disabled"/>
+				<logger level="INFO" doc:name="Logger" doc:id="1ec91447-d56a-41b5-ba44-5fd9c47553ee" message="Main Poller disabled"/>
 			</otherwise>
 		</choice>
 	</flow>

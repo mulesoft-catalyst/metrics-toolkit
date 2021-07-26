@@ -13,6 +13,9 @@
 					<set-payload value="#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: payload}]" doc:name="Aggregate metrics"
 						doc:id="f5dd4287-9163-4204-84c0-7e9ef98ae88e" />
 				</when>
+				<otherwise>
+					<logger level="DEBUG" doc:name="Logger" doc:id="961f8429-8fc8-4d78-9eb0-558319cc0745" />
+				</otherwise>
 			</choice>
 		</parallel-foreach>
 		<error-handler >

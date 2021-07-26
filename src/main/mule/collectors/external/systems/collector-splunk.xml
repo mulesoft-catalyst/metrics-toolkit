@@ -1,27 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
-http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd 
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
-	<http:request-config name="HTTP_Splunk_Request_Config" doc:name="HTTP Splunk Request configuration" doc:id="ccd3d613-f4ef-4ed8-8616-943d340d579f" >
-		<http:request-connection protocol="HTTPS" host="${sdlc.splunk.host}" port="${sdlc.splunk.port}" >
-			<tls:context >
-				<tls:trust-store insecure="true" />
-			</tls:context>
-			<http:authentication >
-				<http:basic-authentication username="${secure::sdlc.splunk.user}" password="${secure::sdlc.splunk.password}" />
-			</http:authentication>
-		</http:request-connection>
-	</http:request-config>
 	<flow name="collector-splunk-metrics-flow" doc:id="351c3c39-31ca-41be-9295-0b61acee7813">
 		<choice doc:name="Choice" doc:id="acadc85f-3c3b-4a20-b8da-9850a93e72e3" >
-			<when expression='#[vars.sdlcDetails.splunk.enabled == "true"]'>
+			<when expression="#[p('sdlc.splunk.enabled') == &quot;true&quot;]">
 				<flow-ref doc:name="api-call-splunk-apps-flow" doc:id="bb19f521-5129-4861-b03a-6beae805b23d" name="api-call-splunk-apps-flow" />
 			</when>
 			<otherwise >

@@ -32,7 +32,7 @@ output application/json
 vars.outputPayload default [] ++ payload.results]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
-				<set-variable value="#[output application/java --- if(payload.size == payload.limit) 0 else vars.counter]" doc:name="Update Counter" doc:id="873c8284-6c10-4883-b898-00f920b3f235" variableName="counter"/>
+				<set-variable value="#[output application/java --- if(payload.size == payload.limit) vars.counter else 0]" doc:name="Update Counter" doc:id="873c8284-6c10-4883-b898-00f920b3f235" variableName="counter"/>
 				<set-variable value='#[payload."_links".context ++ payload."_links".next default ""]' doc:name="Update Path" doc:id="745cb63f-70e1-4e70-8f07-e1aea35471c6" variableName="path"/>
 				<flow-ref doc:name="recursive-call-confluence-apps-flow" doc:id="348a0675-bb03-47c4-aa84-67fc48b2b695" name="recursive-call-confluence-apps-flow"/>
 			</when>

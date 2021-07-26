@@ -1,10 +1,10 @@
 auth:
   
-  orgId: "![yqKEWZ57M3XUasumfcwhVykLsfUM6yOEv2oEJ04vxZc=]"
+  orgId: "1bc9ee89-e862-4d1b-be7b-12ebeb3bd0c5"
   
   # If auth mode = platform-credentials (ignored, otherwise):
-  username: "![Zjv8nFIUwDlayZ6O7DP31p1zQRfrwfjbkmi5DyNiD38=]"
-  password: "![yqKEWZ57M3XUasumfcwhV35QQl9B5mf5GBon8eY/x8o=]"
+  username: "qamar"
+  password: "Mulesoftlondon2021!"
   
   # If auth mode = connected-app-credentials (ignored, otherwise):
   clientId: "![Zjv8nFIUwDlayZ6O7DP31p1zQRfrwfjbkmi5DyNiD38=]"
@@ -19,10 +19,6 @@ splunk:
 elk:
   user: "user"
   password: "password"
-
-mongodb:
-  username: "![/MYApdJC2Oq9ALH/X9E4rQ==]"
-  password: "![zTQsE6niuuBuS/I4rKfoeA==]"
 
 # SDLC Metrics
 sdlc:
@@ -41,3 +37,13 @@ sdlc:
   splunk:
     user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
     password: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+    
+sfdc:
+  username : "![0CXQwZBMmw43vtBN7jyoRQ==]"
+  password : "![0CXQwZBMmw43vtBN7jyoRQ==]"
+  securityToken : "![L2Ow6bBvBDEGmQYrutHfIcsBg]"
+  # authUrl : ""
+  appName :    "IPAAS_Anypoint_Metrics_App"
+  dataSetName: "IPAAS_Anypoint_Metrics_DataSet"
+  notificationEmail : ""
+  sendNotification: "NEVER"

@@ -19,9 +19,7 @@ Table of Contents
             * [Properties specific for Splunk](#properties-specific-for-splunk)
          * [ELK steps](#elk-steps)
             * [Properties specific for ELK](#properties-specific-for-elk)
-         * [Tableau steps](#tableau-steps)            
-         * [MongoDB steps](#mongodb-steps)
-            * [Properties specific for MongoDB](#properties-specific-for-mongodb)
+         * [SFDC-Einstein Analytics Steps](#einstein-analytics-dashboard-steps)
       * [Considerations](#considerations)
       * [Some Theory around the Accelerator](#some-theory-around-the-accelerator)
          * [Business Needs](#business-needs)
@@ -35,7 +33,7 @@ Table of Contents
       * [Final Notes](#final-notes)
 
 # Metrics Accelerator
-The **metrics accelerator** (**formerly metrics framework**) is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. In addition to the platform metrics, the accelerator also extends the capabilities to integrate with external applications like Jira, Confluence, Jenkins, Bitbucket and Splunk to gather SDLC metrics. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance on extending this application, contact your MuleSoft Customer Success representative or MuleSoft Professional Services
+The **metrics accelerator** (**formerly metrics framework**) is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. In addition to the platform metrics, the accelerator also extends the capabilities to integrate with external applications like Jira, Confluence, Jenkins, Bitbucket and Splunk to gather SDLC metrics. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance for extending this, contact MuleSoft Professional Services
 
 ## Features
 - Compact Mule application (1 single application)
@@ -64,12 +62,9 @@ The **metrics accelerator** (**formerly metrics framework**) is a Mule applicati
 - **ELK**: Including out of the box, basic, Kibana dashboards
 - **Anypoint Monitoring**: Requires Titanium subscription, dashboard is not provided
 - **Embedded dashboard**: Including an out of the box basic embedded dashboard accessed by running the application offering an UI with a number of metrics obtained
-- **Tableau**: including an out of the box dashboard with current consolidated platform metrics
-- **MongoDB**
+- **Tableau**: (Not available yet)
+- **SFDC**: The Salesforce Loader will load data into **Einstein Analytics** via the Salesforce Analytics connector.  This contains the same summarised data as the CSV Loader but allows Salesforce customers to create quick and impacting Anypoint Platform metrics dashboards within their existing Salesforce Systems (assuming they have Analytics Studio licenses).
 
-**NOTES:** 
-- some adjustments in Metrics Accelerator implementation may be required if the loader does not work as expected for your specific scenario.
-- By default, CSV loader output uses comma as the separator char. In order to change the CSV output format, modify the output options in `loader-csv-build-structure.dwl` and/or `loader-csv-build-benefits-structure.dwl` located under `src/main/resources/dw/loader` directory. For more information about CSV output formatting options, check [MuleSoft's official documentation](https://docs.mulesoft.com/mule-runtime/latest/dataweave-formats-csv).
 
 ## Available Metrics
 
@@ -175,7 +170,6 @@ MQ | Queues ACK Messages total | BG, Environment, Region |
 MQ | Exchanges total | BG, Environment, Region |
 MQ | Exchanges Published Messages total | BG, Environment, Region |
 MQ | Exchanges Delivered Messages total | BG, Environment, Region |
-OSv2 | ObjectStore V2 Request Count | BG, Environment |
 
 ### Platform Benefits
 
@@ -214,10 +208,10 @@ Splunk | Total Number of Splunk dashboards
 ## Installation
 
 ### Requirements
-- Mule Runtime 4.2.2 or above
+- Mule Runtime 4.2.1 or above
 - All deployments models are supported: CloudHub, OnPrem hosted Runtimes, Runtime Fabric
 - Anypoint Platform credentials, that can be:
-  - Anypoint Platform user with the Organization Administrator role in the master organization and CloudHub Admin role (or specific permissions - see connected app section) in all environments of all Sub Orgs you want to collect data
+  - Anypoint Platform user with the Organization Administrator role in the master organization and all Sub Orgs you want to collect data
   - A Connected App (client credentials) with the following scopes (make sure to include all Sub Orgs and all environments you want to collect data):
     - Design Center
       - Design Center Developer
@@ -250,15 +244,14 @@ Splunk | Total Number of Splunk dashboards
   - Platform Metrics:
   	- GET Platform Metrics: retrieves plaform metrics
   	- POST Platform Metrics - Load - Splunk Strategy: used to load platform metrics to Splunk. For more information, see [Splunk steps](#splunk-steps)
-  	- POST Platform Metrics - Load - Tableau Strategy: used to load platform metrics to Tableau. For more information, see [Tableau steps](#tableau-steps)
   	- POST Platform Metrics - Load - CSV Strategy: returns platform metrics in CSV format.
   	- POST Platform Metrics - Load - JSON Strategy: returns business metrics in JSON format.
-  
+
   - Business Metrics:
   	- GET Benefits: retrieves business metrics showing the benefits of using the platform
   	- POST Benefits - Load - Splunk Strategy: used to load business metrics to Splunk. For more information, see [Splunk steps](#splunk-steps)
   	- POST Benefits - Load - JSON Strategy: returns business metrics in JSON format.
-  
+
 4. If you want to run the application using the poller mode, you have to configure some properties
 
 ### Properties configurations
@@ -276,8 +269,8 @@ poller.enabled | Property to enable or disable the poller to collect and load me
 poller.frequency.cron | Defines the exact frequency (using cron-expressions) to trigger the execution: Recommended to collect metrics once a day | 0 0 0 \* \* ? \*
 poller.frequency.timezone | Defines the time zone in which the cron-expression will be efective | GMT-3
 aggregation.raw | Flag to define the format of the final response **False**: Won’t provide the raw data but final metrics **True**: Will provide raw data to be aggregated outside this asset | false
-collectors | Comma separated set of collectors that should be executed. Default value: all. Possible values available for all deployment models: core (Core Services) ap (Automated Policies) apc (API Clients) apm (API Manager) arm (Standalone Runtimes) dc (Design Center) ex (Exchange). The following collectors are not available for PCE: amq (Anypoint MQ) apma (API Manager Analytics) ch (Cloudhub) rtf (Runtime Fabric) | osv2 (Object Store V2) | all
-loader.strategy | In the case of using the poller, this property defines the strategy for loading data in external systems, the options are: **csv, json, logger, splunk, am, elk, tableau, mongodb** | logger
+collectors | Comma separated set of collectors that should be executed. Default value: all. Possible values available for all deployment models: core (Core Services) ap (Automated Policies) apc (API Clients) apm (API Manager) arm (Standalone Runtimes) dc (Design Center) ex (Exchange). The following collectors are not available for PCE: amq (Anypoint MQ) apma (API Manager Analytics) ch (Cloudhub) rtf (Runtime Fabric) | all
+loader.strategy | In the case of using the poller, this property defines the strategy for loading data in external systems, the options are: **csv, json, logger, splunk, am, elk, tableau** | logger
 anypoint.platform.host | Anypoint Platform Host. Change to eu1.anypoint.mulesoft.com if using the EU Control Plane or to a private host if using PCE | anypoint.mulesoft.com
 auth.mode | Authentication mode. Valid options are: platform-credentials or connected-app-credentials | platform-credentials
 auth.username | Anypoint Platform username. Used when auth.mode is platform-credentials |
@@ -322,9 +315,6 @@ sdlc.splunk.path | Context url of the [Splunk REST API](https://docs.splunk.com/
 sdlc.splunk.user | Authorized Splunk user to access REST APIs |
 sdlc.splunk.password | Password to access REST APIs |
 
-**NOTE:** Please note that each external system collector should be self-contained, it means that all associated configuration must be part of the Mule configuration file itself and must not be externalized inside the `global.xml`
-
-
 ### Splunk steps
 
 1. Create 2 indexes: metrics and platform_benefits (of type Events)
@@ -345,12 +335,9 @@ splunk.port | HEC port | 8088
 splunk.protocol | HEC endpoint protocol: HTTPS or HTTP | HTTP
 splunk.token | HEC token  |
 splunk.source | HEC source | metrics-source
-splunk.source.type | Source Type | _json (*)
+splunk.source.type | Source Type | _json
 splunk.index.metrics | Index for storing Platform operational metrics | metrics
 splunk.index.benefits | Index for storing Platform benefits | platform_benefits
-
-
-> (*): Please note that by default, "Source Types" are created with a limit of 3000 characters. The Metrics Accelerator JSON event might exceed this limit. In order to solve that, you must increase this limit adding a new property "TRUNCATE" in the Advanced configuration of the specific Source Type. For example: TRUNCATE = 40000. Depending of the size of your organization, in terms of Business Groups, environments and number of applications and APIs in each environment, this value can be higher.
 
 ### ELK steps
 
@@ -376,52 +363,6 @@ elk.password | Elasticsearch password |
 elk.index.metrics | Index for storing Platform operational metrics | metrics
 elk.index.benefits | Index for storing Platform benefits | platformbenefits
 
-### Tableau steps
- 
-Tableau Dashboards use a JSON File Data Source, which is configured to load data from all JSON files present in a given directory, each JSON file representing a Platform Metrics snapshot.
-
-Metrics Accelerator provides the following approaches to generated those files:
-- Using Tableau Strategy (poller or API): this option can only be used if Tableau Desktop can can access the filesystem where Metrics Accelerator is running (**cannot be used for CloudHub or Runtime Fabric, since Tableau Desktop won't be able to access Mule Runtime local filesystem**).
-- Using the Get Platform Metrics API operation (check _GET Platform Metrics_ request provided in the Postman collection): suitable if Metrics Accelerator is running on CloudHub or Runtime Fabric, or if you don't have access to Mule Runtime local filesystem.
-
-To learn more about Tableau, follow the official documentation: https://www.tableau.com/support/help
-
-**NOTES:**
-- Tableau Dashboard Data Source will only use JSON files which has the following naming pattern: **platform_metrics_agg_\*.json**
-- Tableau Dashboard Data Source will only be able to use JSON files containing aggregated data. Thus, Tableau won't be able to render dashboards if JSON files contain raw data (check [Properties Configuration Section](properties_configurations) for futher details.
-
-#### Generating JSON Files Using Poller or API Loader Tableau Strategy
-
-When using the Tableau Strategy, Metrics Accelerator will create the JSON files in the directory defined by  `tableau.outputDir` property (poller) or by `loaderDetails.outputDir` provided in the request (API).
-
-Check _POST Platform Metrics - Load - Tableau Strategy_ Postman collection request if using the API Loader.
-
-***IMPORTANT:*** Make sure `aggregation.raw` property (poller) or `loaderDetails.rawData` (API) is set to ***false***
-
-#### Generating JSON Files Using Get Platform Metrics API operation
-
-1. Use JSON loader strategy via API (check  POST Platform Metrics - Load - JSON Strategy in the provided Postman collection)
-2. Save the response content as a JSON file in the directory of your choice. All files must be in the same directory and must respect the naming convention (**platform_metrics_agg_yyyyMMddHHmmssSSS.json**)
-
-***IMPORTANT:*** Make sure the query parameter `raw` is set to ***false***
-
-#### Visualizing Dashboards in Tableau Desktop
-
-1. Before opening a workbook in Tableau Desktop, make sure that you have at least one JSON file available.
-2. Make a copy of the desired workbook provided under `/dashboards/tableau`.
-3. After copying the workbook, open it in Tableau Desktop. 
-4. When prompted, edit workbook connection. Select one of the available JSON files and click Ok.
-
-#### Properties specific for Tableau
-Name | Description | Default Value
------------- | ------------ | ------------
-tableau.outputDir | Directory where JSON files will be written to. |
-
-#### File name pattern by workbook
-Workbook | File Name Pattern 
------------- | ------------ 
-current_consolidated | platform_metrics_agg_*.json |
-
 ### Embedded Dashboard steps
 1. Enable the dashboard by changing the embedded.dashboard.enabled property to "true"
 2. Deploy & Run the application
@@ -429,24 +370,12 @@ current_consolidated | platform_metrics_agg_*.json |
 4. Use the "Login" page to enter your Anypoint platform username, password and organization ID
 5. Wait for the dashboard to run the metrics request and once done, navigate through the different metrics taken using the UI
 
-### MONGODB steps
+### Einstein Analytics Dashboard Steps
+Using the `sfdc` loader option, and initialising Salesforce Analytics Studio with an empty project, will allow you to quickly inject data into Einstein Analytics Dashboards to visualise your Anypoint Platform Metrics in different ways.  Einstein can also be used as an historic data repository to allow the metrics data to be displayed against time for trend analysis (e.g. vCore growth, API count or transaction growth over time)
 
-**NOTE:** Data was pushed and tested with Mongodb 4.4.1. Adjustments may be necessary for other versions.
+Full instructions for setting up the correct polling configuration, and the correct Salesforce Analytics applications is given in the following link.
 
-1. In MongoDB you will need to create a Database called `matrixdb` and a Collection called `metrics`.
-2. Set the loader strategy to `mongodb` on the `app-{env}.yaml` file, along with the `mongodb.username` and `mongodb.password` parameters in the secure `app-{env}.yaml` file
-3. Uncomment 2 sections from the pom.xml (dependencies and shared library)
-4. Rename the file src/main/mule/loaders/loader-mongodb.disabled to src/main/mule/loaders/loader-mongodb.xml
-
-#### Properties specific for MONGODB
-Name | Description | Default Value
------------- | ------------ | ------------
-mongodb.host | MongoDB host |
-mongodb.port | MongoDB port |
-mongodb.database | Database name |
-mongodb.colleciton | Collection Name |
-mongodb.username | MongoDB user |
-mongodb.password | MongoDB password |
+see documentation [here](/README_sfdc.md)
 
 ## Considerations
 
@@ -462,30 +391,27 @@ mongodb.password | MongoDB password |
 	- Not supported for Private Cloud Edition (**PCE**)
 - **API Manager** metrics:
 	- API Manager metrics available only for accounts with the **API Manager** and Analytics **add-on**
-- Runtime Manager (**CloudHub**) application metrics: 
+- Runtime Manager (**CloudHub**) application metrics:
 	- CloudHub is not supported on Private Cloud Edition (**PCE**)
-- Runtime Manager (**CloudHub**) **networking** metrics - VPCs, VPNs, DLBs and static IPs usage: 
+- Runtime Manager (**CloudHub**) **networking** metrics - VPCs, VPNs, DLBs and static IPs usage:
 	- Not supported when authenticating with **Connected Apps**
 	- Not supported on **GovCloud**
-- Runtime Manager (**RuntimeFabric**) metrics: 
+- Runtime Manager (**RuntimeFabric**) metrics:
     - Runtime Fabric is not supported on **GovCloud**
 	- Runtime Fabric is not supported on Private Cloud Edition (**PCE**)
-- Runtime Manager (**Standalone**) metrics: 
+- Runtime Manager (**Standalone**) metrics:
     - Runtime Manager (Standalone Runtimes) not supported on **GovCloud**
-- **API Platform Client Applications** metrics: 
+- **API Platform Client Applications** metrics:
 	- Not supported when authenticating with **Connected Apps**
 	- Not supported on **GovCloud**
-- **Analytics** metrics: 
+- **Analytics** metrics:
 	- Not supported on **GovCloud**
 	- Not supported on Private Cloud Edition (**PCE**)
 	- Not supported when authenticating with **Connected Apps**
-- **Anypoint MQ** metrics: 
+- **Anypoint MQ** metrics:
 	- Not supported on Private Cloud Edition (**PCE**)
 	- Not supported when authenticating with **Connected Apps**
 	- Not supported on **GovCloud**
-- **OSv2** metrics: 
-  - Not supported on Private Cloud Edition (**PCE**)
-  - Not supported when authenticating with **Connected Apps**
 
 ## Some Theory around the Accelerator
 The accelerator is intended to cover the main areas to define and implement metrics using Mule.

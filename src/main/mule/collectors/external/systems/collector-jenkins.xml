@@ -1,27 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
-http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd 
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
-	<http:request-config name="HTTP_Jenkins_Request_Config" doc:name="HTTP Jenkins Request configuration" doc:id="31bd5067-ee3e-4259-967c-8c690ea4a3b2" >
-		<http:request-connection host="${sdlc.jenkins.host}" protocol="HTTPS" port="${sdlc.jenkins.port}">
-			<tls:context >
-				<tls:trust-store insecure="true" />
-			</tls:context>
-			<http:authentication >
-				<http:basic-authentication username="${secure::sdlc.jenkins.user}" password="${secure::sdlc.jenkins.token}" />
-			</http:authentication>
-		</http:request-connection>
-	</http:request-config>	
 	<flow name="collector-jenkins-metrics-flow" doc:id="1114d338-b793-4c04-8e5a-dec56745f6e0">
 		<choice doc:name="Choice" doc:id="a4f615a0-62f6-4561-abac-958fe96dd04d" >
-			<when expression='#[vars.sdlcDetails.jenkins.enabled == "true"]'>
+			<when expression="#[p('sdlc.jenkins.enabled') == &quot;true&quot;]">
 				<flow-ref doc:name="api-call-jenkins-app-flow" doc:id="51a0c201-54e7-46d2-810e-985b5e650bfa" name="api-call-jenkins-app-flow" />
 			</when>
 			<otherwise >

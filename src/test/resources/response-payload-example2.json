@@ -1,0 +1,492 @@
+[
+  {
+    "date": "2020-11-23T16:09:20.206-03:00",
+    "businessGroup": "Fantasy Company",
+    "businessGroupId": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+    "coreServicesMetrics": {
+      "users": {
+        "total": 1,
+        "activeMembers": 1,
+        "inactiveMembers": 0,
+        "activeMembersLast60Days": 0,
+        "activeMembersLast30Days": 0
+      },
+      "environments": {
+        "total": 4,
+        "production": 1,
+        "sandbox": 3
+      }
+    },
+    "designCenterMetrics": {
+      "total": 1,
+      "apiSpecs": 0,
+      "fragments": 0,
+      "flowDesignerApps": 0
+    },
+    "exchangeMetrics": {
+      "total": 3,
+      "apiSpecs": 2,
+      "fragments": 1,
+      "proxies": 0,
+      "soapApis": 0,
+      "policies": 0,
+      "mule3Connectors": 0,
+      "extensions": 0,
+      "applications": 0,
+      "custom": 0,
+      "overallSatisfaction": 0.0,
+      "reuse": {
+        "fragments": 2.0,
+        "implementedApis": 0.0,
+        "managedSboxApis": 0.0,
+        "managedProdApis": 0.0,
+        "extensions": 0,
+        "appliedPoliciesSbox": 0,
+        "appliedPoliciesProd": 0
+      }
+    },
+    "apiManagerMetrics": {
+      "clients": 2,
+      "apis": {
+        "production": {
+          "total": 0,
+          "active": 0,
+          "inactive": 0,
+          "apiInstances": 0,
+          "apiVersions": 0,
+          "apisWithPolicies": 0,
+          "apisWithoutPolicies": 0,
+          "apisWithSecurity": 0,
+          "apisWithoutSecurity": 0,
+          "apisWithContracts": 0,
+          "apisWithoutContracts": 0,
+          "apisWithMoreThanOneConsumer": 0,
+          "apisWithOneOrMoreConsumers": 0,
+          "contracts": 0,
+          "policiesUsed": [
+            
+          ],
+          "policiesUsedTotal": 0,
+          "automatedPoliciesUsed": [
+            
+          ],
+          "automatedPoliciesUsedTotal": 0,
+          "transactions": 0
+        },
+        "sandbox": {
+          "total": 0,
+          "active": 0,
+          "inactive": 0,
+          "apiInstances": 0,
+          "apiVersions": 0,
+          "apisWithPolicies": 0,
+          "apisWithoutPolicies": 0,
+          "apisWithSecurity": 0,
+          "apisWithoutSecurity": 0,
+          "apisWithContracts": 0,
+          "apisWithoutContracts": 0,
+          "apisWithMoreThanOneConsumer": 0,
+          "apisWithOneOrMoreConsumers": 0,
+          "contracts": 0,
+          "policiesUsed": [
+            
+          ],
+          "policiesUsedTotal": 0,
+          "automatedPoliciesUsed": [
+            
+          ],
+          "automatedPoliciesUsedTotal": 0,
+          "transactions": 0
+        }
+      }
+    },
+    "runtimeManagerMetrics": {
+      "cloudhub": {
+        "networking": {
+          "vpcsTotal": 4,
+          "vpcsAvailable": 2,
+          "vpcsUsed": 2,
+          "vpnsTotal": 6,
+          "vpnsAvailable": 2,
+          "vpnsUsed": 4,
+          "dlbsTotal": 4,
+          "dlbsAvailable": 2,
+          "dlbsUsed": 2,
+          "staticIPsTotal": 26,
+          "staticIPsAvailable": 5,
+          "staticIPsUsed": 21
+        },
+        "applications": {
+          "production": {
+            "vcoresTotal": 13,
+            "vcoresAvailable": 12.9,
+            "vcoresUsed": 0.1,
+            "applicationsTotal": 2,
+            "applicationsStarted": 1,
+            "applicationsStopped": 1,
+            "runtimesUsed": [
+              "4.1.5",
+              "4.2.1"
+            ],
+            "runtimesUsedTotal": 2
+          },
+          "sandbox": {
+            "vcoresTotal": 47,
+            "vcoresAvailable": 46.7,
+            "vcoresUsed": 0.3,
+            "applicationsTotal": 6,
+            "applicationsStarted": 3,
+            "applicationsStopped": 3,
+            "runtimesUsed": [
+              "4.1.5",
+              "4.2.1"
+            ],
+            "runtimesUsedTotal": 2
+          }
+        }
+      },
+      "rtf": {
+        "capacity": {
+          "fabrics": 1,
+          "workers": 3,
+          "controllers": 3,
+          "coresTotal": 16.65,
+          "memoryTotal": 94.476,
+          "coresPerFabric": 16.65,
+          "memoryPerFabric": 94.476
+        },
+        "applications": {
+          "production": {
+            "coresReserved": 0.4,
+            "coresReservedA": 0.0,
+            "coresReservedB": 0.4,
+            "memoryReserved": 2.0,
+            "memoryReservedA": 0.0,
+            "memoryReservedB": 2.0,
+            "applicationsTotal": 1,
+            "applicationsStarted": 1,
+            "applicationsStopped": 0,
+            "runtimesUsed": [
+              "4.2.1:v1.2.19"
+            ],
+            "runtimesUsedTotal": 1
+          },
+          "sandbox": {
+            "coresReserved": 1.2,
+            "coresReservedA": 0.0,
+            "coresReservedB": 1.2,
+            "memoryReserved": 6.0,
+            "memoryReservedA": 0.0,
+            "memoryReservedB": 6.0,
+            "applicationsTotal": 3,
+            "applicationsStarted": 3,
+            "applicationsStopped": 0,
+            "runtimesUsed": [
+              "4.2.1:v1.2.19"
+            ],
+            "runtimesUsedTotal": 1
+          }
+        }
+      },
+      "hybrid": {
+        "production": {
+          "servers": 4,
+          "clusters": 0,
+          "serverGroups": 0,
+          "applicationsTotal": 1,
+          "applicationsStarted": 0,
+          "applicationsStopped": 1,
+          "runtimesUsed": [
+            "4.2.0",
+            "4.1.4",
+            "4.1.5"
+          ],
+          "runtimesUsedTotal": 3
+        },
+        "sandbox": {
+          "servers": 12,
+          "clusters": 0,
+          "serverGroups": 0,
+          "applicationsTotal": 3,
+          "applicationsStarted": 0,
+          "applicationsStopped": 3,
+          "runtimesUsed": [
+            "4.2.0",
+            "4.1.4",
+            "4.1.5"
+          ],
+          "runtimesUsedTotal": 3
+        }
+      }
+    },
+    "mqMetrics": {
+      "stats": {
+        "summary": {
+          "production": {
+            "queues": {
+              "commonQueues": 7,
+              "fifoQueues": 0,
+              "messagesInFlight": 0,
+              "messagesSent": 686,
+              "messagesReceived": 686,
+              "messagesAck": 686
+            },
+            "exchanges": {
+              "exchangeQueues": 7,
+              "messagesPublished": 336,
+              "messagesDelivered": 0
+            }
+          },
+          "sandbox": {
+            "queues": {
+              "commonQueues": 21,
+              "fifoQueues": 0,
+              "messagesInFlight": 0,
+              "messagesSent": 2058,
+              "messagesReceived": 2058,
+              "messagesAck": 2058
+            },
+            "exchanges": {
+              "exchangeQueues": 21,
+              "messagesPublished": 1008,
+              "messagesDelivered": 0
+            }
+          }
+        },
+        "byRegion": {
+          "production": [
+            {
+              "id": "us-east-1",
+              "queues": {
+                "commonQueues": 1,
+                "fifoQueues": 0,
+                "messagesInFlight": 0,
+                "messagesSent": 98,
+                "messagesReceived": 98,
+                "messagesAck": 98
+              },
+              "exchanges": {
+                "exchangeQueues": 1,
+                "messagesPublished": 48,
+                "messagesDelivered": 0
+              }
+            },
+            {
+              "id": "us-west-2",
+              "queues": {
+                "commonQueues": 1,
+                "fifoQueues": 0,
+                "messagesInFlight": 0,
+                "messagesSent": 98,
+                "messagesReceived": 98,
+                "messagesAck": 98
+              },
+              "exchanges": {
+                "exchangeQueues": 1,
+                "messagesPublished": 48,
+                "messagesDelivered": 0
+              }
+            },
+            {
+              "id": "ca-central-1",
+              "queues": {
+                "commonQueues": 1,
+                "fifoQueues": 0,
+                "messagesInFlight": 0,
+                "messagesSent": 98,
+                "messagesReceived": 98,
+                "messagesAck": 98
+              },
+              "exchanges": {
+                "exchangeQueues": 1,
+                "messagesPublished": 48,
+                "messagesDelivered": 0
+              }
+            },
+            {
+              "id": "eu-west-1",
+              "queues": {
+                "commonQueues": 1,
+                "fifoQueues": 0,
+                "messagesInFlight": 0,
+                "messagesSent": 98,
+                "messagesReceived": 98,
+                "messagesAck": 98
+              },
+              "exchanges": {
+                "exchangeQueues": 1,
+                "messagesPublished": 48,
+                "messagesDelivered": 0
+              }
+            },
+            {
+              "id": "eu-west-2",
+              "queues": {
+                "commonQueues": 1,
+                "fifoQueues": 0,
+                "messagesInFlight": 0,
+                "messagesSent": 98,
+                "messagesReceived": 98,
+                "messagesAck": 98
+              },
+              "exchanges": {
+                "exchangeQueues": 1,
+                "messagesPublished": 48,
+                "messagesDelivered": 0
+              }
+            },
+            {
+              "id": "ap-southeast-1",
+              "queues": {
+                "commonQueues": 1,
+                "fifoQueues": 0,
+                "messagesInFlight": 0,
+                "messagesSent": 98,
+                "messagesReceived": 98,
+                "messagesAck": 98
+              },
+              "exchanges": {
+                "exchangeQueues": 1,
+                "messagesPublished": 48,
+                "messagesDelivered": 0
+              }
+            },
+            {
+              "id": "ap-southeast-2",
+              "queues": {
+                "commonQueues": 1,
+                "fifoQueues": 0,
+                "messagesInFlight": 0,
+                "messagesSent": 98,
+                "messagesReceived": 98,
+                "messagesAck": 98
+              },
+              "exchanges": {
+                "exchangeQueues": 1,
+                "messagesPublished": 48,
+                "messagesDelivered": 0
+              }
+            }
+          ],
+          "sandbox": [
+            {
+              "id": "us-east-1",
+              "queues": {
+                "commonQueues": 1,
+                "fifoQueues": 0,
+                "messagesInFlight": 0,
+                "messagesSent": 98,
+                "messagesReceived": 98,
+                "messagesAck": 98
+              },
+              "exchanges": {
+                "exchangeQueues": 1,
+                "messagesPublished": 48,
+                "messagesDelivered": 0
+              }
+            },
+            {
+              "id": "us-west-2",
+              "queues": {
+                "commonQueues": 1,
+                "fifoQueues": 0,
+                "messagesInFlight": 0,
+                "messagesSent": 98,
+                "messagesReceived": 98,
+                "messagesAck": 98
+              },
+              "exchanges": {
+                "exchangeQueues": 1,
+                "messagesPublished": 48,
+                "messagesDelivered": 0
+              }
+            },
+            {
+              "id": "ca-central-1",
+              "queues": {
+                "commonQueues": 1,
+                "fifoQueues": 0,
+                "messagesInFlight": 0,
+                "messagesSent": 98,
+                "messagesReceived": 98,
+                "messagesAck": 98
+              },
+              "exchanges": {
+                "exchangeQueues": 1,
+                "messagesPublished": 48,
+                "messagesDelivered": 0
+              }
+            },
+            {
+              "id": "eu-west-1",
+              "queues": {
+                "commonQueues": 1,
+                "fifoQueues": 0,
+                "messagesInFlight": 0,
+                "messagesSent": 98,
+                "messagesReceived": 98,
+                "messagesAck": 98
+              },
+              "exchanges": {
+                "exchangeQueues": 1,
+                "messagesPublished": 48,
+                "messagesDelivered": 0
+              }
+            },
+            {
+              "id": "eu-west-2",
+              "queues": {
+                "commonQueues": 1,
+                "fifoQueues": 0,
+                "messagesInFlight": 0,
+                "messagesSent": 98,
+                "messagesReceived": 98,
+                "messagesAck": 98
+              },
+              "exchanges": {
+                "exchangeQueues": 1,
+                "messagesPublished": 48,
+                "messagesDelivered": 0
+              }
+            },
+            {
+              "id": "ap-southeast-1",
+              "queues": {
+                "commonQueues": 1,
+                "fifoQueues": 0,
+                "messagesInFlight": 0,
+                "messagesSent": 98,
+                "messagesReceived": 98,
+                "messagesAck": 98
+              },
+              "exchanges": {
+                "exchangeQueues": 1,
+                "messagesPublished": 48,
+                "messagesDelivered": 0
+              }
+            },
+            {
+              "id": "ap-southeast-2",
+              "queues": {
+                "commonQueues": 1,
+                "fifoQueues": 0,
+                "messagesInFlight": 0,
+                "messagesSent": 98,
+                "messagesReceived": 98,
+                "messagesAck": 98
+              },
+              "exchanges": {
+                "exchangeQueues": 1,
+                "messagesPublished": 48,
+                "messagesDelivered": 0
+              }
+            }
+          ]
+        }
+      }
+    },
+    "errors": [
+      
+    ]
+  }
+]

@@ -56,7 +56,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	
 	<flow name="api-call-arm-server-groups-flow" doc:id="354e2270-07c6-4480-b8a8-162d6b16ecce" maxConcurrency="${anypoint.platform.apis.arm.maxConcurrency}">
 		<logger level="DEBUG" doc:name="Logger" doc:id="2413dc2d-77ac-49da-a7dd-78cd5de884df" message="Calling ARM - Server Groups" />
-		<http:request method="GET" doc:name="Get Server Groups Request" doc:id="22c6d035-1a8a-48c3-a18f-5f736e52e6f1" config-ref="HTTP_Request_configuration"
+		<http:request method="GET" doc:name="Get Clusters Request" doc:id="22c6d035-1a8a-48c3-a18f-5f736e52e6f1" config-ref="HTTP_Request_configuration"
 			path="${anypoint.platform.apis.arm.serverGroups.path}">
 			<http:headers><![CDATA[#[output application/java
 ---

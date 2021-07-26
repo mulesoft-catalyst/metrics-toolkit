@@ -17,7 +17,7 @@ var strategy = p('loader.strategy')
 			sourceType: p('splunk.source.type')
   		}
   		case "tableau" -> tableau: {
-  			outputDir: p('tableau.outputDir')
+  			path: p('tableau.path')
   		}
   		case "elk" -> elk: {
   			host: p('elk.host'),
@@ -26,6 +26,16 @@ var strategy = p('loader.strategy')
   			password: p('secure::elk.password'),
   			platformMetricsIndex: p('elk.index.metrics'),
 			platformBenefitsIndex: p('elk.index.benefits'),		
+  		}
+  		case "sfdc" -> sfdc: {
+  			username: p('secure::sfdc.username'),
+  			password: p('secure::sfdc.password'),
+  			securityToken: p('secure::sfdc.securityToken'),
+  			authUrl: p('sfdc.authUrl') default "https://login.salesforce.com/services/Soap/u/50.0",
+  			dataSetName: p('sfdc.dataSetName'),
+  			appName: p('sfdc.appName'),
+			sendNotification: p('sfdc.sendNotification'),		
+			notificationEmail: p('sfdc.notificationEmail')
   		}
   		else -> {}
 	})

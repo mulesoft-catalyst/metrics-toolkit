@@ -7,20 +7,19 @@ var errors = vars.errors
 
 var cloudHubApps = if (payload[0].payload != null) payload[0].payload.payload else null
 var exchangeAssets = payload[1].payload default []
-var apiManagerApis = if (payload[2].payload != null) payload[2].payload[0].payload.payload else null
-var apiClients = if (payload[2].payload != null) payload[2].payload[1].payload.applications else null
-var apiAutomatedPolicies = if (payload[2].payload != null) payload[2].payload[2].payload.payload else null
+var apiManagerApis = if (payload[2].payload != null) payload[2].payload.payload else null
 var members = if (payload[3].payload != null) payload[3].payload[0].payload else null
 var usage = if (payload[3].payload != null) payload[3].payload[1].payload else null
 var designCenterProjects = payload[4].payload default []
-var armApps = if (payload[5].payload != null) payload[5].payload[0].payload.payload else null
-var armServers = if (payload[5].payload != null) payload[5].payload[1].payload.payload else null
-var armClusters = if (payload[5].payload != null) payload[5].payload[2].payload.payload else null
-var armServerGroups = if (payload[5].payload != null) payload[5].payload[3].payload.payload else null
-var rtf = payload[6].payload default []
-var analyticsQueryResult = if (payload[7].payload != null) payload[7].payload.payload else null
-var mq = if (payload[8].payload != null) payload[8].payload.payload else null
-var osv2 = if (payload[9].payload != null) payload[9].payload.payload else null
+var apiClients = if (payload[5].payload != null) payload[5].payload.applications else null
+var apiAutomatedPolicies = if (payload[6].payload != null) payload[6].payload.payload else null
+var armApps = if (payload[7].payload != null) payload[7].payload[0].payload.payload else null
+var armServers = if (payload[7].payload != null) payload[7].payload[1].payload.payload else null
+var armClusters = if (payload[7].payload != null) payload[7].payload[2].payload.payload else null
+var armServerGroups = if (payload[7].payload != null) payload[7].payload[3].payload.payload else null
+var rtf = payload[8].payload default []
+var analyticsQueryResult = if (payload[9].payload != null) payload[9].payload.payload else null
+var mq = if (payload[10].payload != null) payload[10].payload.payload else null
 
 var RTF_TARGET_TYPE = 'MC'
 var RTF_MI = "Mi"
@@ -30,9 +29,6 @@ var RTF_CONTROLLER = "controller"
 var HYBRID_TARGET_TYPE = 'RR'
 var APP_STATUS_RUNNING = "RUNNING"
 var APP_STATUS_STARTED = "STARTED"
-
-var ENV_TYPE_PROD = "Production"
-var ENV_TYPE_SANDBOX = "Sandbox"
 
 fun getProdData(arr) = (arr filter($.isProduction)).data
 fun getSandboxData(arr) = (arr filter(not $.isProduction)).data
@@ -48,12 +44,9 @@ var sandboxApis=getSandboxData(apiManagerApis)
 var sandboxApisAssets=sandboxApis.assets
 var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 
-var groupedArrayByEnvironment = (arr) ->  ( (arr groupBy ($.environment)) mapObject { ($$): $.data } )
-
 var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","authentication"]
 
 var notGeneratedAssets = if (exchangeAssets is Array) (exchangeAssets filter($."isGenerated" == false)) else []
-var ratedAssets = notGeneratedAssets filter ($."numberOfRates" > 0)
 var assetsByType = (assetType) -> notGeneratedAssets filter($."type" == assetType)
 var countAssetType = (assetType) -> sizeOf(assetsByType(assetType))
 
@@ -116,9 +109,6 @@ var policiesAppliedByPolicy = (inProduction) -> (
         )
     )
 )
-
-var usableSandboxVcores = entitlements.vCoresSandbox.assigned - entitlements.vCoresSandbox.reassigned
-var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCoresProduction.reassigned													
 ---
 {
 	date: vars.date,
@@ -158,7 +148,7 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
             extensions: countAssetType("extension"),
             applications: countAssetType("app"),
 		    custom: countAssetType("custom"),
-		    overallSatisfaction: if (sizeOf(ratedAssets) > 0) ((ratedAssets.rating reduce ($ + $$) default 0) / sizeOf(ratedAssets)) else 0,
+		    overallSatisfaction: if (sizeOf(notGeneratedAssets) > 0) ((notGeneratedAssets.rating reduce ($ + $$) default 0) / sizeOf(notGeneratedAssets)) else 0,
         reuse: {
             // Avg of times a Fragment is imported by an API Spec
             fragments: assetReuseAvg("rest-api","raml-fragment"),
@@ -200,30 +190,8 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 				policiesUsedTotal: sizeOf(flatten(flatten(getProdDetails(apiManagerApis) default []).policies default []).template.assetId  distinctBy $ default []),
 				automatedPoliciesUsed: flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default [],
 				automatedPoliciesUsedTotal: sizeOf(flatten(getProdData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default []),
-				transactions: sum(flatten(flatten(getProdData(analyticsQueryResult).response default [])."api_id" default [])..count default []), //last x days on the period collected
-				details: apiManagerApis filter ($.isProduction) map ((item, index) -> {
-					environmentName: item.environment,
-					environmentType: ENV_TYPE_PROD,
-					total: item.data.total,
-					active: if (not isEmpty(flatten(flatten(item.data.assets).apis default []).lastActiveDate)) sizeOf(flatten(flatten(item.data.assets).apis default []).lastActiveDate filter ($!=null and ($ >= now() -|P1D|)) default []) else 0,
-					inactive: if (not isEmpty(flatten(flatten(item.data.assets).apis default []).lastActiveDate)) sizeOf(flatten(flatten(item.data.assets).apis default []).lastActiveDate filter ($==null or ($ < now() -|P1D|)) default []) else 0,
-					apiInstances: sum(flatten(item.data.assets).totalApis default []), 
-					apiVersions: sizeOf(flatten(flatten(item.data.assets).apis default []).productVersion distinctBy $ default []),
-					apisWithPolicies: sizeOf(flatten(item.details default []) [?(sizeOf($.policies default []) > 0)] default []),
-					apisWithoutPolicies: sizeOf(flatten(item.details default []) [?(sizeOf($.policies default []) == 0)] default []),
-					apisWithSecurity: sizeOf((flatten((flatten(item.details) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []),
-					apisWithoutSecurity: sizeOf(flatten(item.details default [])) - sizeOf((flatten((flatten(item.details) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []), 
-					apisWithContracts: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 0) default []),
-					apisWithoutContracts: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ == 0) default []),
-					apisWithMoreThanOneConsumer: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 1) default []),
-					apisWithOneOrMoreConsumers: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 0) default []),
-					contracts: sum(flatten(flatten(item.data.assets).apis default []).activeContractsCount default []),				
-					policiesUsed: flatten(flatten(item.details default []).policies default []).template.assetId  distinctBy $ default [],
-					policiesUsedTotal: sizeOf(flatten(flatten(item.details default []).policies default []).template.assetId  distinctBy $ default []),
-					automatedPoliciesUsed: flatten(groupedArrayByEnvironment(apiAutomatedPolicies default [])[item.environment].automatedPolicies default []).assetId distinctBy ($) default [],
-					automatedPoliciesUsedTotal: sizeOf(flatten(groupedArrayByEnvironment(apiAutomatedPolicies default [])[item.environment].automatedPolicies default []).assetId distinctBy ($) default []),
-					transactions: sum(flatten(flatten(groupedArrayByEnvironment(analyticsQueryResult)[item.environment].response default [])."api_id" default [])..count default []), //last x days on the period collected
-				}) default []
+				transactions: sum(flatten(flatten(getProdData(analyticsQueryResult).response default [])."api_id" default [])..count default []) //last x days on the period collected
+			
 			},
 			sandbox: {
 				total: sum(sandboxApis.total default []),
@@ -244,31 +212,8 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 				policiesUsedTotal: sizeOf(flatten(flatten(getSandboxDetails(apiManagerApis) default []).policies default []).template.assetId  distinctBy $ default []),
 				automatedPoliciesUsed: flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default [],
 				automatedPoliciesUsedTotal: sizeOf(flatten(getSandboxData(apiAutomatedPolicies default []).automatedPolicies default []).assetId distinctBy ($) default []),
-				transactions: sum(flatten(flatten(getSandboxData(analyticsQueryResult).response default [])."api_id" default [])..count default []), //last x days on the period collected
-				details: apiManagerApis filter (not $.isProduction) map ((item, index) -> {
-					environmentName: item.environment,
-					environmentType: ENV_TYPE_SANDBOX,
-					total: item.data.total,
-					active: if (not isEmpty(flatten(flatten(item.data.assets).apis default []).lastActiveDate)) sizeOf(flatten(flatten(item.data.assets).apis default []).lastActiveDate filter ($!=null and ($ >= now() -|P1D|)) default []) else 0,
-					inactive: if (not isEmpty(flatten(flatten(item.data.assets).apis default []).lastActiveDate)) sizeOf(flatten(flatten(item.data.assets).apis default []).lastActiveDate filter ($==null or ($ < now() -|P1D|)) default []) else 0,
-					apiInstances: sum(flatten(item.data.assets).totalApis default []), 
-					apiVersions: sizeOf(flatten(flatten(item.data.assets).apis default []).productVersion distinctBy $ default []),
-					apisWithPolicies: sizeOf(flatten(item.details default []) [?(sizeOf($.policies default []) > 0)] default []),
-					apisWithoutPolicies: sizeOf(flatten(item.details default []) [?(sizeOf($.policies default []) == 0)] default []),
-					apisWithSecurity: sizeOf((flatten((flatten(item.details) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []),
-					apisWithoutSecurity: sizeOf(flatten(item.details default [])) - sizeOf((flatten((flatten(item.details) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []), 
-					apisWithContracts: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 0) default []),
-					apisWithoutContracts: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ == 0) default []),
-					apisWithMoreThanOneConsumer: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 1) default []),
-					apisWithOneOrMoreConsumers: sizeOf(flatten(flatten(item.data.assets).apis default []).activeContractsCount filter ($ > 0) default []),
-					contracts: sum(flatten(flatten(item.data.assets).apis default []).activeContractsCount default []),				
-					policiesUsed: flatten(flatten(item.details default []).policies default []).template.assetId  distinctBy $ default [],
-					policiesUsedTotal: sizeOf(flatten(flatten(item.details default []).policies default []).template.assetId  distinctBy $ default []),
-					automatedPoliciesUsed: flatten(groupedArrayByEnvironment(apiAutomatedPolicies default [])[item.environment].automatedPolicies default []).assetId distinctBy ($) default [],
-					automatedPoliciesUsedTotal: sizeOf(flatten(groupedArrayByEnvironment(apiAutomatedPolicies default [])[item.environment].automatedPolicies default []).assetId distinctBy ($) default []),
-					transactions: sum(flatten(flatten(groupedArrayByEnvironment(analyticsQueryResult)[item.environment].response default [])."api_id" default [])..count default []), //last x days on the period collected
-				}) default []	
-			}
+				transactions: sum(flatten(flatten(getSandboxData(analyticsQueryResult).response default [])."api_id" default [])..count default []) //last x days on the period collected
+			}	
 		}	
 	},
 	runtimeManagerMetrics: {
@@ -290,46 +235,24 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 			
 			applications:{
 				production: {
-					vcoresTotal: usableProdVcores,
-					vcoresAvailable: usableProdVcores - sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
+					vcoresTotal: entitlements.vCoresProduction.assigned,
+					vcoresAvailable: (entitlements.vCoresProduction.assigned as Number) - sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
 					vcoresUsed: sum((flatten(getProdData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
 					applicationsTotal: sizeOf(flatten(getProdData(cloudHubApps) default []) default []),
 					applicationsStarted: sizeOf(flatten(getProdData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default []),
 					applicationsStopped: sizeOf(flatten(getProdData(cloudHubApps) default []) filter ($.status != APP_STATUS_STARTED) default []),
 					runtimesUsed: flatten(getProdData(cloudHubApps) default []).muleVersion.version distinctBy ($) default[],
-					runtimesUsedTotal: sizeOf(flatten(getProdData(cloudHubApps) default []).muleVersion.version distinctBy ($) default []),
-					details: cloudHubApps filter ($.isProduction) map ((item, index) -> {
-						environmentName: item.environment,
-						environmentType: ENV_TYPE_PROD,
-						vcoresUsed: sum((flatten(item.data default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
-						applicationsTotal: sizeOf(flatten(item.data default []) default []),
-						applicationsStarted: sizeOf(flatten(item.data default []) filter ($.status == APP_STATUS_STARTED) default []),
-						applicationsStopped: sizeOf(flatten(item.data default []) filter ($.status != APP_STATUS_STARTED) default []),
-						runtimesUsed: flatten(item.data default []).muleVersion.version distinctBy ($) default[],
-						runtimesUsedTotal: sizeOf(flatten(item.data default []).muleVersion.version distinctBy ($) default [])	
-						
-					}) default []
+					runtimesUsedTotal: sizeOf(flatten(getProdData(cloudHubApps) default []).muleVersion.version distinctBy ($) default [])
 				},
 				sandbox:{
-					vcoresTotal: usableSandboxVcores,
-					vcoresAvailable: usableSandboxVcores - sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
+					vcoresTotal: entitlements.vCoresSandbox.assigned,
+					vcoresAvailable: (entitlements.vCoresSandbox.assigned as Number) - sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
 					vcoresUsed: sum((flatten(getSandboxData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
 					applicationsTotal: sizeOf(flatten(getSandboxData(cloudHubApps) default []) default []),
 					applicationsStarted: sizeOf(flatten(getSandboxData(cloudHubApps) default []) filter ($.status == APP_STATUS_STARTED) default []),
 					applicationsStopped: sizeOf(flatten(getSandboxData(cloudHubApps) default []) filter ($.status != APP_STATUS_STARTED) default []),
 					runtimesUsed: flatten(getSandboxData(cloudHubApps) default []).muleVersion.version distinctBy ($) default[],
-					runtimesUsedTotal: sizeOf(flatten(getSandboxData(cloudHubApps) default []).muleVersion.version distinctBy ($) default []),
-					details: cloudHubApps filter (not $.isProduction) map ((item, index) -> {
-						environmentName: item.environment,
-						environmentType: ENV_TYPE_SANDBOX,
-						vcoresUsed: sum((flatten(item.data default []) filter ($.status == APP_STATUS_STARTED) default [] ) map ($.workers."type".weight * $.workers.amount)),
-						applicationsTotal: sizeOf(flatten(item.data default []) default []),
-						applicationsStarted: sizeOf(flatten(item.data default []) filter ($.status == APP_STATUS_STARTED) default []),
-						applicationsStopped: sizeOf(flatten(item.data default []) filter ($.status != APP_STATUS_STARTED) default []),
-						runtimesUsed: flatten(item.data default []).muleVersion.version distinctBy ($) default[],
-						runtimesUsedTotal: sizeOf(flatten(item.data default []).muleVersion.version distinctBy ($) default [])	
-						
-					}) default []
+					runtimesUsedTotal: sizeOf(flatten(getSandboxData(cloudHubApps) default []).muleVersion.version distinctBy ($) default [])
 				}
 			}
 		},
@@ -367,33 +290,7 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 					applicationsStarted: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == RTF_TARGET_TYPE) default [] filter ($.application.status == APP_STATUS_RUNNING) default []),
 					applicationsStopped: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == RTF_TARGET_TYPE) default [] filter ($.application.status != APP_STATUS_RUNNING) default []),
 					runtimesUsed: flatten(getProdDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [],
-					runtimesUsedTotal: sizeOf(flatten(getProdDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default []),			
-					details: armApps filter ($.isProduction) map ((item, index) -> {
-						environmentName: item.environment,
-						environmentType: ENV_TYPE_PROD,
-						coresReserved: (sum(((flatten(item.details default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources != null))) map (
-	        				(($.target.deploymentSettings.resources.cpu.reserved) replace RTF_M with "") as Number * ($.target.replicas as Number)) default [])/1000)  + 
-	    					(sum(((flatten(item.details default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources == null))) map (
-	        				(($.target.deploymentSettings.cpuReserved) replace RTF_M with "") as Number * ($.target.replicas as Number)) default [])/1000),
-						coresReservedA: (sum(((flatten(item.details default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources != null))) map (
-	        				(($.target.deploymentSettings.resources.cpu.reserved) replace RTF_M with "") as Number * ($.target.replicas as Number)) default [])/1000),
-						coresReservedB: (sum(((flatten(item.details default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources == null))) map (
-	        				(($.target.deploymentSettings.cpuReserved) replace RTF_M with "") as Number * ($.target.replicas as Number)) default [])/1000),			
-						memoryReserved: (sum(((flatten(item.details default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources != null))) map (
-	        				(($.target.deploymentSettings.resources.memory.reserved) replace RTF_MI with "") as Number * ($.target.replicas as Number)) default [])/1000) + 
-	        				(sum(((flatten(item.details default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources == null))) map (
-	       					 (($.target.deploymentSettings.memoryReserved) replace RTF_MI with "") as Number * ($.target.replicas as Number)) default [])/1000),
-	    				memoryReservedA: (sum(((flatten(item.details default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources != null))) map (
-	        				(($.target.deploymentSettings.resources.memory.reserved) replace RTF_MI with "") as Number * ($.target.replicas as Number)) default [])/1000),
-	    				memoryReservedB: (sum(((flatten(item.details default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources == null))) map (
-	       					 (($.target.deploymentSettings.memoryReserved) replace RTF_MI with "") as Number * ($.target.replicas as Number)) default [])/1000),
-	    					
-						applicationsTotal: sizeOf(flatten(item.data.items default []) filter($.target.provider == RTF_TARGET_TYPE) default []),
-						applicationsStarted: sizeOf(flatten(item.data.items default []) filter($.target.provider == RTF_TARGET_TYPE) default [] filter ($.application.status == APP_STATUS_RUNNING) default []),
-						applicationsStopped: sizeOf(flatten(item.data.items default []) filter($.target.provider == RTF_TARGET_TYPE) default [] filter ($.application.status != APP_STATUS_RUNNING) default []),
-						runtimesUsed: flatten(item.details default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [],
-						runtimesUsedTotal: sizeOf(flatten(item.details default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [])
-					}) default []
+					runtimesUsedTotal: sizeOf(flatten(getProdDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [])			
 				},
 				sandbox:{
 					//coresAvailable: "NA", //cores // Not able to calculate because a fabric can be associated with multiple environments of any type
@@ -420,34 +317,8 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 					applicationsStarted: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == RTF_TARGET_TYPE) default [] filter ($.application.status == APP_STATUS_RUNNING) default []),
 					applicationsStopped: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == RTF_TARGET_TYPE) default [] filter ($.application.status != APP_STATUS_RUNNING) default []),
 					runtimesUsed: flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [],
-					runtimesUsedTotal: sizeOf(flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default []),
-					details: armApps filter (not $.isProduction) map ((item, index) -> {
-						environmentName: item.environment,
-						environmentType: ENV_TYPE_SANDBOX,
-						coresReserved: (sum(((flatten(item.details default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources != null))) map (
-	        				(($.target.deploymentSettings.resources.cpu.reserved) replace RTF_M with "") as Number * ($.target.replicas as Number)) default [])/1000)  + 
-	    					(sum(((flatten(item.details default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources == null))) map (
-	        				(($.target.deploymentSettings.cpuReserved) replace RTF_M with "") as Number * ($.target.replicas as Number)) default [])/1000),
-						coresReservedA: (sum(((flatten(item.details default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources != null))) map (
-	        				(($.target.deploymentSettings.resources.cpu.reserved) replace RTF_M with "") as Number * ($.target.replicas as Number)) default [])/1000),
-						coresReservedB: (sum(((flatten(item.details default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources == null))) map (
-	        				(($.target.deploymentSettings.cpuReserved) replace RTF_M with "") as Number * ($.target.replicas as Number)) default [])/1000),			
-						memoryReserved: (sum(((flatten(item.details default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources != null))) map (
-	        				(($.target.deploymentSettings.resources.memory.reserved) replace RTF_MI with "") as Number * ($.target.replicas as Number)) default [])/1000) + 
-	        				(sum(((flatten(item.details default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources == null))) map (
-	       					 (($.target.deploymentSettings.memoryReserved) replace RTF_MI with "") as Number * ($.target.replicas as Number)) default [])/1000),
-	    				memoryReservedA: (sum(((flatten(item.details default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources != null))) map (
-	        				(($.target.deploymentSettings.resources.memory.reserved) replace RTF_MI with "") as Number * ($.target.replicas as Number)) default [])/1000),
-	    				memoryReservedB: (sum(((flatten(item.details default []) filter($.target.provider == RTF_TARGET_TYPE and $.application.status == APP_STATUS_RUNNING and $.target.deploymentSettings.resources == null))) map (
-	       					 (($.target.deploymentSettings.memoryReserved) replace RTF_MI with "") as Number * ($.target.replicas as Number)) default [])/1000),
-	    					
-						applicationsTotal: sizeOf(flatten(item.data.items default []) filter($.target.provider == RTF_TARGET_TYPE) default []),
-						applicationsStarted: sizeOf(flatten(item.data.items default []) filter($.target.provider == RTF_TARGET_TYPE) default [] filter ($.application.status == APP_STATUS_RUNNING) default []),
-						applicationsStopped: sizeOf(flatten(item.data.items default []) filter($.target.provider == RTF_TARGET_TYPE) default [] filter ($.application.status != APP_STATUS_RUNNING) default []),
-						runtimesUsed: flatten(item.details default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [],
-						runtimesUsedTotal: sizeOf(flatten(item.details default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [])
-					}) default []
-				}
+					runtimesUsedTotal: sizeOf(flatten(getSandboxDetails(armApps) default []).target.deploymentSettings.runtimeVersion distinctBy ($) default [])
+				}	
 			}
 		},
 		hybrid: {
@@ -459,19 +330,7 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 				applicationsStarted: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status == APP_STATUS_STARTED) default []),
 				applicationsStopped: sizeOf(flatten(getProdData(armApps).items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status != APP_STATUS_STARTED) default []),
 				runtimesUsed: flatten(getProdData(armServers).data default []).muleVersion distinctBy $ default [],
-				runtimesUsedTotal: sizeOf(flatten(getProdData(armServers).data default []).muleVersion distinctBy $ default []),
-				details: armApps filter ($.isProduction) map ((item, index) -> {
-					environmentName: item.environment,
-					environmentType: ENV_TYPE_PROD,
-					servers: sizeOf(flatten(groupedArrayByEnvironment(armServers)[item.environment].data default []) default []),
-					clusters: sizeOf(flatten(groupedArrayByEnvironment(armClusters)[item.environment].data default []) default []),
-					serverGroups: sizeOf(flatten(groupedArrayByEnvironment(armServerGroups)[item.environment].data default []) default []),
-					applicationsTotal: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default []),
-					applicationsStarted: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status == APP_STATUS_STARTED) default []),
-					applicationsStopped: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status != APP_STATUS_STARTED) default []),
-					runtimesUsed: flatten(groupedArrayByEnvironment(armServers)[item.environment].data default []).muleVersion distinctBy $ default [],
-					runtimesUsedTotal: sizeOf(flatten(groupedArrayByEnvironment(armServers)[item.environment].data default []).muleVersion distinctBy $ default []),
-				}) default []
+				runtimesUsedTotal: sizeOf(flatten(getProdData(armServers).data default []).muleVersion distinctBy $ default [])
 			},
 			sandbox:{
 				servers: sizeOf(flatten(getSandboxData(armServers).data default []) default []),
@@ -481,19 +340,7 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 				applicationsStarted: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status == APP_STATUS_STARTED) default []),
 				applicationsStopped: sizeOf(flatten(getSandboxData(armApps).items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status != APP_STATUS_STARTED) default []),
 				runtimesUsed: flatten(getSandboxData(armServers).data default []).muleVersion distinctBy $ default [],
-				runtimesUsedTotal: sizeOf(flatten(getSandboxData(armServers).data default []).muleVersion distinctBy $ default []),
-				details: armApps filter (not $.isProduction) map ((item, index) -> {
-					environmentName: item.environment,
-					environmentType: ENV_TYPE_SANDBOX,
-					servers: sizeOf(flatten(groupedArrayByEnvironment(armServers)[item.environment].data default []) default []),
-					clusters: sizeOf(flatten(groupedArrayByEnvironment(armClusters)[item.environment].data default []) default []),
-					serverGroups: sizeOf(flatten(groupedArrayByEnvironment(armServerGroups)[item.environment].data default []) default []),
-					applicationsTotal: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default []),
-					applicationsStarted: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status == APP_STATUS_STARTED) default []),
-					applicationsStopped: sizeOf(flatten(item.data.items default []) filter($.target.provider == HYBRID_TARGET_TYPE) default [] filter ($.status != APP_STATUS_STARTED) default []),
-					runtimesUsed: flatten(groupedArrayByEnvironment(armServers)[item.environment].data default []).muleVersion distinctBy $ default [],
-					runtimesUsedTotal: sizeOf(flatten(groupedArrayByEnvironment(armServers)[item.environment].data default []).muleVersion distinctBy $ default []),
-				}) default []
+				runtimesUsedTotal: sizeOf(flatten(getSandboxData(armServers).data default []).muleVersion distinctBy $ default [])
 			}
 		}
 	},
@@ -507,29 +354,12 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 						messagesInFlight: sum(flatten(getProdData(mq)).queues.messagesInFlight default [0]),
 						messagesSent: sum(flatten(getProdData(mq)).queues.messagesSent default [0]),
 						messagesReceived: sum(flatten(getProdData(mq)).queues.messagesReceived default [0]),
-						messagesAck: sum(flatten(getProdData(mq)).queues.messagesAck default [0]),
-						details: mq filter ($.isProduction) map ((item, index) -> {
-							environmentName: item.environment,
-							environmentType: ENV_TYPE_PROD,
-							commonQueues: sum(flatten(item.data).queues.commonQueues default [0]),
-							fifoQueues: sum(flatten(item.data).queues.fifoQueues default [0]),
-							messagesInFlight: sum(flatten(item.data).queues.messagesInFlight default [0]),
-							messagesSent: sum(flatten(item.data).queues.messagesSent default [0]),
-							messagesReceived: sum(flatten(item.data).queues.messagesReceived default [0]),
-							messagesAck: sum(flatten(item.data).queues.messagesAck default [0]),
-						}) default []
+						messagesAck: sum(flatten(getProdData(mq)).queues.messagesAck default [0])
 					},
 					exchanges: {
 						exchangeQueues: sum(flatten(getProdData(mq)).exchanges.exchangeQueues default [0]),
 						messagesPublished: sum(flatten(getProdData(mq)).exchanges.messagesPublished default [0]),
-						messagesDelivered: sum(flatten(getProdData(mq)).exchanges.messagesDelivered default [0]),
-						details: mq filter ($.isProduction) map ((item, index) -> {
-							environmentName: item.environment,
-							environmentType: ENV_TYPE_PROD,
-							exchangeQueues: sum(flatten(item.data).exchanges.exchangeQueues default [0]),
-							messagesPublished: sum(flatten(item.data).exchanges.messagesPublished default [0]),
-							messagesDelivered: sum(flatten(item.data).exchanges.messagesDelivered default [0]),
-						}) default []
+						messagesDelivered: sum(flatten(getProdData(mq)).exchanges.messagesDelivered default [0])
 					}
 				}, 
 				sandbox: {
@@ -539,29 +369,12 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 						messagesInFlight: sum(flatten(getSandboxData(mq)).queues.messagesInFlight default [0]),
 						messagesSent: sum(flatten(getSandboxData(mq)).queues.messagesSent default [0]),
 						messagesReceived: sum(flatten(getSandboxData(mq)).queues.messagesReceived default [0]),
-						messagesAck: sum(flatten(getSandboxData(mq)).queues.messagesAck default [0]),
-						details: mq filter (not $.isProduction) map ((item, index) -> {
-							environmentName: item.environment,
-							environmentType: ENV_TYPE_SANDBOX,
-							commonQueues: sum(flatten(item.data).queues.commonQueues default [0]),
-							fifoQueues: sum(flatten(item.data).queues.fifoQueues default [0]),
-							messagesInFlight: sum(flatten(item.data).queues.messagesInFlight default [0]),
-							messagesSent: sum(flatten(item.data).queues.messagesSent default [0]),
-							messagesReceived: sum(flatten(item.data).queues.messagesReceived default [0]),
-							messagesAck: sum(flatten(item.data).queues.messagesAck default [0]),
-						}) default []
+						messagesAck: sum(flatten(getSandboxData(mq)).queues.messagesAck default [0])
 					},
 					exchanges: {
 						exchangeQueues: sum(flatten(getSandboxData(mq)).exchanges.exchangeQueues default [0]),
 						messagesPublished: sum(flatten(getSandboxData(mq)).exchanges.messagesPublished default [0]),
-						messagesDelivered: sum(flatten(getSandboxData(mq)).exchanges.messagesDelivered default [0]),
-						details: mq filter (not $.isProduction) map ((item, index) -> {
-							environmentName: item.environment,
-							environmentType: ENV_TYPE_SANDBOX,
-							exchangeQueues: sum(flatten(item.data).exchanges.exchangeQueues default [0]),
-							messagesPublished: sum(flatten(item.data).exchanges.messagesPublished default [0]),
-							messagesDelivered: sum(flatten(item.data).exchanges.messagesDelivered default [0]),
-						}) default []
+						messagesDelivered: sum(flatten(getSandboxData(mq)).exchanges.messagesDelivered default [0])
 					}
 				}
 			},
@@ -570,26 +383,6 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 				sandbox: (getSandboxData(mq)[0] default [])
 			}
 			
-		},
-	},
-	osV2Metrics: {
-		stats: {
-			production: { 
-				requestCount: sum(flatten(getProdData(osv2)).objectStoreRequestCount default [0]),
-				details: osv2 filter ($.isProduction) map ((item, index) -> {
-							environmentName: item.environment,
-							environmentType: ENV_TYPE_PROD,
-							requestCount: sum(flatten(item.data).objectStoreRequestCount default [0])
-						}) default []
-			}, 
-			sandbox: { 
-				requestCount: sum(flatten(getSandboxData(osv2)).objectStoreRequestCount default [0]),
-				details: osv2 filter (not $.isProduction) map ((item, index) -> {
-							environmentName: item.environment,
-							environmentType: ENV_TYPE_SANDBOX,
-							requestCount: sum(flatten(item.data).objectStoreRequestCount default [0])
-						}) default []
-			}
 		}
 	},
 	errors: errors	

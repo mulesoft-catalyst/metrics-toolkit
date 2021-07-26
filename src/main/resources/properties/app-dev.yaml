@@ -16,7 +16,7 @@ poller:
     timezone: "GMT-3"
 auth:
   mode: "platform-credentials" # valid options are: platform-credentials or connected-app-credentials
-  
+
 aggregation:
   raw: "false"
   
@@ -41,7 +41,6 @@ loader:
 #  - apma: API Manager Analytics                                          
 #  - ch: CloudHub   
 #  - rtf: Runtime Fabric
-#  - osv2: Object Store V2
 
 # Not available for GovCloud:
 #  - apma: API Manager Analytics                                          
@@ -64,13 +63,7 @@ splunk:
   index:
     metrics: "metrics"
     benefits: "platform_benefits"
-
-mongodb:
-  host: "localhost"
-  port: "27017"
-  database: "matrixdb"
-  collection: "metrics"
-            
+    
 elk:
   host: "localhost"
   port: "9200"
@@ -80,35 +73,35 @@ elk:
     benefits: "platformbenefits"     
 
 tableau:
-  outputDir: "./data"
+  path: "/test-tableau.json"
 
 # SDLC Metrics
 sdlc:
   poller:
     enabled: "false"
   confluence:
-    enabled: "false" #Configure and set this to true if confluence metrics are required
+    enabled: "false" #Set this to true if confluence metrics is required
     host: "test.atlassian.net"
     port: "443"
     path: "/wiki/rest/api/content/search?next=true&limit=1000&cql=%28type=page%20and%20space=%27MUL%27%29&expand=version,history,history.lastUpdated"
   bitbucket:
-    enabled: "false" #Configure and set this to true if bitbucket metrics are required
+    enabled: "false" #Set this to false if bitbucket metrics is required
     host: "api.bitbucket.org"
     port: "443"
     path: "/2.0/repositories/fm_ebiz?q=project.key=%22MUL%22"
   jira:
-    enabled: "false" #Configure and set this to true if jira metrics are required
+    enabled: "false" #Set this to false if jira metrics is required
     host: "test.atlassian.net"
     port: "443"
     path: "/rest/api/2/search?maxResults=100&jql=project+%3D+Integrations+AND+sprint+IN+openSprints()"
     backlogPath: "/rest/api/2/search?jql=project%20%3D%20Integrations%20AND%20%28Sprint%20%3D%20EMPTY%20OR%20Sprint%20in%20futureSprints%28%29%29%20AND%20issuetype%20%21%3D%20Epic"
   jenkins:
-    enabled: "false" #Configure and set this to true if jenkins metrics are required
+    enabled: "false" #Set this to false if jenkins metrics is required
     host: "jenkins.test.net"
     port: "443"
     path: "/jenkins/view/9_MULE_4/api/json"
   splunk:
-    enabled: "false" #Configure and set this to true if splunk metrics are required
+    enabled: "false" #Set this to false if splunk metrics is required
     host: "test.splunk.com"
     port: "8089"
     path: "/servicesNS/nobody/mulesoft/data/ui/views?count=-0"

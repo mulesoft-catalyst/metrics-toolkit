@@ -37,7 +37,7 @@
       <single>
         <title>How many assets are published in Exchange</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(exchangeMetrics.total) as total | stats sum(total) as "Exchange - Total Assets"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(exchangeMetrics.total) as total | stats max(total) as "Exchange - Total Assets"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -53,7 +53,7 @@
       <chart>
         <title>How many assets are published in Exchange, grouped by type</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(exchangeMetrics.apiSpecs) as apiSpecs, values(exchangeMetrics.mule3Connectors) as mule3Connectors, values(exchangeMetrics.fragments) as fragments, values(exchangeMetrics.proxies) as proxies, values(exchangeMetrics.extensions) as extensions, values(exchangeMetrics.custom) as custom, values(exchangeMetrics.soapApis) as soapApis, values(exchangeMetrics.policies) as policies, values(exchangeMetrics.applications) as applications | stats sum(apiSpecs) as "API Specs", sum(mule3Connectors) as "Mule 3 Connectors", sum(fragments) as "Fragments", sum(proxies) as "Proxies", sum(extensions) as "Extensions", sum(custom) as "Custom", sum(soapApis) as "SOAP APIs", sum(policies) as "Policies", sum(applications) as "Applications" | transpose</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(exchangeMetrics.apiSpecs) as apiSpecs, values(exchangeMetrics.mule3Connectors) as mule3Connectors, values(exchangeMetrics.fragments) as fragments, values(exchangeMetrics.proxies) as proxies, values(exchangeMetrics.extensions) as extensions, values(exchangeMetrics.custom) as custom, values(exchangeMetrics.soapApis) as soapApis, values(exchangeMetrics.policies) as policies, values(exchangeMetrics.applications) as applications | stats max(apiSpecs) as "API Specs", max(mule3Connectors) as "Mule 3 Connectors", max(fragments) as "Fragments", max(proxies) as "Proxies", max(extensions) as "Extensions", max(custom) as "Custom", max(soapApis) as "SOAP APIs", max(policies) as "Policies", max(applications) as "Applications" | transpose</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -68,7 +68,7 @@
       <single>
         <title>How many assets are available in Design Center</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(designCenterMetrics.total) as total | stats sum(total) as "Design Center - Total Assets"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(designCenterMetrics.total) as total | stats max(total) as "Design Center - Total Assets"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -84,7 +84,7 @@
       <chart>
         <title>How many assets are available in Design Center, grouped by type</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(designCenterMetrics.apiSpecs) as apiSpecs, values(designCenterMetrics.fragments) as fragments, values(designCenterMetrics.flowDesignerApps) as flowDesignerApps | stats sum(apiSpecs) as "API Specs", sum(fragments) as "Fragments", sum(flowDesignerApps) as "Flow Designer Apps" | transpose</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(designCenterMetrics.apiSpecs) as apiSpecs, values(designCenterMetrics.fragments) as fragments, values(designCenterMetrics.flowDesignerApps) as flowDesignerApps | stats max(apiSpecs) as "API Specs", max(fragments) as "Fragments", max(flowDesignerApps) as "Flow Designer Apps" | transpose</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -169,7 +169,7 @@
       <single>
         <title>API Analytics - Transactions/Requests - Last 30 days</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.transactions) as total | stats sum(total) as "API Requests"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.transactions) as total | stats max(total) as "API Requests"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -187,7 +187,7 @@
       <single>
         <title>API Manager - Production - APIs - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.total) as total | stats sum(total) as "API Manager - Total APIs"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.total) as total | stats max(total) as "API Manager - Total APIs"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -203,7 +203,7 @@
       <chart>
         <title>API Manager - Production - APIs by Status - Current</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.active) as active, values(apiManagerMetrics.apis.production.inactive) as inactive | stats sum(active) as "Active APIs", sum(inactive) as "Inactive APIs" | transpose</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.active) as active, values(apiManagerMetrics.apis.production.inactive) as inactive | stats max(active) as "Active APIs", max(inactive) as "Inactive APIs" | transpose</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -220,7 +220,7 @@
       <single>
         <title>API Manager - Production - API contracts - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.contracts) as total | stats sum(total) as "API Contracts"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.contracts) as total | stats max(total) as "API Contracts"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -236,7 +236,7 @@
       <single>
         <title>API Manager - Production - APIs with more than one contract - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apisWithMoreThanOneConsumer) as total | stats sum(total) as "APIs"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apisWithMoreThanOneConsumer) as total | stats max(total) as "APIs"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -249,7 +249,7 @@
       <single>
         <title>API Manager - Production - APIs with one or more contracts - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apisWithOneOrMoreConsumers) as total | stats sum(total) as "APIs"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apisWithOneOrMoreConsumers) as total | stats max(total) as "APIs"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -263,11 +263,11 @@
   </row>
   <row>
     <panel>
-      <title>API Manager - Production - APIs by Policies' existence - Current</title>
+      <title>API Manager - Production - APIs by Polcies' existence - Current</title>
       <chart>
-        <title>API Manager - Production - APIs by Policies' existence - Current</title>
+        <title>API Manager - Production - APIs by Polcies' existence - Current</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apisWithPolicies) as withPolicies, values(apiManagerMetrics.apis.production.apisWithoutPolicies) as withoutPolicies | stats sum(withPolicies) as "APIs with Policies", sum(withoutPolicies) as "APIs without Policies" | transpose</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apisWithPolicies) as withPolicies, values(apiManagerMetrics.apis.production.apisWithoutPolicies) as withoutPolicies | stats max(withPolicies) as "APIs with Policies", max(withoutPolicies) as "APIs without Policies" | transpose</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -294,7 +294,7 @@
       <chart>
         <title>API Manager - Production - APIs by secure Policies - Current</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apisWithSecurity) as withPolicies, values(apiManagerMetrics.apis.production.apisWithoutSecurity) as withoutPolicies | stats sum(withPolicies) as "APIs with Secure Policies", sum(withoutPolicies) as "APIs without Secure Policies" | transpose</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(apiManagerMetrics.apis.production.apisWithSecurity) as withPolicies, values(apiManagerMetrics.apis.production.apisWithoutSecurity) as withoutPolicies | stats max(withPolicies) as "APIs with Secure Policies", max(withoutPolicies) as "APIs without Secure Policies" | transpose</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -311,7 +311,7 @@
       <single>
         <title>Runtime Manager - Production - CloudHub - vCores available - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.production.vcoresAvailable) as total | stats sum(total) as "vCores"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.production.vcoresAvailable) as total | stats max(total) as "vCores"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -327,7 +327,7 @@
       <chart>
         <title>Runtime Manager - Production - CloudHub - vCores by Status - Current</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.production.vcoresAvailable) as available, values(runtimeManagerMetrics.cloudhub.applications.production.vcoresUsed) as used | stats sum(available) as "Available", sum(used) as "Used" | transpose</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.production.vcoresAvailable) as available, values(runtimeManagerMetrics.cloudhub.applications.production.vcoresUsed) as used | stats max(available) as "Available", max(used) as "Used" | transpose</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -344,7 +344,7 @@
       <single>
         <title>Runtime Manager - Production - CloudHub - Runtimes versions used - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.production.runtimesUsedTotal) as total | stats sum(total) as "Runtime versions"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.production.runtimesUsedTotal) as total | stats max(total) as "Runtime versions"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -374,7 +374,7 @@
       <single>
         <title>Runtime Manager - Production - CloudHub - Applications - Current Count</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.production.applicationsTotal) as total | stats sum(total) as "Applications"</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.production.applicationsTotal) as total | stats max(total) as "Applications"</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>
@@ -390,7 +390,7 @@
       <chart>
         <title>Runtime Manager - Production - CloudHub - Applications by Status - Current</title>
         <search>
-          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.production.applicationsStarted) as started, values(runtimeManagerMetrics.cloudhub.applications.production.applicationsStopped) as stopped | stats sum(started) as "Started", sum(stopped) as "Stopped" | transpose</query>
+          <query>index=$platformMetricsIndex$ | eventstats max(_time) as maxTimestamp | where _time=maxTimestamp | search businessGroup IN ($bgToken$) | stats values(runtimeManagerMetrics.cloudhub.applications.production.applicationsStarted) as started, values(runtimeManagerMetrics.cloudhub.applications.production.applicationsStopped) as stopped | stats max(started) as "Started", max(stopped) as "Stopped" | transpose</query>
           <earliest>$timeToken.earliest$</earliest>
           <latest>$timeToken.latest$</latest>
         </search>

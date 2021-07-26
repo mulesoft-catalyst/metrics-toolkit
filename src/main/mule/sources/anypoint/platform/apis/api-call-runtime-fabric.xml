@@ -8,7 +8,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 
 	<flow name="api-call-rtf-fabrics-flow" doc:id="cb45e4dc-7fd3-476d-aff3-7c0a30556088" maxConcurrency="${anypoint.platform.apis.rtf.maxConcurrency}">
 		<logger level="DEBUG" doc:name="Logger" doc:id="c04d063d-9f26-41c8-9f2c-efd64bc5a457" message="Calling RTF - Fabrics" />
-		<http:request method="GET" doc:name="Get Fabrics Request" doc:id="ea3a4010-08c1-44e9-b9d4-a82201dbb162" config-ref="HTTP_Request_configuration"
+		<http:request method="GET" doc:name="Get Projects Request" doc:id="ea3a4010-08c1-44e9-b9d4-a82201dbb162" config-ref="HTTP_Request_configuration"
 			path="${anypoint.platform.apis.rtf.fabrics.path}">
 			<http:headers><![CDATA[#[output application/java
 ---
