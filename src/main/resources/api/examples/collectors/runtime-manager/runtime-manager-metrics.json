@@ -1,0 +1,315 @@
+{
+      "cloudhub": {
+        "networking": {
+          "vpcsTotal": 4,
+          "vpcsAvailable": 2,
+          "vpcsUsed": 2,
+          "vpnsTotal": 6,
+          "vpnsAvailable": 2,
+          "vpnsUsed": 4,
+          "dlbsTotal": 4,
+          "dlbsAvailable": 2,
+          "dlbsUsed": 2,
+          "staticIPsTotal": 26,
+          "staticIPsAvailable": 5,
+          "staticIPsUsed": 21
+        },
+        "applications": {
+          "production": {
+            "vcoresTotal": 13,
+            "vcoresAvailable": 12.9,
+            "vcoresUsed": 0.1,
+            "applicationsTotal": 2,
+            "applicationsStarted": 1,
+            "applicationsStopped": 1,
+            "runtimesUsed": [
+              "4.1.5",
+              "4.2.1"
+            ],
+            "runtimesUsedTotal": 2,
+            "details": [
+              {
+                "environmentName": "Production",
+                "environmentType": "Production",
+                "vcoresUsed": 0.1,
+                "applicationsTotal": 2,
+                "applicationsStarted": 1,
+                "applicationsStopped": 1,
+                "runtimesUsed": [
+                  "4.1.5",
+                  "4.2.1"
+                ],
+                "runtimesUsedTotal": 2
+              }
+            ]
+          },
+          "sandbox": {
+            "vcoresTotal": 47,
+            "vcoresAvailable": 46.7,
+            "vcoresUsed": 0.3,
+            "applicationsTotal": 6,
+            "applicationsStarted": 3,
+            "applicationsStopped": 3,
+            "runtimesUsed": [
+              "4.1.5",
+              "4.2.1"
+            ],
+            "runtimesUsedTotal": 2,
+            "details": [
+              {
+                "environmentName": "Development",
+                "environmentType": "Sandbox",
+                "vcoresUsed": 0.1,
+                "applicationsTotal": 2,
+                "applicationsStarted": 1,
+                "applicationsStopped": 1,
+                "runtimesUsed": [
+                  "4.1.5",
+                  "4.2.1"
+                ],
+                "runtimesUsedTotal": 2
+              },
+              {
+                "environmentName": "Staging",
+                "environmentType": "Sandbox",
+                "vcoresUsed": 0.1,
+                "applicationsTotal": 2,
+                "applicationsStarted": 1,
+                "applicationsStopped": 1,
+                "runtimesUsed": [
+                  "4.1.5",
+                  "4.2.1"
+                ],
+                "runtimesUsedTotal": 2
+              },
+              {
+                "environmentName": "Test",
+                "environmentType": "Sandbox",
+                "vcoresUsed": 0.1,
+                "applicationsTotal": 2,
+                "applicationsStarted": 1,
+                "applicationsStopped": 1,
+                "runtimesUsed": [
+                  "4.1.5",
+                  "4.2.1"
+                ],
+                "runtimesUsedTotal": 2
+              }
+            ]
+          }
+        }
+      },
+      "rtf": {
+        "capacity": {
+          "fabrics": 1,
+          "workers": 3,
+          "controllers": 3,
+          "coresTotal": 16.65,
+          "memoryTotal": 94.476,
+          "coresPerFabric": 16.65,
+          "memoryPerFabric": 94.476
+        },
+        "applications": {
+          "production": {
+            "coresReserved": 0.4,
+            "coresReservedA": 0.0,
+            "coresReservedB": 0.4,
+            "memoryReserved": 2.0,
+            "memoryReservedA": 0.0,
+            "memoryReservedB": 2.0,
+            "applicationsTotal": 1,
+            "applicationsStarted": 1,
+            "applicationsStopped": 0,
+            "runtimesUsed": [
+              "4.2.1:v1.2.19"
+            ],
+            "runtimesUsedTotal": 1,
+            "details": [
+              {
+                "environmentName": "Production",
+                "environmentType": "Production",
+                "coresReserved": 0.4,
+                "coresReservedA": 0.0,
+                "coresReservedB": 0.4,
+                "memoryReserved": 2.0,
+                "memoryReservedA": 0.0,
+                "memoryReservedB": 2.0,
+                "applicationsTotal": 1,
+                "applicationsStarted": 1,
+                "applicationsStopped": 0,
+                "runtimesUsed": [
+                  "4.2.1:v1.2.19"
+                ],
+                "runtimesUsedTotal": 1
+              }
+            ]
+          },
+          "sandbox": {
+            "coresReserved": 1.2,
+            "coresReservedA": 0.0,
+            "coresReservedB": 1.2,
+            "memoryReserved": 6.0,
+            "memoryReservedA": 0.0,
+            "memoryReservedB": 6.0,
+            "applicationsTotal": 3,
+            "applicationsStarted": 3,
+            "applicationsStopped": 0,
+            "runtimesUsed": [
+              "4.2.1:v1.2.19"
+            ],
+            "runtimesUsedTotal": 1,
+            "details": [
+              {
+                "environmentName": "Development",
+                "environmentType": "Sandbox",
+                "coresReserved": 0.4,
+                "coresReservedA": 0.0,
+                "coresReservedB": 0.4,
+                "memoryReserved": 2.0,
+                "memoryReservedA": 0.0,
+                "memoryReservedB": 2.0,
+                "applicationsTotal": 1,
+                "applicationsStarted": 1,
+                "applicationsStopped": 0,
+                "runtimesUsed": [
+                  "4.2.1:v1.2.19"
+                ],
+                "runtimesUsedTotal": 1
+              },
+              {
+                "environmentName": "Staging",
+                "environmentType": "Sandbox",
+                "coresReserved": 0.4,
+                "coresReservedA": 0.0,
+                "coresReservedB": 0.4,
+                "memoryReserved": 2.0,
+                "memoryReservedA": 0.0,
+                "memoryReservedB": 2.0,
+                "applicationsTotal": 1,
+                "applicationsStarted": 1,
+                "applicationsStopped": 0,
+                "runtimesUsed": [
+                  "4.2.1:v1.2.19"
+                ],
+                "runtimesUsedTotal": 1
+              },
+              {
+                "environmentName": "Test",
+                "environmentType": "Sandbox",
+                "coresReserved": 0.4,
+                "coresReservedA": 0.0,
+                "coresReservedB": 0.4,
+                "memoryReserved": 2.0,
+                "memoryReservedA": 0.0,
+                "memoryReservedB": 2.0,
+                "applicationsTotal": 1,
+                "applicationsStarted": 1,
+                "applicationsStopped": 0,
+                "runtimesUsed": [
+                  "4.2.1:v1.2.19"
+                ],
+                "runtimesUsedTotal": 1
+              }
+            ]
+          }
+        }
+      },
+      "hybrid": {
+        "production": {
+          "servers": 4,
+          "clusters": 2,
+          "serverGroups": 0,
+          "applicationsTotal": 1,
+          "applicationsStarted": 0,
+          "applicationsStopped": 1,
+          "runtimesUsed": [
+            "4.2.0",
+            "4.1.4",
+            "4.1.5"
+          ],
+          "runtimesUsedTotal": 3,
+          "details": [
+            {
+              "environmentName": "Production",
+              "environmentType": "Production",
+              "servers": 4,
+              "clusters": 2,
+              "serverGroups": 0,
+              "applicationsTotal": 1,
+              "applicationsStarted": 0,
+              "applicationsStopped": 1,
+              "runtimesUsed": [
+                "4.2.0",
+                "4.1.4",
+                "4.1.5"
+              ],
+              "runtimesUsedTotal": 3
+            }
+          ]
+        },
+        "sandbox": {
+          "servers": 12,
+          "clusters": 6,
+          "serverGroups": 0,
+          "applicationsTotal": 3,
+          "applicationsStarted": 0,
+          "applicationsStopped": 3,
+          "runtimesUsed": [
+            "4.2.0",
+            "4.1.4",
+            "4.1.5"
+          ],
+          "runtimesUsedTotal": 3,
+          "details": [
+            {
+              "environmentName": "Development",
+              "environmentType": "Sandbox",
+              "servers": 4,
+              "clusters": 2,
+              "serverGroups": 0,
+              "applicationsTotal": 1,
+              "applicationsStarted": 0,
+              "applicationsStopped": 1,
+              "runtimesUsed": [
+                "4.2.0",
+                "4.1.4",
+                "4.1.5"
+              ],
+              "runtimesUsedTotal": 3
+            },
+            {
+              "environmentName": "Staging",
+              "environmentType": "Sandbox",
+              "servers": 4,
+              "clusters": 2,
+              "serverGroups": 0,
+              "applicationsTotal": 1,
+              "applicationsStarted": 0,
+              "applicationsStopped": 1,
+              "runtimesUsed": [
+                "4.2.0",
+                "4.1.4",
+                "4.1.5"
+              ],
+              "runtimesUsedTotal": 3
+            },
+            {
+              "environmentName": "Test",
+              "environmentType": "Sandbox",
+              "servers": 4,
+              "clusters": 2,
+              "serverGroups": 0,
+              "applicationsTotal": 1,
+              "applicationsStarted": 0,
+              "applicationsStopped": 1,
+              "runtimesUsed": [
+                "4.2.0",
+                "4.1.4",
+                "4.1.5"
+              ],
+              "runtimesUsedTotal": 3
+            }
+          ]
+        }
+      }
+}
