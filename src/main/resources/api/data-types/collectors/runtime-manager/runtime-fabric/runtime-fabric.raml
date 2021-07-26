@@ -1,0 +1,46 @@
+#%RAML 1.0 DataType
+displayName: ARM RTF Datatype
+description: Models collected metrics from Runtime Manager for RTF deployments
+properties:
+  capacity:
+    type: object
+    properties:
+      fabrics:
+        type: integer
+        displayName: Fabrics Total	
+        description: Count of total fabrics created per BG
+      workers:
+        type: integer
+        displayName: Workers Total	
+        description: Count of total workers installed in Fabrics per BG
+      controllers:
+        type: integer
+        displayName: Controllers Total	
+        description: Count of total controllers installed in Fabrics per BG
+      coresTotal:
+        type: number
+        displayName: Cores Allocated Total	
+        description: Count of total cores allocated to Fabrics per BG
+      memoryTotal:
+        type: number
+        displayName: Memory Allocated Total	
+        description: Count of total memory allocated to Fabrics per BG
+      coresPerFabric:
+        type: number
+        displayName: Cores Allocated Per Fabric Average	
+        description: Averageg of total cores per Fabric and BG
+      memoryPerFabric:
+        type: number
+        displayName: Memory Allocated Per Fabric Average	
+        description: Average of total memory per Fabric and BG
+  applications:
+    type: object
+    properties:
+      production: 
+        type: !include environment.raml
+        displayName: Applications - Production environments
+        description: Provides detailed application's metrics for Production environments
+      sandbox: 
+        type: !include environment.raml
+        displayName: Applications - Sandbox environments
+        description: Provides detailed application's metrics for Sandbox environments
