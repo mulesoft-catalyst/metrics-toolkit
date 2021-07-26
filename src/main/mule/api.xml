@@ -117,6 +117,7 @@
     <flow name="get:\platform-metrics:api-config">
         <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="a99d508d-5bd1-4627-88d1-fec6fb4ed7cf" name="common-set-auth-vars-from-headers" />
         <flow-ref doc:name="Set Aggregator Details From Query Params Flow Reference" doc:id="526a1967-37bb-499f-a47d-9c469bb3df26" name="common-set-aggregator-vars-from-query-params"/>
+		<flow-ref doc:name="Set API Manager Properties Flow Reference" doc:id="7dae5ce0-f409-4c29-bcf1-44e4c7f04166" name="common-set-collector-vars-from-properties-api-manager"/>
 		<flow-ref doc:name="Aggregator Master Flow Reference" doc:id="5484cc09-2351-49d6-b728-a0d4b0b0d1b9" name="aggregator-platform-metrics-master-flow" />
     </flow>
     <flow name="post:\platform-metrics\load:api-config">
@@ -127,7 +128,8 @@
     <flow name="get:\business-metrics:api-config">
         <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="fd377e58-59aa-44cf-ad08-86aab248ef23" name="common-set-auth-vars-from-headers" />
         <flow-ref doc:name="Set Benefits Vars From Query Params Flow Reference" doc:id="4f874701-0491-483f-879e-7fcf9bac5243" name="common-set-benefits-vars-from-query-params" />
-        <flow-ref doc:name="Aggregator Platform Benefits Flow Reference" doc:id="ab111296-7f07-480b-b76c-c05de17ae188" name="aggregator-platform-benefits-master-flow" />
+        <flow-ref doc:name="Set API Manager Properties Flow Reference" doc:id="183741ba-1102-446c-a736-7416ab07cfbc" name="common-set-collector-vars-from-properties-api-manager" />
+		<flow-ref doc:name="Aggregator Platform Benefits Flow Reference" doc:id="ab111296-7f07-480b-b76c-c05de17ae188" name="aggregator-platform-benefits-master-flow" />
     </flow>
     <flow name="post:\business-metrics\load:api-config">
         <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="666ad8cc-9088-4d24-8839-f665a9f9deaa" name="common-set-auth-vars-from-headers" />
