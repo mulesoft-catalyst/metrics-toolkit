@@ -1,0 +1,8 @@
+{
+	"collectors": ["all"],
+	"loaderDetails": {
+		"strategy": "tableau",
+		"rawData": "false",
+		"outputDir": "/opt/metrics-accelerator/data"
+	}
+}

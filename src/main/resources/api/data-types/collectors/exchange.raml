@@ -1,0 +1,79 @@
+#%RAML 1.0 DataType
+displayName: Anypoint Exchange Datatype
+description: This datatype models the metrics obtained from Exchange
+properties:
+  total:
+    type: integer
+    displayName: Assets Total
+    description: Count of total assets per BG
+  apiSpecs:
+    type: integer
+    displayName: API Specs Total
+    description: Count of total API specs per BG
+  fragments:
+    type: integer
+    displayName: Fragments Total	
+    description: Count of total RAML fragments per BG
+  proxies:
+    type: integer
+    displayName: HTTP Proxies Total
+    description: Count of total HTTP Proxies per BG
+  soapApis:
+    type: integer
+    displayName: SOAP APIs Total
+    description: Count of total SOAP APIs per BG
+  policies:
+    type: integer
+    displayName: Policies Total
+    description: Count of total Policies per BG
+  mule3Connectors:
+    type: integer
+    displayName: Mule 3 Connectors Total
+    description: Count of total Mule 3 Connectors per BG
+  extensions:
+    type: integer
+    displayName: Extensions Total
+    description: Count of total Extensions per BG
+  applications:
+    type: integer
+    displayName: Applications Total	
+    description: Count of total applications per BG
+  custom:
+    type: integer
+    displayName: Custom Assets Total
+    description: Count of total Assets per BG
+  overallSatisfaction:
+    type: integer
+    displayName: Overall Satisfaction
+    description: Average satisfaction of assets per BG
+  reuse:
+    type: object
+    properties:
+      fragments:
+        type: number
+        displayName: API Fragments reuse
+        description: Fragments reuse per BG
+      implementedApis:
+        type: number
+        displayName: API Spec reuse
+        description: Average of times an API Spec is implemented by an Application, per BG
+      managedSboxApis:
+        type: number
+        displayName: Sandbox API Specs managed in API Manager reuse
+        description: Average of times an API Spec is managed from API Manager (Sandbox environments), per BG
+      managedProdApis:
+        type: number
+        displayName: Production API Specs managed in API Manager reuse
+        description: Average of times an API Spec is managed from API Manager (Production environments), per BG
+      extensions:
+        type: integer
+        displayName: Extensions reuse
+        description: Average of times a Extension is imported by an Application, per BG
+      appliedPoliciesSbox:
+        type: integer
+        displayName: Sandbox API Specs managed in API Manager reuse	
+        description: Average of times a Custom Policy is applied on API Manager (Sandbox environments), per BG
+      appliedPoliciesProd:
+        type: integer
+        displayName: Production API Specs managed in API Manager reuse	
+        description: Average of times a Custom Policy is applied on API Manager (Production environments), per BG

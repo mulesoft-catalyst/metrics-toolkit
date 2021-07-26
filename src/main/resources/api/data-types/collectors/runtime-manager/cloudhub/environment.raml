@@ -1,0 +1,35 @@
+#%RAML 1.0 DataType
+properties:
+  vcoresTotal: 
+    type: integer
+    displayName: vCores Total	
+    description: Total vCores per BG and Environment
+  vcoresAvailable: 
+    type: number
+    displayName: vCores Available Total	
+    description: Total available vCores per BG and Environment
+  vcoresUsed: 
+    type: number
+    displayName: vCores Used Total
+    description: Total used vCores per BG and Environment
+  applicationsTotal: 
+    type: integer
+    displayName: Applications Total
+    description: Total applications deployed per BG and Environment
+  applicationsStarted: 
+    type: integer
+    displayName: Applications Started Total
+    description: Total applications with 'Started' status per BG and Environment
+  applicationsStopped: 
+    type: integer
+    displayName: Applications Stopped Total	
+    description: Total applications with 'Stopped' status per BG and Environment
+  runtimesUsed:
+    type: array
+    items: string
+    displayName: Runtime Versions Used	
+    description: List of Runtime versions used per BG and Environment
+  runtimesUsedTotal: 
+    type: integer
+    displayName: Runtime Versions Used Total	
+    description: Count of Runtime versions used per BG and Environment

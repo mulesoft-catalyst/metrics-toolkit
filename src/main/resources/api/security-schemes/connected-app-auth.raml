@@ -1,0 +1,16 @@
+#%RAML 1.0 SecurityScheme
+description: Authentication scheme for connected apps.
+displayName: Connected App Authentication Headers
+type: x-connected-app-auth
+describedBy:
+  headers:
+    X-ANYPNT-CLIENT-ID:
+      description: |
+        Receives the connected app client id used when login to Anypoint Platform.
+      type: string
+      required: true
+    X-ANYPNT-CLIENT-SECRET:
+      description: |
+        Receives the connected app client secret when login to Anypoint Platform.
+      type: string
+      required: true

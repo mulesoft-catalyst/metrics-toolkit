@@ -1,0 +1,98 @@
+#%RAML 1.0 DataType
+displayName: ARM RTF Environment Datatype
+description: Models collected metrics for an environment from Runtime Manager for RTF
+properties:
+  coresReserved: 
+    type: number
+    displayName: Cores Reserved
+    description: Amount of CPU cores reserved with null and non null deployment resources per BG and Environment type
+  coresReservedA: 
+    type: number
+    displayName: Cores Reserved (non null resources)
+    description: Amount of CPU cores reserved with non null deployment resources per BG and Environment type
+  coresReservedB: 
+    type: number
+    displayName: Cores Reserved (null resources)
+    description: Amount of CPU cores reserved with null deployment resources per BG and Environment type
+  memoryReserved: 
+    type: number
+    displayName: Memory Reserved
+    description: Amount of Memory reserved per BG and Environment type
+  memoryReservedA: 
+    type: number
+    displayName: Memory Reserved (non null resources)
+    description: Amount of memory reserved with non null deployment resources per BG and Environment type
+  memoryReservedB: 
+    type: number
+    displayName: Memory Reserved (null resources)
+    description: Amount of memory reserved with null deployment resources per BG and Environment type
+  applicationsTotal: 
+    type: integer
+    displayName: Applications Total
+    description: Count of applications deployed per BG and Environment type
+  applicationsStarted:
+    type: integer
+    displayName: Applications Started Total	
+    description: Count of applications deployed with status 'Started' per BG and Environment type
+  applicationsStopped: 
+    type: integer
+    displayName: Applications Stopped Total	
+    description: Count of applications deployed with status 'Stopped' per BG and Environment type
+  runtimesUsed:
+    type: array
+    items: string
+    displayName: Runtime Versions Used	
+    description: List of Runtime versions used per BG and Environment type
+  runtimesUsedTotal: 
+    type: integer
+    displayName: Runtime Versions Used Total	
+    description: Count of Runtime versions used per BG and Environment type
+  details:
+    type: array
+    items:
+      properties:
+        coresReserved: 
+          type: number
+          displayName: Cores Reserved
+          description: Amount of CPU cores reserved with null and non null deployment resources per BG and Environment
+        coresReservedA: 
+          type: number
+          displayName: Cores Reserved (non null resources)
+          description: Amount of CPU cores reserved with non null deployment resources per BG and Environment
+        coresReservedB: 
+          type: number
+          displayName: Cores Reserved (null resources)
+          description: Amount of CPU cores reserved with null deployment resources per BG and Environment
+        memoryReserved: 
+          type: number
+          displayName: Memory Reserved
+          description: Amount of Memory reserved per BG and Environment
+        memoryReservedA: 
+          type: number
+          displayName: Memory Reserved (non null resources)
+          description: Amount of memory reserved with non null deployment resources per BG and Environment
+        memoryReservedB: 
+          type: number
+          displayName: Memory Reserved (null resources)
+          description: Amount of memory reserved with null deployment resources per BG and Environment
+        applicationsTotal: 
+          type: integer
+          displayName: Applications Total
+          description: Count of applications deployed per BG and Environment
+        applicationsStarted:
+          type: integer
+          displayName: Applications Started Total	
+          description: Count of applications deployed with status 'Started' per BG and Environment
+        applicationsStopped: 
+          type: integer
+          displayName: Applications Stopped Total	
+          description: Count of applications deployed with status 'Stopped' per BG and Environment
+        runtimesUsed:
+          type: array
+          items: string
+          displayName: Runtime Versions Used	
+          description: List of Runtime versions used per BG and Environment
+        runtimesUsedTotal: 
+          type: integer
+          displayName: Runtime Versions Used Total	
+          description: Count of Runtime versions used per BG and Environment
