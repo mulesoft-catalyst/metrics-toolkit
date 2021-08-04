@@ -1,55 +1,16 @@
 #%RAML 1.0
-baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/f724e6da-ec13-4c76-b7c7-eeaf154323e3/api/ # baseUri: https://localhost:8081/api/
 title: Metrics Accelerator API
 description: Metrics Accelerator API to obtain and generate operational and business metrics
 version: v1
 protocols: 
   - HTTPS
   
-securedBy: [basic-auth, platform-auth, connected-app-auth]
-securitySchemes:
-  basic-auth:
-    description: | 
-      This API supports Basic Authentication, and can be used only for platform user authentication 
-      This mechanism is mandatory if the password contains special characters
-      For Connected Apps authentication, connected-app-auth security scheme must be used.
-    type: Basic Authentication
-  platform-auth:
-    description: Authentication scheme for plaform users. If password contains special characters, Basic Authentication must be used.
-    displayName: Platform User Authentication Headers
-    type: x-platform-auth
-    describedBy:
-      headers:
-        X-ANYPNT-USERNAME:
-          description: |
-            Receives the username used when login to Anypoint Platform.
-          type: string
-          required: true
-        X-ANYPNT-PASSWORD:
-          description: |
-            Receives a text/plain password used when login to Anypoint Platform.
-          type: string
-          required: true
-  connected-app-auth:
-    description: Authentication scheme for connected apps.
-    displayName: Connected App Authentication Headers
-    type: x-connected-app-auth
-    describedBy:
-      headers:
-        X-ANYPNT-CLIENT-ID:
-          description: |
-            Receives the connected app client id used when login to Anypoint Platform.
-          type: string
-          required: true
-        X-ANYPNT-CLIENT-SECRET:
-          description: |
-            Receives the connected app client secret when login to Anypoint Platform.
-          type: string
-          required: true
+uses:
+  anypoint: libraries/anypoint-library.raml
+
 /platform-metrics:
+  is: [anypoint.hasHeaders]
   get:
-    headers:
-      X-ANYPNT-ORG-ID: string
     queryParameters:
       collectors:
         description: | 
@@ -86,9 +47,8 @@ securitySchemes:
         body:
           application/json:
   /load:
+    is: [anypoint.hasHeaders]
     post:
-      headers:
-        X-ANYPNT-ORG-ID: string 
       body:
         application/json:
           
@@ -99,9 +59,8 @@ securitySchemes:
               
     
 /business-metrics:
+  is: [anypoint.hasHeaders]
   get:
-    headers:
-      X-ANYPNT-ORG-ID: string
     queryParameters:
       developAPIHistoricTime:
         description: "Historic average time to develop an API (days)"
@@ -123,9 +82,8 @@ securitySchemes:
         body:
           application/json:
   /load:
+    is: [anypoint.hasHeaders]
     post:
-      headers:
-        X-ANYPNT-ORG-ID: string
       body:
         application/json:
       responses:
