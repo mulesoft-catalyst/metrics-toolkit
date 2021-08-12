@@ -22,6 +22,7 @@ Table of Contents
          * [Tableau steps](#tableau-steps)            
          * [MongoDB steps](#mongodb-steps)
             * [Properties specific for MongoDB](#properties-specific-for-mongodb)
+         * [SFDC-Einstein Analytics Steps](#einstein-analytics-dashboard-steps)
       * [Considerations](#considerations)
       * [Some Theory around the Accelerator](#some-theory-around-the-accelerator)
          * [Business Needs](#business-needs)
@@ -66,6 +67,7 @@ The **metrics accelerator** (**formerly metrics framework**) is a Mule applicati
 - **Embedded dashboard**: Including an out of the box basic embedded dashboard accessed by running the application offering an UI with a number of metrics obtained
 - **Tableau**: including an out of the box dashboard with current consolidated platform metrics
 - **MongoDB**
+- **SFDC**: The Salesforce Loader will load data into **Einstein Analytics** via the Salesforce Analytics connector.  This contains the same summarised data as the CSV Loader but allows Salesforce customers to create quick and impacting Anypoint Platform metrics dashboards within their existing Salesforce Systems (assuming they have Analytics Studio licenses).
 
 **NOTES:** 
 - some adjustments in Metrics Accelerator implementation may be required if the loader does not work as expected for your specific scenario.
@@ -428,6 +430,14 @@ current_consolidated | platform_metrics_agg_*.json |
 3. Use a web browser to access the applications base URL (e.g. if deployed locally, use http://localhost:8081)
 4. Use the "Login" page to enter your Anypoint platform username, password and organization ID
 5. Wait for the dashboard to run the metrics request and once done, navigate through the different metrics taken using the UI
+
+### Einstein Analytics Dashboard Steps
+Using the `sfdc` loader option, and initialising Salesforce Analytics Studio with an empty project, will allow you to quickly inject data into Einstein Analytics Dashboards to visualise your Anypoint Platform Metrics in different ways.  Einstein can also be used as an historic data repository to allow the metrics data to be displayed against time for trend analysis (e.g. vCore growth, API count or transaction growth over time)
+
+Full instructions for setting up the correct polling configuration, and the correct Salesforce Analytics applications is given in the following link.
+
+see documentation [here](/README_sfdc.md)
+
 
 ### MONGODB steps
 

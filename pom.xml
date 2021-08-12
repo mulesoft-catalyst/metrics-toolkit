@@ -7,13 +7,13 @@
 	<version>1.7.1</version>
 	<packaging>mule-application</packaging>
 
-	<name>metrics-accelerator</name>
+	<name>metrics-git</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<app.runtime>4.3.0</app.runtime>
+		<app.runtime>4.3.0-20210622</app.runtime>
 		<mule.maven.plugin.version>3.4.1</mule.maven.plugin.version>
 		<munit.version>2.3.1</munit.version>
 		<!-- Dependencies versions -->
@@ -28,6 +28,7 @@
 		<munit-tools.version>2.3.1</munit-tools.version>
 		<mule-mongodb-connector.version>6.3.1</mule-mongodb-connector.version>
 		<mongodb-driver-legacy.version>4.0.4</mongodb-driver-legacy.version>
+		<analytics.version>3.5.1</analytics.version>
 	</properties>
 
 	<build>
@@ -154,6 +155,12 @@
 			<groupId>com.mulesoft.modules</groupId>
 			<artifactId>mule-secure-configuration-property-module</artifactId>
 			<version>${secure-properties.version}</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.connectors</groupId>
+			<artifactId>mule-sfdc-analytics-connector</artifactId>
+			<version>${analytics.version}</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<!-- Uncomment the following 2 Dependencies if MongoDB loader is needed -->
