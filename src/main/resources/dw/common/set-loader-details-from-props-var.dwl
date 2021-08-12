@@ -27,6 +27,16 @@ var strategy = p('loader.strategy')
   			platformMetricsIndex: p('elk.index.metrics'),
 			platformBenefitsIndex: p('elk.index.benefits'),		
   		}
+  		case "sfdc" -> sfdc: {
+  			username: p('secure::sfdc.username'),
+  			password: p('secure::sfdc.password'),
+  			securityToken: p('secure::sfdc.securityToken'),
+  			authUrl: p('sfdc.authUrl') default "https://login.salesforce.com/services/Soap/u/50.0",
+  			dataSetName: p('sfdc.dataSetName'),
+  			appName: p('sfdc.appName'),
+			sendNotification: p('sfdc.sendNotification'),		
+			notificationEmail: p('sfdc.notificationEmail')
+  		}
   		else -> {}
 	})
 }
