@@ -140,7 +140,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</ee:message>
 			</ee:transform>
 			<flow-ref doc:name="Flow-ref to post:\business-metrics\load:api-config" doc:id="e93b7267-c275-46c2-aad4-73fed5a37fa4"
-				name="post:\business-metrics\load:api-config" />
+				name="post:\business-metrics\load:application\json:api-config" />
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="f2ed5b29-3fbb-4727-beba-c77afde83147"
@@ -169,7 +169,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</ee:message>
 			</ee:transform>
 			<flow-ref doc:name="Flow-ref to post:\business-metrics\load:api-config" doc:id="3bc789ce-31f4-4961-aff6-8c9afe4c77fb"
-				name="post:\business-metrics\load:api-config" />
+				name="post:\business-metrics\load:application\json:api-config" />
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="d0bcb808-ebd0-4b32-a599-6bf00a2a0a54"
@@ -198,7 +198,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</ee:message>
 			</ee:transform>
 			<flow-ref doc:name="Flow-ref to post:\business-metrics\load:api-config" doc:id="9011c624-e50f-4442-a62f-43148380ad48"
-				name="post:\business-metrics\load:api-config" />
+				name="post:\business-metrics\load:application\json:api-config" />
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="bc162980-9851-458b-9d00-24b756ade97d"
@@ -227,7 +227,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</ee:message>
 			</ee:transform>
 			<flow-ref doc:name="Flow-ref to post:\business-metrics\load:api-config" doc:id="d16184c0-89a4-4588-8273-97e38535c092"
-				name="post:\business-metrics\load:api-config" />
+				name="post:\business-metrics\load:application\json:api-config" />
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="d0f2593f-d3ee-4c2d-9e74-0946f7b3406a"
@@ -256,7 +256,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</ee:message>
 			</ee:transform>
 			<flow-ref doc:name="Flow-ref to post:\business-metrics\load:api-config" doc:id="b92eaa97-8b5c-4649-bc5a-cbaab2b75048"
-				name="post:\business-metrics\load:api-config" />
+				name="post:\business-metrics\load:application\json:api-config" />
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="9eff5880-49f8-4d4e-9cca-703d8262a51d"
@@ -273,7 +273,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</ee:message>
 			</ee:transform>
 			<flow-ref doc:name="Flow-ref to post:\business-metrics\load:api-config" doc:id="e3f8d868-0aff-46a3-9592-f1bddb0c6ede"
-				name="post:\business-metrics\load:api-config" />
+				name="post:\business-metrics\load:application\json:api-config" />
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="4cdfa84b-22bc-4215-97b0-179f947ac049"
@@ -293,7 +293,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</ee:message>
 			</ee:transform>
 			<flow-ref doc:name="Flow-ref to post:\business-metrics\load:api-config" doc:id="04553740-21d5-4527-a191-967070e916a7"
-				name="post:\business-metrics\load:api-config" />
+				name="post:\business-metrics\load:application\json:api-config" />
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="653b70de-6290-484f-a571-10f0477a4a2f"
@@ -315,7 +315,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</ee:message>
 			</ee:transform>
 			<flow-ref doc:name="Flow-ref to post:\business-metrics\load:api-config" doc:id="3b9c510e-266e-4516-9c1f-5d2c59e81ff1"
-				name="post:\business-metrics\load:api-config" />
+				name="post:\business-metrics\load:application\json:api-config" />
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="a6b8b3f1-aa58-4984-a58b-47ef54dff2aa"
@@ -334,7 +334,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				</ee:message>
 			</ee:transform>
 			<flow-ref doc:name="Flow-ref to post:\business-metrics\load:api-config" doc:id="0483dd77-72c6-45c9-b1af-53195755df01"
-				name="post:\business-metrics\load:api-config" />
+				name="post:\business-metrics\load:application\json:api-config" />
 		</munit:execution>
 	</munit:test>
 </mule>

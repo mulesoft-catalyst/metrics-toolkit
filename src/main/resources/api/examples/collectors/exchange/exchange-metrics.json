@@ -1,0 +1,22 @@
+{
+      "total": 3,
+      "apiSpecs": 2,
+      "fragments": 1,
+      "proxies": 0,
+      "soapApis": 0,
+      "policies": 0,
+      "mule3Connectors": 0,
+      "extensions": 0,
+      "applications": 0,
+      "custom": 0,
+      "overallSatisfaction": 0,
+      "reuse": {
+        "fragments": 2.0,
+        "implementedApis": 0.0,
+        "managedSboxApis": 0.0,
+        "managedProdApis": 0.0,
+        "extensions": 0,
+        "appliedPoliciesSbox": 0,
+        "appliedPoliciesProd": 0
+      }
+}

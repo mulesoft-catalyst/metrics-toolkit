@@ -1,0 +1,10 @@
+#%RAML 1.0 DataType
+properties:
+  production:
+    type: !include environment.raml
+    displayName: Production environments
+    description: Provides details regarding environments of type 'Production'
+  sandbox:
+    type: !include environment.raml
+    displayName: Sandbox environments
+    description: Provides details regarding environments of type 'Sandbox'
