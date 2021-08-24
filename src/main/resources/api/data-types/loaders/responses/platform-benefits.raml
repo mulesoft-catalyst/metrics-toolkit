@@ -1,0 +1,27 @@
+#%RAML 1.0 DataType
+displayName: Platform Benefits Loader response Datatype
+description: Models the response when sending an event
+properties:
+  message:
+    displayName: Message
+    description: Provides details of the execution
+  errors:
+    displayName: Errors Array
+    description: Provides an array of errors captured during the loading
+    type: array
+    required: false
+    items: 
+      properties:
+        businessGroup: 
+          displayName: BusinessGroup Name
+          description: Provides the BusinessGroup Name
+          type: string
+        errors: 
+          type: array
+          displayName: Errors Array
+          description: Provides an array of errors captured during the loading, by BG
+          required: false
+          items: string
+example: !include ../../../examples/loaders/responses/post-benefits-metrics.json
+
+
