@@ -1,0 +1,14 @@
+#%RAML 1.0 DataType
+displayName: AMQ Region Datatype
+description: Models Anypoint-MQ stats by environment (summary or region)
+properties:
+  production:
+    type: array
+    items: !include environment.raml
+    displayName: Production
+    description: Provides metrics aggregated by Production environments
+  sandbox:
+    type: array
+    items: !include environment.raml
+    displayName: Sandbox
+    description: Provides metrics aggregated by Sandbox environments
