@@ -44,7 +44,8 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"Authorization" : "Bearer " ++ vars.token
+	"Authorization" : "Bearer " ++ vars.token,
+	"Accept" : "application/json"
 }]]]></http:headers>
 			<http:uri-params><![CDATA[#[output application/java
 ---
