@@ -301,7 +301,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"tableau\",\n\t\t\"rawData\": \"false\",\n\t\t\"outputDir\": \"/opt/metrics-accelerator/data\"\n\t}\n}"
+					"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"tableau\",\n\t\t\"rawData\": \"false\",\n        \"tableau\": {\n            \"outputDir\": \"/opt/metrics-accelerator/data\"\n        }\n\t}\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8081/api/platform-metrics/load",
