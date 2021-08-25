@@ -115,4 +115,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</ee:variables>
 		</ee:transform>
 	</flow>
+	<flow name="common-set-collector-vars-from-properties-api-manager" doc:id="0f121336-44f0-4b0e-a488-bb46af02fce4" >
+		<set-variable value="#[Mule::p('anypoint.platform.apis.apiManager.apiDefaultOffset')]" doc:name="Set API Manager Offset" doc:id="59f8a5a6-1417-4043-a115-3f0cd1ac9514" variableName="apimOffset"/>
+	</flow>
 </mule>
