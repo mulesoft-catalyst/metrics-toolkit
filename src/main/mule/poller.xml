@@ -24,6 +24,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<choice doc:name="Choice" doc:id="63baf667-d196-41d3-a67d-06df1dbc9f52" >
 			<when expression='#[vars.pollerDetails.generalPollerEnabled == "true"]'>
 				<flow-ref doc:name="Set Auth Vars from Properties Flow Reference" doc:id="596e18f8-877c-4fb3-91f0-53df0a411bee" name="common-set-auth-vars-from-properties" />
+				<flow-ref doc:name="Set API Manager Properties Flow Reference" doc:id="5d08a2e8-cee5-4dbd-afbc-6d9b5970ae86" name="common-set-collector-vars-from-properties-api-manager" />
 				<flow-ref doc:name="Set Loader Details From Properties Flow Reference" doc:id="0e8dba24-5164-4f28-aefe-6f3f609d2e77" name="common-set-loader-vars-from-properties" />
 				<scatter-gather doc:name="Scatter-Gather" doc:id="60e64dc9-861d-45b6-9fc4-cba76e36e651" >
 					<route >
