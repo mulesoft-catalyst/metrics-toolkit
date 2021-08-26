@@ -1,0 +1,60 @@
+#%RAML 1.0 DataType
+displayName:
+description: 
+properties: 
+    event: 
+      displayName: Event
+      description: Models an event to be loaded following the strategy detailed
+      type: object
+      properties:
+        date: 
+          displayName: Date
+          description: Data of the event to be loaded
+          type: datetime
+        businessGroup:
+          displayName: BusinessGroup Name
+          description: Name of the BusinessGroup related to the event
+          type: string
+        developAPIHistoricTime:
+           displayName: Development API Historic Time
+           description: Historic Time used to develop an API 
+           type: number
+        developAPICurrentTime: 
+          displayName: Development API Current Time
+          description: Current Time used to develop an API 
+          type: number
+        maintainAPIHistoricTime: 
+          displayName: Maintain API Historic Time
+          description: Historic Time used to maintain an API 
+          type: number
+        maintainAPICurrentTime: 
+          displayName: Maintain API Current Time
+          description: Current Time used to maintain an API 
+          type: number
+        developerDayRate: 
+          displayName: Developer Rate
+          description: Developer Rate per day 
+          type: number
+    loaderDetails:
+      displayName: Loader Configuration
+      description: Describes the Loader configuration
+      type: object
+      properties: 
+        strategy:
+          displayName: Loader Strategy
+          description: The strategy used as a loader
+          type: string
+          enum: 
+            - json
+            - csv
+            - splunk
+            - tableau
+        rawData:
+          displayName: Raw data
+          description: Enable or disable the raw data print
+          type: string
+          enum:
+            - "false"
+            - "true"
+example: !include ../../examples/loaders/post-platform-benefits.json
+  

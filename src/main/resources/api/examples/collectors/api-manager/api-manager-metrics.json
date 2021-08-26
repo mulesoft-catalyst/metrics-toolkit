@@ -1,0 +1,167 @@
+{
+      "clients": 4,
+      "apis": {
+        "production": {
+          "total": 2,
+          "active": 0,
+          "inactive": 4,
+          "apiInstances": 4,
+          "apiVersions": 2,
+          "apisWithPolicies": 4,
+          "apisWithoutPolicies": 0,
+          "apisWithSecurity": 4,
+          "apisWithoutSecurity": 0,
+          "apisWithContracts": 4,
+          "apisWithoutContracts": 0,
+          "apisWithMoreThanOneConsumer": 0,
+          "apisWithOneOrMoreConsumers": 4,
+          "contracts": 4,
+          "policiesUsed": [
+            "client-id-enforcement"
+          ],
+          "policiesUsedTotal": 1,
+          "automatedPoliciesUsed": [
+            
+          ],
+          "automatedPoliciesUsedTotal": 0,
+          "transactions": 0,
+          "details": [
+            {
+              "environmentName": "Production",
+              "environmentType": "Production",
+              "total": 2,
+              "active": 0,
+              "inactive": 4,
+              "apiInstances": 4,
+              "apiVersions": 2,
+              "apisWithPolicies": 4,
+              "apisWithoutPolicies": 0,
+              "apisWithSecurity": 4,
+              "apisWithoutSecurity": 0,
+              "apisWithContracts": 4,
+              "apisWithoutContracts": 0,
+              "apisWithMoreThanOneConsumer": 0,
+              "apisWithOneOrMoreConsumers": 4,
+              "contracts": 4,
+              "policiesUsed": [
+                "client-id-enforcement"
+              ],
+              "policiesUsedTotal": 1,
+              "automatedPoliciesUsed": [
+                
+              ],
+              "automatedPoliciesUsedTotal": 0,
+              "transactions": 0
+            }
+          ]
+        },
+        "sandbox": {
+          "total": 6,
+          "active": 0,
+          "inactive": 12,
+          "apiInstances": 12,
+          "apiVersions": 2,
+          "apisWithPolicies": 12,
+          "apisWithoutPolicies": 0,
+          "apisWithSecurity": 12,
+          "apisWithoutSecurity": 0,
+          "apisWithContracts": 12,
+          "apisWithoutContracts": 0,
+          "apisWithMoreThanOneConsumer": 0,
+          "apisWithOneOrMoreConsumers": 12,
+          "contracts": 12,
+          "policiesUsed": [
+            "client-id-enforcement"
+          ],
+          "policiesUsedTotal": 1,
+          "automatedPoliciesUsed": [
+            
+          ],
+          "automatedPoliciesUsedTotal": 0,
+          "transactions": 0,
+          "details": [
+            {
+              "environmentName": "Development",
+              "environmentType": "Sandbox",
+              "total": 2,
+              "active": 0,
+              "inactive": 4,
+              "apiInstances": 4,
+              "apiVersions": 2,
+              "apisWithPolicies": 4,
+              "apisWithoutPolicies": 0,
+              "apisWithSecurity": 4,
+              "apisWithoutSecurity": 0,
+              "apisWithContracts": 4,
+              "apisWithoutContracts": 0,
+              "apisWithMoreThanOneConsumer": 0,
+              "apisWithOneOrMoreConsumers": 4,
+              "contracts": 4,
+              "policiesUsed": [
+                "client-id-enforcement"
+              ],
+              "policiesUsedTotal": 1,
+              "automatedPoliciesUsed": [
+                
+              ],
+              "automatedPoliciesUsedTotal": 0,
+              "transactions": 0
+            },
+            {
+              "environmentName": "Staging",
+              "environmentType": "Sandbox",
+              "total": 2,
+              "active": 0,
+              "inactive": 4,
+              "apiInstances": 4,
+              "apiVersions": 2,
+              "apisWithPolicies": 4,
+              "apisWithoutPolicies": 0,
+              "apisWithSecurity": 4,
+              "apisWithoutSecurity": 0,
+              "apisWithContracts": 4,
+              "apisWithoutContracts": 0,
+              "apisWithMoreThanOneConsumer": 0,
+              "apisWithOneOrMoreConsumers": 4,
+              "contracts": 4,
+              "policiesUsed": [
+                "client-id-enforcement"
+              ],
+              "policiesUsedTotal": 1,
+              "automatedPoliciesUsed": [
+                
+              ],
+              "automatedPoliciesUsedTotal": 0,
+              "transactions": 0
+            },
+            {
+              "environmentName": "Test",
+              "environmentType": "Sandbox",
+              "total": 2,
+              "active": 0,
+              "inactive": 4,
+              "apiInstances": 4,
+              "apiVersions": 2,
+              "apisWithPolicies": 4,
+              "apisWithoutPolicies": 0,
+              "apisWithSecurity": 4,
+              "apisWithoutSecurity": 0,
+              "apisWithContracts": 4,
+              "apisWithoutContracts": 0,
+              "apisWithMoreThanOneConsumer": 0,
+              "apisWithOneOrMoreConsumers": 4,
+              "contracts": 4,
+              "policiesUsed": [
+                "client-id-enforcement"
+              ],
+              "policiesUsedTotal": 1,
+              "automatedPoliciesUsed": [
+                
+              ],
+              "automatedPoliciesUsedTotal": 0,
+              "transactions": 0
+            }
+          ]
+        }
+      }
+}

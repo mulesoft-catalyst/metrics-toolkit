@@ -1,0 +1,117 @@
+#%RAML 1.0
+title: Metrics Accelerator API
+description: The Metrics Accelerator is an extensible Mule application intended to collect, aggregate and load metrics into different visualization systems,  providing out of the box integrations and visualization options.
+version: v1
+protocols: 
+  - HTTPS
+ 
+# Add any security schemes here.  The Anypoint Platform or connected app credential headers are required for accessing Anypoint regardless if security is added here or not.
+# The Anypoint credential headers can be enough security but are not security schemes for this API, so other security can be added if required.
+
+
+traits:
+  allowFilterByCollector: !include traits/collectors.raml
+  allowRawDataOtput: !include traits/raw.raml
+  allowFilterByBusinessMetrics: !include traits/business-metrics.raml
+  receiveAnypointHeaders: !include traits/anypoint-headers.raml
+
+types:
+  common: !include data-types/loaders/common.raml    
+  splunk: !include data-types/loaders/splunk.raml
+  tableau: !include data-types/loaders/tableau.raml
+  elk: !include data-types/loaders/elk.raml
+
+/platform-metrics:
+  displayName: Platform Metrics
+  description: This resource let the API consumer to interact with Anypoint Platform metrics
+  get:
+    is: 
+      - allowFilterByCollector
+      - allowRawDataOtput
+      - receiveAnypointHeaders
+    displayName: Metrics
+    description: This resource allows to collect metrics for an Anypoint Org ID, according a series of collectors that can be specified.
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            items: !include data-types/collectors/get-platform-metrics.raml
+  /load:
+    displayName: Platform Metrics Loader
+    description: This resource allows to load platform metrics using one of the available strategies.
+    post:
+      is: 
+        - receiveAnypointHeaders
+      displayName: Metrics
+      description: This endpoint allows to load metrics using one of the available strategies.  
+      body:
+        application/json:
+          type: common | splunk | tableau | elk
+      responses:
+        201:
+          body:
+            application/json:
+              type: common | splunk | tableau | elk
+              
+    
+/business-metrics:
+  displayName: Business Metrics
+  description: This resource let the API consumer to interact with Business metrics.  
+  get:
+    is: 
+      - allowFilterByBusinessMetrics
+      - receiveAnypointHeaders
+    displayName: Business Metrics
+    description: This endpoint allows to collect metrics given a set of filters.
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            items: !include data-types/collectors/get-business-metrics.raml
+  /load:
+    displayName: Business Metrics Loader
+    description: This resource allows to load business metrics using one of the available strategies.
+    post:
+      is: 
+        - receiveAnypointHeaders
+      displayName: Business Metrics Loader
+      description: This endpoint allows to load business metrics using one of the available strategies.    
+      body:
+        application/json:
+          type: !include  data-types/loaders/post-benefits-metrics.raml
+      responses:
+        201:
+          body:
+            application/json: 
+              type: !include data-types/loaders/responses/platform-benefits.raml
+              
+/sdlc-metrics:
+  displayName: SDLC Metrics
+  description: This resource let the API consumer to interact with SDLC platforms metrics
+  get:
+    is:
+      - allowRawDataOtput
+    displayName: SDLC Metrics
+    description: This resource allows to collect metrics for the available SDLC platforms.  
+    responses:
+      200:
+        body:
+          application/json:
+            type: !include data-types/collectors/get-sdlc-metrics.raml
+  /load:
+    displayName: SDLC Metrics Loader
+    description: This resource allows to load SDLC metrics using one of the available strategies.
+    post:
+      is: 
+        - receiveAnypointHeaders # If using the Anypoint Monitoring loader.
+      displayName: SDLC Metrics Loader
+      description: This endpoint allows to load SDLC metrics using one of the available strategies.  
+      responses:
+        501:
+          body:
+            application/json:
+              type: !include data-types/loaders/responses/sdlc-metrics.raml
+
+            

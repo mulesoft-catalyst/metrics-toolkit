@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule
-	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
-http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
-	<flow
-		name="common-set-auth-vars-from-headers"
-		doc:id="49a5f71b-1858-485c-909a-f535468ebfb2">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+ 
+	<flow name="common-set-auth-vars-from-headers" doc:id="49a5f71b-1858-485c-909a-f535468ebfb2">
+
 		<validation:is-true
 			doc:name="Credentials provided?"
 			doc:id="ff4ef3a2-2e1b-45ed-b4eb-7afee5cb967d"
@@ -103,5 +97,8 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 				<ee:set-variable resource="dw/common/set-sdlc-details-from-props-var.dwl" variableName="sdlcDetails" />
 			</ee:variables>
 		</ee:transform>
+	</flow>
+	<flow name="common-set-collector-vars-from-properties-api-manager" doc:id="0f121336-44f0-4b0e-a488-bb46af02fce4" >
+		<set-variable value="#[Mule::p('anypoint.platform.apis.apiManager.apiDefaultOffset')]" doc:name="Set API Manager Offset" doc:id="59f8a5a6-1417-4043-a115-3f0cd1ac9514" variableName="apimOffset"/>
 	</flow>
 </mule>
