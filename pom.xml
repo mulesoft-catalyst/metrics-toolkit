@@ -18,7 +18,7 @@
 		<munit.version>2.3.5</munit.version>
 		<!-- Dependencies versions -->
 		<secure-properties.version>1.2.3</secure-properties.version>
-		<apikit.version>1.5.3</apikit.version>
+		<apikit.version>1.5.4</apikit.version>
 		<http.version>1.5.25</http.version>
 		<sockets.version>1.2.1</sockets.version>
 		<os.version>1.2.1</os.version>
