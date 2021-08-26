@@ -1,25 +1,19 @@
 #%RAML 1.0
 title: Metrics Accelerator API
-baseUri: https://localhost:8081/api/
 description: The Metrics Accelerator is an extensible Mule application intended to collect, aggregate and load metrics into different visualization systems,  providing out of the box integrations and visualization options.
 version: v1
 protocols: 
   - HTTPS
-  
-securitySchemes:
-  basic-auth: !include security-schemes/basic-auth.raml
-  platform-auth: !include security-schemes/platform-auth.raml
-  connected-app-auth: !include security-schemes/connected-app-auth.raml
-securedBy: 
-  - basic-auth
-  - platform-auth
-  - connected-app-auth
+ 
+# Add any security schemes here.  The Anypoint Platform or connected app credential headers are required for accessing Anypoint regardless if security is added here or not.
+# The Anypoint credential headers can be enough security but are not security schemes for this API, so other security can be added if required.
+
 
 traits:
   allowFilterByCollector: !include traits/collectors.raml
   allowRawDataOtput: !include traits/raw.raml
   allowFilterByBusinessMetrics: !include traits/business-metrics.raml
-  receiveAnypntOrg: !include traits/x-anypnt-org-id.raml
+  receiveAnypointHeaders: !include traits/anypoint-headers.raml
 
 types:
   common: !include data-types/loaders/common.raml    
@@ -34,7 +28,7 @@ types:
     is: 
       - allowFilterByCollector
       - allowRawDataOtput
-      - receiveAnypntOrg
+      - receiveAnypointHeaders
     displayName: Metrics
     description: This resource allows to collect metrics for an Anypoint Org ID, according a series of collectors that can be specified.
     responses:
@@ -48,7 +42,7 @@ types:
     description: This resource allows to load platform metrics using one of the available strategies.
     post:
       is: 
-        - receiveAnypntOrg
+        - receiveAnypointHeaders
       displayName: Metrics
       description: This endpoint allows to load metrics using one of the available strategies.  
       body:
@@ -67,7 +61,7 @@ types:
   get:
     is: 
       - allowFilterByBusinessMetrics
-      - receiveAnypntOrg
+      - receiveAnypointHeaders
     displayName: Business Metrics
     description: This endpoint allows to collect metrics given a set of filters.
     responses:
@@ -81,7 +75,7 @@ types:
     description: This resource allows to load business metrics using one of the available strategies.
     post:
       is: 
-        - receiveAnypntOrg
+        - receiveAnypointHeaders
       displayName: Business Metrics Loader
       description: This endpoint allows to load business metrics using one of the available strategies.    
       body:
@@ -111,7 +105,7 @@ types:
     description: This resource allows to load SDLC metrics using one of the available strategies.
     post:
       is: 
-        - receiveAnypntOrg
+        - receiveAnypointHeaders # If using the Anypoint Monitoring loader.
       displayName: SDLC Metrics Loader
       description: This endpoint allows to load SDLC metrics using one of the available strategies.  
       responses:

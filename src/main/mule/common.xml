@@ -1,39 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
  
 	<flow name="common-set-auth-vars-from-headers" doc:id="49a5f71b-1858-485c-909a-f535468ebfb2">
+
+		<validation:is-true
+			doc:name="Credentials provided?"
+			doc:id="ff4ef3a2-2e1b-45ed-b4eb-7afee5cb967d"
+			expression='#[( (!isEmpty(attributes.headers."X-ANYPNT-USERNAME") and !isEmpty(attributes.headers."X-ANYPNT-PASSWORD")) or (!isEmpty(attributes.headers."X-ANYPNT-CLIENT-ID") and !isEmpty(attributes.headers."X-ANYPNT-CLIENT-SECRET")) )]' message="Anypoint username and password OR connected app clientId and clientSecret must be provided."/>
 		<ee:transform doc:name="Set Master Org Id and Auth Mode" doc:id="63cefa2c-0709-40ad-b2b0-e69e4b9a2d3d" >
-			<ee:message >
-			</ee:message>
 			<ee:variables >
 				<ee:set-variable resource="dw/common/set-master-org-id-var.dwl" variableName="masterOrgId" />
 				<ee:set-variable resource="dw/common/set-auth-mode-var.dwl" variableName="authMode" />
+				<ee:set-variable resource="dw/common/set-client-secret-var.dwl" variableName="clientSecret" />
+				<ee:set-variable resource="dw/common/set-client-id-var.dwl" variableName="clientId" />
 			</ee:variables>
 		</ee:transform>
-		<choice doc:name="Choice" doc:id="2a0f377d-08e0-4d07-ac6a-c1d20125606a" >
-			<when expression="#[attributes.headers.Authorization != null and (sizeOf(attributes.headers.Authorization) &gt; 0)]">
-				<ee:transform doc:name="Set Client Id and Client Secret from Basic Auth Header" doc:id="a865fb33-a566-49d0-90b3-5953b6ad8674" >
-					<ee:message >
-					</ee:message>
-					<ee:variables >
-						<ee:set-variable resource="dw/common/set-client-id-from-basic-auth-var.dwl" variableName="clientId" />
-						<ee:set-variable resource="dw/common/set-client-secret-from-basic-auth-var.dwl" variableName="clientSecret" />
-					</ee:variables>
-				</ee:transform>
-			</when>
-			<otherwise >
-				<ee:transform doc:name="Set Client Id and Client Secret from Individual Headers" doc:id="d8aebcdb-42fd-4159-8037-46f1765b8ccb" >
-					<ee:message >
-					</ee:message>
-					<ee:variables >
-						<ee:set-variable resource="dw/common/set-client-id-var.dwl" variableName="clientId" />
-						<ee:set-variable resource="dw/common/set-client-secret-var.dwl" variableName="clientSecret" />
-					</ee:variables>
-				</ee:transform>
-			</otherwise>
-		</choice>
 	</flow>
 	
 	<flow name="common-set-auth-vars-from-properties" doc:id="80516443-205a-40a8-a7cf-28c549d1d58a">
