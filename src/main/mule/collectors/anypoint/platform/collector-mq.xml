@@ -11,7 +11,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				name="collector-commons-set-environment-variables-flow" />
 <!-- 			<flow-ref doc:name="Get MQ Regions" doc:id="427f0c08-b92f-450a-ad79-44453796e830" name="api-call-mq-regions-flow" /> -->
 			
-<ee:transform doc:name="get the regions list" doc:id="c2486424-9d00-4faa-b00f-05cfd4db4d40" >
+<ee:transform doc:name="Get the regions list" doc:id="c2486424-9d00-4faa-b00f-05cfd4db4d40" >
 				<ee:message >
 				</ee:message>
 				<ee:variables >
@@ -21,9 +21,7 @@ output application/java
 p('anypoint.platform.apis.mq.regions.list') splitBy ","]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-	
-			<logger level="DEBUG" doc:name="Logger" doc:id="6d5412f9-c19b-42fc-8d51-d2017158604f" message="MQ regions list - #[vars.regions]" />			
-			
+				
 			<parallel-foreach doc:name="For Each Region" doc:id="e478a4ed-2013-4efe-88c4-c41da99a0121" collection="#[vars.regions]">
 				<set-variable value="#[payload]" doc:name="Set Region ID Variable" doc:id="33bd3f00-7bfb-4f36-ba65-8f3fca361ab3"
 					variableName="regionId" />

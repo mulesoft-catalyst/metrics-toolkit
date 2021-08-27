@@ -101,7 +101,7 @@ anypoint:
         maxConcurrency: "100"
         period: "86400"
         regions:
-          list: "us-east-1,us-west-2"
+          list: "us-east-1,us-west-2,ca-central-1,eu-west-1,eu-west-2,ap-southeast-1,ap-southeast-2,ap-northeast-1"
           path: "/mq/admin/api/v1/organizations/{orgId}/environments/{envId}/regions"
         destinations:
           path: "/mq/admin/api/v1/organizations/{orgId}/environments/{envId}/regions/{regionId}/destinations"
