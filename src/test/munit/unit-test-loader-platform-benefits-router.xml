@@ -259,6 +259,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				name="post:\business-metrics\load:application\json:api-config" />
 		</munit:execution>
 		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert correct file write path" doc:id="0e4aba17-605e-4dc8-89a8-50d93d504afa" is="#[MunitTools::startsWith('/tmp/test')]" expression="#[vars.writePath]"/>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="9eff5880-49f8-4d4e-9cca-703d8262a51d"
 				expression='#[payload]' is="#[MunitTools::equalTo(vars.expectedResponse)]" message="The response payload is not the expected" />
 		</munit:validation>
