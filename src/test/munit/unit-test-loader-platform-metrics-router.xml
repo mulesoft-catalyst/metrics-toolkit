@@ -438,6 +438,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:api-config" doc:id="e1ae5bd9-983e-4933-b278-1d26684e2783" name="post:\platform-metrics\load:application\json:api-config"/>
 		</munit:execution>
 		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert correct file write path" doc:id="aa28022e-012d-4917-8888-d54be03e44c7" is="#[MunitTools::startsWith('/tmp/test')]" expression="#[vars.writePath]"/>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="a878b43b-b192-414e-9142-fb755d3e8c74" expression='#[payload]' is="#[MunitTools::equalTo(vars.expectedResponse)]" message="The response payload is not the expected" />
 		</munit:validation>
 	</munit:test>
