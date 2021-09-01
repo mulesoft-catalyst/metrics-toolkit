@@ -1,5 +1,5 @@
 <form>
-  <label>Metrics Accelerator - Runtime Manager - RTF - Capacity</label>
+  <label>Runtime Manager - RTF - Capacity</label>
   <fieldset submitButton="false">
     <input type="multiselect" token="bgToken" searchWhenChanged="true">
       <label>Business Group</label>
