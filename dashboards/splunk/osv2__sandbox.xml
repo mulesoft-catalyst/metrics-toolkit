@@ -1,5 +1,5 @@
 <form>
-  <label>Metrics Accelerator - OSv2 - Sandbox</label>
+  <label>OSv2 Metrics - Sandbox</label>
   <fieldset submitButton="false">
     <input type="multiselect" token="bgToken" searchWhenChanged="true">
       <label>Business Group</label>
