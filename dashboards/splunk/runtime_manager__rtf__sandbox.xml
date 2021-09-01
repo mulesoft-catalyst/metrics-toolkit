@@ -1,5 +1,5 @@
 <form>
-  <label>Metrics Accelerator - Runtime Manager - RTF - Sandbox</label>
+  <label>Runtime Manager - RTF Metrics - Sandbox</label>
   <fieldset submitButton="false">
     <input type="multiselect" token="bgToken" searchWhenChanged="true">
       <label>Business Group</label>

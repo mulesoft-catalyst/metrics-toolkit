@@ -1,5 +1,5 @@
 <form>
-  <label>Metrics Accelerator - Platform Benefits</label>
+  <label>Platform Benefits Metrics</label>
   <fieldset submitButton="false">
     <input type="multiselect" token="bgToken" searchWhenChanged="true">
       <label>Business Group</label>

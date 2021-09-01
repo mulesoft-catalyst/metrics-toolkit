@@ -1,5 +1,5 @@
 <form>
-  <label>Metrics Accelerator - Access Management</label>
+  <label>Access Management Metrics</label>
   <fieldset submitButton="false">
     <input type="multiselect" token="bgToken" searchWhenChanged="true">
       <label>Business Group</label>
