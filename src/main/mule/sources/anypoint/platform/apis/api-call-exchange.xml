@@ -9,6 +9,13 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 
 	<flow name="api-call-exchange-assets-flow" doc:id="cb45e4dc-7fd3-476d-aff3-7c0a30556088" maxConcurrency="${anypoint.platform.apis.exchange.maxConcurrency}">
 		<logger level="DEBUG" doc:name="Logger" doc:id="c04d063d-9f26-41c8-9f2c-efd64bc5a457" message="Calling Exchange - Assets" />
+		<set-variable value="#[0]" doc:name="Set tries" doc:id="c7f338f3-ae84-4ab6-a3c1-164760fc3954" variableName="tries"/>
+		<set-variable value="#[p('anypoint.platform.apis.exchange.graphql.limit')]" doc:name="Set limit" doc:id="d8776b0e-9641-46a9-9aba-4c536fcdf572" variableName="limit"/>
+		<flow-ref doc:name="Get Exchange Assets Paginated" doc:id="70dead84-a4d4-4eac-8917-2a8781feee2e" name="api-call-exchange-assets-paginated-flow"/>
+		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Exchange - Assets, Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+	<sub-flow name="api-call-exchange-assets-paginated-flow" doc:id="021c780e-688d-4a04-901b-b2f66cb700e6" >
+		<set-variable value="#[vars.tries * vars.limit]" doc:name="Set offset" doc:id="b4b52b1c-549b-41dc-9816-7aea34915d2d" variableName="offset" />
 		<ee:transform doc:name="Set GraphQL Query" doc:id="17f03534-c094-40bf-a0f9-c16770263fc0">
 			<ee:variables>
 				<ee:set-variable resource="dw/anypoint/anypoint-exchange-build-graphql-query.dwl" variableName="graphqlQuery" />
@@ -28,8 +35,17 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		</http:request>
 		</until-successful>
 		<set-payload value="#[output application/java --- payload.data.assets]" doc:name="Set Payload - Data Assets" doc:id="536390ec-0bf3-4f0c-b46c-159bc1e6fd51" />
-		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Exchange - Assets, Response Status Code:" ++ attributes.statusCode]' />
-	</flow>
+		<choice doc:name="Choice" doc:id="bdf6e893-2b57-4cc9-a9c5-313e9a713391" >
+			<when expression="#[sizeOf(payload) &gt;= vars.limit]">
+				<set-variable value="#[vars.tries + 1]" doc:name="Set tries" doc:id="71af307a-d37e-4ca6-9db2-359db2169acb" variableName="tries" />
+				<flow-ref doc:name="Get Exchange Assets Paginated" doc:id="9adc64d6-5d40-4554-bb67-7de9417531c4" name="api-call-exchange-assets-paginated-flow" target="assetsPage"/>
+				<set-payload value="#[payload ++ vars.assetsPage]" doc:name="Set Payload - Data Assets" doc:id="c00ca91d-f579-4f05-afb7-e41cfcd773c0" />
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Logger" doc:id="b58190c3-c03a-49e7-8521-384aa269f49b" message="Finished iteration"/>
+			</otherwise>
+		</choice>
+	</sub-flow>
 	<flow name="api-call-exchange-asset-dependencies-flow" doc:id="8d61d5dd-a6f3-4ca2-ba1a-4b3026de2910" maxConcurrency="${anypoint.platform.apis.exchange.maxConcurrency}">
 		<logger level="DEBUG" doc:name="Logger" doc:id="3e43ad0e-d15b-4fe9-81ab-4535b69d588f" message="Calling Exchange - Asset dependencies" />
 		<ee:transform doc:name="Set GraphQL Query" doc:id="6010e0d0-7cc9-4b07-8c98-005a326e247c">
