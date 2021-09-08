@@ -7993,10 +7993,10 @@
   </datasources>
   <actions>
     <action caption='Business Group' name='[Action1]'>
-      <source dashboard='Metrics Accelerator - Current - Consolidated' type='sheet' />
-      <link caption='Business Group' delimiter=',' escape='\' expression='tsl:Metrics%20Accelerator%20-%20Current%20-%20Consolidated?%5Bfederated.03ydloa1pprdfa1evm8ln0ri3em4%5D.%5BbusinessGroup%5D~s0=&lt;[businessGroup]~na&gt;' include-null='true' multi-select='true' url-escape='true' />
+      <source dashboard='Metrics Toolkit - Current - Consolidated' type='sheet' />
+      <link caption='Business Group' delimiter=',' escape='\' expression='tsl:Metrics%20Toolkit%20-%20Current%20-%20Consolidated?%5Bfederated.03ydloa1pprdfa1evm8ln0ri3em4%5D.%5BbusinessGroup%5D~s0=&lt;[businessGroup]~na&gt;' include-null='true' multi-select='true' url-escape='true' />
       <command command='tsc:tsl-filter'>
-        <param name='target' value='Metrics Accelerator - Current - Consolidated' />
+        <param name='target' value='Metrics Toolkit - Current - Consolidated' />
       </command>
     </action>
     <datasources>
@@ -10979,7 +10979,7 @@
     </worksheet>
   </worksheets>
   <dashboards>
-    <dashboard name='Metrics Accelerator - Current - Consolidated'>
+    <dashboard name='Metrics Toolkit - Current - Consolidated'>
       <style>
         <style-rule element='dash-title'>
           <format attr='font-family' value='Tableau Medium' />
@@ -11524,7 +11524,7 @@
     </dashboard>
   </dashboards>
   <windows source-height='30'>
-    <window class='dashboard' maximized='true' name='Metrics Accelerator - Current - Consolidated'>
+    <window class='dashboard' maximized='true' name='Metrics Toolkit - Current - Consolidated'>
       <viewpoints>
         <viewpoint name='API Analytics - Transactions/Requests - Last 30 days'>
           <zoom type='entire-view' />
@@ -12423,7 +12423,7 @@
     </window>
   </windows>
   <thumbnails>
-    <thumbnail height='384' name='Metrics Accelerator - Current - Consolidated' width='384'>
+    <thumbnail height='384' name='Metrics Toolkit - Current - Consolidated' width='384'>
       iVBORw0KGgoAAAANSUhEUgAAAYAAAAGACAYAAACkx7W/AAAACXBIWXMAAA7DAAAOwwHHb6hk
       AAAYe0lEQVR4nO3dfVjV9f3H8Rcg9wood6ahok5LHepC0PSStuxSE9d0aZs5m5ar6VZpl3lt
       rsttudU1l5kZ2+VKneLNNI2EeVeiKTBUNKnEOzIK7y5uFAQBEQ6/P/z5vURuROtXv/Z+Pv7C
