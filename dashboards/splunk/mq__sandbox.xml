@@ -1,5 +1,5 @@
 <form>
-  <label>Metrics Accelerator - MQ - Sandbox</label>
+  <label>Anypoint MQ Metrics - Sandbox</label>
   <fieldset submitButton="false">
     <input type="multiselect" token="bgToken" searchWhenChanged="true">
       <label>Business Group</label>

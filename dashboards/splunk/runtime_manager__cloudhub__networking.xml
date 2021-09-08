@@ -1,5 +1,5 @@
 <form>
-  <label>Metrics Accelerator - Runtime Manager - CloudHub - Networking</label>
+  <label>Runtime Manager - CloudHub - Networking Metrics</label>
   <fieldset submitButton="false">
     <input type="multiselect" token="bgToken" searchWhenChanged="true">
       <label>Business Group</label>
