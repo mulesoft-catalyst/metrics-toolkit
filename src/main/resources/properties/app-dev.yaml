@@ -1,10 +1,17 @@
 # API config
 api:
   host: "0.0.0.0"
-  port: "8081"
   path: "/api/*"
   
-# Dashboard config
+http:  
+  port: "8081"
+  private.port: "8091"
+  
+https:
+  port: "8082"
+  private.port: "8092"
+    
+# Embedded Dashboard config
 embedded.dashboard:
   path: "/*"
   enabled: "false"
