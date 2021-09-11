@@ -10,6 +10,6 @@ fun getSecret(secret) = if (isBase64(secret default ""))
 	else secret
 ---
 if (!isEmpty(clientSecret))
-	getSecret(clientSecret)
+	clientSecret
 else 
 	getSecret(password)
