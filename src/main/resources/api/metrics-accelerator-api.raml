@@ -13,7 +13,9 @@ traits:
   allowFilterByCollector: !include traits/collectors.raml
   allowRawDataOtput: !include traits/raw.raml
   allowFilterByBusinessMetrics: !include traits/business-metrics.raml
-  receiveAnypointHeaders: !include traits/anypoint-headers.raml
+  receiveAnypointOrgId: !include traits/x-anypnt-org-id.raml
+  receiveConnectedApp: !include traits/connected-app-auth.raml
+  receivePlatformUser: !include traits/platform-auth.raml
 
 types:
   common: !include data-types/loaders/common.raml    
@@ -28,7 +30,9 @@ types:
     is: 
       - allowFilterByCollector
       - allowRawDataOtput
-      - receiveAnypointHeaders
+      - receiveAnypointOrgId
+      - receiveConnectedApp
+      - receivePlatformUser
     displayName: Metrics
     description: This resource allows to collect metrics for an Anypoint Org ID, according a series of collectors that can be specified.
     responses:
@@ -42,7 +46,9 @@ types:
     description: This resource allows to load platform metrics using one of the available strategies.
     post:
       is: 
-        - receiveAnypointHeaders
+        - receiveAnypointOrgId
+        - receiveConnectedApp
+        - receivePlatformUser
       displayName: Metrics
       description: This endpoint allows to load metrics using one of the available strategies.  
       body:
@@ -61,7 +67,9 @@ types:
   get:
     is: 
       - allowFilterByBusinessMetrics
-      - receiveAnypointHeaders
+      - receiveAnypointOrgId
+      - receiveConnectedApp
+      - receivePlatformUser
     displayName: Business Metrics
     description: This endpoint allows to collect metrics given a set of filters.
     responses:
@@ -75,7 +83,9 @@ types:
     description: This resource allows to load business metrics using one of the available strategies.
     post:
       is: 
-        - receiveAnypointHeaders
+        - receiveAnypointOrgId
+        - receiveConnectedApp
+        - receivePlatformUser
       displayName: Business Metrics Loader
       description: This endpoint allows to load business metrics using one of the available strategies.    
       body:
@@ -104,8 +114,10 @@ types:
     displayName: SDLC Metrics Loader
     description: This resource allows to load SDLC metrics using one of the available strategies.
     post:
-      is: 
-        - receiveAnypointHeaders # If using the Anypoint Monitoring loader.
+      is: # If using the Anypoint Monitoring loader.
+        - receiveAnypointOrgId
+        - receiveConnectedApp
+        - receivePlatformUser
       displayName: SDLC Metrics Loader
       description: This endpoint allows to load SDLC metrics using one of the available strategies.  
       responses:
