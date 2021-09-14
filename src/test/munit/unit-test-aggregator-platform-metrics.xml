@@ -372,7 +372,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</munit:validation>
 	</munit:test>
 	
-	<munit:test name="get-platform-metrics-baisc-auth-and-collectors-params-ch-test" doc:id="f41f25e0-8b13-442a-b0ed-2ed7ef394c01" description="Test">
+	<munit:test name="get-platform-metrics-platform-user-auth-and-collectors-params-ch-test" doc:id="f41f25e0-8b13-442a-b0ed-2ed7ef394c01" description="Test">
 		<munit:execution >
 			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-get-platform-metrics-collectors-ch.json')]" doc:name="Set Expected Response Payload" doc:id="a956383d-2b96-49f9-90e2-f28139d2d5b8" variableName="expectedResponse" mimeType="application/json" />
 			<ee:transform doc:name="Set Mocked Attributes" doc:id="5c8bf56e-fd75-4280-a0d1-750149728ea2" >
