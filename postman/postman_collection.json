@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "1ba8a281-c219-460f-b9d1-36883bb5f072",
-		"name": "Metrics Accelerator",
+		"name": "Metrics Toolkit",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -301,7 +301,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"tableau\",\n\t\t\"rawData\": \"false\",\n\t\t\"outputDir\": \"/opt/metrics-accelerator/data\"\n\t}\n}"
+					"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"tableau\",\n\t\t\"rawData\": \"false\",\n        \"tableau\": {\n            \"outputDir\": \"/opt/metrics-toolkit/data\"\n        }\n\t}\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8081/api/platform-metrics/load",

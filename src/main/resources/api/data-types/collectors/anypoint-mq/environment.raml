@@ -1,0 +1,52 @@
+#%RAML 1.0 DataType
+displayName: AMQ Environment Datatype
+description: Models an Anypoint-MQ Environment
+properties:
+  id: 
+    required: false
+  queues:
+    type: object
+    displayName: Queues  
+    description: Provides information about Anypoint MQ queues
+    properties:
+      commonQueues:
+        type: integer
+        displayName: "Common Queues #"
+        description: Count the number of provisioned common queues 
+      fifoQueues:
+        type: integer
+        displayName: "FIFO Queues #"
+        description: Count the number of provisioned FIFO queues
+      messagesInFlight:
+        type: integer
+        displayName: "Messages In Flight #"
+        description: Count the number of messages that are In Flight (all queues types)
+      messagesSent:
+        type: integer
+        displayName: "Messages Sent #"
+        description: Count the number of sent messages (all queues types)
+      messagesReceived:
+        type: integer
+        displayName: "Messages Received #"
+        description: Count the number of messages received (all queues types)
+      messagesAck:
+        type: integer
+        displayName: "Messages ACK received #"
+        description: Count the number of ACKs received for messages
+  exchanges:
+    type: object
+    displayName: Exchanges
+    description: Provides information about Anypoint MQ Exchanges
+    properties:
+      exchangeQueues:
+        type: integer
+        displayName: "Exchange Queues #"
+        description: Count the number of provisioned Exchange queues
+      messagesPublished:
+        type: integer
+        displayName: "Messages Published #"
+        description: Count the number of published messages into the Exchanges
+      messagesDelivered:
+        type: integer
+        displayName: "Messages Delivered #"
+        description: Count the number of delivered messages

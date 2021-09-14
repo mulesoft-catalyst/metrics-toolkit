@@ -1,0 +1,14 @@
+#%RAML 1.0 Trait
+displayName: Connected App Authentication Headers
+description: Authentication headers used for connected apps.
+headers:
+  X-ANYPNT-CLIENT-ID:
+    description: |
+      Receives the connected app client id used to login to Anypoint Platform.
+    type: string
+    required: false
+  X-ANYPNT-CLIENT-SECRET:
+    description: |
+      Receives a connected app client secret to login to Anypoint Platform.
+    type: string
+    required: false
