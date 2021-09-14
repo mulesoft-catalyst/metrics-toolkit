@@ -85,7 +85,7 @@ output application/json
 vars.apiClientsResponsePayload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["API Platform - Clients, Response Status Code:" ++ attributes.statusCode]' />
+		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["API Platform - Clients, Response Status Code:" ++ (attributes.statusCode default "")]' />
 	</flow>
 
 
