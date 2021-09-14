@@ -4,7 +4,7 @@
 
 	<groupId>com.mulesoft</groupId>
 	<artifactId>metrics-toolkit</artifactId>
-	<version>1.7.2-SNAPSHOT</version>
+	<version>1.8.0</version>
 	<packaging>mule-application</packaging>
 
 	<name>metrics-toolkit</name>
