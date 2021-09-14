@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.mulesoft</groupId>
-	<artifactId>metrics-accelerator</artifactId>
+	<artifactId>metrics-toolkit</artifactId>
 	<version>1.7.2-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
 
-	<name>metrics-accelerator</name>
+	<name>metrics-toolkit</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -178,12 +178,12 @@
 		</dependency>
 		 -->
 		<dependency>
-            <groupId>org.mule.weave</groupId>
-            <artifactId>assertions</artifactId>
-            <version>1.0.2</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+			<groupId>org.mule.weave</groupId>
+			<artifactId>assertions</artifactId>
+			<version>1.0.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 	<repositories>
 		<repository>
