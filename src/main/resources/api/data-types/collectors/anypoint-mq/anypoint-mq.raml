@@ -1,0 +1,15 @@
+#%RAML 1.0 DataType
+displayName: Anypoint MQ Datatype
+description: This datatype models the aggregated response with metrics from Anypoint MQ
+properties:
+  stats:
+    type: object
+    properties:
+      summary:
+        type: !include details.raml
+        displayName: Usage by type of environment 
+        description: Provides usage by type of environment 
+      byRegion: 
+        type: !include details-array.raml
+        displayName: Usage by Region
+        description: Provides usage information by Region

@@ -1,11 +1,21 @@
-http:
+# API config
+api:
+  host: "0.0.0.0"
+  path: "/api/*"
+  
+http:  
   port: "8081"
   private.port: "8091"
   
 https:
   port: "8082"
   private.port: "8092"
-  
+    
+# Embedded Dashboard config
+embedded.dashboard:
+  path: "/*"
+  enabled: "false"
+
 poller:
   enabled: "false"
   frequency: 
@@ -51,9 +61,6 @@ loader:
 # Default value: "all"
   
 collectors: "all"
-
-embedded.dashboard:
-  enabled: "false"
   
 splunk:
   host: "splunk-metrics.env.services.mulesoft.com"
