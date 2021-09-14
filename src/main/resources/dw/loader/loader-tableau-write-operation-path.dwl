@@ -1,4 +1,4 @@
-vars.loaderDetails.outputDir as String
+vars.loaderDetails.tableau.outputDir as String
 ++ "/"
 ++ vars.metricsGroup as String
 ++ (if (vars.rawData == "true") "_raw_" else "_agg_")

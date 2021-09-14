@@ -1,0 +1,6 @@
+{
+  "collectors": ["all"],
+  "loaderDetails": {
+    "strategy": "am"
+  }
+}
