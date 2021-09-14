@@ -4,7 +4,7 @@
 
 	<groupId>com.mulesoft</groupId>
 	<artifactId>metrics-accelerator</artifactId>
-	<version>1.7.1</version>
+	<version>1.7.2-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
 
 	<name>metrics-accelerator</name>
@@ -28,6 +28,7 @@
 		<munit-tools.version>2.3.1</munit-tools.version>
 		<mule-mongodb-connector.version>6.3.1</mule-mongodb-connector.version>
 		<mongodb-driver-legacy.version>4.0.4</mongodb-driver-legacy.version>
+		<validation.module.version>1.4.5</validation.module.version>
 	</properties>
 
 	<build>
@@ -156,6 +157,12 @@
 			<version>${secure-properties.version}</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-validation-module</artifactId>
+			<version>${validation.module.version}</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
 		<!-- Uncomment the following 2 Dependencies if MongoDB loader is needed -->
 		<!-- 
 		<dependency>
@@ -170,7 +177,13 @@
 			<version>${mongodb-driver-legacy.version}</version>
 		</dependency>
 		 -->
-	</dependencies>
+		<dependency>
+            <groupId>org.mule.weave</groupId>
+            <artifactId>assertions</artifactId>
+            <version>1.0.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 	<repositories>
 		<repository>
