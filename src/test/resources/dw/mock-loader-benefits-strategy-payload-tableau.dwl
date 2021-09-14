@@ -14,6 +14,8 @@ output application/json
 	loaderDetails: {
 		strategy: "tableau",
 		rawData: "false",
-		outputDir: "/tmp/test"	
+		tableau: {
+			outputDir: "/tmp/test"	
+		}	
 	}
 }

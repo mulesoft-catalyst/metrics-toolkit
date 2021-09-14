@@ -61,6 +61,7 @@ anypoint:
             wait: "5000"
         automatedPolicies:
           path: "/apimanager/api/v1/organizations/{orgId}/automated-policies"
+        apiDefaultOffset: "100"
       apiPlatform:
         maxConcurrency: "100"
         clients:
