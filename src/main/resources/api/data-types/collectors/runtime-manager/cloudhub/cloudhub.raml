@@ -1,0 +1,62 @@
+#%RAML 1.0 DataType
+displayName: ARM CH Environment Datatype
+description: Models collected metrics for an environment from Runtime Manager for CloudHub
+properties:
+  networking:
+    type: object
+    properties:
+      vpcsTotal:
+        type: integer
+        displayName: VPCs Total	
+        description: Total VPCs per BG
+      vpcsAvailable:
+        type: integer
+        displayName: VPCs Available Total	
+        description: Total available VPCs per BG
+      vpcsUsed:
+        type: integer
+        displayName: VPCs Used Total
+        description: Total used VPCs per BG
+      vpnsTotal:
+        type: integer
+        displayName: VPNs Total
+        description: Total VPNs per BG
+      vpnsAvailable:
+        type: integer
+        displayName: VPNs Available Total
+        description: Total available VPNs per BG
+      vpnsUsed:
+        type: integer
+        displayName: VPNs Used Total
+        description: Total used VPNs per BG
+      dlbsTotal:
+        type: integer
+        displayName: DLBs Total
+        description: Total DLBs per BG
+      dlbsAvailable:
+        type: integer
+        displayName: DLBs Available Total
+        description: Total available DLBs per BG
+      dlbsUsed:
+        type: integer
+        displayName: DLBs Used Total
+        description: Total used DLBs per BG
+      staticIPsTotal:
+        type: integer
+        displayName: Static IPs Total
+        description: Total static IPs per BG
+      staticIPsAvailable:
+        type: integer
+        displayName: Static IPs Available Total
+        description: Total available static IPs per BG
+      staticIPsUsed:
+        type: integer
+        displayName: Static IPs Used Total
+        description: Total used static IPs per BG
+  applications: 
+    type: object
+    properties:        
+      production: 
+        type: !include environment.raml 
+      sandbox: 
+        type: !include environment.raml 

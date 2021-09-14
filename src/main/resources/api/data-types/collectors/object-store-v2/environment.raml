@@ -1,0 +1,29 @@
+#%RAML 1.0 DataType
+
+properties:
+  requestCount:
+    type: integer
+    displayName: Request Count
+    description: Aggregated Request count by environment type
+  details:
+    type: array
+    displayName: Details
+    description: Detailed view of the requests performed
+    items:
+      properties:
+        environmentName:
+          type: string
+          displayName: Environment Name
+          description: Name of the environment as defined in Anypoint Platform
+        environmentType:
+          type: string
+          enum:
+            - Sandbox
+            - Production
+            - Design
+          displayName: Environment Type
+          description: Type of Anypoint Platform environment which the OSv2 was assocciated to
+        requestCount:
+          type: integer
+          displayName: Request Count
+          description: Request count by environment
