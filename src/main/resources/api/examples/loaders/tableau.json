@@ -3,6 +3,6 @@
 	"loaderDetails": {
 		"strategy": "tableau",
 		"rawData": "false",
-		"outputDir": "/opt/metrics-accelerator/data"
+		"outputDir": "/opt/metrics-toolkit/data"
 	}
 }
