@@ -5,4 +5,4 @@ output application/java
 if (vars.aggregatedAPIPayload == null) 
 	payload
 else 
-	(vars.aggregatedAPIPayload update  "assets" with ({([vars.aggregatedAPIPayload.assets,payload.assets])}))
+	(vars.aggregatedAPIPayload update  "assets" with (vars.aggregatedAPIPayload.assets ++ payload.assets))
