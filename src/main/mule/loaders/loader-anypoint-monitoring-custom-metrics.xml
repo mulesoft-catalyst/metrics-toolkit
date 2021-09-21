@@ -9,7 +9,13 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 	<flow name="loader-anypoint-monitoring" doc:id="d5126b8c-53ea-4e19-b5b1-fa265ec723b3">
 		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="aaea05ae-67e7-48e5-be81-e9e72aef83a9" name="aggregator-platform-metrics-master-flow" />
 		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="fee805ac-b90a-4c23-8d04-4ddd7af66226" variableName="event" />
+
 		<foreach doc:name="For Each" doc:id="60d7a3e8-3ff7-417f-b833-43065adfa98f">
+				<ee:transform doc:name="Sanitize BG Name" doc:id="a66a927d-eddb-4646-a9d6-70c90808757a">
+			<ee:variables>
+				<ee:set-variable variableName="businessGroupName" resource="dw/loader/loader-am-business-group-name-sanitizer.dwl" />
+			</ee:variables>
+		</ee:transform>
 			<scatter-gather doc:name="Scatter-Gather" doc:id="6fcbf66f-23ad-4545-b3a2-3c033d10472f">
 				<route >
 					<flow-ref doc:name="General Custom Metrics Flow Reference" doc:id="f42721cc-d586-4872-b98c-e17387d4f62e" name="loader-anypoint-monitoring-general-custom-metrics-flow"/>
@@ -36,7 +42,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				<custom-metrics:send doc:name="Send Custom Metric - Coreservices Metrics" doc:id="713e7428-37ea-4201-ab6f-8a9419664e4d" metricName="platform_coreservices_custom_metric">
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
 						<custom-metrics:fact factName="users_total" value="#[payload.coreServicesMetrics.users.total]" />
@@ -55,7 +61,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				<custom-metrics:send doc:name="Send Custom Metric - Design Center Metrics" doc:id="ee0038a8-27db-4df6-b015-7fb8e439d7b5" metricName="platform_dc_custom_metric">
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
 						<custom-metrics:fact factName="desing_center_projects_total" value="#[payload.designCenterMetrics.total]" />
@@ -70,7 +76,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				<custom-metrics:send doc:name="Send Custom Metric - Exchange Metrics" doc:id="13233fa9-3bf8-4b52-a3fe-df1509bba298" metricName="platform_exchange_custom_metric">
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
 						<custom-metrics:fact factName="exchange_assets_total" value="#[payload.exchangeMetrics.total]" />
@@ -96,7 +102,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				<custom-metrics:send doc:name="Send Custom Metric - Exchange Reuse Metrics" metricName="platform_exchange_reuse_custom_metric">
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
 						<custom-metrics:fact factName="reuse_fragments" value="#[payload.exchangeMetrics.reuse.fragments]" />
@@ -114,7 +120,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				<custom-metrics:send doc:name="Send Custom Metric - CloudHub Networking Metrics" doc:id="fb0bd356-26a8-461e-baf9-e4cc21b6ef63" metricName="platform_ch_custom_metric">
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>							
 						<custom-metrics:fact factName="ch_networking_vpcs_total" value="#[payload.runtimeManagerMetrics.cloudhub.networking.vpcsTotal]" />
@@ -136,7 +142,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				<custom-metrics:send doc:name="Send Custom Metric - RTF - Metrics" doc:id="d0f6dda2-f491-4619-9e9d-9be4d81df675" metricName="platform_rtf_custom_metric">
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
 						<custom-metrics:fact factName="rtf_capacity_fabrics" value="#[payload.runtimeManagerMetrics.rtf.capacity.fabrics]" />
@@ -158,7 +164,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				<custom-metrics:send doc:name="Send Custom Metric - Sandbox - API Manager Metrics" doc:id="ced9bbfb-8105-4883-a8e8-86893a0867c5" metricName="platform_sandbox_apim_custom_metric">
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 						<custom-metrics:dimension dimensionName="environmentType" value="sandbox" />
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
@@ -179,7 +185,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				<custom-metrics:send doc:name="Send Custom Metric - Sandbox - API Manager - Policies and Transactions Metrics" doc:id="01377b1b-ca7b-4392-9d42-cc12ef845e8e" metricName="platform_sandbox_apim_polcies_custom_metric">
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 						<custom-metrics:dimension dimensionName="environmentType" value="sandbox" />
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
@@ -199,7 +205,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				<custom-metrics:send doc:name="Send Custom Metric - Sandbox - CloudHub - Metrics" doc:id="a018c550-168e-4d47-8272-24de541c5602" metricName="platform_sandbox_ch_custom_metric">
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 						<custom-metrics:dimension dimensionName="environmentType" value="sandbox" />
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
@@ -220,7 +226,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				<custom-metrics:send doc:name="Send Custom Metric - Sandbox - RTF - Metrics" doc:id="45e45381-aabd-49d2-9385-c079a1bd9c96" metricName="platform_sandbox_rtf_custom_metric">
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 						<custom-metrics:dimension dimensionName="environmentType" value="sandbox" />
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
@@ -241,7 +247,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				<custom-metrics:send doc:name="Send Custom Metric - Sandbox - Hybrid - Metrics" doc:id="8e33801a-a069-4d86-9407-f75f9e8ef530" metricName="platform_sandbox_hybrid_custom_metric">
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 						<custom-metrics:dimension dimensionName="environmentType" value="sandbox" />
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
@@ -266,7 +272,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				<custom-metrics:send doc:name="Send Custom Metric - production - API Manager Metrics" doc:id="4c948a60-c273-4f1b-9ef6-6471e2a76655" metricName="platform_production_apim_custom_metric">
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 						<custom-metrics:dimension dimensionName="environmentType" value="production" />
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
@@ -287,7 +293,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				<custom-metrics:send doc:name="Send Custom Metric - production - API Manager - Policies and Transactions Metrics" doc:id="592a3965-acf6-4a54-b47f-af8337fbb908" metricName="platform_production_apim_polcies_custom_metric">
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 						<custom-metrics:dimension dimensionName="environmentType" value="production" />
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
@@ -307,7 +313,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				<custom-metrics:send doc:name="Send Custom Metric - production - CloudHub - Metrics" doc:id="08781adb-d546-4f73-af3e-f61143da389d" metricName="platform_production_ch_custom_metric">
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 						<custom-metrics:dimension dimensionName="environmentType" value="production" />
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
@@ -329,7 +335,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
 						<custom-metrics:dimension dimensionName="environmentType" value="production" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
 		
@@ -349,7 +355,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 				<custom-metrics:send doc:name="Send Custom Metric - production - Hybrid - Metrics" doc:id="54400a2b-49f1-47b4-afe1-33f255524b52" metricName="platform_production_hybrid_custom_metric">
 					<custom-metrics:dimensions>
 						<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroupId]" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 						<custom-metrics:dimension dimensionName="environmentType" value="production" />
 					</custom-metrics:dimensions>
 					<custom-metrics:facts>
@@ -376,7 +382,7 @@ http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schem
 			<custom-metrics:send doc:name="Send Custom Metric" doc:id="ac232fbb-c478-4fdb-8aa0-a4d5dc323956" metricName="platform_benefits_custom_metric">
 				<custom-metrics:dimensions>
 					<custom-metrics:dimension dimensionName="businessGroup" value="#[payload.businessGroup]" />
-						<custom-metrics:dimension dimensionName="businessGroupName" value='#[payload.businessGroup replace  /[ ]/ with "-"]' />
+						<custom-metrics:dimension dimensionName="businessGroupName" value='#[vars.businessGroupName]' />
 				</custom-metrics:dimensions>
 				<custom-metrics:facts>
 					<custom-metrics:fact factName="developerProductivity" value="#[payload.developerProductivity]" />
