@@ -12,3 +12,10 @@ headers:
       Receives a plain text or Base64-encoded password used to login to Anypoint Platform.  Use Base64-encoding if password contains special characters not allowed in headers.
     type: string
     required: false
+  X-PLAINTEXT-PASSWORD:
+    description: |
+      Identifies if the password header is to be provided in plain text (true) or base64 encode (false). If not provided, base64 encoded is assumed.
+    type: boolean
+    required: false
+    default: false
+    
