@@ -2,11 +2,13 @@
 import * from dw::core::Binaries
 output application/java
 
-var clientSecret = attributes.headers."X-ANYPNT-CLIENT-SECRET"
-var password = attributes.headers."X-ANYPNT-PASSWORD"
+var clientSecret = attributes.headers."x-anypnt-client-secret"
+var password = attributes.headers."x-anypnt-password"
+var passwordIsPlainText = attributes.headers."X-PLAINTEXT-PASSWORD" default false
+
 fun isBase64(text) = text matches(/^([A-Za-z0-9+]{4})*([A-Za-z0-9+]{3}=|[A-Za-z0-9+]{2}==)?$/)
-fun getSecret(secret) = if (isBase64(secret default ""))
-		fromBase64(secret) as String 
+fun getSecret(secret) = 
+	if (!passwordIsPlainText) fromBase64(secret) as String
 	else secret
 ---
 if (!isEmpty(clientSecret))
