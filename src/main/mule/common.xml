@@ -8,7 +8,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<validation:is-true
 			doc:name="Credentials provided?"
 			doc:id="ff4ef3a2-2e1b-45ed-b4eb-7afee5cb967d"
-			expression='#[( (!isEmpty(attributes.headers."X-ANYPNT-USERNAME") and !isEmpty(attributes.headers."X-ANYPNT-PASSWORD")) or (!isEmpty(attributes.headers."X-ANYPNT-CLIENT-ID") and !isEmpty(attributes.headers."X-ANYPNT-CLIENT-SECRET")) )]' message="Anypoint username and password OR connected app clientId and clientSecret must be provided."/>
+			expression='#[( (!isEmpty(attributes.headers."x-anypnt-username") and !isEmpty(attributes.headers."x-anypnt-password")) or (!isEmpty(attributes.headers."x-anypnt-client-id") and !isEmpty(attributes.headers."x-anypnt-client-secret")) )]' message="Anypoint username and password OR connected app clientId and clientSecret must be provided."/>
 		<ee:transform doc:name="Set Master Org Id and Auth Mode" doc:id="63cefa2c-0709-40ad-b2b0-e69e4b9a2d3d" >
 			<ee:variables >
 				<ee:set-variable resource="dw/common/set-master-org-id-var.dwl" variableName="masterOrgId" />
