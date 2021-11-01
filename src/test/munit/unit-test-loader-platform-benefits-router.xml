@@ -320,13 +320,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="a6b8b3f1-aa58-4984-a58b-47ef54dff2aa"
-				expression='#[payload map ($ - "date")]' is='#[MunitTools::equalTo(vars.expectedJsonResponse map ($ - "date"))]'
+				expression='#[(vars.expectedJsonResponse map ($ - "date")) == &#10;(payload map ($ - "date"))]' is='#[MunitTools::equalTo(true)]'
 				message="The response payload is not the expected" />
 		</munit:validation>
 	</munit:test>
 
 	<munit:test name="loader-platform-benefits-router-mongodb-test" doc:id="22581e24-0ef4-4538-8ebb-874f98a0c926" description="Test"
-		expectedErrorType="MULE:ROUTING">
+		expectedErrorType="MULE:ROUTING" ignore="true">
 		<munit:execution>
 			<ee:transform doc:name="Mock Attributes and Payload" doc:id="2cf60948-ec22-46d7-940c-85a9ad0ba368">
 				<ee:message>
