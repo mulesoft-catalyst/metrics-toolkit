@@ -1,6 +1,6 @@
 %dw 2.0
 output application/json
-
+import countBy from dw::core::Arrays
 var environments = vars.environments
 var entitlements = vars.entitlements
 var errors = vars.errors
@@ -50,7 +50,7 @@ var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 
 var groupedArrayByEnvironment = (arr) ->  ( (arr groupBy ($.environment)) mapObject { ($$): $.data } )
 
-var securePolicies=["client-id-enforcement","ip-","oauth","jwt-validation","authentication"]
+var securePolicies=["client-id-enforcement","ip-allowlist","oauth","jwt-validation","authentication", "openidconnect-access-token-enforcement","external-oauth2-access-token-enforcement"]
 
 var notGeneratedAssets = if (exchangeAssets is Array) (exchangeAssets filter($."isGenerated" == false)) else []
 var ratedAssets = notGeneratedAssets filter ($."numberOfRates" > 0)
@@ -189,8 +189,8 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 				apiVersions: sizeOf(prodApiInstances.productVersion distinctBy $ default []),
 				apisWithPolicies: sizeOf(flatten(getProdDetails(apiManagerApis) default []) [?(sizeOf($.policies default []) > 0)] default []),
 				apisWithoutPolicies: sizeOf(flatten(getProdDetails(apiManagerApis) default []) [?(sizeOf($.policies default []) == 0)] default []),
-				apisWithSecurity: sizeOf((flatten((flatten(getProdDetails(apiManagerApis)) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []),
-				apisWithoutSecurity: sizeOf(flatten(getProdDetails(apiManagerApis) default [])) - sizeOf((flatten((flatten(getProdDetails(apiManagerApis)) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []), 
+				apisWithSecurity: (flatten(getProdDetails(apiManagerApis)) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) countBy(($ contains(true))),
+				apisWithoutSecurity: sizeOf(flatten(getProdDetails(apiManagerApis) default [])) -( (flatten(getProdDetails(apiManagerApis)) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) countBy(($ contains(true)))),
 				apisWithContracts: sizeOf(prodApiInstances.activeContractsCount filter ($ > 0) default []),
 				apisWithoutContracts: sizeOf(prodApiInstances.activeContractsCount filter ($ == 0) default []),
 				apisWithMoreThanOneConsumer: sizeOf(prodApiInstances.activeContractsCount filter ($ > 1) default []),
@@ -233,8 +233,8 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 				apiVersions: sizeOf(sandboxApiInstances.productVersion distinctBy $ default []),
 				apisWithPolicies: sizeOf(flatten(getSandboxDetails(apiManagerApis) default []) [?(sizeOf($.policies default []) > 0)] default []),
 				apisWithoutPolicies: sizeOf(flatten(getSandboxDetails(apiManagerApis) default []) [?(sizeOf($.policies default []) == 0)] default []),
-				apisWithSecurity: sizeOf((flatten((flatten(getSandboxDetails(apiManagerApis)) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []),
-				apisWithoutSecurity: sizeOf(flatten(getSandboxDetails(apiManagerApis) default [])) - sizeOf((flatten((flatten(getSandboxDetails(apiManagerApis)) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) map ($[?($==true)])))[?($ == true)] default []), 
+				apisWithSecurity: (flatten(getSandboxDetails(apiManagerApis)) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) countBy(($ contains(true))),
+				apisWithoutSecurity: sizeOf(flatten(getSandboxDetails(apiManagerApis) default [])) -((flatten(getSandboxDetails(apiManagerApis)) default [] map ((v,k) -> if(sizeOf(v.policies default []) > 0) (v.policies map ((v2,k2) -> v2.template.assetId  )) else ["NA"] ) default []) map ((v,k) -> (v map (securePolicies contains $))) countBy(($ contains(true)))),
 				apisWithContracts: sizeOf(sandboxApiInstances.activeContractsCount filter ($ > 0) default []),
 				apisWithoutContracts: sizeOf(sandboxApiInstances.activeContractsCount filter ($ == 0) default []),
 				apisWithMoreThanOneConsumer: sizeOf(sandboxApiInstances.activeContractsCount filter ($ > 1) default []),
