@@ -50,7 +50,8 @@ var sandboxApiInstances=flatten(flatten(sandboxApisAssets).apis default [])
 
 var groupedArrayByEnvironment = (arr) ->  ( (arr groupBy ($.environment)) mapObject { ($$): $.data } )
 
-var securePolicies=["client-id-enforcement","ip-allowlist","oauth","jwt-validation","authentication", "openidconnect-access-token-enforcement","external-oauth2-access-token-enforcement"]
+var securePolicies= p('api.securityPolicies')splitBy  (',')
+//["client-id-enforcement","ip-allowlist","oauth","jwt-validation","authentication", "openidconnect-access-token-enforcement","external-oauth2-access-token-enforcement"]
 
 var notGeneratedAssets = if (exchangeAssets is Array) (exchangeAssets filter($."isGenerated" == false)) else []
 var ratedAssets = notGeneratedAssets filter ($."numberOfRates" > 0)
