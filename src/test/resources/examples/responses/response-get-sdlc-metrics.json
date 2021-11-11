@@ -22,8 +22,8 @@
       "totalJiraTasksInBacklog": 6,
       "totalJiraTasksInSprint": 6,
       "totalJiraTasksByType": {
-        "Task": 1,
-        "Sub-task": 1
+        "Sub-task": 1,
+        "Task": 1
       },
       "totalJiraTasksByStatus": null
     },
