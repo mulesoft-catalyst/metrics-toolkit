@@ -286,6 +286,7 @@ auth.clientId | Anypoint Platform Connected App Client Id. Used when auth.mode i
 auth.clientSecret | Anypoint Platform Connected App Client Secret. Used when auth.mode is connected-app-credentials |
 auth.orgId | Anypoint Platform master org Id |
 ignoreLists.organizations | An array (comma-separated values) of Anypoint Platform sub-organizations id that will be ignored while retrieving metrics e.g "cdfa4e7d-47cd-n1h1-8f39-6a73fbb9ffcb, cdfa4e7d-47cd-n2h2-8f39-6a73fbb9ffcb" |
+api.securityPolicies | A list of security policies IDs that are applied within the organisation. Should be updated to ensure accuracy of the APIs with/without security metrics | client-id-enforcement,ip-allowlist,ip-blocklist,jwt-validation,ldap-authentication,openidconnect-access-token-enforcement,external-oauth2-access-token-enforcement,http-basic-authentication
 
 #### SDLC metrics collectors properties configuration
 Name | Description | Default Value
