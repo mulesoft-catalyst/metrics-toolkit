@@ -12,23 +12,13 @@ http://www.mulesoft.org/schema/mule/salesforce-analytics http://www.mulesoft.org
 		   securityToken="#[vars.loaderDetails.sfdc.securityToken]" url="#[vars.loaderDetails.sfdc.authUrl]"/>
 	</salesforce-analytics:salesforce-analytics-config>
 	<flow name="loader-salesforce-analytics-platform-metrics-flow" doc:id="183ea509-57d3-48ac-86f9-7eec580d5261" >
-		<flow-ref doc:name="Get CSV output" doc:id="5c71c1d0-9015-4cca-ac75-8d534d5215ee" name="loader-csv-main-flow"/>
-		<logger level="INFO" doc:name="Logger" doc:id="a8c25f8b-4b83-4263-97c1-7819ef1bb8a1" message="Injecting Anypoint Metrics to SF-Einstein Analytics as user : #[vars.loaderDetails.sfdc.username]" />
-		<ee:transform doc:name="To SF-EA JSON" doc:id="5f0c22c8-0894-4670-89cd-bc4b25b7b3e4" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-payload map ((pl01, idx) -> {
-   businessGroup: pl01.businessGroup,
-   date: pl01.date as LocalDateTime{format: "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"},
-   name: pl01.name,
-   value: pl01.value,
-   group: pl01.group,
-   environmentType: pl01.environmentType
-})]]></ee:set-payload>
+		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="af0fa469-fd1c-49db-803a-3e289f310c4b" name="aggregator-platform-metrics-master-flow" />
+		<ee:transform doc:name="Build CSV Structure" doc:id="2272ba9a-17c4-41d5-a86f-94dac7d72f50">
+			<ee:message>
+				<ee:set-payload resource="dw/loader/loader-sfdc-build-structure.dwl" />
 			</ee:message>
 		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="a8c25f8b-4b83-4263-97c1-7819ef1bb8a1" message="Injecting Anypoint Metrics to SF-Einstein Analytics as user : #[vars.loaderDetails.sfdc.username]" />
 		<logger level="INFO" doc:name="Logger" doc:id="ff19713d-1ad1-48de-a9ba-2c9de4a81ce9" />
 		<salesforce-analytics:upload-external-data-into-new-data-set-and-start-processing operation="#[vars.loaderDetails.sfdc.dataSetOperation default 'OVERWRITE']" 
 		   doc:id="035afd24-b6d5-491d-9d67-18355a72b27f" config-ref="Salesforce_Analytics_Config" 
@@ -43,5 +33,24 @@ payload map ((pl01, idx) -> {
 	</flow>
 	<flow name="loader-salesforce-analytics-benefits-main-flow" doc:id="68aa4458-e1e6-4742-9a4d-dd7d77978652" >
 		<flow-ref doc:name="Get CSV output" doc:id="898bc700-b5fe-4d58-b4f2-8d7a23f772ca" name="loader-benefits-csv-main-flow"/>
+	</flow>
+	<flow name="loader-salesforce-analyticsFlow" doc:id="59ec43d8-e8ca-47d3-85f1-a6f2f6561d1c" >
+		<flow-ref doc:name="Get CSV output" doc:id="5c71c1d0-9015-4cca-ac75-8d534d5215ee" name="loader-csv-main-flow" />
+		<ee:transform doc:name="To SF-EA JSON" doc:id="5f0c22c8-0894-4670-89cd-bc4b25b7b3e4">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+payload map ((pl01, idx) -> {
+   businessGroup: pl01.businessGroup,
+   date: pl01.date as LocalDateTime{format: "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"},
+   name: pl01.name,
+   value: pl01.value,
+   group: pl01.group,
+   environmentType: pl01.environmentType
+})]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="bea184de-57c6-40d7-8816-82882fefcadc" />
 	</flow>
 </mule>
