@@ -1,0 +1,21 @@
+#%RAML 1.0 Trait
+displayName: Platform User Authentication Headers
+description: Authentication headers for plaform users. If password contains special characters, use base64 encoding.
+headers:
+  X-ANYPNT-USERNAME:
+    description: |
+      Receives the username used to login to Anypoint Platform.
+    type: string
+    required: false
+  X-ANYPNT-PASSWORD:
+    description: |
+      Receives a plain text or Base64-encoded password used to login to Anypoint Platform.  Use Base64-encoding if password contains special characters not allowed in headers.
+    type: string
+    required: false
+  X-PLAINTEXT-PASSWORD:
+    description: |
+      Identifies if the password header is to be provided in plain text (true) or base64 encode (false). If not provided, base64 encoded is assumed.
+    type: boolean
+    required: false
+    default: false
+    

@@ -1,0 +1,59 @@
+#%RAML 1.0 DataType
+displayName: Platform Metrics Datatype
+description: This datatype models the aggregated response from multiple Anypoint Platform's APIs
+properties:
+  date:
+    displayName: Date
+    description: Prints the date when the request was sent and the metrics were extracted for the BG
+    type: datetime
+  businessGroup:
+    displayName: BusinessGroup Name
+    description: Prints the current BusinessGroup name
+    type: string
+  businessGroupId:
+    displayName: BusinessGroup ID
+    description: Prints the current BusinessGroup ID
+    type: string
+  coreServicesMetrics:
+    displayName: Core Services Metrics
+    description: Metrics related to Core Services
+    type: !include core-services.raml
+    example: !include ../../examples/collectors/core-services/core-services-metrics.json
+  designCenterMetrics:
+    displayName: Design Center Metrics
+    description: Metrics related to Design Center
+    type: !include design-center.raml
+    example: !include ../../examples/collectors/design-center/design-center-metrics.json
+  exchangeMetrics:
+    displayName: Exchange Metrics
+    description: Metrics related to Exchange
+    type: !include exchange.raml
+    example: !include ../../examples/collectors/exchange/exchange-metrics.json
+  apiManagerMetrics:
+    displayName: API Manager Metrics
+    description: Metrics related to API Manager
+    type: !include api-manager/api-manager.raml
+    example: !include ../../examples/collectors/api-manager/api-manager-metrics.json
+  runtimeManagerMetrics:
+    displayName: Runtime Manager Metrics
+    description: Metrics related to Runtime Manager
+    type: !include runtime-manager/runtime-manager.raml
+    example: !include ../../examples/collectors/runtime-manager/runtime-manager-metrics.json
+  mqMetrics:
+    displayName: Anypoint MQ Metrics
+    description: Metrics related to Anypoint MQ
+    type: !include anypoint-mq/anypoint-mq.raml
+    example: !include ../../examples/collectors/anypoint-mq/anypoint-mq-metrics.json
+  osV2Metrics:
+    displayName: Object Store V2 Metrics
+    description: Metrics related to Object Store V2
+    type: !include object-store-v2/object-store-v2.raml
+    example: !include ../../examples/collectors/object-store-v2/object-store-v2-metrics.json
+  errors:
+    displayName: Errors
+    description: Array of errors occurred during proccessing
+    type: array
+    items: 
+      type: string
+example: !include ../../examples/collectors/responses/get-platform-metrics.json
+  

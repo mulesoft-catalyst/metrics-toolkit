@@ -3,9 +3,10 @@ output application/java
 ---
 {
 	headers: {
-		"X-ANYPNT-ORG-ID": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
-		"X-ANYPNT-CLIENT-ID": "12312321312321312312",
-		"X-ANYPNT-CLIENT-SECRET": "3123123123123123123",
+		"x-anypnt-org-id": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
+		"x-anypnt-client-id": "12312321312321312312",
+		"x-anypnt-client-secret": "3123123123123123123",
+		"x-plaintext-password": true,
 		"Authorization": "",
 		
 	},
