@@ -372,7 +372,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</munit:validation>
 	</munit:test>
 	
-	<munit:test name="get-platform-metrics-baisc-auth-and-collectors-params-ch-test" doc:id="f41f25e0-8b13-442a-b0ed-2ed7ef394c01" description="Test">
+	<munit:test name="get-platform-metrics-platform-user-auth-and-collectors-params-ch-test" doc:id="f41f25e0-8b13-442a-b0ed-2ed7ef394c01" description="Test">
 		<munit:execution >
 			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-get-platform-metrics-collectors-ch.json')]" doc:name="Set Expected Response Payload" doc:id="a956383d-2b96-49f9-90e2-f28139d2d5b8" variableName="expectedResponse" mimeType="application/json" />
 			<ee:transform doc:name="Set Mocked Attributes" doc:id="5c8bf56e-fd75-4280-a0d1-750149728ea2" >
@@ -401,5 +401,56 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="d24890b0-90ef-4cdd-b3f7-c9c63fccdfcf" expression='#[payload map ($ - "date")]' is='#[MunitTools::equalTo(vars.expectedResponse map ($ - "date"))]' message="The response payload is not the expected" />
 		</munit:validation>
 	</munit:test>
+	<munit:test name="get-platform-metrics-exchange-graphql-pagination-test" doc:id="720e649c-c406-449b-919f-16c5ac085574" description="Test">
+			<munit:behavior >
+			<munit-tools:spy doc:name="Spy" doc:id="56572e97-faa2-4511-a7ff-fc2e2f55e18a" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get Assets" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:before-call >
+					<choice doc:name="Choice" doc:id="beafc2b6-aeb5-46b8-9996-bbefec91bb4b" >
+						<when expression='#[vars.tries == "0"]'>
+							<munit-tools:mock-when doc:name="Mock when Get Assets Request" doc:id="88a61566-5cc5-44c0-9c0f-f65ecee0eece" processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Assets" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+								<munit-tools:then-return >
+									<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/exchange/get-paginated-assets-first-page-response.json')]" mediaType="application/json" />
+									<munit-tools:attributes value='#[{"statusCode": 200}]' />
+								</munit-tools:then-return>
+			</munit-tools:mock-when>
+						</when>
+						<otherwise >
+							<munit-tools:mock-when doc:name="Mock when Get Assets Request" doc:id="9bc708c9-4f34-42f3-b2e1-27c620f7bfcf" processor="http:request" >
+								<munit-tools:with-attributes >
+									<munit-tools:with-attribute whereValue="Get Assets" attributeName="doc:name" />
+								</munit-tools:with-attributes>
+								<munit-tools:then-return >
+									<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/exchange/get-assets-response.json')]" mediaType="application/json" />
+									<munit-tools:attributes value='#[{"statusCode": 200}]' />
+								</munit-tools:then-return>
+							</munit-tools:mock-when>
+						</otherwise>
+					</choice>
+				</munit-tools:before-call>
+			</munit-tools:spy>
+		</munit:behavior>
+		<munit:execution>
+				<set-variable value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/exchange/get-paginated-assets-response.json')]" doc:name="Set Expected Response Payload" doc:id="f66d5eb4-222d-43fa-a31b-3987b15a4ca5" variableName="expectedResponse" mimeType="application/json" />
+				<set-variable value="0" doc:name="Set Tries" doc:id="ba53d01f-d0f1-4875-82b7-f40f21c159ad" variableName="tries"/>
+			<set-variable value="1000" doc:name="Set Limit" doc:id="dfef053b-7816-4d0d-8c83-866f4543502e" variableName="limit"/>
+			<set-variable value='#["6100a138-1d38-49f1-950e-76515cead93f"]' doc:name="Set OrgId" doc:id="8c2bbf86-d741-4017-8b7a-990e3393c8ac" variableName="orgId"/>
+			<set-variable value="1" doc:name="Set Page" doc:id="641224be-14be-4b48-bc21-dc6730f5825a" variableName="assetsPage"/>
+			<ee:transform doc:name="Set Mocked Attributes" doc:id="f613cdfb-8731-4d2b-90e3-5506cba5401f">
+					<ee:message>
+						<ee:set-attributes resource="dw/mock-platform-metrics-call-attributes-raw.dwl" />
+					</ee:message>
+				</ee:transform>
+				<flow-ref doc:name="Flow-ref to api-call-exchange-assets-paginated-flow" doc:id="2f1fc49f-361d-4c55-b37c-1d178c07eb3e" name="api-call-exchange-assets-paginated-flow" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert Expected Pagination Size" doc:id="440fc5b8-5179-4f44-93c6-f676ba912986" message="The response payload is not the expected" expression='#[sizeOf(payload)]' is='#[MunitTools::equalTo(sizeOf(vars.expectedResponse default ""))]' />
+			</munit:validation>
+		</munit:test>
 
 </mule>

@@ -13,7 +13,7 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
 	<configuration-properties doc:name="Configuration properties" doc:id="da590b10-a1c1-4979-b015-102664b00221" file="properties/app-${mule.env}.yaml" />
 	<configuration-properties doc:name="Configuration properties" doc:id="31f41c53-3b9c-4d8a-8385-b799a45797b8" file="properties/app-common.yaml" />
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ef1c0e75-8dda-43df-a738-8d4ed076b92f">
-		<http:listener-connection host="0.0.0.0" port="${http.port}" />
+		<http:listener-connection host="${api.host}" port="${http.port}" />
 	</http:listener-config>
 	<ee:object-store-caching-strategy name="Caching_Strategy" doc:name="Caching Strategy" doc:id="b611514f-83b0-421a-84ae-34a1de9f18c7">
 		<os:private-object-store alias="cache-os" maxEntries="${cache.token.maxEntries}" entryTtl="${cache.token.ttl}"

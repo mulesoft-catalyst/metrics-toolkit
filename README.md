@@ -2,7 +2,7 @@ Table of Contents
 =================
 
    * [Table of Contents](#table-of-contents)
-   * [Metrics Accelerator](#metrics-accelerator)
+   * [Metrics Toolkit](#metrics-toolkit)
       * [Features](#features)
          * [Modes](#modes)
          * [Loader options](#loader-options)
@@ -24,7 +24,7 @@ Table of Contents
             * [Properties specific for MongoDB](#properties-specific-for-mongodb)
          * [SFDC-Einstein Analytics Steps](#einstein-analytics-dashboard-steps)
       * [Considerations](#considerations)
-      * [Some Theory around the Accelerator](#some-theory-around-the-accelerator)
+      * [Some Theory around the Toolkit](#some-theory-around-the-toolkit)
          * [Business Needs](#business-needs)
          * [Data Sources](#data-sources)
          * [Measurements](#measurements)
@@ -35,8 +35,8 @@ Table of Contents
             * [Detailed](#detailed)
       * [Final Notes](#final-notes)
 
-# Metrics Accelerator
-The **metrics accelerator** (**formerly metrics framework**) is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. In addition to the platform metrics, the accelerator also extends the capabilities to integrate with external applications like Jira, Confluence, Jenkins, Bitbucket and Splunk to gather SDLC metrics. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance on extending this application, contact your MuleSoft Customer Success representative or MuleSoft Professional Services
+# Metrics Toolkit
+The **metrics toolkit** (**formerly the metrics accelerator/framework**) is a Mule application intended to collect, aggregate and load platform metrics into different visualization systems; providing out of the box integrations and visualization options, including useful dashboards and charts. In addition to the platform metrics, the toolkit also extends the capabilities to integrate with external applications like Jira, Confluence, Jenkins, Bitbucket and Splunk to gather SDLC metrics. This is an [UNLICENSED software, please review the considerations](UNLICENSE.md). If you need assistance on extending this application, contact your MuleSoft Customer Success representative or MuleSoft Professional Services
 
 ## Features
 - Compact Mule application (1 single application)
@@ -70,7 +70,7 @@ The **metrics accelerator** (**formerly metrics framework**) is a Mule applicati
 - **SFDC**: The Salesforce Loader will load data into **Einstein Analytics** via the Salesforce Analytics connector.  This contains the same summarised data as the CSV Loader but allows Salesforce customers to create quick and impacting Anypoint Platform metrics dashboards within their existing Salesforce Systems (assuming they have Analytics Studio licenses).
 
 **NOTES:** 
-- some adjustments in Metrics Accelerator implementation may be required if the loader does not work as expected for your specific scenario.
+- some adjustments in Metrics Toolkit implementation may be required if the loader does not work as expected for your specific scenario.
 - By default, CSV loader output uses comma as the separator char. In order to change the CSV output format, modify the output options in `loader-csv-build-structure.dwl` and/or `loader-csv-build-benefits-structure.dwl` located under `src/main/resources/dw/loader` directory. For more information about CSV output formatting options, check [MuleSoft's official documentation](https://docs.mulesoft.com/mule-runtime/latest/dataweave-formats-csv).
 
 ## Available Metrics
@@ -218,8 +218,8 @@ Splunk | Total Number of Splunk dashboards
 ### Requirements
 - Mule Runtime 4.2.2 or above
 - All deployments models are supported: CloudHub, OnPrem hosted Runtimes, Runtime Fabric
-- Anypoint Platform credentials, that can be:
-  - Anypoint Platform user with the Organization Administrator role in the master organization and CloudHub Admin role (or specific permissions - see connected app section) in all environments of all Sub Orgs you want to collect data
+- Anypoint Platform credentials - Two options are supported:
+  - Anypoint Platform user with the Organization Administrator role, and CloudHub Admin role (or specific permissions - see connected app section). Both roles should be provided in the Master and all Sub Orgs for which you wish to gather data. The CloudHub Admin role is environment specific - therefore should be granted for each environment in each business group. 
   - A Connected App (client credentials) with the following scopes (make sure to include all Sub Orgs and all environments you want to collect data):
     - Design Center
       - Design Center Developer
@@ -244,7 +244,7 @@ Splunk | Total Number of Splunk dashboards
 
 ### Steps
 
-1. Clone or download the project from GitHub `git clone git@github.com:mulesoft-catalyst/metrics-accelerator.git`
+1. Clone or download the project from GitHub `git clone git@github.com:mulesoft-catalyst/metrics-toolkit.git`
 
 2. Adjust the properties, run the project and test it - go to your browser and open `http://localhost:8081/console/`
 
@@ -273,7 +273,7 @@ Splunk | Total Number of Splunk dashboards
 
 Name | Description | Default Value
 ------------ | ------------ | ------------
-http.port | The port for exposing the metrics-accelerator API | 8081
+http.port | The port for exposing the metrics-toolkit API | 8081
 poller.enabled | Property to enable or disable the poller to collect and load metrics in external systems | false
 poller.frequency.cron | Defines the exact frequency (using cron-expressions) to trigger the execution: Recommended to collect metrics once a day | 0 0 0 \* \* ? \*
 poller.frequency.timezone | Defines the time zone in which the cron-expression will be efective | GMT-3
@@ -288,6 +288,7 @@ auth.clientId | Anypoint Platform Connected App Client Id. Used when auth.mode i
 auth.clientSecret | Anypoint Platform Connected App Client Secret. Used when auth.mode is connected-app-credentials |
 auth.orgId | Anypoint Platform master org Id |
 ignoreLists.organizations | An array (comma-separated values) of Anypoint Platform sub-organizations id that will be ignored while retrieving metrics e.g "cdfa4e7d-47cd-n1h1-8f39-6a73fbb9ffcb, cdfa4e7d-47cd-n2h2-8f39-6a73fbb9ffcb" |
+api.securityPolicies | A list of security policies IDs that are applied within the organisation. Should be updated to ensure accuracy of the APIs with/without security metrics | client-id-enforcement,ip-allowlist,ip-blocklist,jwt-validation,ldap-authentication,openidconnect-access-token-enforcement,external-oauth2-access-token-enforcement,http-basic-authentication
 
 #### SDLC metrics collectors properties configuration
 Name | Description | Default Value
@@ -352,13 +353,13 @@ splunk.index.metrics | Index for storing Platform operational metrics | metrics
 splunk.index.benefits | Index for storing Platform benefits | platform_benefits
 
 
-> (*): Please note that by default, "Source Types" are created with a limit of 3000 characters. The Metrics Accelerator JSON event might exceed this limit. In order to solve that, you must increase this limit adding a new property "TRUNCATE" in the Advanced configuration of the specific Source Type. For example: TRUNCATE = 40000. Depending of the size of your organization, in terms of Business Groups, environments and number of applications and APIs in each environment, this value can be higher.
+> (*): Please note that by default, "Source Types" are created with a limit of 3000 characters. The Metrics Toolkit JSON event will likely exceed this limit. In order to solve that, you must increase this limit adding a new property "TRUNCATE" in the Advanced configuration of the specific Source Type. For example: TRUNCATE = 40000. Depending of the size of your organization, in terms of Business Groups, environments and number of applications and APIs in each environment, this value can be higher.
 
 ### ELK steps
 
 **NOTE:** Dashboards were created and tested with Kibana 7.6.2, adjustments may be necessary for other versions
 
-1. The accelerator will load data into the `metrics` and `platformbenefits` indexes. Once data is loaded create an index pattern on Kibana for these indexes
+1. The toolkit will load data into the `metrics` and `platformbenefits` indexes. Once data is loaded create an index pattern on Kibana for these indexes
 2. Set the loader strategy to `elk` on the `app-{env}.yaml` file, along with the `elk.user` and `elk.password` parameters in the secure `app-{env}.yaml` file
 3. To load the dashboards, replace the `<YOUR-INDEX-PATTERN-ID>` occurrences on all of the dashboards provided under `/dashboards/elk` with your index pattern ID. The index pattern ID can be obtained on Kibana under `Management>>Index Patterns`
 4. Log into your Kibana instance, and on the `Management>>Saved Objects` menu, click on import for each dashboard. This will import all dashboards and visualizations
@@ -382,9 +383,9 @@ elk.index.benefits | Index for storing Platform benefits | platformbenefits
  
 Tableau Dashboards use a JSON File Data Source, which is configured to load data from all JSON files present in a given directory, each JSON file representing a Platform Metrics snapshot.
 
-Metrics Accelerator provides the following approaches to generated those files:
-- Using Tableau Strategy (poller or API): this option can only be used if Tableau Desktop can can access the filesystem where Metrics Accelerator is running (**cannot be used for CloudHub or Runtime Fabric, since Tableau Desktop won't be able to access Mule Runtime local filesystem**).
-- Using the Get Platform Metrics API operation (check _GET Platform Metrics_ request provided in the Postman collection): suitable if Metrics Accelerator is running on CloudHub or Runtime Fabric, or if you don't have access to Mule Runtime local filesystem.
+Metrics Toolkit provides the following approaches to generated those files:
+- Using Tableau Strategy (poller or API): this option can only be used if Tableau Desktop can can access the filesystem where Metrics Toolkit is running (**cannot be used for CloudHub or Runtime Fabric, since Tableau Desktop won't be able to access Mule Runtime local filesystem**).
+- Using the Get Platform Metrics API operation (check _GET Platform Metrics_ request provided in the Postman collection): suitable if Metrics Toolkit is running on CloudHub or Runtime Fabric, or if you don't have access to Mule Runtime local filesystem.
 
 To learn more about Tableau, follow the official documentation: https://www.tableau.com/support/help
 
@@ -394,7 +395,7 @@ To learn more about Tableau, follow the official documentation: https://www.tabl
 
 #### Generating JSON Files Using Poller or API Loader Tableau Strategy
 
-When using the Tableau Strategy, Metrics Accelerator will create the JSON files in the directory defined by  `tableau.outputDir` property (poller) or by `loaderDetails.outputDir` provided in the request (API).
+When using the Tableau Strategy, Metrics Toolkit will create the JSON files in the directory defined by  `tableau.outputDir` property (poller) or by `loaderDetails.outputDir` provided in the request (API).
 
 Check _POST Platform Metrics - Load - Tableau Strategy_ Postman collection request if using the API Loader.
 
@@ -461,7 +462,7 @@ mongodb.password | MongoDB password |
 ## Considerations
 
 - This application can be deployed in any Mule Runtime (OnPrem, CloudHub, RTF)
-- The metrics collection will depend on the features available in each account; e.g if the account has the API Manager add-on, the accelerator will collect and aggregate the metrics related to API Manager, otherwise the values will appear as zeroes; if using PCE, there won't be information about API Analytics
+- The metrics collection will depend on the features available in each account; e.g if the account has the API Manager add-on, the toolkit will collect and aggregate the metrics related to API Manager, otherwise the values will appear as zeroes; if using PCE, there won't be information about API Analytics
 - In order to enable or disable specific collectors, you have to change the property "collectors" if using the poller or add a query parameter "collectors" if using the API, including a CSV string as explained in the properties section
 
 ## Limitations
@@ -497,8 +498,8 @@ mongodb.password | MongoDB password |
   - Not supported on Private Cloud Edition (**PCE**)
   - Not supported when authenticating with **Connected Apps**
 
-## Some Theory around the Accelerator
-The accelerator is intended to cover the main areas to define and implement metrics using Mule.
+## Some Theory around the Toolkit
+The toolkit is intended to cover the main areas to define and implement metrics using Mule.
 
 ### Business Needs
 
