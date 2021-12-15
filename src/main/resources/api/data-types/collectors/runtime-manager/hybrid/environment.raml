@@ -1,0 +1,37 @@
+#%RAML 1.0 DataType
+displayName: ARM Hybrid Environment Datatype
+description: Models collected metrics for an environment from Runtime Manager for Hybrid
+properties:
+  servers:
+    type: integer
+    displayName: Mule Servers Total
+    description: Count of Mule Standalone servers installed per BG and Environment
+  clusters: 
+    type: integer
+    displayName: Mule Clusters Total
+    description: Count of Mule Clusters installed per BG and Environment
+  serverGroups: 
+    type: integer
+    displayName: Mule Server Groups Total	
+    description: Count of Mule Server Groups installed per BG and Environment
+  applicationsTotal:
+    type: integer
+    displayName: Mule Applications Total	
+    description:  Count of applications deployed in targets per BG and Environment
+  applicationsStarted:
+    type: integer 
+    displayName: Mule Applications Started Total	
+    description: Count of applications deployed in targets with status 'Started' per BG and Environment
+  applicationsStopped: 
+    type: integer
+    displayName: Mule Applications Stopped Total	
+    description: Count of applications deployed in targets with status 'Stopped' per BG and Environment
+  runtimesUsed:
+    type: array
+    items: string
+    displayName: Runtime Versions Used	
+    description: List of Runtime versions used per BG and Environment
+  runtimesUsedTotal: 
+    type: integer
+    displayName: Runtime Versions Used Total	
+    description: Count of Runtime versions used per BG and Environment

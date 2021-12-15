@@ -1,0 +1,82 @@
+#%RAML 1.0 DataType
+displayName: APM Environment Datatype
+description: Models collected metrics for an environment from API Manager
+properties:
+  total:
+    type: integer
+    displayName: API Specs Managed Total
+    description: Total API Specs Managed by BG and Environment
+  active: 
+    type: integer
+    displayName: API Instances Active Total	
+    description: Total API Instances Active by BG and Environment	
+  inactive: 
+    type: integer
+    displayName: API Instances Inactive Total	
+    description: Total API Instances Inactive by BG and Environment	
+  apiInstances: 
+    type: integer
+    displayName: API Instances Total
+    description: Total API Instances by BG and Environment
+  apiVersions: 
+    type: integer
+    displayName: API Instances Versions Total	
+    description: 
+  apisWithPolicies: 
+    type: integer
+    displayName: API Instances With Policies Total
+    description: Total API Instances With Policies by BG and Environment
+  apisWithoutPolicies: 
+    type: integer
+    displayName: API Instances Without Policies Total
+    description: Total API Instances Without Policies by BG and Environment
+  apisWithSecurity: 
+    type: integer
+    displayName: API Instances With Security Policies Total
+    description: Total API Instances With Security Policies by BG and Environment
+  apisWithoutSecurity: 
+    type: integer
+    displayName: API Instances Without Security Policies Total
+    description: Total API Instances Without Security Policies by BG and Environment
+  apisWithContracts: 
+    type: integer
+    displayName: API Instances With Contracts Total
+    description: Total API Instances With Contracts by BG and Environment
+  apisWithoutContracts: 
+    type: integer
+    displayName: API Instances Without Contracts Total
+    description: Total API Instances Without Contracts by BG and Environment
+  apisWithMoreThanOneConsumer: 
+    type: integer
+    displayName: API Instances With More Than One Consumer Total
+    description: Total API Instances With More Than One Consumer by BG and Environment
+  apisWithOneOrMoreConsumers: 
+    type: integer
+    displayName: API Instances With One or More Consumers Total
+    description: Total API Instances With One or More Consumers by BG and Environment
+  contracts: 
+    type: integer
+    displayName: API Contracts Total
+    description: Total API Contracts by BG and Environment
+  policiesUsed:
+    type: array
+    items: string
+    displayName: Policies Used	
+    description: Details of the Policies Used by BG and Environment
+  policiesUsedTotal: 
+    type: integer
+    displayName: Policies Used Total
+    description: Total Policies Used by BG and Environment
+  automatedPoliciesUsed:
+    type: array
+    items: string
+    displayName: Automated Policies Used
+    description: Details of the Automated Policies Used by BG and Environment
+  automatedPoliciesUsedTotal: 
+    type: integer
+    displayName: Automated Policies Used Total
+    description: Total Automated Policies Used by BG and Environment
+  transactions:  
+    type: integer
+    displayName: Transactions Total
+    description: by BG and Environment

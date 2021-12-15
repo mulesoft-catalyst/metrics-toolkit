@@ -1,0 +1,16 @@
+#%RAML 1.0 DataType
+displayName: Anypoint Runtime Manager (ARM) Datatype
+description: Models collected metrics from Runtime Manager
+properties:
+  cloudhub:
+    type: !include cloudhub/cloudhub.raml
+    displayName: CloudHub
+    description: Provides CloudHub related metrics
+  rtf:
+    type: !include runtime-fabric/runtime-fabric.raml
+    displayName: Runtime Fabric
+    description: Provides Runtime Fabric related metrics
+  hybrid:
+    type: !include hybrid/hybrid.raml
+    displayName: Hybrid
+    description: Provides Hybrid related metrics
