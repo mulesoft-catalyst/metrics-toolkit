@@ -1,0 +1,39 @@
+#%RAML 1.0 DataType
+displayName: Business Metrics Datatype
+description: Models the Business Metrics for a BG
+properties:
+  date: 
+    displayName: Date
+    description: Date when the request was sent and the metrics were collected
+    type: datetime
+  businessGroup:
+    displayName: BusinessGroup Name
+    description: Name of the BusinessGroup
+    type: string
+  developerProductivity:
+      displayName: Developer Productivity	
+      description: Percentage calculated as developAPIHistoricTime/developAPICurrentTime
+      type: number
+  savingFromAPIReuse: 
+    displayName: Savings From API Reuse	
+    description: Total calculated as # of API with more than one consumer * developAPIHistoricTime * developerDayRate
+    type: number
+  savingFromMaintenanceProductivity: 
+    displayName: Savings From Maintenance Productivity	
+    description: Total calculated as (maintainAPIHistoricTime - maintainAPICurrentTime) * totalApps * developerDayRate
+    type: number
+  savingFromReuseInMaintenance: 
+    displayName: Savings From Reuse in Maintenance	
+    description: Total calculated as totalApisReuse * maintainAPIHistoricTime * developerDayRate
+    type: number
+  totalSavings: 
+    displayName: Total Savings	
+    description: Total calculated as savingFromAPIReuse + savingFromMaintenanceProductivity + savingFromReuseInMaintenance
+    type: number
+  errors: 
+    type: array
+    displayName: Errors Array
+    description: Provides an array of errors captured during the collection
+    required: false
+    items: string
+example: !include ../../examples/collectors/responses/get-business-metrics.json

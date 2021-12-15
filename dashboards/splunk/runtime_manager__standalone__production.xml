@@ -1,5 +1,5 @@
 <form>
-  <label>Metrics Accelerator - Runtime Manager - Standalone - Production</label>
+  <label>Runtime Manager - Standalone Metrics - Production</label>
   <fieldset submitButton="false">
     <input type="multiselect" token="bgToken" searchWhenChanged="true">
       <label>Business Group</label>

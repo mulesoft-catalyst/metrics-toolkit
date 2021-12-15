@@ -1,7 +1,10 @@
 %dw 2.0
 output application/java
+
+var clientId = attributes.headers."x-anypnt-client-id"
+var username = attributes.headers."x-anypnt-username"
 ---
-if (!isEmpty(attributes.headers."X-ANYPNT-CLIENT-ID")) 
-  attributes.headers."X-ANYPNT-CLIENT-ID" 
+if (!isEmpty(clientId)) 
+  clientId
 else 
-  attributes.headers."X-ANYPNT-USERNAME"
+  username

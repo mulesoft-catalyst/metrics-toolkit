@@ -1,0 +1,31 @@
+#%RAML 1.0 DataType
+displayName: Anypoint API Manager (APM) Datatype
+description: Models collected metrics from API Manager
+properties:
+  clients:
+    type: integer
+    displayName: Clients total
+    description: Numbers of total clients per BG and Environment type
+  apis:
+    type: object
+    properties:
+      production:
+        type: !include environment.raml
+        displayName: Production
+        description: Provides information about Production environments
+        properties:
+          details:
+            type: array
+            items: !include environment.raml
+            displayName: Details
+            description: Provides details by specific Production environments
+      sandbox: 
+        type: !include environment.raml
+        displayName: Sandbox
+        description: Provides information about Sanbox environments
+        properties:
+          details:
+            type: array
+            items: !include environment.raml
+            displayName: Details
+            description: Provides details by specific Sandbox environments

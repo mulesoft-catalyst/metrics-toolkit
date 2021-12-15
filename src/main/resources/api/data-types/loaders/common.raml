@@ -1,0 +1,39 @@
+#%RAML 1.0 DataType
+displayName: Common Loader Strategy
+description: Models a Common Loader Strategy, like json or csv
+properties:
+  collectors: 
+    description: | 
+              Comma separated set of collectors that should be executed. Possible values are:
+            
+              Available for all deployment models:
+                - ap: Automated Policies              
+                - apc: API Clients
+                - apm: API Manager
+                - arm: Runtime Manager   
+                - core: Core Services
+                - dc: Design Center
+                - ex: Exchange
+                
+              Not available for PCE deployment model:
+                - amq: Anypoint MQ
+                - apma: API Manager Analytics                                          
+                - ch: Cloudhub   
+                - rtf: Runtime Fabric 
+    type: array
+    items: string
+    default: ["all"]    
+    required: false
+  loaderDetails:
+    type: object
+    properties:
+      strategy:
+        type: string
+      rawData:  
+        type: string
+        required: false
+examples: 
+  json: !include ../../examples/loaders/json.json
+  csv: !include ../../examples/loaders/csv.json
+  am: !include ../../examples/loaders/am.json
+  mongodb: !include ../../examples/loaders/mongodb.json

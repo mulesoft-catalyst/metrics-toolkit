@@ -1,417 +1,383 @@
 {
 	"info": {
 		"_postman_id": "1ba8a281-c219-460f-b9d1-36883bb5f072",
-		"name": "Metrics Accelerator",
+		"name": "Metrics Toolkit",
+		"description": "# Metrics Toolkit\nThis provides endpoints for the Anypoint Metrics Toolkit API.\n\n## Features\nIt contains the categories of requests listed below, which are separated into folders.\n\n- Benefits\n- Platform Metrics\n\nThis also has prerequest scripts to handle headers.  Each folder has a script that automatically sets Anypoint Platform headers for the folder's requests.  This is in each folder that has Anypoint Platform requests, as some folders (SDLC) don't need those headers.\n\n# Setup\nThis requires variables to be set for the requests to work.\n\n## Environment Variables\n\n- `url`: The base url for the API.  This contains the HTTP protocol, domain, and port.  Example: `http://localhost:8081`\n\n## Global Variables\n\n- `anypointOrg`: The root Anypoint organization on which to run the metrics.\n- `credentialType`: Determines which Anypoint credential headers to generate.  `user` for Anypoint Platform user credentials; `app` for connected app client credentials.\n- `anypointUsername`: Used for Anypoint Platform user credentials.\n- `anypointPassword`: Used for Anypoint Platform user credentials.\n- `connectedAppId`: Used for Connected App credentials.\n- `connectedAppSecret`: Used for Connected App credentials.\n- `isPlaintextSecret`: Indicates if the secret in the credentials is Base64 encoded or not.  If `true`, it is not encoded.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "GET Benefits",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "X-ANYPNT-USERNAME",
-						"value": "changeMe",
-						"type": "text"
+			"name": "Benefits",
+			"item": [
+				{
+					"name": "Get Benefits",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
 					},
-					{
-						"key": "X-ANYPNT-PASSWORD",
-						"value": "changeMe",
-						"type": "text"
-					},
-					{
-						"key": "X-ANYPNT-ORG-ID",
-						"value": "changeMe",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "http://localhost:8081/api/business-metrics?developAPIHistoricTime=20&developAPICurrentTime=10&maintainAPIHistoricTime=15&maintainAPICurrentTime=7&developerDayRate=200",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"business-metrics"
-					],
-					"query": [
-						{
-							"key": "developAPIHistoricTime",
-							"value": "20"
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
 						},
-						{
-							"key": "developAPICurrentTime",
-							"value": "10"
-						},
-						{
-							"key": "maintainAPIHistoricTime",
-							"value": "15"
-						},
-						{
-							"key": "maintainAPICurrentTime",
-							"value": "7"
-						},
-						{
-							"key": "developerDayRate",
-							"value": "200"
+						"url": {
+							"raw": "{{url}}/api/business-metrics?developAPIHistoricTime=20&developAPICurrentTime=10&maintainAPIHistoricTime=15&maintainAPICurrentTime=7&developerDayRate=200",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"business-metrics"
+							],
+							"query": [
+								{
+									"key": "developAPIHistoricTime",
+									"value": "20"
+								},
+								{
+									"key": "developAPICurrentTime",
+									"value": "10"
+								},
+								{
+									"key": "maintainAPIHistoricTime",
+									"value": "15"
+								},
+								{
+									"key": "maintainAPICurrentTime",
+									"value": "7"
+								},
+								{
+									"key": "developerDayRate",
+									"value": "200"
+								}
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST Benefits - Load - Splunk Strategy",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "X-ANYPNT-USERNAME",
-						"type": "text",
-						"value": "changeMe"
 					},
-					{
-						"key": "X-ANYPNT-PASSWORD",
-						"type": "text",
-						"value": "changeMe*2019"
-					},
-					{
-						"key": "X-ANYPNT-ORG-ID",
-						"type": "text",
-						"value": "changeMe"
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"event\": {\n\t\t\t\"date\": \"2020-02-19T00:11:34.341-08:00\",\n\t\t\t\"businessGroup\": \"Any\",\n\t\t\t\"developAPIHistoricTime\": 20,\n\t\t\t\"developAPICurrentTime\": 4,\n\t\t\t\"maintainAPIHistoricTime\": 20,\n\t\t\t\"maintainAPICurrentTime\": 1,\n\t\t\t\"developerDayRate\": 500\t\n\t},\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"splunk\",\n\t\t\"rawData\": \"false\",\n\t\t\"splunk\": {\n\t\t\t\"host\": \"splunk.customer.com\",\n\t\t\t\"port\": \"8088\",\n\t\t\t\"protocol\": \"HTTP\",\n\t\t\t\"token\": \"123456789546654654\",\n\t\t\t\"platformMetricsIndex\": \"metrics\",\n\t\t\t\"platformBenefitsIndex\": \"platform_benefits\",\n\t\t\t\"source\": \"metrics-source\",\n\t\t\t\"sourceType\": \"_json\"\n\t\t}\n\t}\n}"
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8081/api/business-metrics/load",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"business-metrics",
-						"load"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST Benefits - Load - JSON Strategy",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "X-ANYPNT-USERNAME",
-						"type": "text",
-						"value": "changeMe"
-					},
-					{
-						"key": "X-ANYPNT-PASSWORD",
-						"type": "text",
-						"value": "changeMe"
-					},
-					{
-						"key": "X-ANYPNT-ORG-ID",
-						"type": "text",
-						"value": "changeMe"
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"event\": {\n\t\t\t\"date\": \"2020-02-19T00:11:34.341-08:00\",\n\t\t\t\"businessGroup\": \"Any\",\n\t\t\t\"developAPIHistoricTime\": 20,\n\t\t\t\"developAPICurrentTime\": 4,\n\t\t\t\"maintainAPIHistoricTime\": 20,\n\t\t\t\"maintainAPICurrentTime\": 1,\n\t\t\t\"developerDayRate\": 500\t\n\t},\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"json\",\n\t\t\"rawData\": \"false\"\n\t}\n}"
-				},
-				"url": {
-					"raw": "http://localhost:8081/api/business-metrics/load",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"business-metrics",
-						"load"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET Platform Metrics",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "X-ANYPNT-USERNAME",
-						"value": "changeMe",
-						"type": "text"
-					},
-					{
-						"key": "X-ANYPNT-PASSWORD",
-						"value": "changeMe",
-						"type": "text"
-					},
-					{
-						"key": "X-ANYPNT-ORG-ID",
-						"value": "changeMe",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "http://localhost:8081/api/platform-metrics?raw=false",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"platform-metrics"
-					],
-					"query": [
-						{
-							"key": "raw",
-							"value": "false"
+				{
+					"name": "Benefits Load - Splunk",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"event\": {\n\t\t\t\"date\": \"2020-02-19T00:11:34.341-08:00\",\n\t\t\t\"businessGroup\": \"Any\",\n\t\t\t\"developAPIHistoricTime\": 20,\n\t\t\t\"developAPICurrentTime\": 4,\n\t\t\t\"maintainAPIHistoricTime\": 20,\n\t\t\t\"maintainAPICurrentTime\": 1,\n\t\t\t\"developerDayRate\": 500\t\n\t},\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"splunk\",\n\t\t\"rawData\": \"false\",\n\t\t\"splunk\": {\n\t\t\t\"host\": \"splunk.customer.com\",\n\t\t\t\"port\": \"8088\",\n\t\t\t\"protocol\": \"HTTP\",\n\t\t\t\"token\": \"123456789546654654\",\n\t\t\t\"platformMetricsIndex\": \"metrics\",\n\t\t\t\"platformBenefitsIndex\": \"platform_benefits\",\n\t\t\t\"source\": \"metrics-source\",\n\t\t\t\"sourceType\": \"_json\"\n\t\t}\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/business-metrics/load",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"business-metrics",
+								"load"
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "Benefits Load - JSON",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"event\": {\n\t\t\t\"date\": \"2020-02-19T00:11:34.341-08:00\",\n\t\t\t\"businessGroup\": \"Any\",\n\t\t\t\"developAPIHistoricTime\": 20,\n\t\t\t\"developAPICurrentTime\": 4,\n\t\t\t\"maintainAPIHistoricTime\": 20,\n\t\t\t\"maintainAPICurrentTime\": 1,\n\t\t\t\"developerDayRate\": 500\t\n\t},\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"json\",\n\t\t\"rawData\": \"false\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/business-metrics/load",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"business-metrics",
+								"load"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"/*",
+							"    Set Anypoint Platform headers from GLOBAL variables",
+							"*/",
+							"var credentialType = pm.globals.get(\"credentialType\").toLowerCase();",
+							"var isUserCreds = credentialType == \"user\"; // user or app",
+							"",
+							"if (isUserCreds) {",
+							"    pm.request.headers.upsert( {key: 'x-anypnt-username', value: pm.globals.get(\"anypointUsername\")} );",
+							"    pm.request.headers.upsert( {key: 'x-anypnt-password', value: pm.globals.get(\"anypointPassword\")} );",
+							"} else {",
+							"    pm.request.headers.upsert( {key: 'x-anypnt-client-id', value: pm.globals.get(\"connectedAppId\")} );",
+							"    pm.request.headers.upsert( {key: 'x-anypnt-client-secret', value: pm.globals.get(\"connectedAppSecret\")}  );",
+							"}",
+							"var isPlaintextSecret = (typeof pm.globals.get(\"isPlaintextSecret\") !== 'undefined') ? pm.globals.get(\"isPlaintextSecret\") : \"true\"",
+							"pm.request.headers.upsert( {key: 'x-plaintext-password', value: isPlaintextSecret}  );",
+							"pm.request.headers.upsert( {key: 'x-anypnt-org-id', value: pm.globals.get(\"anypointOrg\")}  );"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		},
 		{
-			"name": "POST Platform Metrics - Load - Splunk Strategy",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "X-ANYPNT-USERNAME",
-						"type": "text",
-						"value": "changeMe"
+			"name": "Platform Metrics",
+			"item": [
+				{
+					"name": "Get Platform Metrics",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
 					},
-					{
-						"key": "X-ANYPNT-PASSWORD",
-						"type": "text",
-						"value": "changeMe"
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/api/platform-metrics?raw=false",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"platform-metrics"
+							],
+							"query": [
+								{
+									"key": "raw",
+									"value": "false"
+								}
+							]
+						}
 					},
-					{
-						"key": "X-ANYPNT-ORG-ID",
-						"type": "text",
-						"value": "changeMe"
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"splunk\",\n\t\t\"rawData\": \"false\",\n\t\t\"splunk\": {\n\t\t\t\"host\": \"localhost\",\n\t\t\t\"port\": \"8088\",\n\t\t\t\"protocol\": \"HTTP\",\n\t\t\t\"token\": \"10324b27-3735-40d7-9db7-cc76f6fb4c9f\",\n\t\t\t\"platformMetricsIndex\": \"metrics\",\n\t\t\t\"platformBenefitsIndex\": \"platform_benefits\",\n\t\t\t\"source\": \"metrics-source\",\n\t\t\t\"sourceType\": \"_json\"\n\t\t}\n\t}\n}"
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8081/api/platform-metrics/load",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"platform-metrics",
-						"load"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST Platform Metrics - Load - Tableau Strategy",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "X-ANYPNT-USERNAME",
-						"type": "text",
-						"value": "changeMe"
+				{
+					"name": "Platform Metrics Load - Splunk",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"splunk\",\n\t\t\"rawData\": \"false\",\n\t\t\"splunk\": {\n\t\t\t\"host\": \"localhost\",\n\t\t\t\"port\": \"8088\",\n\t\t\t\"protocol\": \"HTTP\",\n\t\t\t\"token\": \"10324b27-3735-40d7-9db7-cc76f6fb4c9f\",\n\t\t\t\"platformMetricsIndex\": \"metrics\",\n\t\t\t\"platformBenefitsIndex\": \"platform_benefits\",\n\t\t\t\"source\": \"metrics-source\",\n\t\t\t\"sourceType\": \"_json\"\n\t\t}\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/platform-metrics/load",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"platform-metrics",
+								"load"
+							]
+						}
 					},
-					{
-						"key": "X-ANYPNT-PASSWORD",
-						"type": "text",
-						"value": "changeMe"
-					},
-					{
-						"key": "X-ANYPNT-ORG-ID",
-						"type": "text",
-						"value": "changeMe"
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"tableau\",\n\t\t\"rawData\": \"false\",\n\t\t\"outputDir\": \"/opt/metrics-accelerator/data\"\n\t}\n}"
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8081/api/platform-metrics/load",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"platform-metrics",
-						"load"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST Platform Metrics - Load - CSV Strategy",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "X-ANYPNT-USERNAME",
-						"type": "text",
-						"value": "changeMe"
+				{
+					"name": "Platform Metrics Load - Tableau",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"tableau\",\n\t\t\"rawData\": \"false\",\n        \"tableau\": {\n            \"outputDir\": \"/opt/metrics-toolkit/data\"\n        }\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/platform-metrics/load",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"platform-metrics",
+								"load"
+							]
+						}
 					},
-					{
-						"key": "X-ANYPNT-PASSWORD",
-						"type": "text",
-						"value": "changeMe"
-					},
-					{
-						"key": "X-ANYPNT-ORG-ID",
-						"type": "text",
-						"value": "changeMe"
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"csv\",\n\t\t\"rawData\": \"false\"\n\t}\n}"
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8081/api/platform-metrics/load",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"platform-metrics",
-						"load"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST Platform Metrics - Load - JSON Strategy",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "X-ANYPNT-USERNAME",
-						"type": "text",
-						"value": "changeMe"
+				{
+					"name": "Platform Metrics Load - CSV",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"csv\",\n\t\t\"rawData\": \"false\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/platform-metrics/load",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"platform-metrics",
+								"load"
+							]
+						}
 					},
-					{
-						"key": "X-ANYPNT-PASSWORD",
-						"type": "text",
-						"value": "changeMe"
-					},
-					{
-						"key": "X-ANYPNT-ORG-ID",
-						"type": "text",
-						"value": "changeMe"
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"json\",\n\t\t\"rawData\": \"false\"\n\t}\n}"
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8081/api/platform-metrics/load",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"platform-metrics",
-						"load"
-					]
+				{
+					"name": "Platform Metrics Load - JSON",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"json\",\n\t\t\"rawData\": \"false\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/platform-metrics/load",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"platform-metrics",
+								"load"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Platform Metrics Load - Logger",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"logger\",\n\t\t\"rawData\": \"false\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/platform-metrics/load",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"platform-metrics",
+								"load"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"/*",
+							"    Set Anypoint Platform headers from GLOBAL variables",
+							"*/",
+							"var credentialType = pm.globals.get(\"credentialType\").toLowerCase();",
+							"var isUserCreds = credentialType == \"user\"; // user or app",
+							"",
+							"if (isUserCreds) {",
+							"    pm.request.headers.upsert( {key: 'x-anypnt-username', value: pm.globals.get(\"anypointUsername\")} );",
+							"    pm.request.headers.upsert( {key: 'x-anypnt-password', value: pm.globals.get(\"anypointPassword\")} );",
+							"} else {",
+							"    pm.request.headers.upsert( {key: 'x-anypnt-client-id', value: pm.globals.get(\"connectedAppId\")} );",
+							"    pm.request.headers.upsert( {key: 'x-anypnt-client-secret', value: pm.globals.get(\"connectedAppSecret\")}  );",
+							"}",
+							"var isPlaintextSecret = (typeof pm.globals.get(\"isPlaintextSecret\") !== 'undefined') ? pm.globals.get(\"isPlaintextSecret\") : \"true\"",
+							"pm.request.headers.upsert( {key: 'x-plaintext-password', value: isPlaintextSecret}  );",
+							"pm.request.headers.upsert( {key: 'x-anypnt-org-id', value: pm.globals.get(\"anypointOrg\")}  );"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		}
 	]
 }
