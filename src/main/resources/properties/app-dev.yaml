@@ -119,3 +119,8 @@ sdlc:
     host: "test.splunk.com"
     port: "8089"
     path: "/servicesNS/nobody/mulesoft/data/ui/views?count=-0"
+  azuredevops:
+    enabled: "false" #Configure and set this to true if Azure DevOps metrics are required
+    host: "dev.azure.com"
+    apiPath: "/mycompany/mulesoft-projects/_apis" # Path should be set to /[organization name]/[project name]/_apis
+    projectName: "mulesoft-projects"
