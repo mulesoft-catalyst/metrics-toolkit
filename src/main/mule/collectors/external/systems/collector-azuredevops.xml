@@ -14,12 +14,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 							<ee:message >
 							</ee:message>
 							<ee:variables >
-								<ee:set-variable variableName="queryDetails" ><![CDATA[%dw 2.0
-output application/json
----
-{
-  "query": "Select [System.Id], [System.Title], [System.State], [System.WorkItemType] From WorkItems Where [System.IterationPath] = @CurrentIteration"
-}]]></ee:set-variable>
+								<ee:set-variable resource="dw/sdlc/azure-sprint-query.dwl" variableName="queryDetails" />
 							</ee:variables>
 						</ee:transform>
 						<flow-ref doc:name="get-azure-devops-query" doc:id="98b4566b-f576-4367-b2a8-b2a6a531e999" name="get-azure-devops-query"/>
@@ -29,12 +24,7 @@ output application/json
 							<ee:message>
 							</ee:message>
 							<ee:variables>
-								<ee:set-variable variableName="queryDetails"><![CDATA[%dw 2.0
-output application/json
----
-{
-  "query": "Select [System.Id], [System.Title], [System.State], [System.WorkItemType] From WorkItems Where [System.IterationPath] = @project"
-}]]></ee:set-variable>
+								<ee:set-variable resource="dw/sdlc/azure-backlog-query.dwl" variableName="queryDetails" />
 							</ee:variables>
 						</ee:transform>
 						<flow-ref doc:name="get-azure-devops-query" doc:id="7202ae3f-7635-424d-8f3a-870366189c3f" name="get-azure-devops-query"/>

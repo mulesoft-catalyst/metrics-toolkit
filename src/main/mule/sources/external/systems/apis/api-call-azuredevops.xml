@@ -25,10 +25,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<ee:message >
 			</ee:message>
 			<ee:variables >
-				<ee:set-variable variableName="workItemList" ><![CDATA[%dw 2.0
-output application/java
----
-payload.workItems.id joinBy ","]]></ee:set-variable>
+				<ee:set-variable resource="dw/sdlc/azure-convert-workitem-list.dwl" variableName="workItemList" />
 			</ee:variables>
 		</ee:transform>
 		<http:request method="GET" doc:name="Get Work Items" doc:id="2c93509f-4580-4361-986b-8fbd39ca3e13" config-ref="azure-devops-request-config" path="/wit/workitems" >
@@ -41,15 +38,7 @@ payload.workItems.id joinBy ","]]></ee:set-variable>
 		</http:request>
 		<ee:transform doc:name="Limit WorkItem Payload" doc:id="7fc69966-2d11-4fda-8d47-93980b46ae59" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-payload.value map() -> {
-    id: $.id,
-    name: $.fields."System.Title",
-    taskType: $.fields."System.WorkItemType",
-    status: $.fields."System.State"
-}]]></ee:set-payload>
+				<ee:set-payload resource="dw/sdlc/azure-convert-workitem-payload.dwl" />
 			</ee:message>
 		</ee:transform>
 	</sub-flow>
@@ -63,14 +52,7 @@ payload.value map() -> {
 		</http:request>
 		<ee:transform doc:name="Limit Repo Payload" doc:id="3f017ae3-eed0-4e29-8299-4e4a04bff6cf">
 			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-    size: payload.count,
-    repositories: (payload.value filter not $.isDisabled) map() -> {name: $.name}
-}
-]]></ee:set-payload>
+				<ee:set-payload resource="dw/sdlc/azure-convert-repo-list.dwl" />
 			</ee:message>
 		</ee:transform>
 	</sub-flow>
@@ -99,20 +81,7 @@ output application/json
 			<ee:message>
 			</ee:message>
 				<ee:variables >
-					<ee:set-variable variableName="aggData" ><![CDATA[%dw 2.0
-output application/json
----
-vars.aggData default [] ++ 
-
-if (payload.count == 0) 
-    [{"result":"no runs"}] 
-else 
-    [(((payload.value map() -> {
-        name: $.pipeline.name,
-        state: $.state,
-        result: $.result,
-        createdDate: $.createdDate as LocalDateTime,
-}) orderBy $.createdDate)[-1 to 0])[0]]]]></ee:set-variable>
+					<ee:set-variable resource="dw/sdlc/azure-aggregate-cicd-runs.dwl" variableName="aggData" />
 				</ee:variables>
 		</ee:transform>
 		</foreach>
