@@ -6,7 +6,7 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="collector-azuredevops-metrics-flow" doc:id="b7ea5168-d0f5-4749-bdb6-928480016a89" >
-		<choice doc:name="Choice" doc:id="118bba81-d9de-4c47-8bac-fe2e2d50a392" >
+		<choice doc:name="AzureDevOps metrics enabled" doc:id="118bba81-d9de-4c47-8bac-fe2e2d50a392" >
 			<when expression='#[vars.sdlcDetails.azuredevops.enabled == "true"]'>
 				<scatter-gather doc:name="Scatter-Gather" doc:id="5cd4d4cd-2d45-491b-8f19-afa9b187c014" >
 					<route >
