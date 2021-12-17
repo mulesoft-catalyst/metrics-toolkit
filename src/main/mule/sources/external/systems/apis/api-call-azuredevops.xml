@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:request-config name="azure-devops-request-config" doc:name="HTTP Request configuration" doc:id="29b38510-20ff-4017-89be-ed8888bf963e" basePath="${sdlc.azuredevops.apiPath}">
+		<http:request-connection protocol="HTTPS" host="${sdlc.azuredevops.host}" >
+			<http:authentication >
+				<http:basic-authentication username='#[""]' password="${secure::sdlc.azuredevops.token}" />
+			</http:authentication>
+		</http:request-connection>
+	</http:request-config>
+	<sub-flow name="get-azure-devops-query" doc:id="d3cf908b-1819-4043-9cd4-a365cfbb36a0" >
+		<http:request method="POST" doc:name="Get WorkItem List" doc:id="98d2014f-e2af-49d7-9e52-c9364a8edbe4" path="/wit/wiql/" config-ref="azure-devops-request-config">
+			<http:body ><![CDATA[#[vars.queryDetails]]]></http:body>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"api-version" : "6.0"
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="cecbc86b-ba08-43d8-81ee-6ee8caee40b1" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="workItemList" ><![CDATA[%dw 2.0
+output application/java
+---
+payload.workItems.id joinBy ","]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<http:request method="GET" doc:name="Get Work Items" doc:id="2c93509f-4580-4361-986b-8fbd39ca3e13" config-ref="azure-devops-request-config" path="/wit/workitems" >
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"api-version" : "6.0",
+	"ids" : vars.workItemList
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="7fc69966-2d11-4fda-8d47-93980b46ae59" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.value map() -> {
+    id: $.id,
+    name: $.fields."System.Title",
+    taskType: $.fields."System.WorkItemType",
+    status: $.fields."System.State"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="28005772-28c6-4ecf-bd83-da31ebbfb95e" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="get-azure-devops-repos" doc:id="bc063f15-c4d6-4d50-b333-aa73f9f078fe" >
+		<http:request method="GET" doc:name="Get Repo List" doc:id="11de691c-3b63-4b51-8db2-49de6b21b8e7" config-ref="azure-devops-request-config" path="/git/repositories" >
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"api-version" : "4.1"
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="3f017ae3-eed0-4e29-8299-4e4a04bff6cf">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+    size: payload.count,
+    repositories: (payload.value filter not $.isDisabled) map() -> {name: $.name}
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="get-azure-devops-builds" doc:id="fbc1d3f7-fd0e-4da7-8bc5-1041e867c4b0" >
+		<http:request method="GET" doc:name="Get Pipeline List" doc:id="5a31750f-500a-4908-a24e-c341d1bb8a3c" config-ref="azure-devops-request-config" path="/pipelines" >
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"api-version" : "6.0-preview.1"
+}]]]></http:query-params>
+		</http:request>
+		<foreach doc:name="For Each" doc:id="6d130c69-eb72-4ead-9450-73271f72a05c" collection="#[payload.value.id]">
+			<http:request method="GET" doc:name="Get Pipeline Runs" doc:id="6a050d5e-e08e-4136-8ac8-190d6f054944" config-ref="azure-devops-request-config" path="/pipelines/{pipelineId}/runs">
+			<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"pipelineId" : payload
+}]]]></http:uri-params>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"api-version" : "6.0-preview.1"
+}]]]></http:query-params>
+		</http:request>
+			<ee:transform doc:name="Transform Message" doc:id="9f9cb9c8-46a8-423c-becc-5708b43faf62">
+			<ee:message>
+			</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="aggData" ><![CDATA[%dw 2.0
+output application/json
+---
+vars.aggData default [] ++ 
+
+if (payload.count == 0) 
+    [{"result":"no runs"}] 
+else 
+    [(((payload.value map() -> {
+        name: $.pipeline.name,
+        state: $.state,
+        result: $.result,
+        createdDate: $.createdDate as LocalDateTime,
+}) orderBy $.createdDate)[-1 to 0])[0]]]]></ee:set-variable>
+				</ee:variables>
+		</ee:transform>
+		</foreach>
+		<set-payload value="#[vars.aggData]" doc:name="Set Payload" doc:id="3b38051f-ad21-43c4-ba81-ae9da1aed395" />
+		<logger level="INFO" doc:name="Logger" doc:id="be4bffae-133e-48c9-899f-5fac3ad0eb8d" message="#[payload]"/>
+	</sub-flow>
+</mule>
