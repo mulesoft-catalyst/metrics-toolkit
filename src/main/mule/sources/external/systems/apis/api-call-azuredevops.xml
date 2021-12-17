@@ -21,7 +21,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"api-version" : "6.0"
 }]]]></http:query-params>
 		</http:request>
-		<ee:transform doc:name="Transform Message" doc:id="cecbc86b-ba08-43d8-81ee-6ee8caee40b1" >
+		<ee:transform doc:name="Get List of task Ids" doc:id="cecbc86b-ba08-43d8-81ee-6ee8caee40b1" >
 			<ee:message >
 			</ee:message>
 			<ee:variables >
@@ -39,7 +39,7 @@ payload.workItems.id joinBy ","]]></ee:set-variable>
 	"ids" : vars.workItemList
 }]]]></http:query-params>
 		</http:request>
-		<ee:transform doc:name="Transform Message" doc:id="7fc69966-2d11-4fda-8d47-93980b46ae59" >
+		<ee:transform doc:name="Limit WorkItem Payload" doc:id="7fc69966-2d11-4fda-8d47-93980b46ae59" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -52,7 +52,6 @@ payload.value map() -> {
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="28005772-28c6-4ecf-bd83-da31ebbfb95e" message="#[payload]"/>
 	</sub-flow>
 	<sub-flow name="get-azure-devops-repos" doc:id="bc063f15-c4d6-4d50-b333-aa73f9f078fe" >
 		<http:request method="GET" doc:name="Get Repo List" doc:id="11de691c-3b63-4b51-8db2-49de6b21b8e7" config-ref="azure-devops-request-config" path="/git/repositories" >
@@ -62,7 +61,7 @@ payload.value map() -> {
 	"api-version" : "4.1"
 }]]]></http:query-params>
 		</http:request>
-		<ee:transform doc:name="Transform Message" doc:id="3f017ae3-eed0-4e29-8299-4e4a04bff6cf">
+		<ee:transform doc:name="Limit Repo Payload" doc:id="3f017ae3-eed0-4e29-8299-4e4a04bff6cf">
 			<ee:message>
 				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -96,7 +95,7 @@ output application/json
 	"api-version" : "6.0-preview.1"
 }]]]></http:query-params>
 		</http:request>
-			<ee:transform doc:name="Transform Message" doc:id="9f9cb9c8-46a8-423c-becc-5708b43faf62">
+			<ee:transform doc:name="Get Only Latest Run" doc:id="9f9cb9c8-46a8-423c-becc-5708b43faf62">
 			<ee:message>
 			</ee:message>
 				<ee:variables >
@@ -117,7 +116,6 @@ else
 				</ee:variables>
 		</ee:transform>
 		</foreach>
-		<set-payload value="#[vars.aggData]" doc:name="Set Payload" doc:id="3b38051f-ad21-43c4-ba81-ae9da1aed395" />
-		<logger level="INFO" doc:name="Logger" doc:id="be4bffae-133e-48c9-899f-5fac3ad0eb8d" message="#[payload]"/>
+		<set-payload value="#[vars.aggData]" doc:name="Set Consolidated Payload" doc:id="3b38051f-ad21-43c4-ba81-ae9da1aed395" />
 	</sub-flow>
 </mule>
