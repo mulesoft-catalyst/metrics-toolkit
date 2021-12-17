@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="collector-azuredevops-metrics-flow" doc:id="b7ea5168-d0f5-4749-bdb6-928480016a89" >
+		<choice doc:name="Choice" doc:id="118bba81-d9de-4c47-8bac-fe2e2d50a392" >
+			<when expression='#[vars.sdlcDetails.azuredevops.enabled == "true"]'>
+				<scatter-gather doc:name="Scatter-Gather" doc:id="5cd4d4cd-2d45-491b-8f19-afa9b187c014" >
+					<route >
+						<ee:transform doc:name="Set Current Sprint Query" doc:id="1608e151-e417-45c3-9e2f-3f256b418983" >
+							<ee:message >
+							</ee:message>
+							<ee:variables >
+								<ee:set-variable variableName="queryDetails" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "query": "Select [System.Id], [System.Title], [System.State], [System.WorkItemType] From WorkItems Where [System.IterationPath] = @CurrentIteration"
+}]]></ee:set-variable>
+							</ee:variables>
+						</ee:transform>
+						<flow-ref doc:name="get-azure-devops-query" doc:id="98b4566b-f576-4367-b2a8-b2a6a531e999" name="get-azure-devops-query"/>
+					</route>
+					<route >
+						<ee:transform doc:name="Set Backlog Query" doc:id="4798ed80-41bc-4085-baab-24dff405f3f7">
+							<ee:message>
+							</ee:message>
+							<ee:variables>
+								<ee:set-variable variableName="queryDetails"><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "query": "Select [System.Id], [System.Title], [System.State], [System.WorkItemType] From WorkItems Where [System.IterationPath] = @project"
+}]]></ee:set-variable>
+							</ee:variables>
+						</ee:transform>
+						<flow-ref doc:name="get-azure-devops-query" doc:id="7202ae3f-7635-424d-8f3a-870366189c3f" name="get-azure-devops-query"/>
+					</route>
+					<route >
+						<flow-ref doc:name="get-azure-devops-builds" doc:id="33041319-2ff3-4249-97ff-1ec46235a36f" name="get-azure-devops-builds"/>
+					</route>
+					<route >
+						<flow-ref doc:name="get-azure-devops-repos" doc:id="424e8e8e-ea6a-4cca-a3c5-7d650e27793a" name="get-azure-devops-repos" />
+					</route>
+				</scatter-gather>
+			</when>
+			<otherwise >
+				<set-payload value="#[null]" doc:name="Set Null Payload" doc:id="564171ab-9678-4e27-b5ee-1f47140d9533" />
+			</otherwise>
+		</choice>
+	</flow>
+</mule>
