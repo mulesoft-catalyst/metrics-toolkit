@@ -162,6 +162,7 @@
 			<groupId>com.mulesoft.connectors</groupId>
 			<artifactId>mule-sfdc-analytics-connector</artifactId>
 			<version>${analytics.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-validation-module</artifactId>
