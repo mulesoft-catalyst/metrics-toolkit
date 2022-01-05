@@ -1,10 +1,10 @@
 auth:
   
-  orgId: "30370ff2-d147-43a4-9402-fb074b715423"
+  orgId: "![yqKEWZ57M3XUasumfcwhVykLsfUM6yOEv2oEJ04vxZc=]"
   
   # If auth mode = platform-credentials (ignored, otherwise):
-  username: "qamar_"
-  password: "Mulesoftlondon2021!"
+  username: "![Zjv8nFIUwDlayZ6O7DP31p1zQRfrwfjbkmi5DyNiD38=]"
+  password: "![yqKEWZ57M3XUasumfcwhV35QQl9B5mf5GBon8eY/x8o=]"
   
   # If auth mode = connected-app-credentials (ignored, otherwise):
   clientId: "![Zjv8nFIUwDlayZ6O7DP31p1zQRfrwfjbkmi5DyNiD38=]"
@@ -12,6 +12,7 @@ auth:
      
 ignoreLists:
   organizations: ""  #Array: comma-separated values 'orgId1,orgId2'
+  
 
 splunk:
   token: "![yqKEWZ57M3XUasumfcwhV5A3JMblY6G4MCwHM5j5VuA=]"
@@ -47,7 +48,3 @@ sfdc:
   password : "![0CXQwZBMmw43vtBN7jyoRQ==]"
   securityToken : "![L2Ow6bBvBDEGmQYrutHfIcsBg]"
   # authUrl : ""
-  appName :    "IPAAS_Anypoint_Metrics_App"
-  dataSetName: "IPAAS_Anypoint_Metrics_DataSet"
-  notificationEmail : ""
-  sendNotification: "NEVER"
