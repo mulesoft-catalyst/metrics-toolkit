@@ -57,6 +57,8 @@ else
 }]]]></http:uri-params>
 		</http:request>
 		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Coreservices - Environments, Response Status Code:" ++ attributes.statusCode]' />
+		<set-variable value="#[%dw 2.0&#10;output application/json&#10;var ignoredEnvironments = Mule::p('secure::ignoreLists.environments') splitBy &quot;,&quot;&#10;---&#10;payload.data filter ((item, index) -&gt; !(ignoredEnvironments contains item.id))]" doc:name="Filter Environments" doc:id="33bbe9d1-368b-4134-9d30-014625885daa" variableName="filteredEnvironments"/>
+		<set-payload value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"data": vars.filteredEnvironments,&#10;	"total": sizeOf(vars.filteredEnvironments)&#10;}]' doc:name="Set Filtered Environments Payload" doc:id="c8c72e2b-e7ac-4235-82a9-b864df443c0f" />
 	</flow>
 	
 	<flow name="api-call-coreservices-usage-flow" doc:id="d5bf088a-61dd-443f-9308-0bdcd9ad5e8b" maxConcurrency="${anypoint.platform.apis.coreservices.maxConcurrency}">
