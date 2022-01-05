@@ -20,7 +20,7 @@ tmp/**/*
 *.bak
 *.swp
 *~.nib
-local.properties
+*/app-local.yaml
 .settings/
 .loadpath
 .project
