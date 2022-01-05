@@ -432,7 +432,7 @@ current_consolidated | platform_metrics_agg_*.json |
 4. Use the "Login" page to enter your Anypoint platform username, password and organization ID
 5. Wait for the dashboard to run the metrics request and once done, navigate through the different metrics taken using the UI
 
-### Tableau CRM or Einstein Analytics Dashboard Steps
+### SFDC Steps
 Using the `sfdc` loader option, and initialising Salesforce Analytics Studio with an empty project, will allow you to quickly inject data into Tableau CRM Dashboards to visualise your Anypoint Platform Metrics in different ways.  Tableau CRM can also be used as an historic data repository to allow the metrics data to be displayed against time for trend analysis (e.g. vCore growth, API count or transaction growth over time).
 
 1. Create a new application in Data Manager
@@ -446,6 +446,17 @@ More detailed steps can be found in the [SFDC specific README](README_sfdc.md).
 
 **Note:** This is only a high level introduction and it is highly recommended that you become familiar with Tableau CRM through official documentation. 
 
+#### Properties specific for SFDC
+Name | Description | Default Value
+------------ | ------------ | ------------
+sfdc.appName | Application name in Tableau CRM |
+sfdc.dataSetName | Dataset name to be created/overwritten in Tableau CRM | 
+sfdc.notificationEmail | Email adress for notifications to be sent to | 
+sfdc.sendNotification | Occurances which should generate notifications. ENUM values are: ALWAYS,FAILURES,NEVER,WARNINGS | NEVER
+sfdc.username | Salesforce username to use for authentication | 
+sfdc.password | Salesforce password | 
+sfdc.securityToken | Salesforce developer security token | 
+sfdc.authUrl | Specific Salesforce auth URL to be used if required | 
 
 ### MONGODB steps
 
