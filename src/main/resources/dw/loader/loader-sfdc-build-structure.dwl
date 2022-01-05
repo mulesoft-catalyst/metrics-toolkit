@@ -8,5 +8,6 @@ loaderMetricsBasicStructure::main(payload: payload)  map ((pl01, idx) -> {
    name: pl01.name,
    value: pl01.value,
    group: pl01.group,
-   environmentType: pl01.environmentType
+   environmentType: pl01.environmentType,
+   environmentName: pl01.environmentName
 })

@@ -7,7 +7,6 @@
 	<version>1.8.3-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
 
-
 	<name>metrics-toolkit</name>
 
 	<properties>
@@ -28,7 +27,7 @@
 		<munit-tools.version>2.3.6</munit-tools.version>
 		<mule-mongodb-connector.version>6.3.1</mule-mongodb-connector.version>
 		<mongodb-driver-legacy.version>4.0.4</mongodb-driver-legacy.version>
-		<analytics.version>3.5.1</analytics.version>
+		<analytics.version>3.8.2</analytics.version>
 		<validation.module.version>1.4.5</validation.module.version>
 	</properties>
 
@@ -115,12 +114,6 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>org.mule.connectors</groupId>
-			<artifactId>mule-objectstore-connector</artifactId>
-			<version>${os.version}</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-apikit-module</artifactId>
 			<version>${apikit.version}</version>
@@ -159,11 +152,6 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>com.mulesoft.connectors</groupId>
-			<artifactId>mule-sfdc-analytics-connector</artifactId>
-			<version>${analytics.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-validation-module</artifactId>
 			<version>${validation.module.version}</version>
@@ -188,6 +176,18 @@
 			<artifactId>assertions</artifactId>
 			<version>1.0.2</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.connectors</groupId>
+			<artifactId>mule-objectstore-connector</artifactId>
+			<version>${os.version}</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.connectors</groupId>
+			<artifactId>mule-sfdc-analytics-connector</artifactId>
+			<version>${analytics.version}</version>
+			<classifier>mule-plugin</classifier>
 		</dependency>
 	</dependencies>
 
