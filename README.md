@@ -67,7 +67,7 @@ The **metrics toolkit** (**formerly the metrics accelerator/framework**) is a Mu
 - **Embedded dashboard**: Including an out of the box basic embedded dashboard accessed by running the application offering an UI with a number of metrics obtained
 - **Tableau**: including an out of the box dashboard with current consolidated platform metrics
 - **MongoDB**
-- **SFDC**: The Salesforce Loader will load data into **Einstein Analytics** via the Salesforce Analytics connector.  This contains the same summarised data as the CSV Loader but allows Salesforce customers to create quick and impacting Anypoint Platform metrics dashboards within their existing Salesforce Systems (assuming they have Analytics Studio licenses).
+- **SFDC**: The Salesforce Loader will load data into **Tableau CRM**, formerly known as **Einstein Analytics** via the Salesforce Analytics connector.  Dashboards are not provided, and it is assumed users are familiar with Tableau CRM, data recipes, and Analytics Studio. 
 
 **NOTES:** 
 - some adjustments in Metrics Toolkit implementation may be required if the loader does not work as expected for your specific scenario.
@@ -432,12 +432,19 @@ current_consolidated | platform_metrics_agg_*.json |
 4. Use the "Login" page to enter your Anypoint platform username, password and organization ID
 5. Wait for the dashboard to run the metrics request and once done, navigate through the different metrics taken using the UI
 
-### Einstein Analytics Dashboard Steps
-Using the `sfdc` loader option, and initialising Salesforce Analytics Studio with an empty project, will allow you to quickly inject data into Einstein Analytics Dashboards to visualise your Anypoint Platform Metrics in different ways.  Einstein can also be used as an historic data repository to allow the metrics data to be displayed against time for trend analysis (e.g. vCore growth, API count or transaction growth over time)
+### Tableau CRM or Einstein Analytics Dashboard Steps
+Using the `sfdc` loader option, and initialising Salesforce Analytics Studio with an empty project, will allow you to quickly inject data into Tableau CRM Dashboards to visualise your Anypoint Platform Metrics in different ways.  Tableau CRM can also be used as an historic data repository to allow the metrics data to be displayed against time for trend analysis (e.g. vCore growth, API count or transaction growth over time).
 
-Full instructions for setting up the correct polling configuration, and the correct Salesforce Analytics applications is given in the following link.
+1. Create a new application in Data Manager
+2. If using the poller functionality, configure the SFDC loader properties in the properties files. If using the API, format the request body with the required parameters
+3. Deploy and Run the metrics toolkit application, allowing the poller to execute, or performing an API request
+4. Validate the dataset is created in Data Manager
+5. Create a new data recipe, setting your new dataset as the source. Transform "value" from a dimension to a measure. 
+6. (Optional) - Filter out the non-numeric value fields (API Manager Policies Used and CloudHub Runtime Versions Used) and store this in a new 'enum' dataset
+7. (Optional) - Create a 'historic' dataset. Add a step to your data recipe to append to this historic dataset
+More detailed steps can be found in the [SFDC specific README](README_sfdc.md). 
 
-see documentation [here](/README_sfdc.md)
+**Note:** This is only a high level introduction and it is highly recommended that you become familiar with Tableau CRM through official documentation. 
 
 
 ### MONGODB steps
