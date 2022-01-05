@@ -20,11 +20,12 @@ tmp/**/*
 *.bak
 *.swp
 *~.nib
-*/app-local.yaml
+*app-local.yaml
 .settings/
 .loadpath
 .project
 .classpath
+reports/*
 
 # External tool builders
 .externalToolBuilders/
