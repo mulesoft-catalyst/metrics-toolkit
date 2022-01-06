@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1ba8a281-c219-460f-b9d1-36883bb5f072",
+		"_postman_id": "302143d6-ebe1-4056-8a90-20ca73680da7",
 		"name": "Metrics Toolkit",
 		"description": "# Metrics Toolkit\nThis provides endpoints for the Anypoint Metrics Toolkit API.\n\n## Features\nIt contains the categories of requests listed below, which are separated into folders.\n\n- Benefits\n- Platform Metrics\n\nThis also has prerequest scripts to handle headers.  Each folder has a script that automatically sets Anypoint Platform headers for the folder's requests.  This is in each folder that has Anypoint Platform requests, as some folders (SDLC) don't need those headers.\n\n# Setup\nThis requires variables to be set for the requests to work.\n\n## Environment Variables\n\n- `url`: The base url for the API.  This contains the HTTP protocol, domain, and port.  Example: `http://localhost:8081`\n\n## Global Variables\n\n- `anypointOrg`: The root Anypoint organization on which to run the metrics.\n- `credentialType`: Determines which Anypoint credential headers to generate.  `user` for Anypoint Platform user credentials; `app` for connected app client credentials.\n- `anypointUsername`: Used for Anypoint Platform user credentials.\n- `anypointPassword`: Used for Anypoint Platform user credentials.\n- `connectedAppId`: Used for Connected App credentials.\n- `connectedAppSecret`: Used for Connected App credentials.\n- `isPlaintextSecret`: Indicates if the secret in the credentials is Base64 encoded or not.  If `true`, it is not encoded.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -105,6 +105,35 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"event\": {\n\t\t\t\"date\": \"2020-02-19T00:11:34.341-08:00\",\n\t\t\t\"businessGroup\": \"Any\",\n\t\t\t\"developAPIHistoricTime\": 20,\n\t\t\t\"developAPICurrentTime\": 4,\n\t\t\t\"maintainAPIHistoricTime\": 20,\n\t\t\t\"maintainAPICurrentTime\": 1,\n\t\t\t\"developerDayRate\": 500\t\n\t},\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"json\",\n\t\t\"rawData\": \"false\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/business-metrics/load",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"business-metrics",
+								"load"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Benefits Load - SFDC",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"event\": {\n\t\t\t\"date\": \"2020-02-19T00:11:34.341-08:00\",\n\t\t\t\"businessGroup\": \"Any\",\n\t\t\t\"developAPIHistoricTime\": 20,\n\t\t\t\"developAPICurrentTime\": 4,\n\t\t\t\"maintainAPIHistoricTime\": 20,\n\t\t\t\"maintainAPICurrentTime\": 1,\n\t\t\t\"developerDayRate\": 500\t\n\t},\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"sfdc\",\n\t\t\"rawData\": \"false\",\n        \"sfdc\": {\n            \"dataSetName\" : \"IPAAS_Benefits_Metrics_DataSet\",\n            \"appName\": \"IPAAS_Anypoint_Metrics_App\",\n            \"username\": \"my-user@salesforce.com\",\n            \"password\": \"password123\",\n            \"securityToken\": \"securityToken456\",\n            \"sendNotifications\": \"FAILURES\",\n            \"notificationEmail\": \"myemail@email.com\"\n        }\n\t}\n}"
 						},
 						"url": {
 							"raw": "{{url}}/api/business-metrics/load",
@@ -327,6 +356,35 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"logger\",\n\t\t\"rawData\": \"false\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/platform-metrics/load",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"platform-metrics",
+								"load"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Platform Metrics Load - SFDC",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"sfdc\",\n\t\t\"rawData\": \"false\",\n        \"sfdc\": {\n            \"dataSetName\" : \"IPAAS_Benefits_Metrics_DataSet\",\n            \"appName\": \"IPAAS_Anypoint_Metrics_App\",\n            \"username\": \"my-user@salesforce.com\",\n            \"password\": \"password123\",\n            \"securityToken\": \"securityToken456\",\n            \"sendNotifications\": \"FAILURES\",\n            \"notificationEmail\": \"myemail@email.com\"\n        }\n\t}\n}"
 						},
 						"url": {
 							"raw": "{{url}}/api/platform-metrics/load",
