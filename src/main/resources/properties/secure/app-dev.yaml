@@ -12,7 +12,7 @@ auth:
      
 ignoreLists:
   organizations: ""  #Array: comma-separated values 'orgId1,orgId2'
-  
+  environments: ""  #Array: comma-separated values 'envId1,envId2'
 
 splunk:
   token: "![yqKEWZ57M3XUasumfcwhV5A3JMblY6G4MCwHM5j5VuA=]"
