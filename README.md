@@ -22,6 +22,7 @@ Table of Contents
          * [Tableau steps](#tableau-steps)            
          * [MongoDB steps](#mongodb-steps)
             * [Properties specific for MongoDB](#properties-specific-for-mongodb)
+         * [SFDC-Einstein Analytics Steps](#einstein-analytics-dashboard-steps)
       * [Considerations](#considerations)
       * [Some Theory around the Toolkit](#some-theory-around-the-toolkit)
          * [Business Needs](#business-needs)
@@ -66,6 +67,7 @@ The **metrics toolkit** (**formerly the metrics accelerator/framework**) is a Mu
 - **Embedded dashboard**: Including an out of the box basic embedded dashboard accessed by running the application offering an UI with a number of metrics obtained
 - **Tableau**: including an out of the box dashboard with current consolidated platform metrics
 - **MongoDB**
+- **SFDC**: The Salesforce Loader will load data into **Tableau CRM**, formerly known as **Einstein Analytics** via the Salesforce Analytics connector.  Dashboards are not provided, and it is assumed users are familiar with Tableau CRM, data recipes, and Analytics Studio. 
 
 **NOTES:** 
 - some adjustments in Metrics Toolkit implementation may be required if the loader does not work as expected for your specific scenario.
@@ -429,6 +431,32 @@ current_consolidated | platform_metrics_agg_*.json |
 3. Use a web browser to access the applications base URL (e.g. if deployed locally, use http://localhost:8081)
 4. Use the "Login" page to enter your Anypoint platform username, password and organization ID
 5. Wait for the dashboard to run the metrics request and once done, navigate through the different metrics taken using the UI
+
+### SFDC Steps
+Using the `sfdc` loader option, and initialising Salesforce Analytics Studio with an empty project, will allow you to quickly inject data into Tableau CRM Dashboards to visualise your Anypoint Platform Metrics in different ways.  Tableau CRM can also be used as an historic data repository to allow the metrics data to be displayed against time for trend analysis (e.g. vCore growth, API count or transaction growth over time).
+
+1. Create a new application in Data Manager
+2. If using the poller functionality, configure the SFDC loader properties in the properties files. If using the API, format the request body with the required parameters
+3. Deploy and Run the metrics toolkit application, allowing the poller to execute, or performing an API request
+4. Validate the dataset is created in Data Manager
+5. Create a new data recipe, setting your new dataset as the source. Transform "value" from a dimension to a measure. 
+6. (Optional) - Filter out the non-numeric value fields (API Manager Policies Used and CloudHub Runtime Versions Used) and store this in a new 'enum' dataset
+7. (Optional) - Create a 'historic' dataset. Add a step to your data recipe to append to this historic dataset
+More detailed steps can be found in the [SFDC specific README](README_sfdc.md). 
+
+**Note:** This is only a high level introduction and it is highly recommended that you become familiar with Tableau CRM through official documentation. 
+
+#### Properties specific for SFDC
+Name | Description | Default Value
+------------ | ------------ | ------------
+sfdc.appName | Application name in Tableau CRM |
+sfdc.dataSetName | Dataset name to be created/overwritten in Tableau CRM | 
+sfdc.notificationEmail | Email adress for notifications to be sent to | 
+sfdc.sendNotification | Occurances which should generate notifications. ENUM values are: ALWAYS,FAILURES,NEVER,WARNINGS | NEVER
+sfdc.username | Salesforce username to use for authentication | 
+sfdc.password | Salesforce password | 
+sfdc.securityToken | Salesforce developer security token | 
+sfdc.authUrl | Specific Salesforce auth URL to be used if required | 
 
 ### MONGODB steps
 
