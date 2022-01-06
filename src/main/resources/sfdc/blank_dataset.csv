@@ -1,0 +1,4 @@
+name,value,businessGroup,date,group,environmentType,environmentName
+Users Total,1.11,DummyBG,2021-01-22T12:51:17.329Z,Dummy,NA,NA
+CloudHub vCores Available Total,0.8,DummyBG,2021-02-04T15:45:38.836Z,Dummy,NA,NA
+CloudHub vCores Used Total,1.2,DummyBG,2021-02-04T15:45:38.836Z,Dummy,NA,NA
