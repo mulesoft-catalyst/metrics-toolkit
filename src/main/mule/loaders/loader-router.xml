@@ -25,6 +25,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<when expression="#[vars.loaderDetails.strategy == 'elk']">
 				<flow-ref doc:name="loader-elk-main-flow" doc:id="7bf1f286-f84d-4b0e-b0b3-f0fa96d57c10" name="loader-elk-main-flow"/>
 			</when>
+			<when expression="#[vars.loaderDetails.strategy == 'sfdc']">
+				<flow-ref doc:name="loader-sfdc-metrics-flow" doc:id="ec5da1e9-dda1-41fe-8789-a1820e2e654f" name="loader-salesforce-analytics-platform-metrics-flow"/>
+			</when>
 			<when expression="#[vars.loaderDetails.strategy == 'mongodb']">
 				<flow-ref doc:name="loader-mongodb-main-flow" doc:id="dede2ca2-1eb1-4513-8156-899bc44c188b" name="#['loader-mongodb-main-flow']"/>
 			</when>
@@ -56,7 +59,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</when>		
 			<when expression="#[vars.loaderDetails.strategy == 'mongodb']">
 				<flow-ref doc:name="loader-benefits-mongodb-main-flow" doc:id="f38adc86-dd16-4e59-937c-cb78927defe2" name="#['loader-benefits-mongodb-main-flow']"/>
-			</when>		
+			</when>	
+			<when expression="#[vars.loaderDetails.strategy == 'sfdc']">
+				<flow-ref doc:name="loader-sfdc-benefits-main-flow" doc:id="ed204cbd-22d4-41fa-bb1f-3fe87e4dfbc0" name="loader-salesforce-analytics-benefits-main-flow"/>
+			</when>	
 			<otherwise >
 				<flow-ref doc:name="loader-default-flow" doc:id="52ba5200-2a44-4e16-83a1-76125f24fef9" name="loader-benefits-flow"/>
 			</otherwise>
