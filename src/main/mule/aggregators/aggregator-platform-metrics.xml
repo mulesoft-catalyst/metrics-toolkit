@@ -15,7 +15,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-variable resource="dw/aggregation/set-errors-var.dwl" variableName="errors" />
 			</ee:variables>
 		</ee:transform>
-		<flow-ref doc:name="Get Token Flow Reference" doc:id="37f75167-2cdd-44cb-b99a-3ef2457f3180" name="api-call-coreservices-login-flow" target="token" targetValue="payload.access_token" />
+		<flow-ref doc:name="Get Token Flow Reference" doc:id="37f75167-2cdd-44cb-b99a-3ef2457f3180" name="api-call-coreservices-login-flow" target="token" targetValue="#[payload.access_token]" />
 		<flow-ref doc:name="CoreServices - Get Organizations" doc:id="16aa7c72-eb07-4562-b5ff-4844fb287b47" name="api-call-coreservices-organizations-flow"/>
 		<ee:transform doc:name="Build Organizations including master org" doc:id="b250e126-1d95-45a7-8dfe-523a572807b1" >
 			<ee:message >
