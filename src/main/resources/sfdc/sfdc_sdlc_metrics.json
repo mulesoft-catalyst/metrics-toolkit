@@ -1,0 +1,54 @@
+{
+  "fileFormat": {
+    "charsetName": "UTF-8",
+    "fieldsDelimitedBy": ",",
+    "linesTerminatedBy": "\n"
+  },
+  "objects": [
+    {
+      "connector": "CSV",
+      "fullyQualifiedName": "sfdc_metrics",
+      "label": "sfdc_metrics.csv",
+      "name": "sfdc_metrics_csv",
+      "fields": [
+        {
+          "fullyQualifiedName": "name",
+          "name": "name",
+          "type": "Text",
+          "label": "name"
+        },
+        {
+          "fullyQualifiedName": "value",
+          "name": "value",
+          "type": "Text",
+          "label": "value"
+        },
+        {
+          "fullyQualifiedName": "businessGroup",
+          "name": "businessGroup",
+          "type": "Text",
+          "label": "businessGroup"
+        },
+        {
+          "fullyQualifiedName": "date",
+          "name": "date",
+          "type": "Date",
+          "label": "date",
+          "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        },
+        {
+          "fullyQualifiedName": "group",
+          "name": "group",
+          "type": "Text",
+          "label": "group"
+        },
+        {
+          "fullyQualifiedName": "environmentType",
+          "name": "environmentType",
+          "type": "Text",
+          "label": "environmentType"
+        }
+      ]
+    }
+  ]
+}

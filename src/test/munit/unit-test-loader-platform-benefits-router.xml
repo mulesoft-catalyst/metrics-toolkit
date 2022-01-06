@@ -320,13 +320,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="a6b8b3f1-aa58-4984-a58b-47ef54dff2aa"
-				expression='#[payload map ($ - "date")]' is='#[MunitTools::equalTo(vars.expectedJsonResponse map ($ - "date"))]'
+				expression='#[(vars.expectedJsonResponse map ($ - "date")) == &#10;(payload map ($ - "date"))]' is='#[MunitTools::equalTo(true)]'
 				message="The response payload is not the expected" />
 		</munit:validation>
 	</munit:test>
 
 	<munit:test name="loader-platform-benefits-router-mongodb-test" doc:id="22581e24-0ef4-4538-8ebb-874f98a0c926" description="Test"
-		expectedErrorType="MULE:ROUTING">
+		expectedErrorType="MULE:ROUTING" ignore="true">
 		<munit:execution>
 			<ee:transform doc:name="Mock Attributes and Payload" doc:id="2cf60948-ec22-46d7-940c-85a9ad0ba368">
 				<ee:message>
@@ -337,5 +337,29 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<flow-ref doc:name="Flow-ref to post:\business-metrics\load:application\json:api-config" doc:id="0483dd77-72c6-45c9-b1af-53195755df01"
 				name="post:\business-metrics\load:application\json:api-config" />
 		</munit:execution>
+	</munit:test>
+	<munit:test name="loader-platform-benefits-router-sfdc-test" doc:id="88a442cc-f4f4-4235-bfd7-d6717d9afb2a" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="63d4d505-9a7e-43ee-804c-a284a8f430cd" processor="salesforce-analytics:upload-external-data-into-new-data-set-and-start-processing">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Upload external data into new data set and start processing" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Salesforce_Analytics_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<ee:transform doc:name="Mock Attributes and Payload" doc:id="6d1f6856-8bb7-4987-846b-53c4197c9b0b">
+				<ee:message>
+					<ee:set-payload resource="dw/mock-loader-benefits-strategy-payload-sfdc.dwl" />
+					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
+				</ee:message>
+			</ee:transform>
+			<flow-ref doc:name="Flow-ref to post:\business-metrics\load:application\json:api-config" doc:id="b31126fa-a293-4fbe-8e66-f71dc8a79fef"
+				name="post:\business-metrics\load:application\json:api-config" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="dfc5298f-0e7b-4a78-b6c9-606e01beef9f"
+				expression='#[payload]' is="#[MunitTools::equalTo(vars.expectedResponse)]" message="The response payload is not the expected" />
+		</munit:validation>
 	</munit:test>
 </mule>
