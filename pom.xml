@@ -12,7 +12,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
 		<app.runtime>4.4.0</app.runtime>
 		<mule.maven.plugin.version>3.4.1</mule.maven.plugin.version>
 		<munit.version>2.3.6</munit.version>
@@ -28,6 +27,7 @@
 		<munit-tools.version>2.3.6</munit-tools.version>
 		<mule-mongodb-connector.version>6.3.1</mule-mongodb-connector.version>
 		<mongodb-driver-legacy.version>4.0.4</mongodb-driver-legacy.version>
+		<analytics.version>3.8.2</analytics.version>
 		<validation.module.version>1.4.5</validation.module.version>
 	</properties>
 
@@ -114,12 +114,6 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>org.mule.connectors</groupId>
-			<artifactId>mule-objectstore-connector</artifactId>
-			<version>${os.version}</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-apikit-module</artifactId>
 			<version>${apikit.version}</version>
@@ -182,6 +176,18 @@
 			<artifactId>assertions</artifactId>
 			<version>1.0.2</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.connectors</groupId>
+			<artifactId>mule-objectstore-connector</artifactId>
+			<version>${os.version}</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.connectors</groupId>
+			<artifactId>mule-sfdc-analytics-connector</artifactId>
+			<version>${analytics.version}</version>
+			<classifier>mule-plugin</classifier>
 		</dependency>
 	</dependencies>
 
