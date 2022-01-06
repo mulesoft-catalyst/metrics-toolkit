@@ -57,6 +57,11 @@ else
 }]]]></http:uri-params>
 		</http:request>
 		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Coreservices - Environments, Response Status Code:" ++ attributes.statusCode]' />
+		<ee:transform doc:name="Transform Message" doc:id="2a9dbdf0-20f2-4e7a-a43c-cb311cf3158e" >
+			<ee:message >
+				<ee:set-payload resource="dw/anypoint/coreservices-filter-environments.dwl" />
+			</ee:message>
+		</ee:transform>
 	</flow>
 	
 	<flow name="api-call-coreservices-usage-flow" doc:id="d5bf088a-61dd-443f-9308-0bdcd9ad5e8b" maxConcurrency="${anypoint.platform.apis.coreservices.maxConcurrency}">
