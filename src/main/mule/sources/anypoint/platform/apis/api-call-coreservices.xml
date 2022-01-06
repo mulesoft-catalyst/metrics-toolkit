@@ -59,16 +59,7 @@ else
 		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Coreservices - Environments, Response Status Code:" ++ attributes.statusCode]' />
 		<ee:transform doc:name="Transform Message" doc:id="2a9dbdf0-20f2-4e7a-a43c-cb311cf3158e" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
-var ignoredEnvironments = Mule::p('secure::ignoreLists.environments') splitBy ","
-var filteredEnvironments = payload.data filter ((item, index) -> !(ignoredEnvironments contains item.id))
----
-
-{
-	"data": filteredEnvironments,
-	"total": sizeOf(filteredEnvironments)
-}]]></ee:set-payload>
+				<ee:set-payload resource="dw/anypoint/coreservices-filter-environments.dwl" />
 			</ee:message>
 		</ee:transform>
 	</flow>
