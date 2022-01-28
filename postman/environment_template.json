@@ -1,0 +1,56 @@
+{
+	"id": "895c16d3-7559-4c95-8cbb-727d7d104b23",
+	"name": "Metrics Toolkit - Template",
+	"values": [
+		{
+			"key": "url",
+			"value": "http://localhost:8081",
+			"enabled": true
+		},
+		{
+			"key": "anypointOrg",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "credentialType",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "anypointUsername",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "anypointPassword",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "isPlaintextSecret",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "connectedAppId",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "connectedAppSecret",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2022-01-28T15:48:03.890Z",
+	"_postman_exported_using": "Postman/9.10.1"
+}
