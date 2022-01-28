@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "302143d6-ebe1-4056-8a90-20ca73680da7",
+		"_postman_id": "706115af-7ce6-4b1e-9383-e47f0cbdd838",
 		"name": "Metrics Toolkit",
-		"description": "# Metrics Toolkit\nThis provides endpoints for the Anypoint Metrics Toolkit API.\n\n## Features\nIt contains the categories of requests listed below, which are separated into folders.\n\n- Benefits\n- Platform Metrics\n\nThis also has prerequest scripts to handle headers.  Each folder has a script that automatically sets Anypoint Platform headers for the folder's requests.  This is in each folder that has Anypoint Platform requests, as some folders (SDLC) don't need those headers.\n\n# Setup\nThis requires variables to be set for the requests to work.\n\n## Environment Variables\n\n- `url`: The base url for the API.  This contains the HTTP protocol, domain, and port.  Example: `http://localhost:8081`\n\n## Global Variables\n\n- `anypointOrg`: The root Anypoint organization on which to run the metrics.\n- `credentialType`: Determines which Anypoint credential headers to generate.  `user` for Anypoint Platform user credentials; `app` for connected app client credentials.\n- `anypointUsername`: Used for Anypoint Platform user credentials.\n- `anypointPassword`: Used for Anypoint Platform user credentials.\n- `connectedAppId`: Used for Connected App credentials.\n- `connectedAppSecret`: Used for Connected App credentials.\n- `isPlaintextSecret`: Indicates if the secret in the credentials is Base64 encoded or not.  If `true`, it is not encoded.",
+		"description": "# Metrics Toolkit\n\nThis provides endpoints for the Anypoint Metrics Toolkit API.\n\n## Features\n\nIt contains the categories of requests listed below, which are separated into folders.\n\n*   Benefits\n*   Platform Metrics\n    \n\nThis also has pre-request scripts to handle headers. Each folder has a script that automatically sets Anypoint Platform headers for the folder's requests. This is in each folder that has Anypoint Platform requests, as some folders (SDLC) don't need those headers.\n\n# Setup\n\nThis requires variables to be set for the requests to work.\n\n## Environment Variables\n\n*   `url`: The base url for the API. This contains the HTTP protocol, domain, and port. Example: `http://localhost:8081`\n*   `anypointOrg`: The root Anypoint organization on which to run the metrics.\n    \n\n*   `credentialType`: Determines which Anypoint credential headers to generate. `user` for Anypoint Platform user credentials; `app` for connected app client credentials.\n*   `anypointUsername`: Used for Anypoint Platform user credentials.\n*   `anypointPassword`: Used for Anypoint Platform user credentials.\n*   `connectedAppId`: Used for Connected App credentials.\n*   `connectedAppSecret`: Used for Connected App credentials.\n*   `isPlaintextSecret`: Indicates if the secret in the credentials is Base64 encoded or not. If `true`, it is not encoded.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -11,9 +11,6 @@
 			"item": [
 				{
 					"name": "Get Benefits",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -23,10 +20,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{url}}/api/business-metrics?developAPIHistoricTime=20&developAPICurrentTime=10&maintainAPIHistoricTime=15&maintainAPICurrentTime=7&developerDayRate=200",
 							"host": [
@@ -159,19 +152,19 @@
 							"/*",
 							"    Set Anypoint Platform headers from GLOBAL variables",
 							"*/",
-							"var credentialType = pm.globals.get(\"credentialType\").toLowerCase();",
+							"var credentialType = pm.environment.get(\"credentialType\");",
 							"var isUserCreds = credentialType == \"user\"; // user or app",
 							"",
 							"if (isUserCreds) {",
-							"    pm.request.headers.upsert( {key: 'x-anypnt-username', value: pm.globals.get(\"anypointUsername\")} );",
-							"    pm.request.headers.upsert( {key: 'x-anypnt-password', value: pm.globals.get(\"anypointPassword\")} );",
+							"    pm.request.headers.upsert( {key: 'x-anypnt-username', value: pm.environment.get(\"anypointUsername\")} );",
+							"    pm.request.headers.upsert( {key: 'x-anypnt-password', value: pm.environment.get(\"anypointPassword\")} );",
 							"} else {",
-							"    pm.request.headers.upsert( {key: 'x-anypnt-client-id', value: pm.globals.get(\"connectedAppId\")} );",
-							"    pm.request.headers.upsert( {key: 'x-anypnt-client-secret', value: pm.globals.get(\"connectedAppSecret\")}  );",
+							"    pm.request.headers.upsert( {key: 'x-anypnt-client-id', value: pm.environment.get(\"connectedAppId\")} );",
+							"    pm.request.headers.upsert( {key: 'x-anypnt-client-secret', value: pm.environment.get(\"connectedAppSecret\")}  );",
 							"}",
-							"var isPlaintextSecret = (typeof pm.globals.get(\"isPlaintextSecret\") !== 'undefined') ? pm.globals.get(\"isPlaintextSecret\") : \"true\"",
+							"var isPlaintextSecret = (typeof pm.environment.get(\"isPlaintextSecret\") !== 'undefined') ? pm.environment.get(\"isPlaintextSecret\") : \"true\"",
 							"pm.request.headers.upsert( {key: 'x-plaintext-password', value: isPlaintextSecret}  );",
-							"pm.request.headers.upsert( {key: 'x-anypnt-org-id', value: pm.globals.get(\"anypointOrg\")}  );"
+							"pm.request.headers.upsert( {key: 'x-anypnt-org-id', value: pm.environment.get(\"anypointOrg\")}  );"
 						]
 					}
 				},
@@ -191,9 +184,6 @@
 			"item": [
 				{
 					"name": "Get Platform Metrics",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -203,10 +193,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{url}}/api/platform-metrics?raw=false",
 							"host": [
@@ -220,6 +206,11 @@
 								{
 									"key": "raw",
 									"value": "false"
+								},
+								{
+									"key": "collectors",
+									"value": "",
+									"disabled": true
 								}
 							]
 						}
@@ -343,6 +334,35 @@
 					"response": []
 				},
 				{
+					"name": "Platform Metrics Load - AM",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"collectors\": [\"all\"],\n\t\"loaderDetails\": {\n\t\t\"strategy\": \"am\",\n\t\t\"rawData\": \"false\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/platform-metrics/load",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"platform-metrics",
+								"load"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Platform Metrics Load - Logger",
 					"request": {
 						"method": "POST",
@@ -410,19 +430,20 @@
 							"/*",
 							"    Set Anypoint Platform headers from GLOBAL variables",
 							"*/",
-							"var credentialType = pm.globals.get(\"credentialType\").toLowerCase();",
+							"var credentialType = pm.environment.get(\"credentialType\");",
 							"var isUserCreds = credentialType == \"user\"; // user or app",
 							"",
 							"if (isUserCreds) {",
-							"    pm.request.headers.upsert( {key: 'x-anypnt-username', value: pm.globals.get(\"anypointUsername\")} );",
-							"    pm.request.headers.upsert( {key: 'x-anypnt-password', value: pm.globals.get(\"anypointPassword\")} );",
+							"    pm.request.headers.upsert( {key: 'x-anypnt-username', value: pm.environment.get(\"anypointUsername\")} );",
+							"    pm.request.headers.upsert( {key: 'x-anypnt-password', value: pm.environment.get(\"anypointPassword\")} );",
 							"} else {",
-							"    pm.request.headers.upsert( {key: 'x-anypnt-client-id', value: pm.globals.get(\"connectedAppId\")} );",
-							"    pm.request.headers.upsert( {key: 'x-anypnt-client-secret', value: pm.globals.get(\"connectedAppSecret\")}  );",
+							"    pm.request.headers.upsert( {key: 'x-anypnt-client-id', value: pm.environment.get(\"connectedAppId\")} );",
+							"    pm.request.headers.upsert( {key: 'x-anypnt-client-secret', value: pm.environment.get(\"connectedAppSecret\")}  );",
 							"}",
-							"var isPlaintextSecret = (typeof pm.globals.get(\"isPlaintextSecret\") !== 'undefined') ? pm.globals.get(\"isPlaintextSecret\") : \"true\"",
+							"var isPlaintextSecret = (typeof pm.environment.get(\"isPlaintextSecret\") !== 'undefined') ? pm.environment.get(\"isPlaintextSecret\") : \"true\"",
 							"pm.request.headers.upsert( {key: 'x-plaintext-password', value: isPlaintextSecret}  );",
-							"pm.request.headers.upsert( {key: 'x-anypnt-org-id', value: pm.globals.get(\"anypointOrg\")}  );"
+							"pm.request.headers.upsert( {key: 'x-anypnt-org-id', value: pm.environment.get(\"anypointOrg\")}  );",
+							""
 						]
 					}
 				},
