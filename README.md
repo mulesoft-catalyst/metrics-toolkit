@@ -328,6 +328,8 @@ sdlc.splunk.password | Password to access REST APIs |
 
 **NOTE:** Please note that each external system collector should be self-contained, it means that all associated configuration must be part of the Mule configuration file itself and must not be externalized inside the `global.xml`
 
+### Postman Collection 
+A Postman collection which contains sample API requests is included under /postman/postman_collection.json. To import this, open Postman and click File > Import, and select the .json file. The collection contains documentation describing prerequisites and setup. Clicking the collection folder opens the documentation window. A number of Environment variables are needed. A template environment is also included under /postman/environment_template.json. To import into Postman, click Environemts > Import and select the .json file. Populate the variables with accurate values. 
 
 ### Splunk steps
 
