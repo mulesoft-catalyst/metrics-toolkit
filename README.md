@@ -15,6 +15,7 @@ Table of Contents
          * [Steps](#steps)
          * [Properties configurations](#properties-configurations)
             * [SDLC metrics collectors properties configuration](#sdlc-metrics-collectors-properties-configuration)
+         * [Postman Collection](#postman-collection)
          * [Splunk steps](#splunk-steps)
             * [Properties specific for Splunk](#properties-specific-for-splunk)
          * [ELK steps](#elk-steps)
