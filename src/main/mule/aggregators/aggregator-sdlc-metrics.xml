@@ -24,7 +24,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<flow-ref doc:name="JIRA Metrics Flow Reference" doc:id="d42691e3-59fd-475b-a4ef-25b62a046c34" name="collector-jira-metrics-stories-flow" />
 			</route>
 			<route>
-				<flow-ref doc:name="Splunk Metrics Flow Reference" doc:id="d27ee5f5-d6a3-4d16-bc9c-c3d22befbdc9" name="collector-azuredevops-metrics-flow" />
+				<flow-ref doc:name="Splunk Metrics Flow Reference" doc:id="d27ee5f5-d6a3-4d16-bc9c-c3d22befbdc9" name="collector-splunk-metrics-flow" />
 			</route>
 			<route >
 				<flow-ref doc:name="Azure DevOps Metrics Flow Reference" doc:id="5e8ce2e6-9200-4eea-8690-3ef3683940e0" name="collector-azuredevops-metrics-flow"/>
