@@ -575,3 +575,10 @@ How to link business needs, measurements and data sources?
 
 ## Final Notes
 Enjoy and provide feedback / contribute :)
+
+
+## Common Errors 
+
+# Permission errors
+- All `403` errors, specifically, for the endpoint related to RTF deployments /hybrid/api/v2/ are permissions issues, be sure the user/connected-app has the right permissions (Runtime Manager and Runtime Fabric specifically): https://github.com/mulesoft-catalyst/metrics-toolkit#requirements
+
