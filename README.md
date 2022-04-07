@@ -22,7 +22,7 @@ Table of Contents
          * [Tableau steps](#tableau-steps)            
          * [MongoDB steps](#mongodb-steps)
             * [Properties specific for MongoDB](#properties-specific-for-mongodb)
-         * [SFDC-Einstein Analytics Steps](#einstein-analytics-dashboard-steps)
+         * [SFDC-Einstein Analytics Steps](#sfdc-steps)
       * [Considerations](#considerations)
       * [Some Theory around the Toolkit](#some-theory-around-the-toolkit)
          * [Business Needs](#business-needs)
@@ -580,5 +580,5 @@ Enjoy and provide feedback / contribute :)
 ## Common Errors 
 
 ### Permission errors
-- All `403` errors, specifically, for the endpoint related to RTF deployments /hybrid/api/v2/ are permissions issues, be sure the user/connected-app has the right permissions (Runtime Manager and Runtime Fabric specifically): https://github.com/mulesoft-catalyst/metrics-toolkit#requirements
+- All `403` errors, specifically, for the endpoint related to RTF deployments /hybrid/api/v2/ are permissions issues, be sure the user/connected-app has the right permissions (Runtime Manager and Runtime Fabric specifically): [Requirements](#requirements)
 
