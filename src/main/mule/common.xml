@@ -71,9 +71,15 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<ee:message >
 			</ee:message>
 			<ee:variables >
-				<ee:set-variable resource="dw/common/set-raw-data-from-props-var.dwl" variableName="rawData" />
 				<ee:set-variable resource="dw/common/set-collectors-from-props-var.dwl" variableName="collectors" />
 				<ee:set-variable resource="dw/common/set-loader-details-from-props-var.dwl" variableName="loaderDetails" />
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Set vars.rawData" doc:id="c17561ae-3b21-47fe-b770-0dd4b32d1dcb">
+			<ee:message>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dw/common/set-raw-data-from-props-var.dwl" variableName="rawData" />
 			</ee:variables>
 		</ee:transform>
 	</flow>
