@@ -501,4 +501,26 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:application\json:api-config" doc:id="ffab454f-41b3-486e-a011-4b633ff507dc" name="post:\platform-metrics\load:application\json:api-config"/>
 		</munit:execution>
 	</munit:test>
+	<munit:test name="loader-platform-metrics-router-sfdc-test" doc:id="89285ac9-7759-432d-8c0b-6746709f3195" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="9d5d15d1-f6ac-491b-ab83-7bda2abd301f" processor="salesforce-analytics:upload-external-data-into-new-data-set-and-start-processing">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Upload external data into new data set and start processing" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="Salesforce_Analytics_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<ee:transform doc:name="Mock Attributes and Payload" doc:id="aff4c922-a764-4953-9722-ae8827d80eab" >
+				<ee:message >
+					<ee:set-payload resource="dw/mock-loader-strategy-payload-sfdc.dwl" />
+					<ee:set-attributes resource="dw/mock-call-attributes.dwl" />
+				</ee:message>
+			</ee:transform>
+			<flow-ref doc:name="Flow-ref to post:\platform-metrics\load:application\json:api-config" doc:id="6be87c2a-61d6-4fab-b659-8025c680d210" name="post:\platform-metrics\load:application\json:api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert Expected Response" doc:id="3d8a73be-5e39-4d1e-af99-51ec7d0cc228" expression='#[payload]' is="#[MunitTools::equalTo(vars.expectedResponse)]" message="The response payload is not the expected" />
+		</munit:validation>
+	</munit:test>
 </mule>
