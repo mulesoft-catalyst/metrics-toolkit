@@ -71,8 +71,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 ---
 {
 	period : p("anypoint.platform.apis.mq.period"),
-	startDate: (now() - |P1D|) as String {format: "E, dd MMM YYYY HH:mm:ss z"},
-	endDate: now() as String {format: "E, dd MMM YYYY HH:mm:ss z"}
+	startDate: (now() - |P1D|) as String {format: "E, dd MMM uuuu HH:mm:ss z"},
+	endDate: now() as String {format: "E, dd MMM uuuu HH:mm:ss z"}
 }]]]></http:query-params>
 		</http:request>
 		<logger level="DEBUG" doc:name="Log MQ Queue Stats Response" doc:id="e9a05093-dbea-42d1-8a8d-fdf186238acd"
@@ -101,8 +101,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 ---
 {
 	period : p("anypoint.platform.apis.mq.period"),
-	startDate: (now() - |P1D|) as String {format: "E, dd MMM YYYY HH:mm:ss z"},
-	endDate: now() as String {format: "E, dd MMM YYYY HH:mm:ss z"}
+	startDate: (now() - |P1D|) as String {format: "E, dd MMM uuuu HH:mm:ss z"},
+	endDate: now() as String {format: "E, dd MMM uuuu HH:mm:ss z"}
 }]]]></http:query-params>
 		</http:request>
 		<logger level="DEBUG" doc:name="Log MQ Exchange Stats Response" doc:id="20fbf9e6-e830-4287-b8c3-44507d292bda"

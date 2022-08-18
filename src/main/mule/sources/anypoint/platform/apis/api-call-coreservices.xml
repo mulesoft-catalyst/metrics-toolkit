@@ -57,6 +57,11 @@ else
 }]]]></http:uri-params>
 		</http:request>
 		<logger level="DEBUG" doc:name="Logger" doc:id="44625425-13b2-42b6-9886-1bbbe2de07fb" message='#["Coreservices - Environments, Response Status Code:" ++ attributes.statusCode]' />
+		<ee:transform doc:name="Transform Message" doc:id="2a9dbdf0-20f2-4e7a-a43c-cb311cf3158e" >
+			<ee:message >
+				<ee:set-payload resource="dw/anypoint/coreservices-filter-environments.dwl" />
+			</ee:message>
+		</ee:transform>
 	</flow>
 	
 	<flow name="api-call-coreservices-usage-flow" doc:id="d5bf088a-61dd-443f-9308-0bdcd9ad5e8b" maxConcurrency="${anypoint.platform.apis.coreservices.maxConcurrency}">
@@ -77,9 +82,16 @@ else
 		<logger level="DEBUG" doc:name="Logger" doc:id="ffee6271-74d2-421b-be0a-6002d720b680" message='#["Coreservices - Usage, Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 
-	<flow name="api-call-coreservices-members-flow" doc:id="4990df1e-b762-4df7-a800-fd6d77250ffa" maxConcurrency="${anypoint.platform.apis.coreservices.maxConcurrency}">
-		<logger level="DEBUG" doc:name="Logger" doc:id="479f824f-b589-4ee4-a744-8f39495bb2aa" message="Calling Coreservices - Members" />
-		<http:request method="GET" doc:name="Get Members Request" doc:id="1ba81296-2726-4c17-8f73-38ac1ee990ec" config-ref="HTTP_Request_configuration"
+	<flow name="api-call-coreservices-members-flow" doc:id="af3a3923-4a28-43e9-89ba-5dc520f370cd" maxConcurrency="${anypoint.platform.apis.coreservices.maxConcurrency}">
+		<logger level="DEBUG" doc:name="Logger" doc:id="6aba3216-787a-449f-8431-eb7e33e92dbd" message="Calling Coreservices - Members" />
+		<ee:transform doc:name="offset" doc:id="faede030-995a-463c-b9c4-42ec3eef0166">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable resource="dw/anypoint/save-offset-var.dwl" variableName="offset" />
+			</ee:variables>
+		</ee:transform>
+		<http:request method="GET" doc:name="Get Members Request" doc:id="c6221f3e-e86b-47fa-a787-594af6270aed" config-ref="HTTP_Request_configuration"
 			path="${anypoint.platform.apis.coreservices.members.path}">
 			<http:headers><![CDATA[#[output application/java
 ---
@@ -94,12 +106,44 @@ else
 			<http:query-params><![CDATA[#[output application/java
 ---
 {
-	"offset" : p('anypoint.platform.apis.coreservices.members.offset'),
-	"limit" : p('anypoint.platform.apis.coreservices.members.limit')
+	"offset" : vars.offset,
+	"limit" : Mule::p('anypoint.platform.apis.coreservices.members.limit')
 }]]]></http:query-params>
 		</http:request>
-		<logger level="DEBUG" doc:name="Logger" doc:id="6cab5b2d-cbdb-46eb-81b5-e4fd877beb10" message='#["Coreservices - Members, Response Status Code:" ++ attributes.statusCode]' />
+		<logger level="DEBUG" doc:name="Logger" doc:id="a233a091-8815-44fa-964c-c23d10de76a1" message='#["Coreservices - Members, Response Status Code:" ++ attributes.statusCode]' />
+		<flow-ref doc:name="Check if need to request more members" doc:id="a3c5a3d6-fd7f-4ef5-97a8-ecf0bd2db6b5" name="call-paginated-members-if-required-subflow"/>
 	</flow>
+	
+	<sub-flow name="call-paginated-members-if-required-subflow" doc:id="ed20d824-a1cc-4b61-b6ab-50a6f4ea0996" >
+		<ee:transform doc:name="membersTotalObtained" doc:id="1cabfddb-99c2-40fd-999a-020d74bb7c3a">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable resource="dw/anypoint/save-members-obtained.dwl" variableName="membersTotalObtained" />
+			</ee:variables>
+		</ee:transform>
+		<choice doc:name="Are there remaining  members?" doc:id="b8e537b2-d9e5-4909-9222-1ab4eb5d959c">
+			<when expression="#[vars.membersTotalObtained &lt; payload.total]">
+				<ee:transform doc:name="aggregatedMemberPayload" doc:id="cce5ce26-2566-4baa-a7da-0fce10ab57bc">
+					<ee:message>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable resource="dw/anypoint/save-aggregated-member-payload-var.dwl" variableName="aggregatedMemberPayload" />
+					</ee:variables>
+				</ee:transform>
+				<set-variable value="#[vars.offset + Mule::p('anypoint.platform.apis.coreservices.members.limit')]" doc:name="offset" doc:id="ee7c9be2-378e-4bae-9a2a-b2e99f0b5e36" variableName="offset" />
+				<flow-ref doc:name="Get more members" doc:id="27b381a9-2c88-4195-890d-8296480fa54c" name="api-call-coreservices-members-flow" />
+			</when>
+			<otherwise>
+				<logger level="INFO" doc:name="Logger" doc:id="9ff21e33-66a3-435c-a59d-21db9e6db46c" message="No remaining Members"/>
+				<ee:transform doc:name="aggregatedMemberPayload as Payload" doc:id="6b382f4f-ba62-476f-bcc7-27226b58f9cc">
+					<ee:message>
+						<ee:set-payload resource="dw/anypoint/save-aggregated-member-payload-var.dwl" />
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+	</sub-flow>
 	
 	<flow name="api-call-coreservices-rolegroups" doc:id="1bb94c6a-d222-4874-b208-4d0e8a7eacf8">
 		<logger level="DEBUG" doc:name="Logger" doc:id="afd73d5a-20ed-4091-89fd-153a37c6881e" message="Calling Coreservices - RoleGroups" />
