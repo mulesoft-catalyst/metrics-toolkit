@@ -1,0 +1,59 @@
+#
+# IMPORTANT!
+# Copy this file and rename it according to your environment: e.g. for the 'dev' environment copy this to `app-dev.yaml`.
+# Provide values as secure properties eg: "![abcacbabcabc]"
+# https://docs.mulesoft.com/mule-runtime/latest/secure-configuration-properties
+# 
+
+
+auth:
+  orgId: ""
+  
+  # If auth mode = platform-credentials (ignored, otherwise):
+  username: ""
+  password: ""
+  
+  # If auth mode = connected-app-credentials (ignored, otherwise):
+  clientId: ""
+  clientSecret: ""
+     
+ignoreLists:
+  organizations: ""  #Array: comma-separated values 'orgId1,orgId2'
+  environments: ""  #Array: comma-separated values 'envId1,envId2'
+
+splunk:
+  token: ""
+  
+elk:
+  user: ""
+  password: ""
+
+mongodb:
+  username: ""
+  password: ""
+
+# SDLC Metrics
+sdlc:
+  confluence:
+    user: ""
+    token: ""
+  bitbucket:
+    user: ""
+    token: ""
+  jira:
+    user: ""
+    token: ""
+  jenkins:
+    user: ""
+    token: ""
+  splunk:
+    user: ""
+    password: ""
+  azuredevops:
+    token: ""
+    
+sfdc:
+  username : ""
+  password : ""
+  securityToken : ""
+  # authUrl : ""
