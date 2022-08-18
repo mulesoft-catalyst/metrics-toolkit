@@ -25,8 +25,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 ---
 {
 	period : p("anypoint.platform.apis.osv2.period"),
-	startDate: (now() - |P1D|) as String {format: "yyyy-MM-dd'T'00:00:00.000'Z'"},
-	endDate: now() as String {format: "yyyy-MM-dd'T'00:00:00.000'Z'"}
+	startDate: (now() - |P1D|) as String {format: "uuuu-MM-dd'T'00:00:00.000'Z'"},
+	endDate: now() as String {format: "uuuu-MM-dd'T'00:00:00.000'Z'"}
 }]]]></http:query-params>
 		</http:request>
 		<logger level="DEBUG" doc:name="Log OSv2 Stats Response" doc:id="b71071b8-9118-41dc-bb35-6a94c94d6427"

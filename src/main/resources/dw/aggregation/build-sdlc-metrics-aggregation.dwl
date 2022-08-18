@@ -20,9 +20,9 @@ var azureDevOpsRepoData = payload[5].payload[3].payload default []
 		},
 		confluenceMetrics: if(vars.sdlcDetails.confluence.enabled == "true") {
 			totalPages: confluenceData.size default null,
-			totalPagesCreatedInLast30Days : sizeOf(confluenceData.results filter ($.history.createdDate as String {format: "yyyy-MM-dd'T'HH:mm:ss.SSS"} as Date) > now() - |P30D|) default null,
-			totalPagesUpdatedInLast30Days : sizeOf(confluenceData.results filter ($.history.lastUpdated.when as String {format: "yyyy-MM-dd'T'HH:mm:ss.SSS"} as Date) > now() - |P30D|) default null,
-			topContributorsInLast30Days : ((confluenceData.results filter ($.history.createdDate as String {format: "yyyy-MM-dd'T'HH:mm:ss.SSS"} as Date) > now() - |P30D| groupBy $.history.createdBy.publicName) mapObject {
+			totalPagesCreatedInLast30Days : sizeOf(confluenceData.results filter ($.history.createdDate as String {format: "uuuu-MM-dd'T'HH:mm:ss.SSS"} as Date) > now() - |P30D|) default null,
+			totalPagesUpdatedInLast30Days : sizeOf(confluenceData.results filter ($.history.lastUpdated.when as String {format: "uuuu-MM-dd'T'HH:mm:ss.SSS"} as Date) > now() - |P30D|) default null,
+			topContributorsInLast30Days : ((confluenceData.results filter ($.history.createdDate as String {format: "uuuu-MM-dd'T'HH:mm:ss.SSS"} as Date) > now() - |P30D| groupBy $.history.createdBy.publicName) mapObject {
 				($$) : sizeOf($)
 			} orderBy (-$)) default null
 		} else {},
