@@ -1,0 +1,2 @@
+# Ignore all local secure property files
+app-*.yaml
