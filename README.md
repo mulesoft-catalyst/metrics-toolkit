@@ -15,6 +15,7 @@ Table of Contents
          * [Steps](#steps)
          * [Properties configurations](#properties-configurations)
             * [SDLC metrics collectors properties configuration](#sdlc-metrics-collectors-properties-configuration)
+         * [Postman Collection](#postman-collection)
          * [Splunk steps](#splunk-steps)
             * [Properties specific for Splunk](#properties-specific-for-splunk)
          * [ELK steps](#elk-steps)
@@ -22,7 +23,7 @@ Table of Contents
          * [Tableau steps](#tableau-steps)            
          * [MongoDB steps](#mongodb-steps)
             * [Properties specific for MongoDB](#properties-specific-for-mongodb)
-         * [SFDC-Einstein Analytics Steps](#einstein-analytics-dashboard-steps)
+         * [SFDC-Einstein Analytics Steps](#sfdc-steps)
       * [Considerations](#considerations)
       * [Some Theory around the Toolkit](#some-theory-around-the-toolkit)
          * [Business Needs](#business-needs)
@@ -328,6 +329,8 @@ sdlc.splunk.password | Password to access REST APIs |
 
 **NOTE:** Please note that each external system collector should be self-contained, it means that all associated configuration must be part of the Mule configuration file itself and must not be externalized inside the `global.xml`
 
+### Postman Collection 
+A Postman collection which contains sample API requests is included under /postman/postman_collection.json. To import this, open Postman and click File > Import, and select the .json file. The collection contains documentation describing prerequisites and setup. Clicking the collection folder opens the documentation window. A number of Environment variables are needed. A template environment is also included under /postman/environment_template.json. To import into Postman, click Environemts > Import and select the .json file. Populate the variables with accurate values. 
 
 ### Splunk steps
 
@@ -575,3 +578,10 @@ How to link business needs, measurements and data sources?
 
 ## Final Notes
 Enjoy and provide feedback / contribute :)
+
+
+## Common Errors 
+
+### Permission errors
+- All `403` errors, specifically, for the endpoint related to RTF deployments /hybrid/api/v2/ are permissions issues, be sure the user/connected-app has the right permissions (Runtime Manager and Runtime Fabric specifically): [Requirements](#requirements)
+
