@@ -42,6 +42,8 @@ sdlc:
   splunk:
     user: "![0CXQwZBMmw43vtBN7jyoRQ==]"
     password: "![0CXQwZBMmw43vtBN7jyoRQ==]"
+  azuredevops:
+    token: "![JwiT9lu5NXmPvpavbfym80ztSHhFmOo6VR3J4keE1J9zzKawE+TvIg92ZZCbBQROnGuOAniDFmPozIlY8+qGqQ==]"
     
 sfdc:
   username : "![0CXQwZBMmw43vtBN7jyoRQ==]"
