@@ -88,6 +88,12 @@ elk:
 
 tableau:
   outputDir: "./data"
+  
+sfdc:
+  appName :    "IPAAS_Anypoint_Metrics_App"
+  dataSetName: "IPAAS_Anypoint_Metrics_DataSet"
+  notificationEmail : ""
+  sendNotification: "NEVER"
 
 # SDLC Metrics
 sdlc:
