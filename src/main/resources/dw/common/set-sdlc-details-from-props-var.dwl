@@ -16,5 +16,9 @@ output application/java
 	},
 	splunk: {
 		enabled: p('sdlc.splunk.enabled')
+	},
+	azuredevops: {
+		enabled: p('sdlc.azuredevops.enabled')
 	}
+	
 }
