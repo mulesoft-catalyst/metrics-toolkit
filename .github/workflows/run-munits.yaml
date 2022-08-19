@@ -23,12 +23,33 @@ jobs:
           distribution: adopt
           architecture: x64
           cache: maven
-          settings-path: ${{ github.workspace }}/.github
-          server-id: mulesoft-ee
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
+      - name: Generate settings.xml
+        uses: whelk-io/maven-settings-xml-action@v20
+        with:
+          repositories: |
+            [
+              {
+                "id": "mulesoft-ee",
+                "name": "MuleSoft EE",
+                "url": "https://repository.mulesoft.org/nexus-ee/content/repositories/releases-ee",
+                "releases": {
+                  "enabled": "true"
+                },
+                "snapshots": {
+                  "enabled": "true"
+                }
+              }
+            ]
+          servers: |
+            [
+              {
+                "id": "mulesoft-ee",
+                "username": MAVEN_USERNAME,
+                "password": MAVEN_PASSWORD
+              }
+            ]
       - name: Run MUnit
-        run: mvn -B -s $GITHUB_WORKSPACE/.github/settings.xml clean test
+        run: mvn -B clean test
         env:
           MAVEN_USERNAME: ${{ secrets.EE_USER }}
           MAVEN_PASSWORD: ${{ secrets.EE_PASS }}
