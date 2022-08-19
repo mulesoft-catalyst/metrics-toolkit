@@ -1,4 +1,4 @@
-name: Run Munit Tests
+name: Code Quality Checks
 on:
   pull_request:
     types:
@@ -74,8 +74,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: munit-coverage-report
-      - run: |
-          coverage=`cat munit-coverage.json | jq -r '.coverage' | xargs printf '%.3f%%\n'`
-          gh pr comment ${{ github.event.pr.number }} --body "Code coverage reported as $coverage"
-        env:
+      - name: Get coverage
+        run: echo ::set-output name=coverage::$(cat munit-coverage.json | jq -r '.coverage' | xargs printf '%.3f%%\n')
+          #gh pr comment ${{ github.event.pr.number }} --body "Code coverage reported as $coverage"
+      - name: Comment Pull Request
+        uses: thollander/actions-comment-pull-request@v1.4.1
+        with:
+          message: Testing code coverage reported as ${{ steps.vars.outputs.coverage }}
+          comment_includes: Testing code coverage reported
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
