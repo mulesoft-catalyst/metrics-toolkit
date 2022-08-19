@@ -1,13 +1,13 @@
 name: Run MUnit
 on:
-  - pull_request:
+  pull_request:
     types:
       - opened
       - synchronize
     branches:
       - develop
       - main
-  - workflow_dispatch
+  workflow_dispatch:
 
 jobs:
   test:
