@@ -17,14 +17,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 8
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           java-version: '8'
           distribution: adopt
           architecture: x64
           cache: maven
-      - name: Generate settings.xml
+      - name: Configure Maven settings.xml
         uses: whelk-io/maven-settings-xml-action@v20
         with:
           repositories: |
@@ -70,16 +70,16 @@ jobs:
     if: github.event.pull_request
     steps:
       - uses: actions/checkout@v3
-      - name: Get test coverage report
+      - name: Download test coverage report
         uses: actions/download-artifact@v3
         with:
           name: munit-coverage-report
-      - name: Get coverage
+      - name: Extract overall coverage value
+        id: get-coverage
         run: echo ::set-output name=coverage::$(cat munit-coverage.json | jq -r '.coverage' | xargs printf '%.3f%%\n')
-          #gh pr comment ${{ github.event.pr.number }} --body "Code coverage reported as $coverage"
-      - name: Comment Pull Request
+      - name: Comment on Pull Request
         uses: thollander/actions-comment-pull-request@v1.4.1
         with:
-          message: Testing code coverage reported as ${{ steps.vars.outputs.coverage }}
+          message: Testing code coverage reported as ${{ steps.get-coverage.outputs.coverage }}
           comment_includes: Testing code coverage reported
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
