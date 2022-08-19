@@ -1,0 +1,32 @@
+name: Run MUnit
+on:
+  - pull_request:
+    types:
+      - opened
+      - synchronize
+    branches:
+      - develop
+      - main
+  - workflow_dispatch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+          architecture: 'x64'
+          cache: 'maven'
+          settings-path: ${{ github.workspace }}/.github
+          server-id: mulesoft-ee
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+      - name: Run MUnit
+        run: mvn -B -s $GITHUB_WORKSPACE/.github/settings.xml clean test
+        env:
+          MAVEN_USERNAME: ${{ secrets.EE_USER }}
+          MAVEN_PASSWORD: ${{ secrets.EE_PASS }}
