@@ -69,6 +69,7 @@ jobs:
     needs: run-tests
     if: github.event.pull_request
     steps:
+      - uses: actions/checkout@v3
       - name: Get test coverage report
         uses: actions/download-artifact@v3
         with:
