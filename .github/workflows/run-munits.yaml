@@ -1,10 +1,15 @@
 name: Run Munit Tests
 on:
   pull_request:
-    types: ["opened", "synchronize"]
-    branches: ["develop", "main"]
+    types:
+      - opened
+      - synchronize
+    branches:
+      - develop
+      - main
   push:
-    branches: ["workflow"]
+    branches:
+      - pipeline
 
 jobs:
   test:
@@ -15,9 +20,9 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '8'
-          distribution: 'adopt'
-          architecture: 'x64'
-          cache: 'maven'
+          distribution: adopt
+          architecture: x64
+          cache: maven
           settings-path: ${{ github.workspace }}/.github
           server-id: mulesoft-ee
           server-username: MAVEN_USERNAME
