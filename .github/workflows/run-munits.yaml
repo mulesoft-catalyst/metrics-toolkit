@@ -44,8 +44,8 @@ jobs:
             [
               {
                 "id": "mulesoft-ee",
-                "username": MAVEN_USERNAME,
-                "password": MAVEN_PASSWORD
+                "username": "${{ secrets.EE_USER }}",
+                "password": "${{ secrets.EE_PASS }}"
               }
             ]
       - name: Run MUnit
