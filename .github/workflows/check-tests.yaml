@@ -1,0 +1,84 @@
+name: Code Quality Checks
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    branches:
+      - develop
+      - main
+  push:
+    branches:
+      - pipeline
+
+jobs:
+  run-tests:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: adopt
+          architecture: x64
+          cache: maven
+      - name: Configure settings.xml
+        uses: whelk-io/maven-settings-xml-action@v20
+        with:
+          repositories: |
+            [
+              {
+                "id": "mulesoft-ee",
+                "name": "MuleSoft EE",
+                "url": "https://repository.mulesoft.org/nexus-ee/content/repositories/releases-ee",
+                "releases": {
+                  "enabled": "true"
+                },
+                "snapshots": {
+                  "enabled": "true"
+                }
+              }
+            ]
+          servers: |
+            [
+              {
+                "id": "mulesoft-ee",
+                "username": "${{ secrets.EE_USER }}",
+                "password": "${{ secrets.EE_PASS }}"
+              }
+            ]
+      - name: Prepare application configuration
+        run: cp $GITHUB_WORKSPACE/.github/app-dev.yaml $GITHUB_WORKSPACE/src/main/resources/properties/secure/app-dev.yaml
+      - name: Run mvn test
+        run: mvn -B clean test
+      - name: Archive test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: surefire-reports
+          path: target/surefire-reports/
+      - name: Archive test coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: munit-coverage-report
+          path: target/site/munit/coverage/munit-coverage.json
+  report-coverage:
+    name: Report coverage
+    runs-on: ubuntu-latest
+    needs: run-tests
+    if: github.event.pull_request
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download test coverage report
+        uses: actions/download-artifact@v3
+        with:
+          name: munit-coverage-report
+      - name: Extract overall coverage value
+        id: get-coverage
+        run: echo ::set-output name=coverage::$(cat munit-coverage.json | jq -r '.coverage' | xargs printf '%.3f%%\n')
+      - name: Upsert comment on PR
+        uses: thollander/actions-comment-pull-request@v1.4.1
+        with:
+          message: Testing code coverage reported as ${{ steps.get-coverage.outputs.coverage }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
