@@ -22,7 +22,7 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
           architecture: 'x64'
-          cache: 'maven'
+          cache: 'maven' 
           settings-path: ${{ github.workspace }}/.github
           server-id: mulesoft-ee
           server-username: MAVEN_USERNAME
