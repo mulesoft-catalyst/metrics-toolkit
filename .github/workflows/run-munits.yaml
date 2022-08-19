@@ -48,6 +48,8 @@ jobs:
                 "password": "${{ secrets.EE_PASS }}"
               }
             ]
+      - name: Prepare configuration
+        run: cp $GITHUB_WORKSPACE/.github/app-dev.yaml $GITHUB_WORKSPACE/src/main/resources/properties/secure/app-dev.yaml
       - name: Run MUnit
         run: mvn -B clean test
         env:
