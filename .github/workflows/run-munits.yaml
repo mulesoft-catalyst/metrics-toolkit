@@ -75,7 +75,7 @@ jobs:
         with:
           name: munit-coverage-report
       - run: |
-          coverage=$(cat munit-coverage-report | jq -r '.coverage' | xargs printf '%.3f%%\n')
+          coverage=`cat munit-coverage.json | jq -r '.coverage' | xargs printf '%.3f%%\n'`
           gh pr comment ${{ github.event.pr.number }} --body "Code coverage reported as $coverage"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
