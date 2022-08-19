@@ -12,7 +12,7 @@ on:
       - pipeline
 
 jobs:
-  test:
+  run-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -52,6 +52,26 @@ jobs:
         run: cp $GITHUB_WORKSPACE/.github/app-dev.yaml $GITHUB_WORKSPACE/src/main/resources/properties/secure/app-dev.yaml
       - name: Run MUnit
         run: mvn -B clean test
+      - name: Archive test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: surefire-reports
+          path: target/surefire-reports/
+      - name: Archive test coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: munit-coverage-report
+          path: target/site/munit/coverage/munit-coverage.json
+  report-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get test coverage report
+        if: github.event.pull_request
+        uses: actions/download-artifact@v3
+        with:
+          name: munit-coverage-report
+      - run: |
+          coverage=$(cat munit-coverage-report | jq -r '.coverage' | xargs printf '%.3f%%\n')
+          gh pr comment ${{ github.event.pr.number }} --body "Code coverage reported as $coverage"
         env:
-          MAVEN_USERNAME: ${{ secrets.EE_USER }}
-          MAVEN_PASSWORD: ${{ secrets.EE_PASS }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
