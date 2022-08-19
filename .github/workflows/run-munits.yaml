@@ -1,15 +1,10 @@
-name: Run MUnit
+name: Run Munit Tests
 on:
   pull_request:
-    types:
-      - opened
-      - synchronize
-    branches:
-      - develop
-      - main
+    types: ["opened", "synchronize"]
+    branches: ["develop", "main"]
   push:
-    branches:
-      - workflow
+    branches: ["workflow"]
 
 jobs:
   test:
@@ -22,7 +17,7 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
           architecture: 'x64'
-          cache: 'maven' 
+          cache: 'maven'
           settings-path: ${{ github.workspace }}/.github
           server-id: mulesoft-ee
           server-username: MAVEN_USERNAME
