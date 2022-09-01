@@ -146,7 +146,7 @@
           "organizationId": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
           "isProduction": false,
           "type": "sandbox",
-          "clientId": "301d80c54f3d42e2a7be6238011ce8bc"
+          "clientId": "***REMOVED***"
         },
         {
           "id": "0629ce85-4ba2-49ca-b487-28f4db3d37bb",
@@ -154,7 +154,7 @@
           "organizationId": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
           "isProduction": true,
           "type": "production",
-          "clientId": "2db764bf1b184a43aace563833d107d0"
+          "clientId": "***REMOVED***"
         },
         {
           "id": "ea57c23e-bfc6-469d-9713-657120452f6b",
@@ -162,7 +162,7 @@
           "organizationId": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
           "isProduction": false,
           "type": "sandbox",
-          "clientId": "c9035c6475b54e6f9443b2afb8dc1db6"
+          "clientId": "***REMOVED***"
         },
         {
           "id": "fef8f989-845d-4ebf-bf84-4bc2518f4650",
@@ -170,7 +170,7 @@
           "organizationId": "877baaaa-36ba-4021-82d5-45bae78e0fe2",
           "isProduction": false,
           "type": "sandbox",
-          "clientId": "3f80e257ebfd4c518d220a2df9ab3aaa"
+          "clientId": "***REMOVED***"
         }
       ]
     },
