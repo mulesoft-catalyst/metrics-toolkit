@@ -1,0 +1,52 @@
+auth:
+  
+  orgId: "[ENTER ORG ID]"
+  
+  # If auth mode = platform-credentials (ignored, otherwise):
+  username: "[ENTER USERNAME]"
+  password: "[ENTER PASSWORD]"
+  
+  # If auth mode = connected-app-credentials (ignored, otherwise):
+  clientId: "[ENTER CLIENT ID]"
+  clientSecret: "[ENTER SECRET]"
+     
+ignoreLists:
+  organizations: ""  #Array: comma-separated values 'orgId1,orgId2'
+  environments: ""  #Array: comma-separated values 'envId1,envId2'
+
+splunk:
+  token: "[ENTER SPLUNK TOKEN]"
+  
+elk:
+  user: "[ENTER USERNAME]"
+  password: "[ENTER PASSWORD]"
+
+mongodb:
+  username: "[ENTER USERNAME]"
+  password: "[ENTER PASSWORD]"
+
+# SDLC Metrics
+sdlc:
+  confluence:
+    user: "[ENTER USER]"
+    token: "[ENTER TOKEN]"
+  bitbucket:
+    user: "[ENTER USER]"
+    token: "[ENTER TOKEN]"
+  jira:
+    user: "[ENTER USER]"
+    token: "[ENTER TOKEN]"
+  jenkins:
+    user: "[ENTER USER]"
+    token: "[ENTER TOKEN]"
+  splunk:
+    user: "[ENTER USER]"
+    password: "[ENTER PASSWORD]"
+  azuredevops:
+    token: "[ENTER TOKEN]"
+    
+sfdc:
+  username : "[ENTER USER]"
+  password : "[ENTER PASSWORD]"
+  securityToken : "[ENTER TOKEN]"
+  # authUrl : ""
