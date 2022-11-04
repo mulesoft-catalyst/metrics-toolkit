@@ -1,0 +1,132 @@
+# API config
+api:
+  host: "0.0.0.0"
+  path: "/api/*"
+  
+http:  
+  port: "8081"
+  private.port: "8091"
+  
+https:
+  port: "8082"
+  private.port: "8092"
+    
+# Embedded Dashboard config
+embedded.dashboard:
+  path: "/*"
+  enabled: "false"
+
+poller:
+  enabled: "false"
+  frequency: 
+    cron: "0 0 0 * * ? *" 
+    #Sample for dev "0 17 * * * ? *" At second :00 of minute :17 of every hour
+    #Sample for prod "0 0 0 * * ? *" At 00:00:00am every day
+    #https://www.freeformatter.com/cron-expression-generator-quartz.html
+    timezone: "GMT-3"
+auth:
+  mode: "platform-credentials" # valid options are: platform-credentials or connected-app-credentials
+  
+aggregation:
+  raw: "false"
+  
+loader:
+  strategy: "logger"
+
+# Enabled Collectors
+#
+# Comma separated set of collectors that should be executed. Possible values are:
+#
+# Available for all deployment models:
+#  - ap: Automated Policies              
+#  - apc: API Clients
+#  - apm: API Manager
+#  - arm: Runtime Manager   
+#  - core: Core Services
+#  - dc: Design Center
+#  - ex: Exchange
+            
+# Not available for PCE:
+#  - amq: Anypoint MQ
+#  - apma: API Manager Analytics                                          
+#  - ch: CloudHub   
+#  - rtf: Runtime Fabric
+#  - osv2: Object Store V2
+
+# Not available for GovCloud:
+#  - apma: API Manager Analytics                                          
+#  - arm: Runtime Manager   
+#  - rtf: Runtime Fabric
+
+# Default value: "all"
+  
+collectors: "all"
+  
+splunk:
+  host: "splunk-metrics.env.services.mulesoft.com"
+  port: "8088"
+  protocol: "HTTP"
+  source: "metrics-source"
+  source.type: "_json"
+  index:
+    metrics: "metrics"
+    benefits: "platform_benefits"
+
+mongodb:
+  host: "localhost"
+  port: "27017"
+  database: "matrixdb"
+  collection: "metrics"
+            
+elk:
+  host: "localhost"
+  port: "9200"
+  protocol: "HTTP"
+  index:
+    metrics: "metrics"
+    benefits: "platformbenefits"     
+
+tableau:
+  outputDir: "./data"
+  
+sfdc:
+  appName :    "IPAAS_Anypoint_Metrics_App"
+  dataSetName: "IPAAS_Anypoint_Metrics_DataSet"
+  notificationEmail : ""
+  sendNotification: "NEVER"
+
+# SDLC Metrics
+sdlc:
+  poller:
+    enabled: "false"
+  confluence:
+    enabled: "false" #Configure and set this to true if confluence metrics are required
+    host: "test.atlassian.net"
+    port: "443"
+    path: "/wiki/rest/api/content/search?next=true&limit=1000&cql=%28type=page%20and%20space=%27MUL%27%29&expand=version,history,history.lastUpdated"
+  bitbucket:
+    enabled: "false" #Configure and set this to true if bitbucket metrics are required
+    host: "api.bitbucket.org"
+    port: "443"
+    path: "/2.0/repositories/fm_ebiz?q=project.key=%22MUL%22"
+  jira:
+    enabled: "false" #Configure and set this to true if jira metrics are required
+    host: "test.atlassian.net"
+    port: "443"
+    path: "/rest/api/2/search?maxResults=100&jql=project+%3D+Integrations+AND+sprint+IN+openSprints()"
+    backlogPath: "/rest/api/2/search?jql=project%20%3D%20Integrations%20AND%20%28Sprint%20%3D%20EMPTY%20OR%20Sprint%20in%20futureSprints%28%29%29%20AND%20issuetype%20%21%3D%20Epic"
+  jenkins:
+    enabled: "false" #Configure and set this to true if jenkins metrics are required
+    host: "jenkins.test.net"
+    port: "443"
+    path: "/jenkins/view/9_MULE_4/api/json"
+  splunk:
+    enabled: "false" #Configure and set this to true if splunk metrics are required
+    host: "test.splunk.com"
+    port: "8089"
+    path: "/servicesNS/nobody/mulesoft/data/ui/views?count=-0"
+  azuredevops:
+    enabled: "false" #Configure and set this to true if Azure DevOps metrics are required
+    host: "dev.azure.com"
+    apiPath: "/mycompany/mulesoft-projects/_apis" # Path should be set to /[organization name]/[project name]/_apis
+    projectName: "mulesoft-projects"
