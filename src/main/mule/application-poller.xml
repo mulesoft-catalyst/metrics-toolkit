@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="application-data-poller-flow" doc:id="3da9e6de-da8b-4c4a-867d-40f1a7935577" >
+		<scheduler doc:name="Scheduler" doc:id="c362f9e8-f37d-414b-80ec-aca900bc4017" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="3000000"/>
+			</scheduling-strategy>
+		</scheduler>
+		<flow-ref doc:name="set auth vars" doc:id="c913458e-e2e0-453d-9204-4ecd2c0dd786" name="common-set-auth-vars-from-properties"/>
+		<flow-ref doc:name="get token from auth api" doc:id="87319c35-ec0a-4c3f-8188-94cce1d24f3b" name="api-call-coreservices-login-connectedapp-flow" target="token" targetValue="#[payload.access_token]"/>
+		<flow-ref doc:name="get organization from api" doc:id="b4e70a08-e3ce-4b1e-a16d-b36d011a6734" name="api-call-coreservices-organizations-flow" target="org"/>
+		<ee:transform doc:name="subOrgs, apps" doc:id="ab7b83b5-2f4f-4628-969d-9fa9cd3478ca" >
+			<ee:message >
+				<ee:set-payload resource="dw/poller/applications/flatten-suborganizations.dwl"></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="apps" ><![CDATA[%dw 2.0
+output application/java
+---
+[]]]></ee:set-variable>
+				<ee:set-variable variableName="errors" ><![CDATA[%dw 2.0
+output application/java
+---
+[]]]></ee:set-variable>
+				<ee:set-variable variableName="bulkDate" ><![CDATA[%dw 2.0
+output application/java
+---
+now() as String]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<foreach doc:name="retrieve environment data" doc:id="16ff84fd-409d-4c16-8670-2cc3f5b9db1b" >
+			<flow-ref doc:name="retrieve environment data" doc:id="618f3027-1f86-4044-a798-2ea1cc73282d" name="environment-data-flow"/>
+		</foreach>
+		<ee:transform doc:name="output payload" doc:id="fc5dc28d-3314-4dc7-85e0-62bff060e5e2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	applications: vars.apps,
+	errors: vars.errors
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="9db62518-a569-43ee-b2a3-347084384a44" message="#[&quot;::: Found errors&quot; ++ write(payload.errors, 'application/json')]]" />
+		<flow-ref doc:name="elk application data loader" doc:id="e0fb39ec-1974-498b-80b7-612438f8d54d" name="application-poller-elk-loader-subflow"/>
+	</flow>
+	<sub-flow name="environment-data-flow" doc:id="9ff15ffb-098d-47f3-81b2-37d6a284ce56">
+		<try doc:name="Try" doc:id="3ff3f3a4-3040-4877-8ca3-d83aa1734ee1">
+			<set-variable value="#[{&#10;	id: payload.id,&#10;	name: payload.name&#10;}]" doc:name="set organizationData" doc:id="71bad783-c17d-440a-a76a-094f1489b618" variableName="organizationData"/>
+			<http:request method="GET" doc:name="call-environments-api-endpoint" doc:id="933241ea-ac72-4f6e-9fdd-b7fbd36dab3d" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.coreservices.environments.path}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.token
+}]]]></http:headers>
+			<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"orgId" : vars.organizationData.id
+}]]]></http:uri-params>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"orgId" : "Value"
+}]]]></http:query-params>
+		</http:request>
+			<foreach doc:name="retrieve application list by environment" doc:id="972e8230-4b11-4eac-a748-989ff3d9c0c8" collection="#[payload.data]">
+			<ee:transform doc:name="set envData, mergedApps" doc:id="95de0210-521f-42b6-ae13-bfb56c3f0cde">
+				<ee:message>
+				</ee:message>
+				<ee:variables>
+					<ee:set-variable variableName="mergedApps"><![CDATA[%dw 2.0
+output application/java
+---
+[]]]></ee:set-variable>
+						<ee:set-variable variableName="envData" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	id: payload.id,
+	name: payload.name,
+	isProduction: payload.isProduction
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<http:request method="GET" doc:name="call-applications-by-env-api" doc:id="45cfa600-bd55-48aa-be52-bcf2f2b67d81" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.cloudhub.apps.path}">
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"X-ANYPNT-ENV-ID" : vars.envData.id,
+	"Authorization" : "Bearer " ++ vars.token,
+	"X-ANYPNT-ORG-ID" : vars.organizationData.id
+}]]]></http:headers>
+			</http:request>
+			<foreach doc:name="retireve app by app name" doc:id="445e3ecc-1487-49f2-a1b2-b132aa886b22" collection="payload">
+					<logger level="INFO" doc:name="Logger" doc:id="03a50176-7deb-4d0b-9ec9-06fb3b2fdb4e" message='#["::: Getting info from app:"  ++ payload.domain]'/>
+					<flow-ref doc:name="retrieve applications data" doc:id="2a30e660-034b-4962-8e43-259a579ef392" name="applications-data-subflow"/>
+			</foreach>
+		</foreach>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="91abab35-b9e5-4d62-bf86-c2fc7cf254c4" >
+					<ee:transform doc:name="set errors" doc:id="48b99bb2-a956-482b-a189-effda5d3060d" >
+						<ee:message >
+						</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="errors" ><![CDATA[%dw 2.0 output application/java
+var foundError = {
+	'type': error.errorType.asString,
+ 	description: error.detailedDescription,
+	organization: vars.organizationData
+}
+---
+vars.errors + foundError]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+				</on-error-continue>
+			</error-handler>
+		</try>
+	</sub-flow>
+	<sub-flow name="applications-data-subflow" doc:id="2055cfb2-2e52-4ff9-a8c0-2ce9c1ba7c1a" >
+		<set-variable value="#[payload.domain]" doc:name="set appName" doc:id="9cc5bf4c-b227-4a3c-8473-741fadca873e" variableName="appName"/>
+		<set-variable value='#[output application/json&#10;var timeNow = now()&#10;---&#10;{&#10;	"endDate" : timeNow,&#10;	"startDate" : (timeNow - |P7D|),&#10;	"interval" : 720000&#10;}]' doc:name="set statistics timeframe" doc:id="29a0df93-bf7b-4e21-a51e-a40a2f93958a" variableName="statisticsTimeFrame"/>
+		<http:request method="GET" doc:name="call-application-dashboardStats-by-app-name" doc:id="a136b119-fc74-44c5-8e64-f281cfcf7c71" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.cloudhub.apps.dashboardStats.path}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"X-ANYPNT-ENV-ID" : vars.envData.id,
+	"Authorization" : "Bearer " ++ vars.token,
+	"X-ANYPNT-ORG-ID" : vars.organizationData.id
+}]]]></http:headers>
+			<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"appName" : vars.appName
+}]]]></http:uri-params>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"endDate" : vars.statisticsTimeFrame.endDate,
+	"startDate" : vars.statisticsTimeFrame.startDate,
+	"interval" : vars.statisticsTimeFrame.interval
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform doc:name="set workersData" doc:id="3f867cb9-e4d3-40a7-a845-d1728ba4eee3">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables>
+				<ee:set-variable variableName="workersData" resource="dw/poller/applications/pluck-workersData.dwl"></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+		<http:request method="GET" doc:name="call-application-deployments-by-app-name" doc:id="157f9608-aff8-4093-aabc-c0ccb817ca0a" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.cloudhub.apps.deployments.path}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"X-ANYPNT-ENV-ID" : vars.envData.id,
+	"Authorization" : "Bearer " ++ vars.token,
+	"X-ANYPNT-ORG-ID" : vars.organizationData.id
+}]]]></http:headers>
+			<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"appName" : vars.appName
+}]]]></http:uri-params>
+		</http:request>
+		<ee:transform doc:name="set deploymentsData" doc:id="48210bc1-dcfc-414a-961a-b74a34989df5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="deploymentsData" ><![CDATA[%dw 2.0
+output application/json
+---
+
+ {
+     totalOfDeployments: payload.total,
+     firstDeployment: payload.data minBy ((deployment) -> deployment.endTime),
+     lastDeployment : payload.data maxBy ((deployment) -> deployment.endTime)
+ }]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<http:request method="GET" doc:name="call-application-by-app-name" doc:id="8e46bd4c-60e7-4034-ac7c-7177fc735634" config-ref="HTTP_Request_configuration" path="${anypoint.platform.apis.cloudhub.apps.path}/{appName}">
+					<http:headers><![CDATA[#[output application/java
+---
+{
+	"X-ANYPNT-ENV-ID" : vars.envData.id,
+	"Authorization" : "Bearer " ++ vars.token,
+	"X-ANYPNT-ORG-ID" : vars.organizationData.id
+}]]]></http:headers>
+					<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"appName" : vars.appName
+}]]]></http:uri-params>
+				</http:request>
+		<ee:transform doc:name="set appData" doc:id="b2816ad2-a896-423b-9e20-d81d599167a5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="appData" resource="dw/poller/applications/build-appData.dwl"> </ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="set appData into apps array" doc:id="f6c2659e-fae1-4d4b-b5da-a7aa68cbaee9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="apps" ><![CDATA[%dw 2.0
+output application/java
+---
+vars.apps + vars.appData]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="application-poller-elk-loader-subflow" doc:id="4c695be8-e74b-421d-8e6a-b5af5a8c86ac" >
+		<set-variable value="#[p('elk.index.applicationsFlow')]" doc:name="set index" doc:id="cf4d09f2-d871-4144-aa12-9715f44bd216" variableName="index" />
+		<flow-ref doc:name="ELK Flow Reference" doc:id="e380161e-fa71-40b5-a56a-c4a73976fa19" name="elk-applications-loader-flow"/>
+	</sub-flow>
+</mule>

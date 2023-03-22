@@ -35,6 +35,14 @@ else
 		<logger level="DEBUG" doc:name="Logger" doc:id="94b6e2e7-72f9-4957-8c55-103ad0fe8765" message='#["Coreservices - Login, Response Status Code:" ++ attributes.statusCode]' />
 	</flow>
 
+	<flow name="api-call-coreservices-login-connectedapp-flow" doc:id="1e455f49-9333-49cf-a256-28042dd97e4e" >
+		<ee:transform doc:name="Build Connected App Credentials Login Request" doc:id="d2f2eda9-c653-42ab-b8ad-b20a20a9c86a" >
+			<ee:message >
+				<ee:set-payload resource="dw/anypoint/coreservices-build-connected-app-login-request.dwl" />
+			</ee:message>
+		</ee:transform>
+		<http:request method="POST" doc:name="Post Login Request" doc:id="65933339-c863-47a5-af33-eb104501de2f" config-ref="HTTP_Request_configuration" path="#[Mule::p('anypoint.platform.apis.coreservices.token.path')]" />
+	</flow>
 	<flow name="api-call-coreservices-login-cache-flow" doc:id="48481958-9a25-435b-a50d-32ccc993a661">
 		<ee:cache doc:name="Cache" doc:id="386abad4-1802-4ebd-868d-4cce5adc627a" cachingStrategy-ref="Caching_Strategy">
 			<flow-ref doc:name="Login Flow Reference" doc:id="3f2ec75e-c320-4855-8725-228e401e595c" name="api-call-coreservices-login-flow" />

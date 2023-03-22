@@ -31,6 +31,10 @@ anypoint:
         maxConcurrency: "100"
         apps:
           path: "/cloudhub/api/v2/applications"
+          deployments:
+            path: "/cloudhub/api/v2/applications/{appName}/deployments"
+          dashboardStats: 
+            path: "/cloudhub/api/v2/applications/{appName}/dashboardStats"
       arm:
         maxConcurrency: "3"
         apps:

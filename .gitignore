@@ -47,3 +47,8 @@ target/
 .mule/**/*
 .DS_Store
 velocity.log
+
+# ---------------#
+# Mule Specific  #
+# ---------------#
+src/main/resources/weave/*
