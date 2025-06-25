@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce-analytics="http://www.mulesoft.org/schema/mule/salesforce-analytics" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/salesforce-analytics http://www.mulesoft.org/schema/mule/salesforce-analytics/current/mule-salesforce-analytics.xsd">
+	<salesforce-analytics:salesforce-analytics-config name="Salesforce_Analytics_Config" doc:name="Salesforce Analytics Config" doc:id="3dabc1d5-c480-45e7-8f76-36b477ae8aec" >
+		<salesforce-analytics:basic-connection 
+		   username="#[vars.loaderDetails.sfdc.username]" 
+		   password="#[vars.loaderDetails.sfdc.password]" 
+		   securityToken="#[vars.loaderDetails.sfdc.securityToken]" url="#[vars.loaderDetails.sfdc.authUrl]"/>
+	</salesforce-analytics:salesforce-analytics-config>
+	<flow name="loader-salesforce-analytics-platform-metrics-flow" doc:id="183ea509-57d3-48ac-86f9-7eec580d5261" >
+		<flow-ref doc:name="Aggregate Platform Metrics Flow Reference" doc:id="af0fa469-fd1c-49db-803a-3e289f310c4b" name="aggregator-platform-metrics-master-flow" />
+		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="3f68c400-2502-4e54-b6fd-14a54393c378" variableName="event" />
+		<ee:transform doc:name="Build CSV Structure" doc:id="2272ba9a-17c4-41d5-a86f-94dac7d72f50">
+			<ee:message>
+				<ee:set-payload resource="dw/loader/loader-sfdc-build-structure.dwl" />
+			</ee:message>
+		</ee:transform>
+		<set-variable value="sfdc/sfdc_platform_metrics.json" doc:name="Set sfdc type" doc:id="5d8d2c0e-ec0a-42c9-b192-96e02679ea6f" variableName="sfdcType" />
+		<logger level="INFO" doc:name="Logger" doc:id="a8c25f8b-4b83-4263-97c1-7819ef1bb8a1" message="Injecting Anypoint Metrics to SF-Einstein Analytics as user : #[vars.loaderDetails.sfdc.username]" />
+		<flow-ref doc:name="loader-salesforce-analytics-publish-flow" doc:id="7912b611-37e7-4108-a116-c36a29987c13" name="loader-salesforce-analytics-publish-flow"/>
+	</flow>
+	<flow name="loader-salesforce-analytics-benefits-main-flow" doc:id="68aa4458-e1e6-4742-9a4d-dd7d77978652" >
+		<flow-ref doc:name="Aggregate Platform Benefits Flow Reference" doc:id="88d7432e-7713-4688-b35b-155656af90a3" name="aggregator-platform-benefits-master-flow" />
+		<set-variable value="#[payload]" doc:name="Set Event Variable" doc:id="965db3cd-b488-46c5-9fbc-4a07137321b2" variableName="event" />
+		<ee:transform doc:name="Build CSV Structure" doc:id="4daa3236-3320-4cd9-a06c-65694d742fe6" >
+			<ee:message >
+				<ee:set-payload resource="dw/loader/loader-sfdc-build-benefits-structure.dwl" />
+			</ee:message>
+		</ee:transform>
+		<set-variable value="sfdc/sfdc_sdlc_metrics.json" doc:name="Set sfdc type" doc:id="d28fc370-60c7-44f7-878c-5b056977c044" variableName="sfdcType"/>
+		<logger level="INFO" doc:name="Logger" doc:id="19047b1e-2be4-446e-8db5-2e7a4ee9314b" message="Injecting SDLC Metrics to SF-Einstein Analytics as user : #[vars.loaderDetails.sfdc.username]" />
+		<flow-ref doc:name="loader-salesforce-analytics-publish-flow" doc:id="6d4787d2-b584-4304-accb-d37b18720dfa" name="loader-salesforce-analytics-publish-flow"/>
+	</flow>
+	<flow name="loader-salesforce-analytics-publish-flow" doc:id="86cc1bc5-0d59-4dd6-acb3-87a75433e6fc" >
+		
+		<salesforce-analytics:upload-external-data-into-new-data-set-and-start-processing operation="#[vars.loaderDetails.sfdc.dataSetOperation default 'OVERWRITE']" doc:name="Upload external data into new data set and start processing" doc:id="549a56e6-71cb-4771-98b8-64db19acc068" config-ref="Salesforce_Analytics_Config" type="#[vars.sfdcType]" description="#[vars.loaderDetails.sfdc.dataSetDescription default (vars.loaderDetails.sfdc.dataSetName as String ++ 'Description')]" label="#[vars.loaderDetails.sfdc.dataSetLabel default ( vars.loaderDetails.sfdc.dataSetName as String ++ 'Label')]" dataSetName="#[vars.loaderDetails.sfdc.dataSetName]" edgemartContainer="#[vars.loaderDetails.sfdc.appName]" notificationSent="#[vars.loaderDetails.sfdc.sendNotifications default 'NEVER']" notificationEmail="#[vars.loaderDetails.sfdc.notificationEmail default '']" />
+		<ee:transform doc:name="Build Loader Response" doc:id="29325060-32a6-42c9-9477-a8454973252f">
+			<ee:message>
+				<ee:set-payload resource="dw/loader/loader-success-response.dwl" />
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

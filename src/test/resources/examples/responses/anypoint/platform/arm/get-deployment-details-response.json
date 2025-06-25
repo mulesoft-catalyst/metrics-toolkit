@@ -47,8 +47,8 @@
       "configuration":{
          "mule.agent.application.properties.service":{
             "properties":{
-               "anypoint.platform.client_id":"b8035c6476b54e6f8443c2afb8cd1db7",
-               "anypoint.platform.client_secret":"f64a45B527D246AdB26bd07598de5759"
+               "anypoint.platform.client_id":"***REMOVED***",
+               "anypoint.platform.client_secret":"***REMOVED***"
             },
             "applicationName":"sys-journals-api"
          }

@@ -6,6 +6,10 @@ var jenkinsData = payload[2].payload default []
 var jiraData = payload[3].payload[0].payload default []
 var jiraBacklogData = payload[3].payload[1].payload default []
 var splunkData = payload[4].payload default []
+var azureDevOpsBacklogData = payload[5].payload[0].payload default []
+var azureDevOpsSprintData = payload[5].payload[1].payload default []
+var azureDevOpsBuildData = payload[5].payload[2].payload default []
+var azureDevOpsRepoData = payload[5].payload[3].payload default []
 ---
 {
 	date: vars.date,
@@ -16,9 +20,9 @@ var splunkData = payload[4].payload default []
 		},
 		confluenceMetrics: if(vars.sdlcDetails.confluence.enabled == "true") {
 			totalPages: confluenceData.size default null,
-			totalPagesCreatedInLast30Days : sizeOf(confluenceData.results filter ($.history.createdDate as String {format: "yyyy-MM-dd'T'HH:mm:ss.SSS"} as Date) > now() - |P30D|) default null,
-			totalPagesUpdatedInLast30Days : sizeOf(confluenceData.results filter ($.history.lastUpdated.when as String {format: "yyyy-MM-dd'T'HH:mm:ss.SSS"} as Date) > now() - |P30D|) default null,
-			topContributorsInLast30Days : ((confluenceData.results filter ($.history.createdDate as String {format: "yyyy-MM-dd'T'HH:mm:ss.SSS"} as Date) > now() - |P30D| groupBy $.history.createdBy.publicName) mapObject {
+			totalPagesCreatedInLast30Days : sizeOf(confluenceData.results filter ($.history.createdDate as String {format: "uuuu-MM-dd'T'HH:mm:ss.SSS"} as Date) > now() - |P30D|) default null,
+			totalPagesUpdatedInLast30Days : sizeOf(confluenceData.results filter ($.history.lastUpdated.when as String {format: "uuuu-MM-dd'T'HH:mm:ss.SSS"} as Date) > now() - |P30D|) default null,
+			topContributorsInLast30Days : ((confluenceData.results filter ($.history.createdDate as String {format: "uuuu-MM-dd'T'HH:mm:ss.SSS"} as Date) > now() - |P30D| groupBy $.history.createdBy.publicName) mapObject {
 				($$) : sizeOf($)
 			} orderBy (-$)) default null
 		} else {},
@@ -36,6 +40,17 @@ var splunkData = payload[4].payload default []
 		} else {},
 		splunkMetrics: if(vars.sdlcDetails.splunk.enabled == "true") {
 			totalDashboards: splunkData
+		} else {},
+		azuredevopsMetrics: if(vars.sdlcDetails.azuredevops.enabled == "true") {
+			totalTasksInBacklog: sizeOf(azureDevOpsBacklogData) default null,
+    		totalTasksInSprint : sizeOf(azureDevOpsSprintData) default null,
+    		totalTasksByType : (azureDevOpsSprintData groupBy $.taskType) mapObject  {($$) : sizeOf($)} default null,
+    		totalTasksByStatus : (azureDevOpsSprintData groupBy $.status) mapObject  {($$) : sizeOf($)} default null,
+            totalRepositories: azureDevOpsRepoData.size,
+            totalJobs: sizeOf(azureDevOpsBuildData),
+            totalFailedJobs: sizeOf(azureDevOpsBuildData filter() -> $.result == "failed"),
+            totalSuccessJobs: sizeOf(azureDevOpsBuildData filter() -> $.result == "succeeded"),
+            totalUnexecutedJobs: sizeOf(azureDevOpsBuildData filter() -> $.result == "no runs")
 		} else {},
 		errors: vars.errors
 	} filterObject (!isEmpty($))

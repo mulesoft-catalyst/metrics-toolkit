@@ -1,4 +1,31 @@
 {
     "minMuleVersion": "4.6.0",
-    "javaSpecificationVersions": ["17"]
+    "javaSpecificationVersions": ["17"],
+	"secureProperties": [
+		"auth.orgId",
+		"auth.username",
+		"auth.password",
+		"auth.clientId",
+		"auth.clientSecret",
+		"ignoreLists.organizations",
+		"ignoreLists.environments",
+		"splunk.token",
+		"elk.user",
+		"elk.password",
+		"mongodb.username",
+		"mongodb.password",
+		"sdlc.confluence.user",
+		"sdlc.confluence.token",
+		"sdlc.bitbucket.user",
+		"sdlc.bitbucket.token",
+		"sdlc.jira.user",
+		"sdlc.jira.token",
+		"sdlc.jenkins.user",
+		"sdlc.jenkins.token",
+		"sdlc.splunk.user",
+		"sdlc.splunk.password",
+		"sfdc.username",
+		"sfdc.password",
+		"sfdc.securityToken"
+	]
 }

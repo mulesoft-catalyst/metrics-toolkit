@@ -4,7 +4,7 @@
 
 	<groupId>com.mulesoft</groupId>
 	<artifactId>metrics-toolkit</artifactId>
-	<version>1.9.2</version>
+	<version>1.10.0</version>
 	<packaging>mule-application</packaging>
 
 	<name>metrics-toolkit</name>
@@ -16,6 +16,7 @@
 		<app.runtime>4.8.0</app.runtime>
 		<mule.maven.plugin.version>4.4.0</mule.maven.plugin.version>
 		<!-- MUnit Dependencies versions -->
+		<munit.runtime>4.8.0</munit.runtime>
 		<munit.version>3.4.0</munit.version>
 		<munit-runner.version>3.4.0</munit-runner.version>
 		<munit-tools.version>3.4.0</munit-tools.version>
@@ -26,6 +27,7 @@
 		<sockets.version>1.2.5</sockets.version>
 		<os.version>1.2.3</os.version>
 		<metrics-extension.version>2.3.1</metrics-extension.version>
+		<analytics.version>3.17.1</analytics.version>
 		<file.version>1.5.3</file.version>
 		<mule-mongodb-connector.version>6.3.10</mule-mongodb-connector.version>
 		<mongodb-driver-legacy.version>4.0.4</mongodb-driver-legacy.version>
@@ -73,6 +75,7 @@
 						<runCoverage>true</runCoverage>
 						<formats>
 							<format>html</format>
+							<format>json</format>
 						</formats>
 						<ignoreFlows>
 							<!-- Ignoring the entry points, main listener, console, 
@@ -183,6 +186,12 @@
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-validation-module</artifactId>
 			<version>${validation-module.version}</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.connectors</groupId>
+			<artifactId>mule-sfdc-analytics-connector</artifactId>
+			<version>${analytics.version}</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 	</dependencies>

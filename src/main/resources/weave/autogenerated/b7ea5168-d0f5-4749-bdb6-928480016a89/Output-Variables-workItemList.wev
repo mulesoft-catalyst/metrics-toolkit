@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_b7ea5168_d0f5_4749_bdb6_928480016a89_Output_Variables_workItemList = Any
+
