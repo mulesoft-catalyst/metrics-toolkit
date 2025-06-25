@@ -15,7 +15,10 @@
 
 		<app.runtime>4.8.0</app.runtime>
 		<mule.maven.plugin.version>4.4.0</mule.maven.plugin.version>
-		<munit.version>2.3.1</munit.version>
+		<!-- MUnit Dependencies versions -->
+		<munit.version>3.4.0</munit.version>
+		<munit-runner.version>3.4.0</munit-runner.version>
+		<munit-tools.version>3.4.0</munit-tools.version>
 		<!-- Dependencies versions -->
 		<secure-properties.version>1.2.7</secure-properties.version>
 		<apikit.version>1.11.6</apikit.version>
@@ -24,8 +27,6 @@
 		<os.version>1.2.3</os.version>
 		<metrics-extension.version>2.3.1</metrics-extension.version>
 		<file.version>1.5.3</file.version>
-		<munit-runner.version>2.3.1</munit-runner.version>
-		<munit-tools.version>2.3.1</munit-tools.version>
 		<mule-mongodb-connector.version>6.3.10</mule-mongodb-connector.version>
 		<mongodb-driver-legacy.version>4.0.4</mongodb-driver-legacy.version>
 		<validation-module.version>2.0.7</validation-module.version>
