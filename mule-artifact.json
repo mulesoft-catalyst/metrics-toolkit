@@ -1,4 +1,6 @@
 {
+    "minMuleVersion": "4.6.0",
+    "javaSpecificationVersions": ["17"],
 	"secureProperties": [
 		"auth.orgId",
 		"auth.username",
@@ -25,6 +27,5 @@
 		"sfdc.username",
 		"sfdc.password",
 		"sfdc.securityToken"
-	],
-	"minMuleVersion":"4.4.0"
+	]
 }
