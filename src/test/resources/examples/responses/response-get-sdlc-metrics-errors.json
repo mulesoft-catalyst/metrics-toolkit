@@ -36,7 +36,7 @@
         ""
       ],
       [
-        "Exception(s) were found for route(s): \n\t0: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\t1: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: "
+        "Error(s) were found for route(s):\n\tRoute 0: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: \n\tRoute 1: org.mule.runtime.core.internal.processor.interceptor.InterceptionException: "
       ],
       [
         ""

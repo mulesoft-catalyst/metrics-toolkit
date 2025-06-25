@@ -358,7 +358,6 @@ splunk.index.benefits | Index for storing Platform benefits | platform_benefits
 
 
 > (*): Please note that by default, "Source Types" are created with a limit of 3000 characters. The Metrics Toolkit JSON event will likely exceed this limit. In order to solve that, you must increase this limit adding a new property "TRUNCATE" in the Advanced configuration of the specific Source Type. For example: TRUNCATE = 40000. Depending of the size of your organization, in terms of Business Groups, environments and number of applications and APIs in each environment, this value can be higher.
-
 ### ELK steps
 
 **NOTE:** Dashboards were created and tested with Kibana 7.6.2, adjustments may be necessary for other versions
@@ -584,4 +583,3 @@ Enjoy and provide feedback / contribute :)
 
 ### Permission errors
 - All `403` errors, specifically, for the endpoint related to RTF deployments /hybrid/api/v2/ are permissions issues, be sure the user/connected-app has the right permissions (Runtime Manager and Runtime Fabric specifically): [Requirements](#requirements)
-
