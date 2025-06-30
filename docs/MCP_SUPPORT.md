@@ -1,6 +1,8 @@
 ## MCP Server Support
 ---
 
+> **Disclaimer:** MCP Support requires Mule 9.6+.
+
 MCP Server Structure based on the RAML specification of the Metrics Toolkit API. The focus is on **granularity**, **performance**, and **agent-readiness**, breaking down the heavy endpoints into finer-grained, composable tools for MCP Agents.
 
 Complete MCP Spec can be found here. As a high level summary, MCP tools conform to the [JSON-RPC 2.0 specification](https://www.jsonrpc.org/specification).
@@ -9,12 +11,12 @@ Complete MCP Spec can be found here. As a high level summary, MCP tools conform 
 
 ### Available MCP Server Tools
 
-1. [`getAgentCapabilities`](###getagentcapabilities)
+1. [`getCapabilities`](###getcapabilities)
 2. [`getAvailableCollectors`](###getavailablecollectors)
 3. [`getPlatformMetricsByCollector`](###getplatformmetricsbycollector)
 4. [`getPlatformMetricByKey`](###getplatformmetricbykey)
 
-### getAgentCapabilities
+#### getCapabilities
 
 > **Disclaimer:** This tool may be replaced in future versions by native support for the [Google A2A Protocol](https://github.com/google/a2a/blob/main/spec.md), which standardizes agent capability declarations and execution formats.
 
@@ -28,40 +30,77 @@ Complete MCP Spec can be found here. As a high level summary, MCP tools conform 
 | Performance Guidance   | Lightweight. Recommended for initialization, Agent planning (ReAct patterns), or UI rendering of available actions.|
 | Agent Use Case | Enables dynamic planning and tool discovery at runtime. Useful for self-configuring or ReAct-style agents. |
 
-#### JSON-RPC Request Example
+###### JSON-RPC Request Example
 
 ```json
 {
   "jsonrpc": "2.0",
-  "method": "getAgentCapabilities",
-  "params": {},
-  "id": {uuuid}
+  "id": {uuuid},
+  "method": "tools/call",
+  "params": {
+      "name": "getCapabilities",
+      "arguments": {
+      }
+  }
 }
 ```
 
-#### Response Example
+###### Response Example
 
 ```json
 {
   "jsonrpc": "2.0",
-  "result": [
-    "information": "The content under tools dictates the available tools that can be invoked while interacting with this API...",
+  "result": {
+    "description": "This capability manifest describes the tools (methods) exposed by this agent. Each tool includes a name, description, and an input schema that defines the parameters required to invoke it. Agents can use this manifest to dynamically plan their next actions without hardcoding tool knowledge. The tools listed here follow the JSON-RPC 2.0 specification and must be invoked via POST requests to the MCP endpoint. Agents should first inspect this manifest to determine which tools are available and how to use them, then construct a valid request matching the tool’s input schema.",
     "tools": [
-    {
-      "name": "getPlatformMetricsByCollector",
-      "description": "Retrieves metrics from a specific collector ...",
-      "type": "QueryTool",
-      "params": [{"id": "collectorId", "type": "queryParam", "dataType": "string"}],
-      "performanceHint": "Requires filtering by collectorId..."
-    },
-   ...
-   ]
-  ],
+      {
+        "name": "getAvailableCollectors",
+        "description": "Returns all collector identifiers supported by the agent.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        }
+      },
+      {
+        "name": "getPlatformMetricsByCollector",
+        "description": "Retrieves metrics from a specific Anypoint collector with optional filters",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "collectorId": { "type": "string" },
+            "bg": { "type": "string" },
+            "filters": {
+              "type": "object",
+              "properties": {
+                "environment": { "type": "string" },
+                "region": { "type": "string" }
+              }
+            }
+          },
+          "required": ["collectorId", "bg"]
+        }
+      },
+      {
+        "name": "getPlatformMetricByKey",
+        "description": "Fetches a single metric value by key and collector. Useful for atomic, low-latency reads.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "collector": { "type": "string" },
+            "metricKey": { "type": "string" },
+            "bg": { "type": "string" },
+            "environment": { "type": "string" }
+          },
+          "required": ["collector", "metricKey", "bg"]
+        }
+      }
+    ]
+  },
   "id": {uuuid}
 }
 ```
 
-### getAvailableCollectors
+#### getAvailableCollectors
 
 | Field                  | Details                                                                                             |
 |------------------------|------------------------------------------------------------------------------------------------------|
@@ -73,20 +112,24 @@ Complete MCP Spec can be found here. As a high level summary, MCP tools conform 
 | Performance Guidance   | Lightweight, cacheable, suitable for prefetch or UI support.                                         |
 | Agent Use Case         | Agent dynamically determines what collector IDs are supported in the org.                            |
 
-#### JSON-RPC Request Example
+##### JSON-RPC Request Example
 
 ```json
 POST /mcp
 Content-Type: application/json
 {
   "jsonrpc": "2.0",
-  "method": "getAvailableCollectors",
-  "params": {},
-  "id": "4"
+  "method": "tools/call",
+  "params": {
+      "name": "getAvailableCollectors",
+      "arguments": {
+      }
+  },
+  "id": {uuuid},
 }
 ```
 
-#### Response Example
+##### Response Example
 
 ```json
 {
@@ -102,11 +145,11 @@ Content-Type: application/json
     "amq",
     "osv2"
   ],
-  "id": "4"
+  "id": {uuuid}
 }
 ```
 
-### getPlatformMetricsByCollector
+#### getPlatformMetricsByCollector
 
 | Field                  | Details                                                                                                                                     |
 |------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
@@ -118,7 +161,7 @@ Content-Type: application/json
 | Performance Guidance   | Require collectorId. Multiple collectors cannot be used to avoid delayed answers to the calling agent |
 | Agent Use Cases         | ITops support Agent monitors apps health, licensing Agent to support during renewals |
 
-#### JSON-RPC Request Example
+##### JSON-RPC Request Example
 
 ```json
 POST /mcp
@@ -126,19 +169,23 @@ Content-Type: application/json
 
 {
   "jsonrpc": "2.0",
-  "method": "getPlatformMetricsByCollector",
+  "method": "tools/call",
   "params": {
-    "collectorId": "amq",
-    "BG": "global-group",
-    "Environment": "production",
-    "Region": "us-east-1"
+    "name": "getPlatformMetricsByCollector",
+    "arguments": {
+      "collectorId": "amq",
+      "bg": "my-business-group",
+      "filters": {
+        "environment": "production",
+        "region": "us-east-1"
+      }
     }
   },
-  "id": "1"
+  "id": {uuuid}
 }
 ```
 
-#### Response Example
+##### Response Example
 
 ```json
 {
@@ -150,38 +197,41 @@ Content-Type: application/json
       "value": 183
     }
   ],
-  "id": "1"
+  "id": {uuuid}
 }
 ```
-### getPlatformMetricByKey
+#### getPlatformMetricByKey
 
 | Field                  | Details                                                                                          |
 |------------------------|---------------------------------------------------------------------------------------------------|
 | Method                 | getPlatformMetricByKey                                                                            |
 | Type                   | QueryTool                                                                                         |
 | Summary                | Fetches a single platform metric value by key.                                                    |
-| Inputs (`params`)      | - `metricKey` (string, required)<br> - `timestamp` (optional)                                     |
-| Output (`result`)      | A single metric object from get-platform-metrics.raml                                             |
+| Inputs (`params`)      | `collector` (string, required), `bg` (string, required), metricKey` (string, required)
+| Output (`result`)      | JSON response with metric value |
 | Performance Guidance   | Optimized for low-latency, atomic metric retrieval.                                               |
 | Agent Use Case         | Alerting agent reads one key for rapid decision making.                                           |
 
-#### JSON-RPC Request Example
+##### JSON-RPC Request Example
 
 ```json
 {
   "jsonrpc": "2.0",
-  "method": "getPlatformMetricByKey",
+  "method": "tools/call",
   "params": {
-    "collectorId": "arm",
-    "BG": "global-group",
-    "Environment": "production",
-    "metricKey": "cpu.usage"
+    "name": "getPlatformMetricByKey",
+    "arguments": {
+      "collector": "apma",
+      "metricKey": "api_instances_total",
+      "bg": "my-business-group",
+      "environment": "production"
+    }
   },
-  "id": "3"
+  "id": {uuuid}
 }
 ```
 
-#### Response Example
+##### Response Example
 
 ```json
 {
@@ -190,6 +240,6 @@ Content-Type: application/json
     "timestamp": "2025-06-25T12:00:00Z",
     "value": 0.81,
   },
-  "id": "3"
+  "id": {uuuid}
 }
 ```

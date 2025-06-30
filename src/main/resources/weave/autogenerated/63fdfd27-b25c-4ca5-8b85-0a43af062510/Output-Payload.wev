@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_63fdfd27_b25c_4ca5_8b85_0a43af062510_Output_Payload = Array<"ap" | "apc" | "apm" | "arm" | "apma" | "amq" | "ch" | "core" | "dc" | "ex" | "osv2" | "rtf">
+

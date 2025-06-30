@@ -1,0 +1,18 @@
+{
+  "jsonrpc": "2.0",
+  "result": [
+    "ap",
+    "apc",
+    "apm",
+    "arm",
+    "apma",
+    "amq",
+    "ch",
+    "core",
+    "dc",
+    "ex",
+    "osv2",
+    "rtf"
+  ],
+  "id": "304063a5-5c6f-4c5f-a496-64a04e4639cf"
+}

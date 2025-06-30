@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="unit-test-mcp-tools.xml" />
+	<munit:test name="mcp-tool-getCapabilities-test" doc:id="a9bbeb70-0298-4d53-a651-da15150638ac" description="Test" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock MCP Tool Listener" doc:id="6467db33-75f3-4786-bda5-938a691fcda5" processor="flow">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="mcp-tool-getCapabilities-flow" attributeName="name" />
+					<munit-tools:with-attribute whereValue="835da8bf-ff29-4b32-8975-a6caecd3d842" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[output json ---&#10;{&#10;	id: "304063a5-5c6f-4c5f-a496-64a04e4639cf"&#10;}]' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<set-payload doc:name="Set Payload" doc:id="eb9f41bc-65ab-462d-8970-bce1eb58ea5b" value='#[output json indent=false --- {"id":"304063a5-5c6f-4c5f-a496-64a04e4639cf"}]'/>
+			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-mcp-tool-getCapabilities.json')]" doc:name="Set Variable" doc:id="5c794756-d88b-48b7-8330-e647db72a5c6" variableName="expectedResponse" mimeType="application/json"/>
+			<flow-ref doc:name="Flow-ref to mcp-tool-getCapabilities-flow" doc:id="3816db77-1301-4bc4-9ee7-6c55b2b6ca92" name="mcp-tool-getCapabilities-flow" />
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="806accc6-fa54-4495-8057-cf4389501436" expression="#[payload]" is="#[MunitTools::equalTo((vars.expectedResponse))]" message="The response payload is not the expected"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="mcp-tool-getAvailableCollectors" doc:id="1c85c720-86de-48d4-bdd2-b9ecf6d182c9" description="Test" >
+		<munit:execution >
+			<set-payload value='#[output json indent=false --- {"id":"304063a5-5c6f-4c5f-a496-64a04e4639cf"}]' doc:name="Set Payload" doc:id="56acc17d-5e8b-4315-80fc-c405cb875ac1" />
+			<set-variable value="#[MunitTools::getResourceAsString('examples/responses/response-mcp-tool-getAvailableCollectors.json')]" doc:name="Set Variable" doc:id="36f7b035-e0df-4dc5-98bb-4b1e6718a2b6" variableName="expectedResponse" mimeType="application/json" />
+			<flow-ref doc:name="Flow-ref to mcp-tool-getAvailableCollectors-flow" doc:id="2af0fc05-4596-4108-94b1-21d1600990e9" name="mcp-tool-getAvailableCollectors-flow" />
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="17c9e4b5-e872-4b7d-b406-5bc651056c31" message="The response payload is not the expected" expression="#[payload]" is="#[MunitTools::equalTo((vars.expectedResponse))]" />
+		</munit:validation>
+	</munit:test>
+
+</mule>
