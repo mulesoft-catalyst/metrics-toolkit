@@ -11,54 +11,50 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 output application/json indent=false
 ---
 {
-  "jsonrpc": "2.0",
-  "result": {
-  	 "description": "description": "This capability manifest describes the tools (methods) exposed by this agent. Each tool includes a name, description, and an input schema that defines the parameters required to invoke it. Agents can use this manifest to dynamically plan their next actions without hardcoding tool knowledge. The tools listed here follow the JSON-RPC 2.0 specification and must be invoked via POST requests to the MCP endpoint. Agents should first inspect this manifest to determine which tools are available and how to use them, then construct a valid request matching the tool’s input schema.",
-	 "tools": [ 
-	  	 {
-	      "name": "getAvailableCollectors",
-	      "description": "Returns all collector identifiers supported by the agent.",
-	      "inputSchema": {
-	        "type": "object",
-	        "properties": {}
-	      }
-	     },
-	     {
-	      "name": "getPlatformMetricsByCollector",
-	      "description": "Retrieves metrics from a specific Anypoint collector with optional filters",
-	      "inputSchema": {
-	        "type": "object",
-	        "properties": {
-	          "collectorId": { "type": "string" },
-	          "bg": { "type": "string" },
-	          "filters": {
-	            "type": "object",
-	            "properties": {
-	              "environment": { "type": "string" },
-	              "region": { "type": "string" }
-	            }
-	          }
-	        },
-	        "required": ["collectorId", "bg"]
-	      }
-	    },
-	    {
-	      "name": "getPlatformMetricByKey",
-	      "description": "Fetches a single metric value by key and collector. Useful for atomic, low-latency reads.",
-	      "inputSchema": {
-	        "type": "object",
-	        "properties": {
-	          "collector": { "type": "string" },
-	          "metricKey": { "type": "string" },
-	          "bg": { "type": "string" },
-	          "environment": { "type": "string" }
-	        },
-	        "required": ["collector", "metricKey", "bg"]
-	      }
-	    }
-    ]
-  },
-  "id": payload.id
+ "description": "This capability manifest describes the tools (methods) exposed by this agent. Each tool includes a name, description, and an input schema that defines the parameters required to invoke it. Agents can use this manifest to dynamically plan their next actions without hardcoding tool knowledge. The tools listed here follow the JSON-RPC 2.0 specification and must be invoked via POST requests to the MCP endpoint. Agents should first inspect this manifest to determine which tools are available and how to use them, then construct a valid request matching the tool’s input schema.",
+ "tools": [ 
+  	 {
+      "name": "getAvailableCollectors",
+      "description": "Returns all collector identifiers supported by the agent.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+     },
+     {
+      "name": "getPlatformMetricsByCollector",
+      "description": "Retrieves metrics from a specific Anypoint collector with optional filters",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "collectorId": { "type": "string" },
+          "bg": { "type": "string" },
+          "filters": {
+            "type": "object",
+            "properties": {
+              "environment": { "type": "string" },
+              "region": { "type": "string" }
+            }
+          }
+        },
+        "required": ["collectorId", "bg"]
+      }
+    },
+    {
+      "name": "getPlatformMetricByKey",
+      "description": "Fetches a single metric value by key and collector. Useful for atomic, low-latency reads.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "collector": { "type": "string" },
+          "metricKey": { "type": "string" },
+          "bg": { "type": "string" },
+          "environment": { "type": "string" }
+        },
+        "required": ["collector", "metricKey", "bg"]
+      }
+    }
+  ]
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
@@ -69,9 +65,7 @@ output application/json indent=false
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json indent=false
 ---
-{
-  "jsonrpc": "2.0",
-  "result": [
+[
     "ap",
     "apc",
     "apm",
@@ -84,9 +78,71 @@ output application/json indent=false
     "ex",
     "osv2",
     "rtf"
-  ],
-  "id": "304063a5-5c6f-4c5f-a496-64a04e4639cf"
-}]]></ee:set-payload>
+]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="mcp-tool-impl-getPlatformMetricsByCollector-subflow" doc:id="21d300fe-073c-43b1-ab0b-be95f80fb468" >
+		<set-variable value="#[payload.collector]" doc:name="Set Collector" doc:id="21c837e2-18e9-4d33-a528-ae3db44637d7" variableName="rpcCollector"/>
+		<set-variable value="#[attributes.requestId]" doc:name="Set Variable" doc:id="c4ffc15c-4f24-4249-8adb-e34725360c37" variableName="rpcId"/>
+		<ee:transform doc:name="Map Params to Headers and queryParams" doc:id="da7afed6-748b-4016-b948-3c0850debb4c" >
+			<ee:message >
+				<ee:set-attributes ><![CDATA[%dw 2.0
+output application/java
+
+var mappings = [
+  {
+    sourceField: "collector",
+    targetField: "collectors",
+    targetType: "queryParams"
+  },
+  {
+    sourceField: "bg",
+    targetField: "x-anypnt-org-id",
+    targetType: "headers"
+  }
+]
+
+fun buildMapFor(targetType: String) =
+  (
+    ((mappings filter (m) -> m.targetType == targetType) filter (m) -> payload[m.sourceField] != null)
+      map (m) -> {
+        (m.targetField): payload[m.sourceField]
+      }
+  )
+  reduce (acc = {}, item) -> acc ++ item
+
+---
+{
+    headers: attributes.additionalProperties default {} ++ buildMapFor("headers"),
+    queryParams: attributes.queryParams default {} ++ buildMapFor("queryParams")
+}
+]]></ee:set-attributes>
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="Get Platform Metrics" doc:id="2f773a92-86f7-47a6-9b6c-5fb97caa3589" name="get:\platform-metrics:api-config"/>
+		<ee:transform doc:name="Response" doc:id="d81a5e78-2cb0-4b2e-9111-da0a3ab153b2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[output json indent=false
+---
+payload map ((item, index) -> 
+    {
+        "date": item.date,
+        "businessGroup": item.businessGroup,
+        "businessGroupId": item.businessGroupId,
+        (mqMetrics: item.mqMetrics) if(vars.rpcCollector == "amq"),
+        (notImplemented: "Collector Not Implemented") if(vars.rpcCollector == "ap"),
+        (notImplemented: "Collector Not Implemented") if(vars.rpcCollector == "apc"),
+        (apiManagerMetrics: item.apiManagerMetrics) if(vars.rpcCollector == "apm"),
+        (notImplemented: "Collector Not Implemented") if(vars.rpcCollector == "apma"),
+        (runtimeManagerMetrics: item.runtimeManagerMetrics) if(vars.rpcCollector == "arm"),
+        (notImplemented: "Collector Not Implemented") if(vars.rpcCollector == "ch"),
+        (coreServicesMetrics: item.coreServicesMetrics) if(vars.rpcCollector == "core"),
+        (designCenterMetrics: item.designCenterMetrics) if(vars.rpcCollector == "dc"),
+        (exchangeMetrics: item.exchangeMetrics) if(vars.rpcCollector == "ex"),
+        (osV2Metrics: item.osV2Metrics) if(vars.rpcCollector == "osv2"),
+        (rtf: item.rtf) if(vars.rpcCollector == "rtf")
+    })]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</sub-flow>

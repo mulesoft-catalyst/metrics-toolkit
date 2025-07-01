@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xsi:schemaLocation="
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
 		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
-		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<munit:config name="unit-test-mcp-tools.xml" />
 	<munit:test name="mcp-tool-getCapabilities-test" doc:id="a9bbeb70-0298-4d53-a651-da15150638ac" description="Test" >
 		<munit:behavior >
@@ -26,6 +28,27 @@
 			<flow-ref doc:name="Flow-ref to mcp-tool-getCapabilities-flow" doc:id="3816db77-1301-4bc4-9ee7-6c55b2b6ca92" name="mcp-tool-getCapabilities-flow" />
 		</munit:execution>
 		<munit:validation >
+			<ee:transform doc:name="Add Json RPC header" doc:id="3c6d5b4e-0b85-48f6-a908-ab6492e1be4c">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json indent = false
+---
+{
+  "jsonrpc": "2.0",
+  "id": "158ed7b1-895a-410e-b5aa-92ade31c4e9f",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "audience": [],
+        "text": write(payload, "application/json")
+      }
+    ],
+    "isError": false
+  }
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
 			<munit-tools:assert-that doc:name="Assert that" doc:id="806accc6-fa54-4495-8057-cf4389501436" expression="#[payload]" is="#[MunitTools::equalTo((vars.expectedResponse))]" message="The response payload is not the expected"/>
 		</munit:validation>
 	</munit:test>
@@ -36,7 +59,143 @@
 			<flow-ref doc:name="Flow-ref to mcp-tool-getAvailableCollectors-flow" doc:id="2af0fc05-4596-4108-94b1-21d1600990e9" name="mcp-tool-getAvailableCollectors-flow" />
 		</munit:execution>
 		<munit:validation >
+			<ee:transform doc:name="Add Json RPC header" doc:id="5b9a3d30-9778-4deb-8068-cab3dbdc6363">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json indent = false
+---
+{
+  "jsonrpc": "2.0",
+  "id": "158ed7b1-895a-410e-b5aa-92ade31c4e9f",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "audience": [],
+        "text": write(payload, "application/json")
+      }
+    ],
+    "isError": false
+  }
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
 			<munit-tools:assert-that doc:name="Assert that" doc:id="17c9e4b5-e872-4b7d-b406-5bc651056c31" message="The response payload is not the expected" expression="#[payload]" is="#[MunitTools::equalTo((vars.expectedResponse))]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="mcp-tool-getPlatformMetricsbyCollector-amq" doc:id="1a2659d9-a1e2-4e6f-9844-1059a733de84" timeOut="300000">
+		<munit:enable-flow-sources >
+			<munit:enable-flow-source value="mcp-tool-getPlatformMetricsByCollector-flow" />
+			<munit:enable-flow-source value="collector-mq-metrics-parallel-flow" />
+			<munit:enable-flow-source value="api-call-coreservices-login-cache-flow" />
+			<munit:enable-flow-source value="api-call-coreservices-login-flow" />
+			<munit:enable-flow-source value="api-call-coreservices-organizations-flow" />
+			<munit:enable-flow-source value="api-call-coreservices-environments-flow" />
+			<munit:enable-flow-source value="api-call-mq-destinations-flow" />
+			<munit:enable-flow-source value="api-call-mq-exchange-stats-flow" />
+			<munit:enable-flow-source value="api-call-mq-queue-stats-flow" />
+			<munit:enable-flow-source value="api-call-mq-regions-flow" />
+		</munit:enable-flow-sources>
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when POST login request" doc:id="d26fcdf0-f13c-4f96-a031-326e68c8fc60" processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Post Login Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/coreservices/post-login-response.json')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get Environments Request" doc:id="bfcf3c12-6db7-4c12-bf54-0b851ed5101d" processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Environments Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/coreservices/get-environments-response.json')]" mediaType="application/json" />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get Hierarchy Request" doc:id="f9516334-1dde-4854-84ca-91e1e2ab69d8" processor="http:request">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Get Hierarchy Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/coreservices/get-hierarchy-response.json')]" mediaType="application/json" />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get MQ Regions" doc:id="7841d692-4442-4a4b-9eb9-4428a93013ff" processor="http:request" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get Regions Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/mq/get-regions-response.json')]" mediaType="application/json" />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get MQ Destinations" doc:id="1e2fd967-321b-4803-8143-e1873982ba26" processor="http:request" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get Destinations Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/mq/get-destinations-response.json')]" mediaType="application/json" />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get MQ Queue Stats" doc:id="6908a5f2-adf5-426d-ac72-9d5b087d7980" processor="http:request" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get Queue Stats Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/mq/get-queue-stats-response.json')]" mediaType="application/json" />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when Get MQ Exchange Stats" doc:id="324b8dd3-4ab1-4f9b-8eca-0366e447f95b" processor="http:request" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get Exchange Stats Request" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('examples/responses/anypoint/platform/mq/get-exchange-stats-response.json')]" mediaType="application/json" />
+					<munit-tools:attributes value='#[{"statusCode": 200}]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="8411323f-3fd3-4052-a572-a74fb2fa7377">
+				<munit:payload value='#[{&#10;  "collector": "amq",&#10;  "bg": "**REMOVED**",&#10;  "region": "us-east1",&#10;  "environment": "Production"&#10;}]' />
+				<munit:attributes value='#[output json&#10;---&#10;{&#10;	"additionalProperties": {&#10;		"Content-Type": "application/json",&#10;		"x-anypnt-client-id": "**REMOVED**",&#10;		"x-anypnt-client-secret": "**REMOVED**"&#10;	},&#10;	requestId: "158ed7b1-895a-410e-b5aa-92ade31c4e9f"&#10;}]' mediaType="application/json" />
+				<munit:variables >
+					<munit:variable key="expectedResponse" value="#[MunitTools::getResourceAsString('examples/responses/response-mcp-tool-getPlatformMetricsByCollector.json')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference to mcp-tool-getPlatformMetricsByCollector-flow" doc:id="8e1da659-26c6-4479-a29b-3cc89f2372b0" name="mcp-tool-getPlatformMetricsByCollector-flow"/>
+		</munit:execution>
+		<munit:validation >
+			<ee:transform doc:name="Add Json RPC header and remove date" doc:id="49d6e50b-e865-40c7-8296-f2d616c2df84" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var payloadSanitized = payload map (item) ->
+  item - "date"
+---
+{
+  "jsonrpc": "2.0",
+  "id": "158ed7b1-895a-410e-b5aa-92ade31c4e9f",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "audience": [],
+        "text": write(payloadSanitized, "application/json")
+      }
+    ],
+    "isError": false
+  }
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="5b9ef45b-a257-44ee-a749-ea347a0f6e9e" is="#[MunitTools::equalTo((vars.expectedResponse))]" expression="#[payload]"/>
 		</munit:validation>
 	</munit:test>
 

@@ -178,7 +178,43 @@ output application/java
 		</mcp:tool-listener>
 		<flow-ref doc:name="getAvailableCollectors Implementation" doc:id="8c98696b-4cec-4eb3-b749-076e238197d0" name="mcp-tool-impl-getAvailableCollectors-subflow"/>
 	</flow>
-	<flow name="get:\platform-metrics:api-config">
+	<flow name="mcp-tool-getPlatformMetricsByCollector-flow" doc:id="74fdde6f-5b41-4c04-9beb-48f2d7b0665b" >
+		<mcp:tool-listener doc:name="Tool Listener" doc:id="5f73ac99-6463-48a9-9f51-9adc5eb46914" config-ref="MCP_Server" name="getPlatformMetricsByCollector">
+			<mcp:description ><![CDATA[Retrieves platform metrics for a specific collector.
+]]></mcp:description>
+			<mcp:parameters-schema ><![CDATA[{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "collectorId": {
+      "type": "string",
+      "description": "Identifier of the collector to fetch metrics from"
+    },
+    "bg": {
+      "type": "string",
+      "description": "Business group identifier"
+    },
+    "environment": {
+      "type": "string",
+      "description": "Optional environment filter (e.g., production, sandbox)"
+    },
+    "region": {
+      "type": "string",
+      "description": "Optional region filter (e.g., us-east-1, eu-west-2)"
+    }
+  },
+  "required": [
+    "collectorId",
+    "bg"
+  ]
+}]]></mcp:parameters-schema>
+			<mcp:responses >
+				<mcp:text-tool-response-content text="#[payload.^raw]" />
+			</mcp:responses>
+		</mcp:tool-listener>
+		<flow-ref doc:name="getPlatformMetricsByCollector Implementation" doc:id="2954f765-4838-4d31-94b1-579fb497e958" name="mcp-tool-impl-getPlatformMetricsByCollector-subflow"/>
+	</flow>
+	<flow name="get:\platform-metrics:api-config" doc:id="8ed3bf31-4e7e-4247-81e3-b0810196b42c">
         <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="a99d508d-5bd1-4627-88d1-fec6fb4ed7cf" name="common-set-auth-vars-from-headers" />
         <flow-ref doc:name="Set Aggregator Details From Query Params Flow Reference" doc:id="526a1967-37bb-499f-a47d-9c469bb3df26" name="common-set-aggregator-vars-from-query-params" />
         <flow-ref doc:name="Set API Manager Properties Flow Reference" doc:id="7dae5ce0-f409-4c29-bcf1-44e4c7f04166" name="common-set-collector-vars-from-properties-api-manager" />
