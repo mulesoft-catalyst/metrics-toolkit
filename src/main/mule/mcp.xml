@@ -131,17 +131,17 @@ payload map ((item, index) ->
         "businessGroup": item.businessGroup,
         "businessGroupId": item.businessGroupId,
         (mqMetrics: item.mqMetrics) if(vars.rpcCollector == "amq"),
-        (notImplemented: "Collector Not Implemented") if(vars.rpcCollector == "ap"),
-        (notImplemented: "Collector Not Implemented") if(vars.rpcCollector == "apc"),
         (apiManagerMetrics: item.apiManagerMetrics) if(vars.rpcCollector == "apm"),
-        (notImplemented: "Collector Not Implemented") if(vars.rpcCollector == "apma"),
+        (apiManagerMetrics: { clients: item.apiManagerMetrics.clients}) if(vars.rpcCollector == "apc"),
         (runtimeManagerMetrics: item.runtimeManagerMetrics) if(vars.rpcCollector == "arm"),
-        (notImplemented: "Collector Not Implemented") if(vars.rpcCollector == "ch"),
+        (runtimeManagerMetrics: { cloudhub: item.runtimeManagerMetrics.cloudhub }) if(vars.rpcCollector == "ch"),
         (coreServicesMetrics: item.coreServicesMetrics) if(vars.rpcCollector == "core"),
         (designCenterMetrics: item.designCenterMetrics) if(vars.rpcCollector == "dc"),
         (exchangeMetrics: item.exchangeMetrics) if(vars.rpcCollector == "ex"),
         (osV2Metrics: item.osV2Metrics) if(vars.rpcCollector == "osv2"),
-        (rtf: item.rtf) if(vars.rpcCollector == "rtf")
+        (rtf: item.rtf) if(vars.rpcCollector == "rtf"),
+        (notImplemented: "Collector Not Implemented") if(vars.rpcCollector == "ap"),
+        (notImplemented: "Collector Not Implemented") if(vars.rpcCollector == "apma")
     })]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
