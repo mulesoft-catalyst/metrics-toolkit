@@ -497,4 +497,122 @@ var payloadSanitized = payload map (item) ->
 			<munit-tools:assert-that doc:name="Assert that" doc:id="3c62bdcc-fdb9-4ac0-a8bb-fe8716ff8e71" is="#[MunitTools::equalTo((vars.expectedResponse))]" expression="#[payload]" />
 		</munit:validation>
 	</munit:test>
+	<munit:test name="mcp-tool-getPlatformMetricsbyCollector-dc-test" doc:id="5b086a5d-5c4c-4dd7-a0ea-e5e23afbeaba" timeOut="300000" >
+		
+		<munit:enable-flow-sources>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			<munit:enable-flow-source value="collector-mq-metrics-parallel-flow" />
+			<munit:enable-flow-source value="api-call-coreservices-login-cache-flow" />
+			<munit:enable-flow-source value="api-call-coreservices-login-flow" />
+			<munit:enable-flow-source value="api-call-coreservices-organizations-flow" />
+			<munit:enable-flow-source value="api-call-coreservices-environments-flow" />
+			<munit:enable-flow-source value="api-call-mq-destinations-flow" />
+			<munit:enable-flow-source value="api-call-mq-exchange-stats-flow" />
+			<munit:enable-flow-source value="api-call-mq-queue-stats-flow" />
+			<munit:enable-flow-source value="api-call-mq-regions-flow" />
+		</munit:enable-flow-sources>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="54b88731-de20-4534-8bef-780e38c7cbab" >
+				<munit:payload value='#[{&#10;  "collector": "dc",&#10;  "bg": "**REMOVED**",&#10;  "region": "us-east1",&#10;  "environment": "Production"&#10;}]' />
+				<munit:attributes value='#[output json&#10;---&#10;{&#10;	"additionalProperties": {&#10;		"Content-Type": "application/json",&#10;		"x-anypnt-client-id": "**REMOVED**",&#10;		"x-anypnt-client-secret": "**REMOVED**"&#10;	},&#10;	requestId: "158ed7b1-895a-410e-b5aa-92ade31c4e9f"&#10;}]' mediaType="application/json" />
+				<munit:variables >
+					<munit:variable key="expectedResponse" value="#[MunitTools::getResourceAsString('examples/responses/response-mcp-tool-getPlatformMetricsByCollectorDc.json')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference to mcp-tool-getPlatformMetricsByCollector-flow" doc:id="9af3228c-4a56-490f-973a-60f8b89fa0f9" name="mcp-tool-getPlatformMetricsByCollector-flow" />
+		</munit:execution>
+		<munit:validation >
+			<ee:transform doc:name="Add Json RPC header and remove date" doc:id="e0b6f6f2-065a-4610-8ae3-bb9a6fa5f5bc" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var payloadSanitized = payload map (item) ->
+  item - "date"
+---
+{
+  "jsonrpc": "2.0",
+  "id": "158ed7b1-895a-410e-b5aa-92ade31c4e9f",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "audience": [],
+        "text": write(payloadSanitized, "application/json")
+      }
+    ],
+    "isError": false
+  }
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="8cebf538-565b-40b8-9b3f-230c3ecb7b14" is="#[MunitTools::equalTo((vars.expectedResponse))]" expression="#[payload]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="mcp-tool-getPlatformMetricsbyCollector-apm-test" doc:id="64f48919-fce0-47a4-a4ed-b0bf00ed687a" timeOut="300000" >
+		
+		<munit:enable-flow-sources>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			<munit:enable-flow-source value="collector-mq-metrics-parallel-flow" />
+			<munit:enable-flow-source value="api-call-coreservices-login-cache-flow" />
+			<munit:enable-flow-source value="api-call-coreservices-login-flow" />
+			<munit:enable-flow-source value="api-call-coreservices-organizations-flow" />
+			<munit:enable-flow-source value="api-call-coreservices-environments-flow" />
+			<munit:enable-flow-source value="api-call-mq-destinations-flow" />
+			<munit:enable-flow-source value="api-call-mq-exchange-stats-flow" />
+			<munit:enable-flow-source value="api-call-mq-queue-stats-flow" />
+			<munit:enable-flow-source value="api-call-mq-regions-flow" />
+		</munit:enable-flow-sources>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="0a328404-440a-4170-8785-356a979e5160" >
+				<munit:payload value='#[{&#10;  "collector": "apm",&#10;  "bg": "**REMOVED**"&#10;}]' />
+				<munit:attributes value='#[output json&#10;---&#10;{&#10;	"additionalProperties": {&#10;		"Content-Type": "application/json",&#10;		"x-anypnt-client-id": "**REMOVED**",&#10;		"x-anypnt-client-secret": "**REMOVED**"&#10;	},&#10;	requestId: "158ed7b1-895a-410e-b5aa-92ade31c4e9f"&#10;}]' mediaType="application/json" />
+				<munit:variables >
+					<munit:variable key="expectedResponse" value="#[MunitTools::getResourceAsString('examples/responses/response-mcp-tool-getPlatformMetricsByCollectorApm.json')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference to mcp-tool-getPlatformMetricsByCollector-flow" doc:id="30985d75-9019-4603-a776-b1d55b30d0ce" name="mcp-tool-getPlatformMetricsByCollector-flow" />
+		</munit:execution>
+		<munit:validation >
+			<ee:transform doc:name="Add Json RPC header and remove date" doc:id="2dc01dc9-c6b8-4a52-ab28-b57f17090595" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var payloadSanitized = payload map (item) ->
+  item - "date"
+---
+{
+  "jsonrpc": "2.0",
+  "id": "158ed7b1-895a-410e-b5aa-92ade31c4e9f",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "audience": [],
+        "text": write(payloadSanitized, "application/json")
+      }
+    ],
+    "isError": false
+  }
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="42ae29e1-ebee-417f-8615-d7ac435c8e3f" is="#[MunitTools::equalTo((vars.expectedResponse))]" expression="#[payload]" />
+		</munit:validation>
+	</munit:test>
 </mule>
