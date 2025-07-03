@@ -217,7 +217,7 @@ Splunk | Total Number of Splunk dashboards
 ## Installation
 
 ### Requirements
-- Mule Runtime 4.2.2 or above
+- Mule Runtime 4.9.3 or above
 - All deployments models are supported: CloudHub, OnPrem hosted Runtimes, Runtime Fabric
 - Anypoint Platform credentials - Two options are supported:
   - Anypoint Platform user with the Organization Administrator role, and CloudHub Admin role (or specific permissions - see connected app section). Both roles should be provided in the Master and all Sub Orgs for which you wish to gather data. The CloudHub Admin role is environment specific - therefore should be granted for each environment in each business group. 
