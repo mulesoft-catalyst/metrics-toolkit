@@ -82,9 +82,12 @@ output application/json indent=false
 			</ee:message>
 		</ee:transform>
 	</sub-flow>
+	<sub-flow name="mcp-common-variables" doc:id="c56d6188-8c16-4217-8cca-3f3c0bb7a0d9" >
+		<set-variable value="#[payload.collector]" doc:name="Set Collector" doc:id="21c837e2-18e9-4d33-a528-ae3db44637d7" variableName="rpcCollector" />
+		<set-variable value="#[attributes.requestId]" doc:name="Set Variable" doc:id="c4ffc15c-4f24-4249-8adb-e34725360c37" variableName="rpcId" />
+	</sub-flow>
 	<sub-flow name="mcp-tool-impl-getPlatformMetricsByCollector-subflow" doc:id="21d300fe-073c-43b1-ab0b-be95f80fb468" >
-		<set-variable value="#[payload.collector]" doc:name="Set Collector" doc:id="21c837e2-18e9-4d33-a528-ae3db44637d7" variableName="rpcCollector"/>
-		<set-variable value="#[attributes.requestId]" doc:name="Set Variable" doc:id="c4ffc15c-4f24-4249-8adb-e34725360c37" variableName="rpcId"/>
+		<flow-ref doc:name="Set MCP Common Variables" doc:id="326fc67a-1ccb-4baa-aa49-d247883e60aa" name="mcp-common-variables"/>
 		<ee:transform doc:name="Map Params to Headers and queryParams" doc:id="da7afed6-748b-4016-b948-3c0850debb4c" >
 			<ee:message >
 				<ee:set-attributes ><![CDATA[%dw 2.0
@@ -100,6 +103,11 @@ var mappings = [
     sourceField: "bg",
     targetField: "x-anypnt-org-id",
     targetType: "headers"
+  },
+  {
+  	sourceField: "raw",
+    targetField: "raw",
+    targetType: "queryParams"
   }
 ]
 
@@ -143,6 +151,53 @@ payload map ((item, index) ->
         (notImplemented: "Collector Not Implemented") if(vars.rpcCollector == "ap"),
         (notImplemented: "Collector Not Implemented") if(vars.rpcCollector == "apma")
     })]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="mcp-tool-impl-getPlatformMetricByKey-subflow" doc:id="7aee42ef-0fc8-4057-89a3-2a2943b5c3b2" >
+		<set-variable value="#[payload.metricKey]" doc:name="Set Metric Key" doc:id="48929d73-ac44-48b6-9d23-29c5e7e6adbd" variableName="rpcMetricKey"/>
+		<flow-ref doc:name="Get Platform Metrics by Collector" doc:id="6cb3a3db-792b-4206-97bf-3b5e19bd5184" name="mcp-tool-impl-getPlatformMetricsByCollector-subflow"/>
+		<ee:transform doc:name="Filter by Collector and Metric" doc:id="160ed7e9-c599-4beb-a2d2-cebbd329ec15" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json indent=false
+
+fun filterTree(obj) =
+  if (obj is Object) do {
+    var children = 
+      obj
+      mapObject ((value, key) -> (key): filterTree(value))
+      filterObject ((value, key) -> !(isEmpty(value) or value == null))
+    var includeSelf = (obj[vars.rpcMetricKey] default null) != null
+    ---
+    if (!isEmpty(children) or includeSelf)
+      (if (includeSelf) children ++ {(vars.rpcMetricKey): obj[vars.rpcMetricKey]} else children)
+    else null
+  }
+  else if (obj is Array) do {
+    var filtered = obj map (item) -> filterTree(item)
+    var nonEmpty = filtered filter (item) -> !(isEmpty(item) or item == null)
+    ---
+    if (!isEmpty(nonEmpty)) nonEmpty else null
+  }
+  else null
+
+---
+payload map (item) -> {
+  businessGroup: item.businessGroup,
+  businessGroupId: item.businessGroupId,
+  (runtimeManagerMetrics: filterTree(item.runtimeManagerMetrics)) if(vars.rpcCollector == "arm"),
+  (cloudhub: filterTree(item.runtimeManagerMetrics.cloudhub)) if(vars.rpcCollector == "ch"),
+  (mqMetrics: filterTree(item.mqMetrics)) if(vars.rpcCollector == "amq"),
+  (apiManagerMetrics: filterTree(item.apiManagerMetrics)) if(vars.rpcCollector == "apm"),
+  (clients: filterTree(item.apiManagerMetrics.clients)) if(vars.rpcCollector == "apc"),
+  (coreServicesMetrics: filterTree(item.coreServicesMetrics)) if(vars.rpcCollector == "core"),
+  (designCenterMetrics: filterTree(item.designCenterMetrics)) if(vars.rpcCollector == "dc"),
+  (exchangeMetrics: filterTree(item.exchangeMetrics)) if(vars.rpcCollector == "ex"),
+  (osV2Metrics: filterTree(item.osV2Metrics)) if(vars.rpcCollector == "osv2"),
+  (rtf: filterTree(item.rtf)) if(vars.rpcCollector == "rtf")
+}
+]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</sub-flow>

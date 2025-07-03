@@ -24,9 +24,9 @@ Complete MCP Spec can be found here. As a high level summary, MCP tools conform 
 |------------------------|------------------------------------------------------------------------------------------------------|
 | Method                 | getAgentCapabilities                                                                                 |
 | Type                   | For Agent Discovery Purposes|
-| Summary                | Returns a machine-readable summary of the metrics toolkit capabilities, including available tools, parameters, and usage hints. |
+| Summary                | Returns a machine-readable summary of the metrics toolkit MCP capabilities, including available tools, parameters, and usage hints. |
 | Inputs (`params`)      | None |
-| Output (`result`)      | Array of tool metadata objects, each describing one available method and useful info to responde to general FAQ |
+| Output (`result`)      | Array of tool metadata objects, each describing one available method and useful info to respond to general FAQ |
 | Performance Guidance   | Lightweight. Recommended for initialization, Agent planning (ReAct patterns), or UI rendering of available actions.|
 | Agent Use Case | Enables dynamic planning and tool discovery at runtime. Useful for self-configuring or ReAct-style agents. |
 
@@ -133,19 +133,17 @@ Content-Type: application/json
 
 ```json
 {
-  "jsonrpc": "2.0",
-  "result": [
-    "arm",
-    "ch",
-    "apma",
-    "ex",
-    "core",
-    "dc",
-    "rtf",
-    "amq",
-    "osv2"
-  ],
-  "id": {uuuid}
+	"jsonrpc":"2.0",
+	"id": {uuid},
+	"result":{
+		"content":[
+			{
+				"type":"text",
+				"audience":[],
+				"text": "[\"arm\",\"ch\",\"apma\",\"ex\",\"core\",\"dc\",\"rtf\",\"amq\",\"osv2\"]"
+			}],
+		"isError":false
+	}
 }
 ```
 
@@ -169,19 +167,15 @@ Content-Type: application/json
 
 {
   "jsonrpc": "2.0",
+  "id": {uuid},
   "method": "tools/call",
   "params": {
     "name": "getPlatformMetricsByCollector",
     "arguments": {
-      "collectorId": "amq",
-      "bg": "my-business-group",
-      "filters": {
-        "environment": "production",
-        "region": "us-east-1"
-      }
+      "collector": "ch",
+      "bg": {orgId}
     }
-  },
-  "id": {uuuid}
+  }
 }
 ```
 
@@ -190,14 +184,19 @@ Content-Type: application/json
 ```json
 {
   "jsonrpc": "2.0",
-  "result": [
-    {
-      "timestamp": "2025-06-25T00:05:00Z",
-      "metricName": "Queues In Flight Messages total",
-      "value": 183
-    }
-  ],
-  "id": {uuuid}
+  "id": {uuid},
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "audience": [
+          
+        ],
+        "text": "[\n  {\n    \"businessGroup\": \"Fantasy Company\",\n    \"businessGroupId\": \"{orgId}\" ... ]"
+      }
+    ],
+    "isError": false
+  }
 }
 ```
 #### getPlatformMetricByKey
@@ -206,7 +205,7 @@ Content-Type: application/json
 |------------------------|---------------------------------------------------------------------------------------------------|
 | Method                 | getPlatformMetricByKey                                                                            |
 | Type                   | QueryTool                                                                                         |
-| Summary                | Fetches a single platform metric value by key.                                                    |
+| Summary                | Fetches a single platform metric value by key. It supports keys containing multiple child keys e.g. networking will return all the networking config for ch collector|
 | Inputs (`params`)      | `collector` (string, required), `bg` (string, required), metricKey` (string, required)
 | Output (`result`)      | JSON response with metric value |
 | Performance Guidance   | Optimized for low-latency, atomic metric retrieval.                                               |
@@ -217,17 +216,16 @@ Content-Type: application/json
 ```json
 {
   "jsonrpc": "2.0",
+  "id": {uuid},
   "method": "tools/call",
   "params": {
-    "name": "getPlatformMetricByKey",
+    "name": "getPlatformMetricsByKey",
     "arguments": {
-      "collector": "apma",
-      "metricKey": "api_instances_total",
-      "bg": "my-business-group",
-      "environment": "production"
+      "collector": "ch",
+      "bg": {orgId},
+      "metricKey": "networking"
     }
-  },
-  "id": {uuuid}
+  }
 }
 ```
 
@@ -235,11 +233,16 @@ Content-Type: application/json
 
 ```json
 {
-  "jsonrpc": "2.0",
-  "result": {
-    "timestamp": "2025-06-25T12:00:00Z",
-    "value": 0.81,
-  },
-  "id": {uuuid}
+	"jsonrpc":"2.0",
+	"id": {uuid},
+	"result":{
+		"content":[
+			{
+				"type":"text",
+				"audience":[],
+				"text": "[{\"businessGroup\": ... "
+			}],
+		"isError":false
+	}
 }
 ```

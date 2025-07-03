@@ -1,0 +1,16 @@
+{
+  "jsonrpc": "2.0",
+  "id": "158ed7b1-895a-410e-b5aa-92ade31c4e9f",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "audience": [
+          
+        ],
+        "text": "[\n  {\n    \"businessGroup\": \"Fantasy Company\",\n    \"businessGroupId\": \"877baaaa-36ba-4021-82d5-45bae78e0fe2\",\n    \"cloudhub\": {\n      \"networking\": {\n        \"vpcsTotal\": 4,\n        \"vpcsAvailable\": 4,\n        \"vpcsUsed\": null,\n        \"vpnsTotal\": 6,\n        \"vpnsAvailable\": 6,\n        \"vpnsUsed\": null,\n        \"dlbsTotal\": 4,\n        \"dlbsAvailable\": 4,\n        \"dlbsUsed\": null,\n        \"staticIPsTotal\": 26,\n        \"staticIPsAvailable\": 26,\n        \"staticIPsUsed\": null\n      }\n    }\n  }\n]"
+      }
+    ],
+    "isError": false
+  }
+}
