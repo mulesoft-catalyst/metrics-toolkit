@@ -2,13 +2,7 @@
 <mule xmlns:mcp="http://www.mulesoft.org/schema/mule/mcp" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/mcp http://www.mulesoft.org/schema/mule/mcp/current/mule-mcp.xsd">
     <apikit:config name="api-config" api="api/metrics-toolkit-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
-    <mcp:server-config name="MCP_Server" doc:name="MCP Server" doc:id="24717ac0-e791-4309-bc77-910bd51d2f93" serverName="Metrics Toolkit MCP Server" serverVersion="1.0.0">
-		<mcp:sse-server-connection listenerConfig="MCP_HTTP_Listener"/>
-	</mcp:server-config>
-	<http:listener-config name="MCP_HTTP_Listener" doc:name="HTTP Listener config" doc:id="d1c63c3c-77d0-4cba-a4ae-e78b0e5a6adc" >
-		<http:listener-connection host="0.0.0.0" port="8082" />
-	</http:listener-config>
-	<flow name="web-main" doc:id="21dfe96e-4a3e-4810-8a77-9a84600f1a4b">
+    <flow name="web-main" doc:id="21dfe96e-4a3e-4810-8a77-9a84600f1a4b">
         <http:listener doc:name="Listener" doc:id="a7a27ecf-5e78-414d-a4ff-9b8680b1bac1" config-ref="HTTP_Listener_config" path="${embedded.dashboard.path}" />
         <choice doc:name="Choice" doc:id="e720d2e4-713c-4ee1-8f5d-6180e02af532">
             <when expression="#[p('embedded.dashboard.enabled')]">
