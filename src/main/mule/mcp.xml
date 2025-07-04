@@ -7,78 +7,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<sub-flow name="mcp-tool-impl-getCapabilities-subflow" doc:id="587c2b4d-d03d-45e6-8355-7d6d4a942d6a" >
 		<ee:transform doc:name="Response" doc:id="61fb1bc1-3779-4847-93be-17eafa164989" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json indent=false
----
-{
- "description": "This capability manifest describes the tools (methods) exposed by this agent. Each tool includes a name, description, and an input schema that defines the parameters required to invoke it. Agents can use this manifest to dynamically plan their next actions without hardcoding tool knowledge. The tools listed here follow the JSON-RPC 2.0 specification and must be invoked via POST requests to the MCP endpoint. Agents should first inspect this manifest to determine which tools are available and how to use them, then construct a valid request matching the tool’s input schema.",
- "tools": [ 
-  	 {
-      "name": "getAvailableCollectors",
-      "description": "Returns all collector identifiers supported by the agent.",
-      "inputSchema": {
-        "type": "object",
-        "properties": {}
-      }
-     },
-     {
-      "name": "getPlatformMetricsByCollector",
-      "description": "Retrieves metrics from a specific Anypoint collector with optional filters",
-      "inputSchema": {
-        "type": "object",
-        "properties": {
-          "collectorId": { "type": "string" },
-          "bg": { "type": "string" },
-          "filters": {
-            "type": "object",
-            "properties": {
-              "environment": { "type": "string" },
-              "region": { "type": "string" }
-            }
-          }
-        },
-        "required": ["collectorId", "bg"]
-      }
-    },
-    {
-      "name": "getPlatformMetricByKey",
-      "description": "Fetches a single metric value by key and collector. Useful for atomic, low-latency reads.",
-      "inputSchema": {
-        "type": "object",
-        "properties": {
-          "collector": { "type": "string" },
-          "metricKey": { "type": "string" },
-          "bg": { "type": "string" },
-          "environment": { "type": "string" }
-        },
-        "required": ["collector", "metricKey", "bg"]
-      }
-    }
-  ]
-}]]></ee:set-payload>
+				<ee:set-payload resource="dw/mcp/response-getCapabilities.dwl" />
 			</ee:message>
 		</ee:transform>
 	</sub-flow>
 	<sub-flow name="mcp-tool-impl-getAvailableCollectors-subflow" doc:id="63fdfd27-b25c-4ca5-8b85-0a43af062510" >
 		<ee:transform doc:name="Response" doc:id="4277d53f-471e-4a1a-973f-ef927cb2cb32" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json indent=false
----
-[
-    "ap",
-    "apc",
-    "apm",
-    "arm",
-    "apma",
-    "amq",
-    "ch",
-    "core",
-    "dc",
-    "ex",
-    "osv2",
-    "rtf"
-]]]></ee:set-payload>
+				<ee:set-payload resource="dw/mcp/response-getAvailableCollectors.dwl" />
 			</ee:message>
 		</ee:transform>
 	</sub-flow>
@@ -90,67 +26,13 @@ output application/json indent=false
 		<flow-ref doc:name="Set MCP Common Variables" doc:id="326fc67a-1ccb-4baa-aa49-d247883e60aa" name="mcp-common-variables"/>
 		<ee:transform doc:name="Map Params to Headers and queryParams" doc:id="da7afed6-748b-4016-b948-3c0850debb4c" >
 			<ee:message >
-				<ee:set-attributes ><![CDATA[%dw 2.0
-output application/java
-
-var mappings = [
-  {
-    sourceField: "collector",
-    targetField: "collectors",
-    targetType: "queryParams"
-  },
-  {
-    sourceField: "bg",
-    targetField: "x-anypnt-org-id",
-    targetType: "headers"
-  },
-  {
-  	sourceField: "raw",
-    targetField: "raw",
-    targetType: "queryParams"
-  }
-]
-
-fun buildMapFor(targetType: String) =
-  (
-    ((mappings filter (m) -> m.targetType == targetType) filter (m) -> payload[m.sourceField] != null)
-      map (m) -> {
-        (m.targetField): payload[m.sourceField]
-      }
-  )
-  reduce (acc = {}, item) -> acc ++ item
-
----
-{
-    headers: attributes.additionalProperties default {} ++ buildMapFor("headers"),
-    queryParams: attributes.queryParams default {} ++ buildMapFor("queryParams")
-}
-]]></ee:set-attributes>
+				<ee:set-attributes resource="dw/mcp/map-params-to-attributes.dwl" />
 			</ee:message>
 		</ee:transform>
 		<flow-ref doc:name="Get Platform Metrics" doc:id="2f773a92-86f7-47a6-9b6c-5fb97caa3589" name="get:\platform-metrics:api-config"/>
 		<ee:transform doc:name="Response" doc:id="d81a5e78-2cb0-4b2e-9111-da0a3ab153b2" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[output json indent=false
----
-payload map ((item, index) -> 
-    {
-        "date": item.date,
-        "businessGroup": item.businessGroup,
-        "businessGroupId": item.businessGroupId,
-        (mqMetrics: item.mqMetrics) if(vars.rpcCollector == "amq"),
-        (apiManagerMetrics: item.apiManagerMetrics) if(vars.rpcCollector == "apm"),
-        (apiManagerMetrics: { clients: item.apiManagerMetrics.clients}) if(vars.rpcCollector == "apc"),
-        (runtimeManagerMetrics: item.runtimeManagerMetrics) if(vars.rpcCollector == "arm"),
-        (runtimeManagerMetrics: { cloudhub: item.runtimeManagerMetrics.cloudhub }) if(vars.rpcCollector == "ch"),
-        (coreServicesMetrics: item.coreServicesMetrics) if(vars.rpcCollector == "core"),
-        (designCenterMetrics: item.designCenterMetrics) if(vars.rpcCollector == "dc"),
-        (exchangeMetrics: item.exchangeMetrics) if(vars.rpcCollector == "ex"),
-        (osV2Metrics: item.osV2Metrics) if(vars.rpcCollector == "osv2"),
-        (rtf: item.rtf) if(vars.rpcCollector == "rtf"),
-        (notImplemented: "Collector Not Implemented") if(vars.rpcCollector == "ap"),
-        (notImplemented: "Collector Not Implemented") if(vars.rpcCollector == "apma")
-    })]]></ee:set-payload>
+				<ee:set-payload resource="dw/mcp/response-filter-metrics-by-collector.dwl" />
 			</ee:message>
 		</ee:transform>
 	</sub-flow>
@@ -159,45 +41,7 @@ payload map ((item, index) ->
 		<flow-ref doc:name="Get Platform Metrics by Collector" doc:id="6cb3a3db-792b-4206-97bf-3b5e19bd5184" name="mcp-tool-impl-getPlatformMetricsByCollector-subflow"/>
 		<ee:transform doc:name="Filter by Collector and Metric" doc:id="160ed7e9-c599-4beb-a2d2-cebbd329ec15" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json indent=false
-
-fun filterTree(obj) =
-  if (obj is Object) do {
-    var children = 
-      obj
-      mapObject ((value, key) -> (key): filterTree(value))
-      filterObject ((value, key) -> !(isEmpty(value) or value == null))
-    var includeSelf = (obj[vars.rpcMetricKey] default null) != null
-    ---
-    if (!isEmpty(children) or includeSelf)
-      (if (includeSelf) children ++ {(vars.rpcMetricKey): obj[vars.rpcMetricKey]} else children)
-    else null
-  }
-  else if (obj is Array) do {
-    var filtered = obj map (item) -> filterTree(item)
-    var nonEmpty = filtered filter (item) -> !(isEmpty(item) or item == null)
-    ---
-    if (!isEmpty(nonEmpty)) nonEmpty else null
-  }
-  else null
-
----
-payload map (item) -> {
-  businessGroup: item.businessGroup,
-  businessGroupId: item.businessGroupId,
-  (runtimeManagerMetrics: filterTree(item.runtimeManagerMetrics)) if(vars.rpcCollector == "arm"),
-  (cloudhub: filterTree(item.runtimeManagerMetrics.cloudhub)) if(vars.rpcCollector == "ch"),
-  (mqMetrics: filterTree(item.mqMetrics)) if(vars.rpcCollector == "amq"),
-  (apiManagerMetrics: filterTree(item.apiManagerMetrics)) if(vars.rpcCollector == "apm"),
-  (clients: filterTree(item.apiManagerMetrics.clients)) if(vars.rpcCollector == "apc"),
-  (coreServicesMetrics: filterTree(item.coreServicesMetrics)) if(vars.rpcCollector == "core"),
-  (designCenterMetrics: filterTree(item.designCenterMetrics)) if(vars.rpcCollector == "dc"),
-  (exchangeMetrics: filterTree(item.exchangeMetrics)) if(vars.rpcCollector == "ex"),
-  (osV2Metrics: filterTree(item.osV2Metrics)) if(vars.rpcCollector == "osv2"),
-  (rtf: filterTree(item.rtf)) if(vars.rpcCollector == "rtf")
-}
-]]></ee:set-payload>
+				<ee:set-payload resource="dw/mcp/response-getPlatformMetricsByKey.dwl" />
 			</ee:message>
 		</ee:transform>
 	</sub-flow>

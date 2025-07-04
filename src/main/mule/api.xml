@@ -171,6 +171,18 @@ output application/java
 			</mcp:responses>
 		</mcp:tool-listener>
 		<flow-ref doc:name="getAvailableCollectors Implementation" doc:id="8c98696b-4cec-4eb3-b749-076e238197d0" name="mcp-tool-impl-getAvailableCollectors-subflow"/>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b6121e90-8c64-4277-a289-2ddc18863cfe" type="ANY" >
+				<ee:transform doc:name="Transform Message" doc:id="698f3ec6-b0d8-4f81-bfe4-98cb97e545d9" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" >
+					<ee:message >
+						<ee:set-payload resource="dw/mcp/error-any.dwl" />
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
 	</flow>
 	<flow name="mcp-tool-getPlatformMetricsByCollector-flow" doc:id="74fdde6f-5b41-4c04-9beb-48f2d7b0665b" >
 		<mcp:tool-listener doc:name="Tool Listener" doc:id="5f73ac99-6463-48a9-9f51-9adc5eb46914" config-ref="MCP_Server" name="getPlatformMetricsByCollector">
@@ -206,6 +218,18 @@ output application/java
 			</mcp:responses>
 		</mcp:tool-listener>
 		<flow-ref doc:name="getPlatformMetricsByCollector Implementation" doc:id="2954f765-4838-4d31-94b1-579fb497e958" name="mcp-tool-impl-getPlatformMetricsByCollector-subflow"/>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="4db0d649-e5f0-407b-b3dd-b0c1bafb718d" type="ANY" >
+				<ee:transform doc:name="Transform Message" doc:id="864f3e12-f0c0-4fe8-9348-7ef1989e0895" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" >
+					<ee:message >
+						<ee:set-payload resource="dw/mcp/error-any.dwl" />
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
 	</flow>
 	<flow name="mcp-tool-getPlatformMetricsByKey-flow" doc:id="7f2543db-afe1-43db-98b1-eab9df721d3d">
 		<mcp:tool-listener doc:name="Tool Listener" doc:id="118652e5-9fb9-4723-b7c0-f93cb0b28fb5" config-ref="MCP_Server" name="getPlatformMetricsByKey">
@@ -245,6 +269,18 @@ Fetches a single platform metric value by key.
 			</mcp:responses>
 		</mcp:tool-listener>
 		<flow-ref doc:name="getPlatformMetricsByKey Implementation" doc:id="61aa8f4f-1867-4c4c-8e89-3f69359a81e4" name="mcp-tool-impl-getPlatformMetricByKey-subflow" />
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="48319c5e-e0e9-4fdc-b64f-0bd2e1fd0567" type="ANY" >
+				<ee:transform doc:name="Transform Message" doc:id="48992420-fe1c-42e1-bc1e-7a2b4d2bf225" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" >
+					<ee:message >
+						<ee:set-payload resource="dw/mcp/error-any.dwl" />
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
 	</flow>
 	<flow name="get:\platform-metrics:api-config" doc:id="8ed3bf31-4e7e-4247-81e3-b0810196b42c">
         <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="a99d508d-5bd1-4627-88d1-fec6fb4ed7cf" name="common-set-auth-vars-from-headers" />
