@@ -217,7 +217,7 @@ Splunk | Total Number of Splunk dashboards
 ## Installation
 
 ### Requirements
-- Mule Runtime 4.2.2 or above
+- Mule Runtime 4.9.3 or above
 - All deployments models are supported: CloudHub, OnPrem hosted Runtimes, Runtime Fabric
 - Anypoint Platform credentials - Two options are supported:
   - Anypoint Platform user with the Organization Administrator role, and CloudHub Admin role (or specific permissions - see connected app section). Both roles should be provided in the Master and all Sub Orgs for which you wish to gather data. The CloudHub Admin role is environment specific - therefore should be granted for each environment in each business group. 
@@ -445,7 +445,7 @@ Using the `sfdc` loader option, and initialising Salesforce Analytics Studio wit
 5. Create a new data recipe, setting your new dataset as the source. Transform "value" from a dimension to a measure. 
 6. (Optional) - Filter out the non-numeric value fields (API Manager Policies Used and CloudHub Runtime Versions Used) and store this in a new 'enum' dataset
 7. (Optional) - Create a 'historic' dataset. Add a step to your data recipe to append to this historic dataset
-More detailed steps can be found in the [SFDC specific README](README_sfdc.md). 
+More detailed steps can be found in the [SFDC specific README](/docs/README_sfdc.md). 
 
 **Note:** This is only a high level introduction and it is highly recommended that you become familiar with Tableau CRM through official documentation. 
 
@@ -574,6 +574,10 @@ How to link business needs, measurements and data sources?
 
 #### Detailed
 ![Implementation Approach](/img/implementation_approach.png)
+
+### MCP Support
+Starting version 2.0.0, the Metrics Toolkit introduces MCP support to facilitate the discovery and usage of the Toolkit in agentic architectures. Please see ![MCP Server](/docs/MCP_SUPPORT.md) doc for more details
+
 
 ## Final Notes
 Enjoy and provide feedback / contribute :)

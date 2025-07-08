@@ -8,4 +8,5 @@ else
 collectors)
 -- (if (vars.isPCE) ["ch","rtf","apma","amq"] else [])
 -- (if (vars.isGovCloud) ["rtf","apma","arm"] else [])
--- (if (vars.authMode == 'connected-app-credentials') ["apc", "amq", "osv2"] else [])
+-- (if (vars.authMode == 'connected-app-credentials') ["apc", "osv2"] else [])
+//-- (if (vars.authMode == 'connected-app-credentials') ["apc", "amq", "osv2"] else [])

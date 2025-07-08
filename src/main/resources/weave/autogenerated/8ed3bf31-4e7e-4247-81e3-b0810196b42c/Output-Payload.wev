@@ -1,0 +1,435 @@
+%dw 2.0
+
+type auto_8ed3bf31_4e7e_4247_81e3_b0810196b42c_Output_Payload = Array<{  date: String,   osV2Metrics: {    stats: {      production: {        requestCount: Number,         details: Array<{          requestCount: Number,           environmentName: String,           environmentType: "Design" | "Production" | "Sandbox",           _?: Any        }> {"label": "Details",
+        "description": "Detailed view of the requests performed"}, 
+        _?: Any
+      } {"label": "Production Environment",
+      "description": "Provides details around how OSv2 was used in Production environments"}, 
+      sandbox: {
+        requestCount: Number, 
+        details: Array<{          requestCount: Number,           environmentName: String,           environmentType: "Design" | "Production" | "Sandbox",           _?: Any        }> {"label": "Details",
+        "description": "Detailed view of the requests performed"}, 
+        _?: Any
+      } {"label": "Sandbox Environment",
+      "description": "Provides details around how OSv2 was used in Sandbox environments"}, 
+      _?: Any
+    }, 
+    _?: Any
+  } {"description": "Metrics related to Object Store V2",
+  "label": "Object Store V2 Metrics"}, 
+  businessGroup: String, 
+  exchangeMetrics: {
+    apiSpecs: Number, 
+    total: Number, 
+    extensions: Number, 
+    reuse: {
+      extensions: Number, 
+      managedSboxApis: Number, 
+      implementedApis: Number, 
+      managedProdApis: Number, 
+      appliedPoliciesSbox: Number, 
+      fragments: Number, 
+      appliedPoliciesProd: Number, 
+      _?: Any
+    }, 
+    mule3Connectors: Number, 
+    custom: Number, 
+    overallSatisfaction: Number, 
+    policies: Number, 
+    fragments: Number, 
+    proxies: Number, 
+    soapApis: Number, 
+    applications: Number, 
+    _?: Any
+  } {"label": "Exchange Metrics",
+  "description": "Metrics related to Exchange"}, 
+  runtimeManagerMetrics: {
+    hybrid: {
+      production: {
+        serverGroups: Number, 
+        applicationsTotal: Number, 
+        runtimesUsedTotal: Number, 
+        applicationsStarted: Number, 
+        servers: Number, 
+        runtimesUsed: Array<String> {"label": "Runtime Versions Used",
+        "description": "List of Runtime versions used per BG and Environment"}, 
+        applicationsStopped: Number, 
+        clusters: Number, 
+        _?: Any
+      } {"label": "Production environments",
+      "description": "Provides details regarding environments of type 'Production'"}, 
+      sandbox: {
+        serverGroups: Number, 
+        applicationsTotal: Number, 
+        runtimesUsedTotal: Number, 
+        applicationsStarted: Number, 
+        servers: Number, 
+        runtimesUsed: Array<String> {"label": "Runtime Versions Used",
+        "description": "List of Runtime versions used per BG and Environment"}, 
+        applicationsStopped: Number, 
+        clusters: Number, 
+        _?: Any
+      } {"label": "Sandbox environments",
+      "description": "Provides details regarding environments of type 'Sandbox'"}, 
+      _?: Any
+    } {"description": "Provides Hybrid related metrics",
+    "label": "Hybrid"}, 
+    rtf: {
+      capacity: {
+        fabrics: Number, 
+        memoryPerFabric: Number, 
+        memoryTotal: Number, 
+        controllers: Number, 
+        workers: Number, 
+        coresPerFabric: Number, 
+        coresTotal: Number, 
+        _?: Any
+      }, 
+      applications: {
+        production: {
+          applicationsTotal: Number, 
+          runtimesUsedTotal: Number, 
+          applicationsStarted: Number, 
+          runtimesUsed: Array<String> {"label": "Runtime Versions Used",
+          "description": "List of Runtime versions used per BG and Environment type"}, 
+          coresReserved: Number, 
+          coresReservedB: Number, 
+          memoryReservedB: Number, 
+          memoryReservedA: Number, 
+          details: Array<{            applicationsTotal: Number,             runtimesUsedTotal: Number,             applicationsStarted: Number,             runtimesUsed: Array<String> {"label": "Runtime Versions Used",
+            "description": "List of Runtime versions used per BG and Environment"}, 
+            coresReserved: Number, 
+            coresReservedB: Number, 
+            memoryReservedB: Number, 
+            memoryReservedA: Number, 
+            coresReservedA: Number, 
+            memoryReserved: Number, 
+            applicationsStopped: Number, 
+            _?: Any
+          }>, 
+          coresReservedA: Number, 
+          memoryReserved: Number, 
+          applicationsStopped: Number, 
+          _?: Any
+        } {"label": "Applications - Production environments",
+        "description": "Provides detailed application's metrics for Production environments"}, 
+        sandbox: {
+          applicationsTotal: Number, 
+          runtimesUsedTotal: Number, 
+          applicationsStarted: Number, 
+          runtimesUsed: Array<String> {"label": "Runtime Versions Used",
+          "description": "List of Runtime versions used per BG and Environment type"}, 
+          coresReserved: Number, 
+          coresReservedB: Number, 
+          memoryReservedB: Number, 
+          memoryReservedA: Number, 
+          details: Array<{            applicationsTotal: Number,             runtimesUsedTotal: Number,             applicationsStarted: Number,             runtimesUsed: Array<String> {"label": "Runtime Versions Used",
+            "description": "List of Runtime versions used per BG and Environment"}, 
+            coresReserved: Number, 
+            coresReservedB: Number, 
+            memoryReservedB: Number, 
+            memoryReservedA: Number, 
+            coresReservedA: Number, 
+            memoryReserved: Number, 
+            applicationsStopped: Number, 
+            _?: Any
+          }>, 
+          coresReservedA: Number, 
+          memoryReserved: Number, 
+          applicationsStopped: Number, 
+          _?: Any
+        } {"label": "Applications - Sandbox environments",
+        "description": "Provides detailed application's metrics for Sandbox environments"}, 
+        _?: Any
+      }, 
+      _?: Any
+    } {"description": "Provides Runtime Fabric related metrics",
+    "label": "Runtime Fabric"}, 
+    cloudhub: {
+      networking: {
+        vpcsAvailable: Number, 
+        vpcsTotal: Number, 
+        dlbsTotal: Number, 
+        vpcsUsed: Number, 
+        staticIPsTotal: Number, 
+        vpnsTotal: Number, 
+        dlbsUsed: Number, 
+        vpnsAvailable: Number, 
+        vpnsUsed: Number, 
+        staticIPsAvailable: Number, 
+        staticIPsUsed: Number, 
+        dlbsAvailable: Number, 
+        _?: Any
+      }, 
+      applications: {
+        production: {
+          applicationsTotal: Number, 
+          runtimesUsedTotal: Number, 
+          applicationsStarted: Number, 
+          runtimesUsed: Array<String> {"label": "Runtime Versions Used",
+          "description": "List of Runtime versions used per BG and Environment"}, 
+          vcoresAvailable: Number, 
+          vcoresUsed: Number, 
+          applicationsStopped: Number, 
+          vcoresTotal: Number, 
+          _?: Any
+        }, 
+        sandbox: anonymousType_159, 
+        _?: Any
+      }, 
+      _?: Any
+    } {"label": "CloudHub",
+    "description": "Provides CloudHub related metrics"}, 
+    _?: Any
+  } {"label": "Runtime Manager Metrics",
+  "description": "Metrics related to Runtime Manager"}, 
+  mqMetrics: {
+    stats: {
+      summary: {
+        production: {
+          queues: {
+            commonQueues: Number, 
+            messagesSent: Number, 
+            messagesReceived: Number, 
+            fifoQueues: Number, 
+            messagesInFlight: Number, 
+            messagesAck: Number, 
+            _?: Any
+          } {"description": "Provides information about Anypoint MQ queues",
+          "label": "Queues"}, 
+          exchanges: {
+            messagesDelivered: Number, 
+            messagesPublished: Number, 
+            exchangeQueues: Number, 
+            _?: Any
+          } {"label": "Exchanges",
+          "description": "Provides information about Anypoint MQ Exchanges"}, 
+          id?: String, 
+          _?: Any
+        } {"label": "Production",
+        "description": "Provides metrics aggregated by Production environments"}, 
+        sandbox: {
+          queues: {
+            commonQueues: Number, 
+            messagesSent: Number, 
+            messagesReceived: Number, 
+            fifoQueues: Number, 
+            messagesInFlight: Number, 
+            messagesAck: Number, 
+            _?: Any
+          } {"description": "Provides information about Anypoint MQ queues",
+          "label": "Queues"}, 
+          exchanges: {
+            messagesDelivered: Number, 
+            messagesPublished: Number, 
+            exchangeQueues: Number, 
+            _?: Any
+          } {"label": "Exchanges",
+          "description": "Provides information about Anypoint MQ Exchanges"}, 
+          id?: String, 
+          _?: Any
+        } {"label": "Sandbox",
+        "description": "Provides metrics aggregated by Sandbox environments"}, 
+        _?: Any
+      } {"description": "Provides usage by type of environment",
+      "label": "Usage by type of environment"}, 
+      byRegion: {
+        production: Array<{          queues: {            commonQueues: Number,             messagesSent: Number,             messagesReceived: Number,             fifoQueues: Number,             messagesInFlight: Number,             messagesAck: Number,             _?: Any          } {"description": "Provides information about Anypoint MQ queues",
+          "label": "Queues"},           exchanges: {            messagesDelivered: Number,             messagesPublished: Number,             exchangeQueues: Number,             _?: Any          } {"label": "Exchanges",
+          "description": "Provides information about Anypoint MQ Exchanges"},           id?: String,           _?: Any        } {"label": "AMQ Environment Datatype",
+        "description": "Models an Anypoint-MQ Environment"}> {"label": "Production",
+        "description": "Provides metrics aggregated by Production environments"}, 
+        sandbox: Array<anonymousType_211 {"label": "AMQ Environment Datatype",
+        "description": "Models an Anypoint-MQ Environment"}> {"label": "Sandbox",
+        "description": "Provides metrics aggregated by Sandbox environments"}, 
+        _?: Any
+      } {"description": "Provides usage information by Region",
+      "label": "Usage by Region"}, 
+      _?: Any
+    }, 
+    _?: Any
+  } {"description": "Metrics related to Anypoint MQ",
+  "label": "Anypoint MQ Metrics"}, 
+  businessGroupId: String, 
+  coreServicesMetrics: {
+    environments: {
+      total: Number, 
+      production: Number, 
+      sandbox: Number, 
+      _?: Any
+    }, 
+    users: {
+      activeMembers: Number, 
+      activeMembersLast60Days: Number, 
+      activeMembersLast30Days: Number, 
+      total: Number, 
+      inactiveMembers: Number, 
+      _?: Any
+    }, 
+    _?: Any
+  } {"label": "Core Services Metrics",
+  "description": "Metrics related to Core Services"}, 
+  designCenterMetrics: {
+    apiSpecs: Number, 
+    total: Number, 
+    fragments: Number, 
+    flowDesignerApps: Number, 
+    _?: Any
+  } {"label": "Design Center Metrics",
+  "description": "Metrics related to Design Center"}, 
+  apiManagerMetrics: {
+    clients: Number, 
+    apis: {
+      production: {
+        apisWithPolicies: Number, 
+        policiesUsed: Array<String> {"description": "Details of the Policies Used by BG and Environment",
+        "label": "Policies Used"}, 
+        apisWithoutPolicies: Number, 
+        active: Number, 
+        apisWithContracts: Number, 
+        contracts: Number, 
+        transactions: Number, 
+        apisWithoutContracts: Number, 
+        apiInstances: Number, 
+        policiesUsedTotal: Number, 
+        total: Number, 
+        inactive: Number, 
+        automatedPoliciesUsed: Array<String> {"description": "Details of the Automated Policies Used by BG and Environment",
+        "label": "Automated Policies Used"}, 
+        apiVersions: Number, 
+        details: Array<{          apisWithPolicies: Number,           policiesUsed: Array<String> {"description": "Details of the Policies Used by BG and Environment",
+          "label": "Policies Used"}, 
+          apisWithoutPolicies: Number, 
+          active: Number, 
+          apisWithContracts: Number, 
+          contracts: Number, 
+          transactions: Number, 
+          apisWithoutContracts: Number, 
+          apiInstances: Number, 
+          policiesUsedTotal: Number, 
+          total: Number, 
+          inactive: Number, 
+          automatedPoliciesUsed: Array<String> {"description": "Details of the Automated Policies Used by BG and Environment",
+          "label": "Automated Policies Used"}, 
+          apiVersions: Number, 
+          apisWithOneOrMoreConsumers: Number, 
+          automatedPoliciesUsedTotal: Number, 
+          apisWithSecurity: Number, 
+          apisWithMoreThanOneConsumer: Number, 
+          apisWithoutSecurity: Number, 
+          _?: Any
+        } {"description": "Models collected metrics for an environment from API Manager",
+        "label": "APM Environment Datatype"}> {"label": "Details",
+        "description": "Provides details by specific Production environments"}, 
+        apisWithOneOrMoreConsumers: Number, 
+        automatedPoliciesUsedTotal: Number, 
+        apisWithSecurity: Number, 
+        apisWithMoreThanOneConsumer: Number, 
+        apisWithoutSecurity: Number, 
+        _?: Any
+      } {"label": "Production",
+      "description": "Provides information about Production environments"}, 
+      sandbox: {
+        apisWithPolicies: Number, 
+        policiesUsed: Array<String> {"description": "Details of the Policies Used by BG and Environment",
+        "label": "Policies Used"}, 
+        apisWithoutPolicies: Number, 
+        active: Number, 
+        apisWithContracts: Number, 
+        contracts: Number, 
+        transactions: Number, 
+        apisWithoutContracts: Number, 
+        apiInstances: Number, 
+        policiesUsedTotal: Number, 
+        total: Number, 
+        inactive: Number, 
+        automatedPoliciesUsed: Array<String> {"description": "Details of the Automated Policies Used by BG and Environment",
+        "label": "Automated Policies Used"}, 
+        apiVersions: Number, 
+        details: Array<anonymousType_273 {"description": "Models collected metrics for an environment from API Manager",
+        "label": "APM Environment Datatype"}> {"description": "Provides details by specific Sandbox environments",
+        "label": "Details"}, 
+        apisWithOneOrMoreConsumers: Number, 
+        automatedPoliciesUsedTotal: Number, 
+        apisWithSecurity: Number, 
+        apisWithMoreThanOneConsumer: Number, 
+        apisWithoutSecurity: Number, 
+        _?: Any
+      } {"description": "Provides information about Sanbox environments",
+      "label": "Sandbox"}, 
+      _?: Any
+    }, 
+    _?: Any
+  } {"description": "Metrics related to API Manager",
+  "label": "API Manager Metrics"}, 
+  errors: Array<String> {"label": "Errors",
+  "description": "Array of errors occurred during proccessing"}, 
+  _?: Any
+} {"description": "This datatype models the aggregated response from multiple Anypoint Platform's APIs",
+"label": "Platform Metrics Datatype"}>
+type anonymousType_273 = {
+  apisWithPolicies: Number, 
+  policiesUsed: Array<String> {"description": "Details of the Policies Used by BG and Environment",
+  "label": "Policies Used"}, 
+  apisWithoutPolicies: Number, 
+  active: Number, 
+  apisWithContracts: Number, 
+  contracts: Number, 
+  transactions: Number, 
+  apisWithoutContracts: Number, 
+  apiInstances: Number, 
+  policiesUsedTotal: Number, 
+  total: Number, 
+  inactive: Number, 
+  automatedPoliciesUsed: Array<String> {"description": "Details of the Automated Policies Used by BG and Environment",
+  "label": "Automated Policies Used"}, 
+  apiVersions: Number, 
+  apisWithOneOrMoreConsumers: Number, 
+  automatedPoliciesUsedTotal: Number, 
+  apisWithSecurity: Number, 
+  apisWithMoreThanOneConsumer: Number, 
+  apisWithoutSecurity: Number, 
+  _?: Any
+} {"description": "Models collected metrics for an environment from API Manager",
+"label": "APM Environment Datatype"}
+
+
+type anonymousType_211 = {
+  queues: {
+    commonQueues: Number, 
+    messagesSent: Number, 
+    messagesReceived: Number, 
+    fifoQueues: Number, 
+    messagesInFlight: Number, 
+    messagesAck: Number, 
+    _?: Any
+  } {"description": "Provides information about Anypoint MQ queues",
+  "label": "Queues"}, 
+  exchanges: {
+    messagesDelivered: Number, 
+    messagesPublished: Number, 
+    exchangeQueues: Number, 
+    _?: Any
+  } {"label": "Exchanges",
+  "description": "Provides information about Anypoint MQ Exchanges"}, 
+  id?: String, 
+  _?: Any
+} {"label": "AMQ Environment Datatype",
+"description": "Models an Anypoint-MQ Environment"}
+
+
+type anonymousType_159 = {
+  applicationsTotal: Number, 
+  runtimesUsedTotal: Number, 
+  applicationsStarted: Number, 
+  runtimesUsed: Array<String> {"label": "Runtime Versions Used",
+  "description": "List of Runtime versions used per BG and Environment"}, 
+  vcoresAvailable: Number, 
+  vcoresUsed: Number, 
+  applicationsStopped: Number, 
+  vcoresTotal: Number, 
+  _?: Any
+}
+
+
+

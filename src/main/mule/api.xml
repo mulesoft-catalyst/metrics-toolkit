@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+<mule xmlns:mcp="http://www.mulesoft.org/schema/mule/mcp" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/mcp http://www.mulesoft.org/schema/mule/mcp/current/mule-mcp.xsd">
     <apikit:config name="api-config" api="api/metrics-toolkit-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="web-main" doc:id="21dfe96e-4a3e-4810-8a77-9a84600f1a4b">
         <http:listener doc:name="Listener" doc:id="a7a27ecf-5e78-414d-a4ff-9b8680b1bac1" config-ref="HTTP_Listener_config" path="${embedded.dashboard.path}" />
@@ -129,37 +130,189 @@ output application/java
             </on-error-propagate>
         </error-handler>
     </flow>
-    <flow name="get:\platform-metrics:api-config">
+    <flow name="mcp-tool-getCapabilities-flow" doc:id="835da8bf-ff29-4b32-8975-a6caecd3d842" >
+		<mcp:tool-listener doc:name="Tool Listener" doc:id="1965b465-6a4b-473d-80d5-b4e95eddb083" config-ref="MCP_Server" name="getCapabilities">
+			<mcp:description ><![CDATA[ Returns a machine-readable summary of the metrics toolkit capabilities, including available tools, parameters, and usage hints.]]></mcp:description>
+			<mcp:parameters-schema ><![CDATA[{ 
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {},
+  "required": []
+}]]></mcp:parameters-schema>
+			<mcp:responses >
+				<mcp:text-tool-response-content text="#[payload.^raw]" />
+			</mcp:responses>
+		</mcp:tool-listener>
+		<flow-ref doc:name="getAgentCapabilities Implementation" doc:id="0d9ae444-4024-4784-83b7-2b28b3f85be2" name="mcp-tool-impl-getCapabilities-subflow"/>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="0b535b0f-8771-46af-9368-eea8ac1d3840" type="ANY">
+				<ee:transform doc:name="Transform Message" doc:id="6df44fb3-27f8-467a-9123-dd8bdf9bac40" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" >
+					<ee:message >
+						<ee:set-payload resource="dw/mcp/error-any.dwl" />
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+	<flow name="mcp-tool-getAvailableCollectors-flow" doc:id="a167ca75-a594-416a-b1f5-ec7ed7fb864a" >
+		<mcp:tool-listener doc:name="Tool Listener" doc:id="9824ecf5-35ef-4979-8987-a90ae52bc892" config-ref="MCP_Server" name="getAvailableCollectors">
+			<mcp:description ><![CDATA[Returns all collector identifiers supported by the API]]></mcp:description>
+			<mcp:parameters-schema ><![CDATA[{ 
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {},
+  "required": []
+}]]></mcp:parameters-schema>
+			<mcp:responses >
+				<mcp:text-tool-response-content text="#[payload.^raw]" />
+			</mcp:responses>
+		</mcp:tool-listener>
+		<flow-ref doc:name="getAvailableCollectors Implementation" doc:id="8c98696b-4cec-4eb3-b749-076e238197d0" name="mcp-tool-impl-getAvailableCollectors-subflow"/>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b6121e90-8c64-4277-a289-2ddc18863cfe" type="ANY" >
+				<ee:transform doc:name="Transform Message" doc:id="698f3ec6-b0d8-4f81-bfe4-98cb97e545d9" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" >
+					<ee:message >
+						<ee:set-payload resource="dw/mcp/error-any.dwl" />
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+	<flow name="mcp-tool-getPlatformMetricsByCollector-flow" doc:id="74fdde6f-5b41-4c04-9beb-48f2d7b0665b" >
+		<mcp:tool-listener doc:name="Tool Listener" doc:id="5f73ac99-6463-48a9-9f51-9adc5eb46914" config-ref="MCP_Server" name="getPlatformMetricsByCollector">
+			<mcp:description ><![CDATA[Retrieves platform metrics for a specific collector.]]></mcp:description>
+			<mcp:parameters-schema ><![CDATA[{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "collectorId": {
+      "type": "string",
+      "description": "Identifier of the collector to fetch metrics from"
+    },
+    "bg": {
+      "type": "string",
+      "description": "Business group identifier"
+    },
+    "environment": {
+      "type": "string",
+      "description": "Optional environment filter (e.g., production, sandbox)"
+    },
+    "region": {
+      "type": "string",
+      "description": "Optional region filter (e.g., us-east-1, eu-west-2)"
+    }
+  },
+  "required": [
+    "collectorId",
+    "bg"
+  ]
+}]]></mcp:parameters-schema>
+			<mcp:responses >
+				<mcp:text-tool-response-content text="#[payload.^raw]" />
+			</mcp:responses>
+		</mcp:tool-listener>
+		<flow-ref doc:name="getPlatformMetricsByCollector Implementation" doc:id="2954f765-4838-4d31-94b1-579fb497e958" name="mcp-tool-impl-getPlatformMetricsByCollector-subflow"/>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="4db0d649-e5f0-407b-b3dd-b0c1bafb718d" type="ANY" >
+				<ee:transform doc:name="Transform Message" doc:id="864f3e12-f0c0-4fe8-9348-7ef1989e0895" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" >
+					<ee:message >
+						<ee:set-payload resource="dw/mcp/error-any.dwl" />
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+	<flow name="mcp-tool-getPlatformMetricsByKey-flow" doc:id="7f2543db-afe1-43db-98b1-eab9df721d3d">
+		<mcp:tool-listener doc:name="Tool Listener" doc:id="118652e5-9fb9-4723-b7c0-f93cb0b28fb5" config-ref="MCP_Server" name="getPlatformMetricsByKey">
+			<mcp:description><![CDATA[
+
+Fetches a single platform metric value by key. 
+]]></mcp:description>
+			<mcp:parameters-schema><![CDATA[{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "collectorId": {
+      "type": "string",
+      "description": "Identifier of the collector to fetch metrics from"
+    },
+    "bg": {
+      "type": "string",
+      "description": "Business group identifier"
+    },
+    "environment": {
+      "type": "string",
+      "description": "Optional environment filter (e.g., production, sandbox)"
+    },
+    "metricKey": {
+      "type": "string",
+      "description": "Key to filter (e.g., vpcsTotal)"
+    }
+  },
+  "required": [
+    "collectorId",
+    "bg",
+    "metricKey"
+  ]
+}]]></mcp:parameters-schema>
+			<mcp:responses>
+				<mcp:text-tool-response-content text="#[payload.^raw]" />
+			</mcp:responses>
+		</mcp:tool-listener>
+		<flow-ref doc:name="getPlatformMetricsByKey Implementation" doc:id="61aa8f4f-1867-4c4c-8e89-3f69359a81e4" name="mcp-tool-impl-getPlatformMetricByKey-subflow" />
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="48319c5e-e0e9-4fdc-b64f-0bd2e1fd0567" type="ANY" >
+				<ee:transform doc:name="Transform Message" doc:id="48992420-fe1c-42e1-bc1e-7a2b4d2bf225" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" >
+					<ee:message >
+						<ee:set-payload resource="dw/mcp/error-any.dwl" />
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+	<flow name="get:\platform-metrics:api-config" doc:id="8ed3bf31-4e7e-4247-81e3-b0810196b42c">
         <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="a99d508d-5bd1-4627-88d1-fec6fb4ed7cf" name="common-set-auth-vars-from-headers" />
         <flow-ref doc:name="Set Aggregator Details From Query Params Flow Reference" doc:id="526a1967-37bb-499f-a47d-9c469bb3df26" name="common-set-aggregator-vars-from-query-params" />
         <flow-ref doc:name="Set API Manager Properties Flow Reference" doc:id="7dae5ce0-f409-4c29-bcf1-44e4c7f04166" name="common-set-collector-vars-from-properties-api-manager" />
         <flow-ref doc:name="Aggregator Master Flow Reference" doc:id="5484cc09-2351-49d6-b728-a0d4b0b0d1b9" name="aggregator-platform-metrics-master-flow" />
     </flow>
-    <flow name="post:\platform-metrics\load:application\json:api-config">
+	<flow name="post:\platform-metrics\load:application\json:api-config">
         <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="e514bd7d-bdbc-4492-844c-b9d4549155f9" name="common-set-auth-vars-from-headers" />
         <flow-ref doc:name="Set API Manager Properties Flow Reference" doc:id="0a20abbe-35c4-43a7-bba7-6c31517516af" name="common-set-collector-vars-from-properties-api-manager" />
         <flow-ref doc:name="Set Loader Details From Payload Flow Reference" doc:id="e6cdbaa6-d042-4dda-ad53-a9bcb88ee768" name="common-set-loader-vars-from-payload" />
         <flow-ref doc:name="Loader Flow Reference" doc:id="9b9b2d75-6d61-40ce-bc19-518cbb135eb8" name="loader-router-flow" />
     </flow>
-    <flow name="get:\business-metrics:api-config">
+	<flow name="get:\business-metrics:api-config">
         <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="fd377e58-59aa-44cf-ad08-86aab248ef23" name="common-set-auth-vars-from-headers" />
         <flow-ref doc:name="Set Benefits Vars From Query Params Flow Reference" doc:id="4f874701-0491-483f-879e-7fcf9bac5243" name="common-set-benefits-vars-from-query-params" />
         <flow-ref doc:name="Set API Manager Properties Flow Reference" doc:id="183741ba-1102-446c-a736-7416ab07cfbc" name="common-set-collector-vars-from-properties-api-manager" />
         <flow-ref doc:name="Aggregator Platform Benefits Flow Reference" doc:id="ab111296-7f07-480b-b76c-c05de17ae188" name="aggregator-platform-benefits-master-flow" />
     </flow>
-    <flow name="post:\business-metrics\load:application\json:api-config">
+	<flow name="post:\business-metrics\load:application\json:api-config">
         <flow-ref doc:name="Set Auth Vars from Headers Flow Reference" doc:id="666ad8cc-9088-4d24-8839-f665a9f9deaa" name="common-set-auth-vars-from-headers" />
         <flow-ref doc:name="Set API Manager Properties Flow Reference" doc:id="c7ba2905-746b-46e5-a58e-65648625c24d" name="common-set-collector-vars-from-properties-api-manager" />
         <flow-ref doc:name="Set Loader Details From Payload Flow Reference" doc:id="ad58af15-9a99-49c8-bee5-24d3eb73ee04" name="common-set-loader-vars-from-payload" />
         <flow-ref doc:name="Set Benefits Vars From Payload Flow Reference" doc:id="c3fa4f76-0f14-40cb-9738-1c7011851bfa" name="common-set-benefits-vars-from-payload" />
         <flow-ref doc:name="Loader Benfits Flow Reference" doc:id="1117cb81-c116-4ad6-b566-36e4f2d5d30e" name="loader-benefits-router-flow" />
     </flow>
-    <flow name="get:\sdlc-metrics:api-config">
+	<flow name="get:\sdlc-metrics:api-config">
         <set-variable value="#[attributes.queryParams.raw]" doc:name="Set Raw Data flag" doc:id="a9f8c832-6093-465b-b738-bdea7988b782" variableName="rawData" />
         <flow-ref doc:name="Set SDLC Details" doc:id="2e0169ea-1652-48ef-89ca-7bc044121f69" name="common-set-sdlc-details" />
         <flow-ref doc:name="Aggregator SDLC Flow Reference" doc:id="1dcfab3e-3016-4bed-8234-763027f4760a" name="aggregator-sdlc-metrics-main-flow" />
     </flow>
-    <flow name="post:\sdlc-metrics\load:api-config">
+	<flow name="post:\sdlc-metrics\load:api-config">
         <flow-ref doc:name="Set Loader Details From Payload Flow Reference" doc:id="5be122d9-d5e8-4059-b082-2eab2c5c4845" name="common-set-loader-vars-from-payload" />
         <flow-ref doc:name="Set SDLC Details" doc:id="700186a4-a8b4-4fc4-bb36-34f80e0129d1" name="common-set-sdlc-details" />
         <flow-ref doc:name="Loader SDLC Flow Reference" doc:id="c84138ab-9d1d-4edf-840e-12d9458584e4" name="loader-sdlc-router-flow" />

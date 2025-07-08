@@ -1,0 +1,9 @@
+%dw 2.0
+
+type auto_21d300fe_073c_43b1_ab0b_be95f80fb468_Output_Payload <R> = {|
+  jsonrpc: String, 
+  timestamp: String {"format": "yyyy-MM-dd'T'HH:mm:ss'Z'"}, 
+  result: Array<R>, 
+  id: Any
+|} | {|  |}
+

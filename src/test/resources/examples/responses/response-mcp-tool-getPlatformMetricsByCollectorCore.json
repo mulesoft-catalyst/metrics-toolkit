@@ -1,0 +1,16 @@
+{
+  "jsonrpc": "2.0",
+  "id": "158ed7b1-895a-410e-b5aa-92ade31c4e9f",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "audience": [
+          
+        ],
+        "text": "[\n  {\n    \"businessGroup\": \"Fantasy Company\",\n    \"businessGroupId\": \"877baaaa-36ba-4021-82d5-45bae78e0fe2\",\n    \"coreServicesMetrics\": {\n      \"users\": {\n        \"total\": 1,\n        \"activeMembers\": 1,\n        \"inactiveMembers\": 0,\n        \"activeMembersLast60Days\": 0,\n        \"activeMembersLast30Days\": 0\n      },\n      \"environments\": {\n        \"total\": 4,\n        \"production\": 1,\n        \"sandbox\": 3\n      }\n    }\n  }\n]"
+      }
+    ],
+    "isError": false
+  }
+}
