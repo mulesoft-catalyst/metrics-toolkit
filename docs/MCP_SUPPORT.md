@@ -22,7 +22,7 @@ Complete MCP Spec can be found here. As a high level summary, MCP tools conform 
 
 | Field                  | Details                                                                                              |
 |------------------------|------------------------------------------------------------------------------------------------------|
-| Method                 | getAgentCapabilities                                                                                 |
+| Method                 | getCapabilities                                                                                 |
 | Type                   | For Agent Discovery Purposes|
 | Summary                | Returns a machine-readable summary of the metrics toolkit MCP capabilities, including available tools, parameters, and usage hints. |
 | Inputs (`params`)      | None |
@@ -51,11 +51,11 @@ Complete MCP Spec can be found here. As a high level summary, MCP tools conform 
 {
   "jsonrpc": "2.0",
   "result": {
-    "description": "This capability manifest describes the tools (methods) exposed by this agent. Each tool includes a name, description, and an input schema that defines the parameters required to invoke it. Agents can use this manifest to dynamically plan their next actions without hardcoding tool knowledge. The tools listed here follow the JSON-RPC 2.0 specification and must be invoked via POST requests to the MCP endpoint. Agents should first inspect this manifest to determine which tools are available and how to use them, then construct a valid request matching the tool’s input schema.",
+    "description": "This capability manifest describes the tools (methods) exposed by this server. Each tool includes a name, description, and an input schema that defines the parameters required to invoke it. Agents can use this manifest to dynamically plan their next actions without hardcoding tool knowledge. The tools listed here follow the JSON-RPC 2.0 specification and must be invoked via POST requests to the MCP endpoint. Agents should first inspect this manifest to determine which tools are available and how to use them, then construct a valid request matching the tool’s input schema.",
     "tools": [
       {
         "name": "getAvailableCollectors",
-        "description": "Returns all collector identifiers supported by the agent.",
+        "description": "Returns all collector identifiers supported by the server.",
         "inputSchema": {
           "type": "object",
           "properties": {}
