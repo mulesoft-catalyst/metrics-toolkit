@@ -33,7 +33,7 @@
 		<mongodb-driver-legacy.version>4.0.4</mongodb-driver-legacy.version>
 		<validation-module.version>2.0.7</validation-module.version>
 		<assertions.version>1.0.2</assertions.version>
-		<mcp.version>0.1.0-BETA</mcp.version>
+		<mcp.version>1.1.0</mcp.version>
 	</properties>
 
 	<build>
