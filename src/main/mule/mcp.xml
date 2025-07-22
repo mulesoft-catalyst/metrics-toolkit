@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="mcp-tool-impl-getCapabilities-subflow" doc:id="587c2b4d-d03d-45e6-8355-7d6d4a942d6a" >
+		<ee:transform doc:name="Response" doc:id="61fb1bc1-3779-4847-93be-17eafa164989" >
+			<ee:message >
+				<ee:set-payload resource="dw/mcp/response-getCapabilities.dwl" />
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="mcp-tool-impl-getAvailableCollectors-subflow" doc:id="63fdfd27-b25c-4ca5-8b85-0a43af062510" >
+		<ee:transform doc:name="Response" doc:id="4277d53f-471e-4a1a-973f-ef927cb2cb32" >
+			<ee:message >
+				<ee:set-payload resource="dw/mcp/response-getAvailableCollectors.dwl" />
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="mcp-common-variables" doc:id="c56d6188-8c16-4217-8cca-3f3c0bb7a0d9" >
+		<set-variable value="#[payload.collector]" doc:name="Set Collector" doc:id="21c837e2-18e9-4d33-a528-ae3db44637d7" variableName="rpcCollector" />
+		<set-variable value="#[attributes.requestId]" doc:name="Set Variable" doc:id="c4ffc15c-4f24-4249-8adb-e34725360c37" variableName="rpcId" />
+	</sub-flow>
+	<sub-flow name="mcp-tool-impl-getPlatformMetricsByCollector-subflow" doc:id="21d300fe-073c-43b1-ab0b-be95f80fb468" >
+		<flow-ref doc:name="Set MCP Common Variables" doc:id="326fc67a-1ccb-4baa-aa49-d247883e60aa" name="mcp-common-variables"/>
+		<ee:transform doc:name="Map Params to Headers and queryParams" doc:id="da7afed6-748b-4016-b948-3c0850debb4c" >
+			<ee:message >
+				<ee:set-attributes resource="dw/mcp/map-params-to-attributes.dwl" />
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="Get Platform Metrics" doc:id="2f773a92-86f7-47a6-9b6c-5fb97caa3589" name="get:\platform-metrics:api-config"/>
+		<ee:transform doc:name="Response" doc:id="d81a5e78-2cb0-4b2e-9111-da0a3ab153b2" >
+			<ee:message >
+				<ee:set-payload resource="dw/mcp/response-filter-metrics-by-collector.dwl" />
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="mcp-tool-impl-getPlatformMetricByKey-subflow" doc:id="7aee42ef-0fc8-4057-89a3-2a2943b5c3b2" >
+		<set-variable value="#[payload.metricKey]" doc:name="Set Metric Key" doc:id="48929d73-ac44-48b6-9d23-29c5e7e6adbd" variableName="rpcMetricKey"/>
+		<flow-ref doc:name="Get Platform Metrics by Collector" doc:id="6cb3a3db-792b-4206-97bf-3b5e19bd5184" name="mcp-tool-impl-getPlatformMetricsByCollector-subflow"/>
+		<ee:transform doc:name="Filter by Collector and Metric" doc:id="160ed7e9-c599-4beb-a2d2-cebbd329ec15" >
+			<ee:message >
+				<ee:set-payload resource="dw/mcp/response-getPlatformMetricsByKey.dwl" />
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

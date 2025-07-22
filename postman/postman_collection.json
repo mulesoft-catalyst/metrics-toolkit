@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "706115af-7ce6-4b1e-9383-e47f0cbdd838",
+		"_postman_id": "26668380-2312-4608-b588-c752825bb41c",
 		"name": "Metrics Toolkit",
 		"description": "# Metrics Toolkit\n\nThis provides endpoints for the Anypoint Metrics Toolkit API.\n\n## Features\n\nIt contains the categories of requests listed below, which are separated into folders.\n\n*   Benefits\n*   Platform Metrics\n    \n\nThis also has pre-request scripts to handle headers. Each folder has a script that automatically sets Anypoint Platform headers for the folder's requests. This is in each folder that has Anypoint Platform requests, as some folders (SDLC) don't need those headers.\n\n# Setup\n\nThis requires variables to be set for the requests to work.\n\n## Environment Variables\n\n*   `url`: The base url for the API. This contains the HTTP protocol, domain, and port. Example: `http://localhost:8081`\n*   `anypointOrg`: The root Anypoint organization on which to run the metrics.\n    \n\n*   `credentialType`: Determines which Anypoint credential headers to generate. `user` for Anypoint Platform user credentials; `app` for connected app client credentials.\n*   `anypointUsername`: Used for Anypoint Platform user credentials.\n*   `anypointPassword`: Used for Anypoint Platform user credentials.\n*   `connectedAppId`: Used for Connected App credentials.\n*   `connectedAppSecret`: Used for Connected App credentials.\n*   `isPlaintextSecret`: Indicates if the secret in the credentials is Base64 encoded or not. If `true`, it is not encoded.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -8,6 +8,7 @@
 	"item": [
 		{
 			"name": "Benefits",
+			"description": null,
 			"item": [
 				{
 					"name": "Get Benefits",
@@ -20,6 +21,10 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{url}}/api/business-metrics?developAPIHistoricTime=20&developAPICurrentTime=10&maintainAPIHistoricTime=15&maintainAPICurrentTime=7&developerDayRate=200",
 							"host": [
@@ -181,6 +186,7 @@
 		},
 		{
 			"name": "Platform Metrics",
+			"description": null,
 			"item": [
 				{
 					"name": "Get Platform Metrics",
@@ -189,10 +195,17 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"value": "application/json"
+							},
+							{
+								"key": "X-ANYPNT-ORG-ID",
+								"value": "{{bg}}"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{url}}/api/platform-metrics?raw=false",
 							"host": [
@@ -455,6 +468,182 @@
 							""
 						]
 					}
+				}
+			]
+		},
+		{
+			"name": "MCP Tool Calls",
+			"description": "",
+			"item": [
+				{
+					"name": "Start SSE session",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/sse",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"sse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Call getCapabilities",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"{{transactionId}}\",\n  \"method\": \"tools/call\",\n  \"params\": {\n    \"name\": \"getCapabilities\",\n    \"arguments\": {}\n  }\n}"
+						},
+						"url": {
+							"raw": "{{url}}/message?sessionId={{sessionId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"message"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Call getAvailableCollectors",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"{{transactionId}}\",\n  \"method\": \"tools/call\",\n  \"params\": {\n    \"name\": \"getAvailableCollectors\",\n    \"arguments\": {}\n  }\n}"
+						},
+						"url": {
+							"raw": "{{url}}/message?sessionId={{sessionId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"message"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Call getPlatformMetricsByCollector",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "x-anypnt-client-id",
+								"value": "{{clientId}}"
+							},
+							{
+								"key": "x-anypnt-client-secret",
+								"value": "{{clientSecret}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"{{transactionId}}\",\n  \"method\": \"tools/call\",\n  \"params\": {\n    \"name\": \"getPlatformMetricsByCollector\",\n    \"arguments\": {\n      \"collector\": \"{{collector}}\",\n      \"bg\": \"{{bg}}\"\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{url}}/message?sessionId={{sessionId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"message"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Call getPlatformMetricsByKey",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "x-anypnt-client-id",
+								"value": "{{clientId}}"
+							},
+							{
+								"key": "x-anypnt-client-secret",
+								"value": "{{clientSecret}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"{{transactionId}}\",\n  \"method\": \"tools/call\",\n  \"params\": {\n    \"name\": \"getPlatformMetricsByKey\",\n    \"arguments\": {\n      \"collector\": \"{{collector}}\",\n      \"bg\": \"{{bg}}\",\n      \"metricKey\": \"{{metricKey}}\"\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "{{url}}/message?sessionId={{sessionId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"message"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "{{sessionId}}"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

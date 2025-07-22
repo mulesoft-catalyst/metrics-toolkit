@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_a167ca75_a594_416a_b1f5_ec7ed7fb864a_Input_Variables_expectedResponse = String
+

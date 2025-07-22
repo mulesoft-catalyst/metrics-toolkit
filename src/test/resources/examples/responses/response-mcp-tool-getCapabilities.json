@@ -1,0 +1,16 @@
+{
+  "jsonrpc": "2.0",
+  "id": "158ed7b1-895a-410e-b5aa-92ade31c4e9f",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "audience": [
+          
+        ],
+        "text": "{\n  \"description\": \"This capability manifest describes the tools (methods) exposed by this agent. Each tool includes a name, description, and an input schema that defines the parameters required to invoke it. Agents can use this manifest to dynamically plan their next actions without hardcoding tool knowledge. The tools listed here follow the JSON-RPC 2.0 specification and must be invoked via POST requests to the MCP endpoint. Agents should first inspect this manifest to determine which tools are available and how to use them, then construct a valid request matching the tool’s input schema.\",\n  \"tools\": [\n    {\n      \"name\": \"getAvailableCollectors\",\n      \"description\": \"Returns all collector identifiers supported by the agent.\",\n      \"inputSchema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \n        }\n      }\n    },\n    {\n      \"name\": \"getPlatformMetricsByCollector\",\n      \"description\": \"Retrieves metrics from a specific Anypoint collector with optional filters\",\n      \"inputSchema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"collectorId\": {\n            \"type\": \"string\"\n          },\n          \"bg\": {\n            \"type\": \"string\"\n          },\n          \"filters\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"environment\": {\n                \"type\": \"string\"\n              },\n              \"region\": {\n                \"type\": \"string\"\n              }\n            }\n          }\n        },\n        \"required\": [\n          \"collectorId\",\n          \"bg\"\n        ]\n      }\n    },\n    {\n      \"name\": \"getPlatformMetricByKey\",\n      \"description\": \"Fetches a single metric value by key and collector. Useful for atomic, low-latency reads.\",\n      \"inputSchema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"collector\": {\n            \"type\": \"string\"\n          },\n          \"metricKey\": {\n            \"type\": \"string\"\n          },\n          \"bg\": {\n            \"type\": \"string\"\n          },\n          \"environment\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"collector\",\n          \"metricKey\",\n          \"bg\"\n        ]\n      }\n    }\n  ]\n}"
+      }
+    ],
+    "isError": false
+  }
+}

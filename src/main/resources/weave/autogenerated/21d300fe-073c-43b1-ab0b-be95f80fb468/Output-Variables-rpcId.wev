@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_21d300fe_073c_43b1_ab0b_be95f80fb468_Output_Variables_rpcId = Any
+

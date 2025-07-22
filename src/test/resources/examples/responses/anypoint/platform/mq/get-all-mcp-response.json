@@ -1,0 +1,100 @@
+[
+  {
+    "date": "2025-07-01T10:27:51.668113-03:00",
+    "businessGroup": "Fantasy Business Group",
+    "businessGroupId": "168ed7b1-895a-420e-b5aa-92ade31c4f9e",
+    "mqMetrics": {
+      "stats": {
+        "summary": {
+          "production": {
+            "queues": {
+              "commonQueues": 0,
+              "fifoQueues": 0,
+              "messagesInFlight": 0,
+              "messagesSent": 0,
+              "messagesReceived": 0,
+              "messagesAck": 0,
+              "details": []
+            },
+            "exchanges": {
+              "exchangeQueues": 0,
+              "messagesPublished": 0,
+              "messagesDelivered": 0,
+              "details": []
+            }
+          },
+          "sandbox": {
+            "queues": {
+              "commonQueues": 0,
+              "fifoQueues": 0,
+              "messagesInFlight": 0,
+              "messagesSent": 0,
+              "messagesReceived": 0,
+              "messagesAck": 0,
+              "details": []
+            },
+            "exchanges": {
+              "exchangeQueues": 0,
+              "messagesPublished": 0,
+              "messagesDelivered": 0,
+              "details": []
+            }
+          }
+        },
+        "byRegion": {
+          "production": [],
+          "sandbox": []
+        }
+      }
+    }
+  },
+  {
+    "date": "2025-07-01T10:27:51.668113-03:00",
+    "businessGroup": "Fantasy Business Group 2",
+    "businessGroupId": "c03653f5-9c46-4e55-bf97-5cef1442bfbf",
+    "mqMetrics": {
+      "stats": {
+        "summary": {
+          "production": {
+            "queues": {
+              "commonQueues": 0,
+              "fifoQueues": 0,
+              "messagesInFlight": 0,
+              "messagesSent": 0,
+              "messagesReceived": 0,
+              "messagesAck": 0,
+              "details": []
+            },
+            "exchanges": {
+              "exchangeQueues": 0,
+              "messagesPublished": 0,
+              "messagesDelivered": 0,
+              "details": []
+            }
+          },
+          "sandbox": {
+            "queues": {
+              "commonQueues": 0,
+              "fifoQueues": 0,
+              "messagesInFlight": 0,
+              "messagesSent": 0,
+              "messagesReceived": 0,
+              "messagesAck": 0,
+              "details": []
+            },
+            "exchanges": {
+              "exchangeQueues": 0,
+              "messagesPublished": 0,
+              "messagesDelivered": 0,
+              "details": []
+            }
+          }
+        },
+        "byRegion": {
+          "production": [],
+          "sandbox": []
+        }
+      }
+    }
+  }
+]

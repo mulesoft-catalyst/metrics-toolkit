@@ -1,0 +1,33 @@
+%dw 2.0
+
+type auto_8ed3bf31_4e7e_4247_81e3_b0810196b42c_Input_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|
+    "X-ANYPNT-ORG-ID": String, 
+    "X-ANYPNT-CLIENT-ID"?: String, 
+    "X-ANYPNT-CLIENT-SECRET"?: String, 
+    "X-ANYPNT-USERNAME"?: String, 
+    "X-ANYPNT-PASSWORD"?: String, 
+    "X-PLAINTEXT-PASSWORD"?: Boolean
+  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|
+    collectors?: String, 
+    raw: Boolean
+  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {|  |}, 
+  version: String, 
+  localAddress: String
+|}
+

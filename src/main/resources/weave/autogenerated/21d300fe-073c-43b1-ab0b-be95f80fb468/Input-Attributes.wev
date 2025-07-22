@@ -1,0 +1,10 @@
+%dw 2.0
+
+type auto_21d300fe_073c_43b1_ab0b_be95f80fb468_Input_Attributes = {|
+  sessionId: String, 
+  requestId: String, 
+  additionalProperties: { _?: String }
+|} {"typeAlias": "RequestAttributes",
+"typeId": "com.mulesoft.connectors.mcp.api.server.RequestAttributes",
+"class": "com.mulesoft.connectors.mcp.api.server.RequestAttributes"}
+

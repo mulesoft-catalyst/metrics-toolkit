@@ -1,0 +1,16 @@
+{
+  "jsonrpc": "2.0",
+  "id": "158ed7b1-895a-410e-b5aa-92ade31c4e9f",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "audience": [
+          
+        ],
+        "text": "[\n  {\n    \"businessGroup\": \"Fantasy Company\",\n    \"businessGroupId\": \"877baaaa-36ba-4021-82d5-45bae78e0fe2\",\n    \"exchangeMetrics\": {\n      \"total\": 3,\n      \"apiSpecs\": 2,\n      \"fragments\": 1,\n      \"proxies\": 0,\n      \"soapApis\": 0,\n      \"policies\": 0,\n      \"mule3Connectors\": 0,\n      \"extensions\": 0,\n      \"applications\": 0,\n      \"custom\": 0,\n      \"overallSatisfaction\": 0,\n      \"reuse\": {\n        \"fragments\": 2,\n        \"implementedApis\": 0,\n        \"managedSboxApis\": 0,\n        \"managedProdApis\": 0,\n        \"extensions\": 0,\n        \"appliedPoliciesSbox\": 0,\n        \"appliedPoliciesProd\": 0\n      }\n    }\n  }\n]"
+      }
+    ],
+    "isError": false
+  }
+}

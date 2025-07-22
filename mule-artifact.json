@@ -1,5 +1,5 @@
 {
-    "minMuleVersion": "4.6.0",
+    "minMuleVersion": "4.9.3",
     "javaSpecificationVersions": ["17"],
 	"secureProperties": [
 		"auth.orgId",
