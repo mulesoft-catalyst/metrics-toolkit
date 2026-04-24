@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Private Spaces Collector
+	========================
+	Org-level collector (not per-env). Replaces the CH1 networking metrics
+	(VPC/VPN/DLB/StaticIP counts) with CH2-native Private Space inventory.
+
+	Note on trial / free-tier accounts: Private Spaces require a paid
+	subscription. On a trial account this API returns an empty list or 403.
+	The on-error-continue handler returns an empty summary so the overall
+	metrics pipeline is not broken by its absence.
+-->
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+	<flow name="collector-private-spaces-metrics-flow" doc:id="ps-collector-0001">
+		<flow-ref doc:name="List Private Spaces" name="api-call-private-spaces-list-flow" />
+		<ee:transform doc:name="Summarise networking">
+			<ee:message>
+				<ee:set-payload resource="dw/transform/private-spaces-networking.dwl" />
+			</ee:message>
+		</ee:transform>
+		<error-handler>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue">
+				<logger level="WARN" message="'Unable to list Private Spaces (possibly not entitled on this tier) for BG:' ++ vars.orgId" />
+				<set-payload value='#[output application/json --- {
+					privateSpacesTotal: 0,
+					privateSpacesByRegion: {},
+					privateSpacesByEnvType: {},
+					vpnConnectionsTotal: 0,
+					tgwAttachmentsTotal: 0,
+					privateSpaces: []
+				}]' />
+				<set-variable value="#[vars.errors + error.description]" variableName="errors" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+
+</mule>

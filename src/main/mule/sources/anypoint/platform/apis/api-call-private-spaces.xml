@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Private Spaces API calls
+	========================
+	GET /runtimefabric/api/organizations/{orgId}/privatespaces
+-->
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+	<flow name="api-call-private-spaces-list-flow" maxConcurrency="${anypoint.platform.apis.privatespaces.maxConcurrency}">
+		<logger level="DEBUG" message="Calling Runtime Fabric API - List Private Spaces" />
+		<http:request method="GET" doc:name="List Private Spaces"
+			config-ref="HTTP_Request_configuration"
+			path="${anypoint.platform.apis.privatespaces.list.path}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.token
+}]]]></http:headers>
+			<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"orgId" : vars.orgId
+}]]]></http:uri-params>
+		</http:request>
+		<logger level="DEBUG" message='#["Private Spaces list, Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+
+</mule>
