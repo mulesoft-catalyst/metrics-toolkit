@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	CloudHub 2.0 Collector
+	======================
+	Replacement for the upstream CH1 "collector-cloudhub.xml". Collects
+	deployments via the Application Manager v2 API and reshapes each item
+	into the CH1-compatible structure consumed by the existing aggregator
+	(build-platform-metrics-aggregation.dwl) so no downstream DWL changes
+	are required.
+-->
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+	<flow name="collector-cloudhub2-apps-metrics-parallel-flow" doc:id="ch2-collector-parallel-flow-0001">
+		<parallel-foreach doc:name="Parallel For Each - Environments" collection="#[vars.environments]">
+			<flow-ref doc:name="Set Environment Variables" name="collector-commons-set-environment-variables-flow" />
+			<flow-ref doc:name="Get CH2 Deployments" name="api-call-cloudhub2-deployments-flow" />
+
+			<!-- The list endpoint returns a slim summary. Fan out a detail call per
+				 deployment ID and assemble an items[] array of full detail responses
+				 so the adapter DWL can read application.vCores / target.replicas / etc. -->
+			<ee:transform doc:name="Stash list summary items">
+				<ee:variables>
+					<ee:set-variable variableName="deploymentsList"><![CDATA[%dw 2.0
+output application/java
+---
+payload.items default []]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+
+			<!-- parallel-foreach collects per-route results into a payload array -->
+			<parallel-foreach doc:name="Parallel fan-out: deployment detail"
+				collection="#[vars.deploymentsList]">
+				<set-variable variableName="deploymentId" value="#[payload.id]" />
+				<try>
+					<flow-ref doc:name="Get CH2 Deployment Detail"
+						name="api-call-cloudhub2-deployment-detail-flow" />
+					<error-handler>
+						<on-error-continue>
+							<logger level="WARN" message='#["Detail fetch failed for deploymentId=" ++ vars.deploymentId ++ "; keeping list summary."]' />
+							<!-- Fall back to the list summary for this deployment id -->
+							<set-payload value="#[(vars.deploymentsList filter ($.id == vars.deploymentId))[0]]" />
+						</on-error-continue>
+					</error-handler>
+				</try>
+			</parallel-foreach>
+
+			<!-- parallel-foreach wraps each result as { payload: ..., attributes: ... }.
+				 Unwrap and re-shape into { items: [...detail...] } for the adapter. -->
+			<ee:transform doc:name="Reshape items[] with enriched details">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+{ items: payload map ((route, idx) -> route.payload) }]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+
+			<ee:transform doc:name="Adapt CH2 -> CH1 shape">
+				<ee:message>
+					<ee:set-payload resource="dw/transform/ch2-to-ch1-adapter.dwl" />
+				</ee:message>
+			</ee:transform>
+
+			<set-payload
+				value='#[output application/json --- { environment: vars.environmentName, isProduction: vars.isProduction, data: payload }]'
+				doc:name="Aggregate metrics (CH1-shaped)" />
+		</parallel-foreach>
+
+		<error-handler>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue">
+				<logger level="WARN" message="'Unable to get CloudHub 2.0 deployments for BG:' ++ vars.orgId" />
+				<set-variable value="#[vars.errors + error.description]" variableName="errors" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+
+</mule>

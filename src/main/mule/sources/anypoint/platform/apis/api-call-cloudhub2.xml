@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	CloudHub 2.0 Deployments API call
+	=================================
+	Wraps GET /amc/application-manager/api/v2/organizations/{orgId}/environments/{envId}/deployments
+	This replaces the CH1 call to /cloudhub/api/v2/applications. The response shape is completely
+	different and is adapted to the CH1 shape downstream.
+-->
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+	<flow name="api-call-cloudhub2-deployments-flow" maxConcurrency="${anypoint.platform.apis.cloudhub2.maxConcurrency}">
+		<logger level="DEBUG" message="Calling AMC App Manager v2 - Deployments" />
+		<http:request method="GET" doc:name="Get CH2 Deployments"
+			config-ref="HTTP_Request_configuration"
+			path="${anypoint.platform.apis.cloudhub2.deployments.path}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.token
+}]]]></http:headers>
+			<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"orgId"   : vars.orgId,
+	"envId"   : vars.environmentId
+}]]]></http:uri-params>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"filterBy"    : "all",
+	"limit"       : "${anypoint.platform.apis.cloudhub2.deployments.pageSize}",
+	"offset"      : "0"
+}]]]></http:query-params>
+		</http:request>
+		<logger level="DEBUG" message='#["CH2 Deployments, Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+
+	<!-- Fetches the full detail of a single deployment. The list endpoint returns a
+		 slim summary (no vCores, no replicas, no deploymentSettings), so we follow
+		 up with this per-deployment detail call and feed the enriched payload to
+		 the adapter DWL.
+		 Inputs (vars): orgId, environmentId, deploymentId, token -->
+	<flow name="api-call-cloudhub2-deployment-detail-flow" maxConcurrency="${anypoint.platform.apis.cloudhub2.maxConcurrency}">
+		<logger level="DEBUG" message='#["Calling AMC App Manager v2 - Deployment Detail: " ++ vars.deploymentId]' />
+		<http:request method="GET" doc:name="Get CH2 Deployment Detail"
+			config-ref="HTTP_Request_configuration"
+			path="${anypoint.platform.apis.cloudhub2.deployment.detail.path}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.token
+}]]]></http:headers>
+			<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"orgId"         : vars.orgId,
+	"envId"         : vars.environmentId,
+	"deploymentId"  : vars.deploymentId
+}]]]></http:uri-params>
+		</http:request>
+		<logger level="DEBUG" message='#["CH2 Deployment Detail, Response Status Code:" ++ attributes.statusCode]' />
+	</flow>
+
+</mule>
