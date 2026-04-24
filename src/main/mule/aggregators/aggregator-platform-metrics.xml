@@ -52,13 +52,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<when expression="#[not isEmpty(vars.environments)]">
 				<scatter-gather doc:name="Scatter-Gather" doc:id="9b9ce41d-173c-4191-ad34-b17eb5f95840">
 					<route>
-						<choice doc:name="If collectors contains ch" doc:id="26ee8f45-60b3-4b0a-a0f8-7c86bd28a82e" >
-							<when expression='#[vars.collectors as Array contains "ch"]'>
-								<flow-ref doc:name="Get CloudHub Apps Metrics " doc:id="4b943a49-d16a-4691-987d-364a82fdcd6f" name="collector-cloudhub-apps-metrics-parallel-flow" />
+						<choice doc:name="If collectors contains ch2" doc:id="ch2-choice-0001" >
+							<when expression='#[vars.collectors as Array contains "ch2"]'>
+								<flow-ref doc:name="Get CloudHub 2.0 Apps Metrics" doc:id="ch2-flowref-0001" name="collector-cloudhub2-apps-metrics-parallel-flow" />
 							</when>
 							<otherwise >
-								<logger level="INFO" doc:name="Log - No CH" doc:id="7a37b092-1ef2-47ec-b50f-a4eee11563ec" message="CloudHub Metrics won't be collected: collector not enabled or not supported for the platform deployment model or authentication mode."/>
-								<ee:transform doc:name="Set Null Response" doc:id="9fe0e67d-09a3-40e9-9ec5-5694b4503671" >
+								<logger level="INFO" doc:name="Log - No CH2" doc:id="ch2-logger-0001" message="CloudHub 2.0 Metrics won't be collected: ch2 collector not enabled."/>
+								<ee:transform doc:name="Set Null Response" doc:id="ch2-setnull-0001" >
 									<ee:message >
 										<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
 									</ee:message>
@@ -182,6 +182,21 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 							<otherwise >
 								<logger level="INFO" doc:name="Log - No OSv2" doc:id="6a4f1000-eeb4-4a41-9ce8-1c61577c83f6" message="OSv2 Metrics won't be collected: collector not enabled or not supported for the platform deployment model or authentication mode." />
 								<ee:transform doc:name="Set Null Response" doc:id="6eca4578-0401-465c-a4a4-5581ebc22022" >
+									<ee:message >
+										<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
+									</ee:message>
+								</ee:transform>
+							</otherwise>
+						</choice>
+					</route>
+					<route>
+						<choice doc:name="If collectors contains ps" doc:id="ps-choice-0001" >
+							<when expression='#[vars.collectors as Array contains "ps"]'>
+								<flow-ref doc:name="Get Private Spaces Metrics" doc:id="ps-flowref-0001" name="collector-private-spaces-metrics-flow" />
+							</when>
+							<otherwise >
+								<logger level="INFO" doc:name="Log - No PS" doc:id="ps-logger-0001" message="Private Spaces metrics won't be collected: ps collector not enabled (trial accounts have no Private Spaces)."/>
+								<ee:transform doc:name="Set Null Response" doc:id="ps-setnull-0001" >
 									<ee:message >
 										<ee:set-payload resource="dw/aggregation/set-null-response.dwl" />
 									</ee:message>

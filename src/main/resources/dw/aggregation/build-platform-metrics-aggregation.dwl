@@ -275,18 +275,17 @@ var usableProdVcores = entitlements.vCoresProduction.assigned - entitlements.vCo
 	runtimeManagerMetrics: {
 		cloudhub: {
 			networking: {
-				vpcsTotal: entitlements.vpcs.assigned,
-				vpcsAvailable: (entitlements.vpcs.assigned default 0) - (usage.vpcsConsumed default 0),
-				vpcsUsed: usage.vpcsConsumed,
-				vpnsTotal: entitlements.vpns.assigned,
-				vpnsAvailable: (entitlements.vpns.assigned default 0) - (usage.vpnsConsumed default 0),
-				vpnsUsed: usage.vpnsConsumed,
-				dlbsTotal: entitlements.loadBalancer.assigned,
-				dlbsAvailable: (entitlements.loadBalancer.assigned default 0) - (usage.loadBalancersConsumed default 0),
-				dlbsUsed: usage.loadBalancersConsumed,
-				staticIPsTotal: entitlements.staticIps.assigned,
-				staticIPsAvailable: (entitlements.staticIps.assigned default 0) - (usage.staticIpsConsumed default 0),
-				staticIPsUsed: usage.staticIpsConsumed
+				// CH2-native metrics (sourced from Private Spaces collector, scatter-gather route index 10)
+				privateSpacesTotal: (payload[10].payload.privateSpacesTotal default 0),
+				privateSpacesByRegion: (payload[10].payload.privateSpacesByRegion default {}),
+				privateSpacesByEnvType: (payload[10].payload.privateSpacesByEnvType default {}),
+				vpnConnectionsTotal: (payload[10].payload.vpnConnectionsTotal default 0),
+				tgwAttachmentsTotal: (payload[10].payload.tgwAttachmentsTotal default 0),
+				// CH1 legacy fields retained for dashboard compatibility, set to null on CH2
+				vpcsTotal: null, vpcsAvailable: null, vpcsUsed: null,
+				vpnsTotal: null, vpnsAvailable: null, vpnsUsed: null,
+				dlbsTotal: null, dlbsAvailable: null, dlbsUsed: null,
+				staticIPsTotal: null, staticIPsAvailable: null, staticIPsUsed: null
 			},
 			
 			applications:{
