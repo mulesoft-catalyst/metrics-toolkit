@@ -31,6 +31,26 @@ anypoint:
         maxConcurrency: "100"
         apps:
           path: "/cloudhub/api/v2/applications"
+      # --- CloudHub 2.0 Application Manager v2 (CH2 fork) -----------------
+      cloudhub2:
+        maxConcurrency: "50"
+        deployments:
+          path: "/amc/application-manager/api/v2/organizations/{orgId}/environments/{envId}/deployments"
+          pageSize: "500"
+        deployment:
+          detail:
+            path: "/amc/application-manager/api/v2/organizations/{orgId}/environments/{envId}/deployments/{deploymentId}"
+      # --- Private Spaces (Runtime Fabric API surface) --------------------
+      # Trial and free-tier accounts do not have Private Spaces. The
+      # collector handles the absence gracefully and returns an empty summary.
+      privatespaces:
+        maxConcurrency: "4"
+        list:
+          path: "/runtimefabric/api/organizations/{orgId}/privatespaces"
+        detail:
+          path: "/runtimefabric/api/organizations/{orgId}/privatespaces/{spaceId}"
+        connections:
+          path: "/runtimefabric/api/organizations/{orgId}/privatespaces/{spaceId}/connections"
       arm:
         maxConcurrency: "3"
         apps:

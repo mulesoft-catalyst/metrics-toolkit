@@ -15,10 +15,13 @@ queryParameters:
                   
                 Not available for PCE deployment model:
                   - amq: Anypoint MQ
-                  - apma: API Manager Analytics                                          
-                  - ch: Cloudhub   
-                  - rtf: Runtime Fabric 
-    default: all    
+                  - apma: API Manager Analytics
+                  - ch: Cloudhub (legacy CH1 - use ch2 instead for CloudHub 2.0 orgs)
+                  - ch2: CloudHub 2.0 (fork addition)
+                  - ps: Private Spaces (fork addition; paid orgs only)
+                  - osv2: Object Store V2
+                  - rtf: Runtime Fabric
+    default: all
     required: false
     type: string
-    pattern: ^all|([ap|apc|apm|arm|core|dc|ex|amq|apma|ch|rtf]+([,[ap|apc|apm|arm|core|dc|ex|amq|apma|ch|rtf]])*)$  
+    pattern: ^all|((ap|apc|apm|arm|core|dc|ex|amq|apma|ch|ch2|ps|osv2|rtf)(,(ap|apc|apm|arm|core|dc|ex|amq|apma|ch|ch2|ps|osv2|rtf))*)$  
